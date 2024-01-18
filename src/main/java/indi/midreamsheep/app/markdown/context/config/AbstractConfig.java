@@ -5,6 +5,7 @@ import indi.midreamsheep.app.markdown.tool.FastJsonUtils;
 
 import java.util.Map;
 
+//TODO 用于自动构建设置界面
 public abstract class AbstractConfig {
     protected void init(){
         Object o = FastJsonUtils.convertJsonToObject(getJsonString(), this.getClass());
@@ -19,5 +20,7 @@ public abstract class AbstractConfig {
 
     public abstract void write();
 
-    protected abstract String getJsonString();
+    protected String getJsonString(){
+        return FastJsonUtils.convertObjectToJSON(this);
+    }
 }

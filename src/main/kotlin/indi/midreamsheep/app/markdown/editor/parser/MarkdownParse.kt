@@ -13,7 +13,6 @@ import indi.midreamsheep.app.markdown.editor.manager.MarkdownStateManager
 import indi.midreamsheep.app.markdown.editor.parser.impl.paragraph.DefaultParser
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
-import java.util.LinkedList
 
 @Comment
 class MarkdownParse {
@@ -25,11 +24,11 @@ class MarkdownParse {
     private val defaultParser:DefaultParser? = null
 
     fun parse(
+        text: String,
         state: MarkdownLineState,
-        stateList:MarkdownStateManager,
-        recall:()->Unit
+        stateList: MarkdownStateManager,
+        recall: () -> Unit
     ):@Composable ()->Unit {
-        val text = state.content.value
         if(text.isEmpty()) {
             return {
                 Text(

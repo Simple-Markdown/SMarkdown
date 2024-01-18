@@ -1,18 +1,14 @@
 package indi.midreamsheep.app.markdown.ui.editor
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -100,7 +96,11 @@ fun editorPreview(
     markdownLineState: MarkdownLineState,
     markdownLineStateManager: MarkdownStateManager
 ){
-    getBean(MarkdownParse::class.java).parse(markdownLineState,markdownLineStateManager){
+    getBean(MarkdownParse::class.java).parse(
+        markdownLineState.content.value,
+        markdownLineState,
+        markdownLineStateManager
+    ){
         markdownLineState.isFocused.value = true
     }()
 }
