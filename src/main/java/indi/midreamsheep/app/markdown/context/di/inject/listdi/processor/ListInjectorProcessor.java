@@ -8,7 +8,6 @@ import live.midreamsheep.frame.sioc.scan.annotation.meta.ProcessorFlag;
 import live.midreamsheep.frame.sioc.scan.clazz.ClassMetaDefinition;
 import live.midreamsheep.frame.sioc.scan.clazz.field.FieldInter;
 import live.midreamsheep.frame.sioc.scan.processor.core.decorate.DecorateProcessor;
-import live.midreamsheep.frame.sioc.scan.processor.core.register.RegisterProcessor;
 
 import java.util.HashMap;
 import java.util.LinkedList;

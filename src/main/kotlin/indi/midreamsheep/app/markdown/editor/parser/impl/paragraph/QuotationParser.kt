@@ -36,7 +36,7 @@ class QuotationParser: ParagraphParser {
             Row(
                 Modifier.fillMaxWidth().clickable {
                     recall()
-                }.height(IntrinsicSize.Max).background(Color(0xFFDCDCDC))
+                }.height(IntrinsicSize.Max).background(Color(0xffeaeaea))
             ) {
                 Spacer(modifier = Modifier.width(5.dp).fillMaxHeight().background(Color.Green))
                 Spacer(modifier = Modifier.width(5.dp))
