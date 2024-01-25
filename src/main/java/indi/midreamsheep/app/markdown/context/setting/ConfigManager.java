@@ -1,7 +1,7 @@
-package indi.midreamsheep.app.markdown.context.config;
+package indi.midreamsheep.app.markdown.context.setting;
 
-import indi.midreamsheep.app.markdown.config.AbstractConfig;
 import indi.midreamsheep.app.markdown.context.di.inject.listdi.annotation.ListInjector;
+import indi.midreamsheep.app.markdown.setting.AbstractConfig;
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment;
 import lombok.Data;
 

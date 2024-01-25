@@ -18,13 +18,14 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 @Comment
 class DivideLineParser: ParagraphParser {
     override fun formatCheck(text: String): Boolean {
-        if (text.length<3) return false
-        if (text[1]!='-'||text[2]!='-'||text[0]!='-') return false
+        val content = text.trim()
+        if (content.length<3) return false
+        if (content[1]!='-'||content[2]!='-'||content[0]!='-') return false
         //如果之后是空格或者换行符，那么就是分割线
-        if (text.length==3) return true
+        if (content.length==3) return true
         val pointer = 3
-        while (pointer<text.length) {
-            if (text[pointer] != '-' || text[pointer] != ' ') {
+        for (i in pointer until content.length) {
+            if (content[i]!=' '&&content[i]!='\n'&&content[i]!='-'){
                 return false
             }
         }

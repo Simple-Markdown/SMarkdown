@@ -57,6 +57,6 @@ class BoldParser: SpanParser {
                 append(annotatedString)
             }
         }
-        return Triple(pointer+2,resultAnnotatedString,function0List)
+        return Triple(pointer,resultAnnotatedString,function0List)
     }
 }

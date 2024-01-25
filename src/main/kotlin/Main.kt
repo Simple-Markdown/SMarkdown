@@ -3,7 +3,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import indi.midreamsheep.app.markdown.context.config.configs.HeadConfig
 import indi.midreamsheep.app.markdown.editor.manager.Test
 import indi.midreamsheep.app.markdown.editor.parser.MarkdownParse
 import indi.midreamsheep.app.markdown.tool.context.getBean
@@ -14,7 +13,7 @@ import indi.midreamsheep.app.markdown.ui.setting.settingPage
 @Preview
 fun App() {
     MaterialTheme {
-        //editor(Test())
+       // editor(Test())
         settingPage()
     }
 }
