@@ -12,10 +12,11 @@ import java.io.File
 
 @Composable
 fun App() {
-    MaterialTheme {
-        //editor(LocalMarkdownFileManager(File("/home/midreamsheep/backgroud/test.md")))
+    MaterialTheme(
+    ) {
+        editor(LocalMarkdownFileManager(File("/home/midreamsheep/backgroud/test.md")))
         //settingPage()
-        fileChooser()
+        //fileChooser()
     }
 }
 

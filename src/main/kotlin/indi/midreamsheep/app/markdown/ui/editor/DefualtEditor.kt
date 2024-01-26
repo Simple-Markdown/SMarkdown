@@ -42,8 +42,7 @@ fun editorInput(
                     return@onFocusChanged
                 }
                 if (!it.isFocused){
-                    markdownLine.isFocused.value = false
-                    markdownLine.isInit.value = false
+                    markdownLine.releaseFocus()
                 }
             }
             .onPreviewKeyEvent { keyEvent ->
@@ -51,21 +50,15 @@ fun editorInput(
                     if (keyEvent.type != KeyEventType.KeyDown){
                         return@onPreviewKeyEvent true
                     }
+
                     val markdownLineStateList = markdownLineStateManager.getMarkdownLineStateList()
-
                     val index = markdownLineStateList.indexOf(wrapper)
-
-                    val newMarkdownLineState = MarkdownLineState()
-                    val newMarkdownLine = CoreMarkdownLine(newMarkdownLineState)
-                    newMarkdownLineState.line = newMarkdownLine
+                    val newMarkdownLineState = MarkdownLineState(markdownLineStateManager)
 
                     markdownLineStateList.add(index+1,newMarkdownLineState)
 
-                    newMarkdownLine.focus()
-
-                    markdownLine.isInit.value = false
-                    markdownLine.isFocused.value = false
-
+                    newMarkdownLineState.line.focus()
+                    markdownLine.releaseFocus()
                     return@onPreviewKeyEvent true
                 }
 
@@ -113,6 +106,6 @@ fun editorPreview(
         markdownLineState,
         markdownLineStateManager
     ){
-        markdownLineState.isFocused.value = true
+        markdownLineState.focus()
     }()
 }

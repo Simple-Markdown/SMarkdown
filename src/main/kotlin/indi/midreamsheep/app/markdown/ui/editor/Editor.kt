@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.markdown.editor.manager.MarkdownFileManager
 import indi.midreamsheep.app.markdown.editor.manager.MarkdownStateManager
+import indi.midreamsheep.app.markdown.ui.editor.topbar.topBar
 
 @Composable
 fun editor(
@@ -18,12 +20,17 @@ fun editor(
         }
     }
     val markdownStateManager = markdownFileManager.getStateManager()
-
-    Row (Modifier.fillMaxSize()){
-        Spacer(Modifier.weight(1f))
-        EditorList(markdownStateManager,Modifier.weight(10f))
-        Spacer(Modifier.weight(1f))
+    Column(
+        modifier = Modifier.padding(0.dp)
+    ) {
+        topBar(markdownFileManager)
+        Row (Modifier.fillMaxSize()){
+            Spacer(Modifier.weight(1f))
+            EditorList(markdownStateManager,Modifier.weight(10f))
+            Spacer(Modifier.weight(1f))
+        }
     }
+
 }
 
 @Composable

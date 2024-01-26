@@ -10,26 +10,27 @@ import indi.midreamsheep.app.markdown.editor.manager.MarkdownStateManager
 import indi.midreamsheep.app.markdown.ui.editor.editorInput
 import indi.midreamsheep.app.markdown.ui.editor.editorPreview
 
-class CoreMarkdownLine(wrapper: MarkdownLineState) :MarkdownLineInter {
+class CoreMarkdownLine(private var wrapper: MarkdownLineState) :MarkdownLineInter {
 
     var content: MutableState<String> = mutableStateOf("")
     var focusRequester: FocusRequester = FocusRequester()
     var isFocused: MutableState<Boolean> = mutableStateOf(false)
     var isInit: MutableState<Boolean> = mutableStateOf(false)
-    private var wrapper:MarkdownLineState ? = wrapper
 
     override fun focus() {
         isFocused.value = true
+        wrapper.markdownLineInter.setCurrentMarkdownLineState(wrapper)
     }
 
     override fun releaseFocus() {
         isFocused.value = false
+        isInit.value = false
     }
 
     override fun getComposable(markdownLineStateManager: MarkdownStateManager):@Composable () -> Unit {
         return {
             if (this.isFocused.value) {
-                editorInput(this, wrapper!!, markdownLineStateManager)
+                editorInput(this, wrapper, markdownLineStateManager)
             } else {
                 editorPreview(this,wrapper, markdownLineStateManager)
             }

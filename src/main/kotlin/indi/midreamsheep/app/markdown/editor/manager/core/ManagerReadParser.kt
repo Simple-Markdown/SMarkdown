@@ -44,7 +44,7 @@ class ManagerReadParser {
             lineNumber = parser!!.analyse(split, lineNumber, manager)
         }
         if (manager.getMarkdownLineStateList().size==0){
-            manager.getMarkdownLineStateList().add(MarkdownLineState())
+            manager.getMarkdownLineStateList().add(MarkdownLineState(manager))
         }
     }
 }

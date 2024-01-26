@@ -5,4 +5,6 @@ import indi.midreamsheep.app.markdown.editor.line.MarkdownLineState
 
 interface MarkdownStateManager {
     fun getMarkdownLineStateList(): SnapshotStateList<MarkdownLineState>
+    fun getCurrentMarkdownLineState(): MarkdownLineState?
+    fun setCurrentMarkdownLineState(markdownLineState: MarkdownLineState)
 }

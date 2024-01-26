@@ -20,7 +20,7 @@ interface ParagraphParser {
      * @return下一次解析的起始位置
      * */
     fun analyse(texts:List<String>, lineNumber:Int, state: MarkdownStateManager):Int{
-        val markdownLineState = MarkdownLineState()
+        val markdownLineState = MarkdownLineState(state)
         val line = markdownLineState.line
         if (line is CoreMarkdownLine){
             line.content.value = texts[lineNumber]
