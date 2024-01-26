@@ -14,7 +14,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import indi.midreamsheep.app.markdown.editor.manager.MarkdownLineState
+import indi.midreamsheep.app.markdown.editor.line.MarkdownLineState
+import indi.midreamsheep.app.markdown.editor.line.core.CoreMarkdownLine
 import indi.midreamsheep.app.markdown.editor.manager.MarkdownStateManager
 import indi.midreamsheep.app.markdown.editor.parser.MarkdownParse
 import indi.midreamsheep.app.markdown.tool.context.getBean
@@ -22,13 +23,14 @@ import indi.midreamsheep.app.markdown.tool.context.getBean
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun editorInput(
-    markdownLineState: MarkdownLineState,
+    markdownLine: CoreMarkdownLine,
+    wrapper: MarkdownLineState,
     markdownLineStateManager: MarkdownStateManager
 ){
     BasicTextField(
-        value = markdownLineState.content.value,
+        value = markdownLine.content.value,
         onValueChange = {
-            markdownLineState.content.value = it
+            markdownLine.content.value = it
         },
         textStyle = TextStyle(
             fontSize = 15.sp,
@@ -36,12 +38,12 @@ fun editorInput(
         ),modifier = Modifier
             .fillMaxWidth()
             .onFocusChanged {
-                if(!markdownLineState.isInit.value){
+                if(!markdownLine.isInit.value){
                     return@onFocusChanged
                 }
                 if (!it.isFocused){
-                    markdownLineState.isFocused.value = false
-                    markdownLineState.isInit.value = false
+                    markdownLine.isFocused.value = false
+                    markdownLine.isInit.value = false
                 }
             }
             .onPreviewKeyEvent { keyEvent ->
@@ -50,50 +52,60 @@ fun editorInput(
                         return@onPreviewKeyEvent true
                     }
                     val markdownLineStateList = markdownLineStateManager.getMarkdownLineStateList()
-                    val index = markdownLineStateList.indexOf(markdownLineState)
+
+                    val index = markdownLineStateList.indexOf(wrapper)
+
                     val newMarkdownLineState = MarkdownLineState()
+                    val newMarkdownLine = CoreMarkdownLine(newMarkdownLineState)
+                    newMarkdownLineState.line = newMarkdownLine
+
                     markdownLineStateList.add(index+1,newMarkdownLineState)
-                    newMarkdownLineState.isFocused.value = true
-                    markdownLineState.isInit.value = false
-                    markdownLineState.isFocused.value = false
+
+                    newMarkdownLine.focus()
+
+                    markdownLine.isInit.value = false
+                    markdownLine.isFocused.value = false
+
                     return@onPreviewKeyEvent true
                 }
+
                 if (keyEvent.key == Key.DirectionUp&&keyEvent.type == KeyEventType.KeyDown){
-                    val markdownLineStateList = markdownLineStateManager.getMarkdownLineStateList()
-                    val index = markdownLineStateList.indexOf(markdownLineState)
+/*                    val markdownLineStateList = markdownLineStateManager.getMarkdownLineStateList()
+                    val index = markdownLineStateList.indexOf(markdownLine)
                     if (index==0){
                         return@onPreviewKeyEvent false
                     }
                     markdownLineStateList[index-1].isFocused.value = true
-                    markdownLineState.isInit.value = false
-                    markdownLineState.isFocused.value = false
+                    markdownLine.isInit.value = false
+                    markdownLine.isFocused.value = false
                     return@onPreviewKeyEvent true
                 }
                 if (keyEvent.key == Key.DirectionDown&&keyEvent.type == KeyEventType.KeyDown){
                     val markdownLineStateList = markdownLineStateManager.getMarkdownLineStateList()
-                    val index = markdownLineStateList.indexOf(markdownLineState)
+                    val index = markdownLineStateList.indexOf(markdownLine)
                     if (index==markdownLineStateList.size-1){
                         return@onPreviewKeyEvent false
                     }
                     markdownLineStateList[index+1].isFocused.value = true
-                    markdownLineState.isInit.value = false
-                    markdownLineState.isFocused.value = false
+                    markdownLine.isInit.value = false
+                    markdownLine.isFocused.value = false*/
                     return@onPreviewKeyEvent true
                 }
                 false
             }
-            .focusRequester(markdownLineState.focusRequester)
+            .focusRequester(markdownLine.focusRequester)
             .padding(vertical =  3.dp)
     )
     LaunchedEffect(Unit){
-        markdownLineState.focusRequester.requestFocus()
-        markdownLineState.isInit.value= true
+        markdownLine.focusRequester.requestFocus()
+        markdownLine.isInit.value= true
     }
 }
 
 @Composable
 fun editorPreview(
-    markdownLineState: MarkdownLineState,
+    markdownLineState: CoreMarkdownLine,
+    wrapper: MarkdownLineState?,
     markdownLineStateManager: MarkdownStateManager
 ){
     getBean(MarkdownParse::class.java).parse(

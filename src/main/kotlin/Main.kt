@@ -13,8 +13,8 @@ import indi.midreamsheep.app.markdown.ui.setting.settingPage
 @Preview
 fun App() {
     MaterialTheme {
-       // editor(Test())
-        settingPage()
+        editor(Test())
+        //settingPage()
     }
 }
 

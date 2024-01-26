@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.markdown.context.di.inject.mapdi.annotation.MapInjector
-import indi.midreamsheep.app.markdown.editor.manager.MarkdownLineState
+import indi.midreamsheep.app.markdown.editor.line.core.CoreMarkdownLine
 import indi.midreamsheep.app.markdown.editor.manager.MarkdownStateManager
 import indi.midreamsheep.app.markdown.editor.parser.impl.paragraph.DefaultParser
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
@@ -25,7 +25,7 @@ class MarkdownParse {
 
     fun parse(
         text: String,
-        state: MarkdownLineState,
+        state: CoreMarkdownLine,
         stateList: MarkdownStateManager,
         recall: () -> Unit
     ):@Composable ()->Unit {
