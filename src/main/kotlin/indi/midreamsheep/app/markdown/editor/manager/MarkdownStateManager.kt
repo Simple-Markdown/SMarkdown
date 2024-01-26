@@ -5,6 +5,4 @@ import indi.midreamsheep.app.markdown.editor.line.MarkdownLineState
 
 interface MarkdownStateManager {
     fun getMarkdownLineStateList(): SnapshotStateList<MarkdownLineState>
-    fun getNowFocusedLine(): Int
-    fun setNowFocusedLine(line: Int)
 }

@@ -1,12 +1,11 @@
 package indi.midreamsheep.app.markdown.editor.parser.impl.paragraph
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import indi.midreamsheep.app.markdown.context.di.inject.mapdi.annotation.MapInjector
+import indi.midreamsheep.app.markdown.editor.line.MarkdownLineState
 import indi.midreamsheep.app.markdown.editor.line.core.CoreMarkdownLine
 import indi.midreamsheep.app.markdown.editor.manager.MarkdownStateManager
 import indi.midreamsheep.app.markdown.editor.parser.ParagraphParser
-import indi.midreamsheep.app.markdown.ui.editor.code.codeInputTextField
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 
 @MapInjector(target = "paragraph",key="`")
@@ -45,11 +44,7 @@ class CodeParagraphParser:ParagraphParser {
         return {}
     }
 
-    /**
-     * text解析，用于对文本进行初始化解释时调用
-     * @return Pair<lineNumber,innerNumber> 两者都是下一次解析的起始位置
-     * */
-    override fun analyse(texts: List<String>, lineNumber: Int, innerNumber: Int): Pair<Int, Int> {
-        TODO("Not yet implemented")
+    override fun analyse(texts: List<String>, lineNumber: Int, state: MarkdownStateManager): Int {
+        return lineNumber+1
     }
 }

@@ -18,9 +18,12 @@ class CoreMarkdownLine(wrapper: MarkdownLineState) :MarkdownLineInter {
     var isInit: MutableState<Boolean> = mutableStateOf(false)
     private var wrapper:MarkdownLineState ? = wrapper
 
-    override fun focus(): Boolean {
+    override fun focus() {
         isFocused.value = true
-        return true
+    }
+
+    override fun releaseFocus() {
+        isFocused.value = false
     }
 
     override fun getComposable(markdownLineStateManager: MarkdownStateManager):@Composable () -> Unit {

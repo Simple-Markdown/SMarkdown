@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.markdown.context.di.inject.mapdi.annotation.MapInjector
+import indi.midreamsheep.app.markdown.editor.line.MarkdownLineState
 import indi.midreamsheep.app.markdown.editor.line.core.CoreMarkdownLine
 import indi.midreamsheep.app.markdown.editor.manager.MarkdownStateManager
 import indi.midreamsheep.app.markdown.editor.parser.ParagraphParser
@@ -50,11 +51,4 @@ class DivideLineParser: ParagraphParser {
         }
     }
 
-    /**
-     * text解析，用于对文本进行初始化解释时调用
-     * @return Pair<lineNumber,innerNumber> 两者都是下一次解析的起始位置
-     * */
-    override fun analyse(texts: List<String>, lineNumber: Int, innerNumber: Int): Pair<Int, Int> {
-        TODO("Not yet implemented")
-    }
 }
