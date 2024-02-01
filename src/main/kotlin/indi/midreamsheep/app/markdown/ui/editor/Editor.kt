@@ -1,32 +1,34 @@
 package indi.midreamsheep.app.markdown.ui.editor
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.markdown.editor.manager.MarkdownFileManager
-import indi.midreamsheep.app.markdown.editor.manager.MarkdownStateManager
+import indi.midreamsheep.app.markdown.context.editor.TREEditorContext
+import indi.midreamsheep.app.markdown.model.editor.manager.TREFileManager
 import indi.midreamsheep.app.markdown.ui.editor.topbar.topBar
 
 @Composable
 fun editor(
-    markdownFileManager: MarkdownFileManager
+    treFileManager: TREFileManager
 ){
-    if (!markdownFileManager.isRead()){
-        val (result, errorMsg) = markdownFileManager.read()
+    if (!treFileManager.isRead()){
+        val (result, errorMsg) = treFileManager.read()
         if (!result){
             error(errorMsg)
         }
     }
-    val markdownStateManager = markdownFileManager.getStateManager()
+    val context  = TREEditorContext(treFileManager)
     Column(
         modifier = Modifier.padding(0.dp)
     ) {
-        topBar(markdownFileManager)
+        topBar(context)
         Row (Modifier.fillMaxSize()){
             Spacer(Modifier.weight(1f))
-            EditorList(markdownStateManager,Modifier.weight(10f))
+            EditorList(context,Modifier.weight(10f))
             Spacer(Modifier.weight(1f))
         }
     }
@@ -35,15 +37,27 @@ fun editor(
 
 @Composable
 fun EditorList(
-    markdownLineStateManager: MarkdownStateManager,
+    context: TREEditorContext,
     modifier: Modifier
 ) {
+    val stateManager = context.editorFileManager.getStateManager()
     LazyColumn(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize().padding(top = 10.dp)
+            .clickable (
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = {
+                    if (stateManager.getCurrentMarkdownLineState() != null) {
+                        stateManager.getCurrentMarkdownLineState()!!.line.releaseFocus()
+                        Thread.sleep(10)
+                    }
+                    stateManager.getMarkdownLineStateList()[stateManager.getMarkdownLineStateList().size-1].line.focus()
+                }
+            )
     ) {
-        for (markdownLineState in markdownLineStateManager.getMarkdownLineStateList()) {
+        for (markdownLineState in stateManager.getMarkdownLineStateList()) {
             item {
-                markdownLineState.line.getComposable(markdownLineStateManager)()
+                markdownLineState.line.getComposable(context)()
             }
         }
     }

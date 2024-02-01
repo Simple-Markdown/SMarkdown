@@ -14,19 +14,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import indi.midreamsheep.app.markdown.editor.line.MarkdownLineState
-import indi.midreamsheep.app.markdown.editor.line.core.CoreMarkdownLine
-import indi.midreamsheep.app.markdown.editor.manager.MarkdownStateManager
-import indi.midreamsheep.app.markdown.editor.parser.MarkdownParse
+import indi.midreamsheep.app.markdown.context.editor.TREEditorContext
+import indi.midreamsheep.app.markdown.model.editor.parser.MarkdownParse
 import indi.midreamsheep.app.markdown.tool.context.getBean
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun editorInput(
-    markdownLine: CoreMarkdownLine,
-    wrapper: MarkdownLineState,
-    markdownLineStateManager: MarkdownStateManager
+    markdownLine: indi.midreamsheep.app.markdown.model.editor.line.core.CoreTRELine,
+    wrapper: indi.midreamsheep.app.markdown.model.editor.line.TRELineState,
+    context: TREEditorContext
 ){
+    val markdownLineStateManager = context.editorFileManager.getStateManager()
     BasicTextField(
         value = markdownLine.content.value,
         onValueChange = {
@@ -53,7 +52,8 @@ fun editorInput(
 
                     val markdownLineStateList = markdownLineStateManager.getMarkdownLineStateList()
                     val index = markdownLineStateList.indexOf(wrapper)
-                    val newMarkdownLineState = MarkdownLineState(markdownLineStateManager)
+                    val newMarkdownLineState =
+                        indi.midreamsheep.app.markdown.model.editor.line.TRELineState(markdownLineStateManager)
 
                     markdownLineStateList.add(index+1,newMarkdownLineState)
 
@@ -87,7 +87,7 @@ fun editorInput(
                 false
             }
             .focusRequester(markdownLine.focusRequester)
-            .padding(vertical =  3.dp)
+            .padding(top =  3.dp, bottom = 3.dp, start = 0.dp, end = 0.dp)
     )
     LaunchedEffect(Unit){
         markdownLine.focusRequester.requestFocus()
@@ -97,14 +97,13 @@ fun editorInput(
 
 @Composable
 fun editorPreview(
-    markdownLineState: CoreMarkdownLine,
-    wrapper: MarkdownLineState?,
-    markdownLineStateManager: MarkdownStateManager
+    markdownLineState: indi.midreamsheep.app.markdown.model.editor.line.core.CoreTRELine,
+    context: TREEditorContext
 ){
     getBean(MarkdownParse::class.java).parse(
         markdownLineState.content.value,
         markdownLineState,
-        markdownLineStateManager
+        context.editorFileManager.getStateManager()
     ){
         markdownLineState.focus()
     }()

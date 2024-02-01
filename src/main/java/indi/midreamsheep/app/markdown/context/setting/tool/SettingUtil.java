@@ -1,8 +1,8 @@
 package indi.midreamsheep.app.markdown.context.setting.tool;
 
 import cn.hutool.json.JSONUtil;
-import indi.midreamsheep.app.markdown.setting.AbstractConfig;
-import indi.midreamsheep.app.markdown.setting.SettingItem;
+import indi.midreamsheep.app.markdown.model.setting.AbstractConfig;
+import indi.midreamsheep.app.markdown.model.setting.SettingItem;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
