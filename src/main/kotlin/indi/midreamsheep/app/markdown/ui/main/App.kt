@@ -30,7 +30,7 @@ fun mainPage(){
 
 @Composable
 fun selectPage(modifier: Modifier, context: TREMainPageContext) {
-    Box(modifier = modifier.padding(10.dp)){
+    Box(modifier = modifier){
         context.composable.value.invoke()
     }
 }

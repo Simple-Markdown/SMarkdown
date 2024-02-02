@@ -29,7 +29,7 @@ fun fileChooser(
 ){
     val scrollState = rememberScrollState()
     Box(
-        modifier = modifier.verticalScroll(scrollState)
+        modifier = modifier.padding(10.dp).verticalScroll(scrollState)
     ) {
         fileList(rootFile)
     }

@@ -1,19 +1,18 @@
-package indi.midreamsheep.app.markdown.model.toolbar.tools.system
+package indi.midreamsheep.app.markdown.model.toolbar.file
 
+import indi.midreamsheep.app.markdown.context.api.annotation.toolbar.ToolBar
 import indi.midreamsheep.app.markdown.context.di.inject.listdi.annotation.ListInjector
 import indi.midreamsheep.app.markdown.model.toolbar.SubBarItem
 import indi.midreamsheep.app.markdown.model.toolbar.TopBarItem
-import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 
-@Comment
-@ListInjector(target = "topFloorBarList")
-class SystemTool: TopBarItem() {
+@ToolBar
+class FileTool : TopBarItem() {
 
-    @ListInjector(target = "systemTools" )
+    @ListInjector(target = "FileToolBar")
     private val subBarList = mutableListOf<SubBarItem>()
 
     override fun getName(): String {
-        return "editor"
+        return "File"
     }
 
     override fun getSubBarList(): List<SubBarItem> {

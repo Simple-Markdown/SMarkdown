@@ -5,6 +5,6 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 
 @Comment
 class TopMenuManager {
-    @ListInjector(target = "topFloorBarList")
+    @ListInjector(target = "ToolBar")
     var topFloorBarList: List<TopBarItem> = mutableListOf()
 }
