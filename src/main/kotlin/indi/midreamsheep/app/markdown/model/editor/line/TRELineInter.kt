@@ -5,6 +5,12 @@ import indi.midreamsheep.app.markdown.context.editor.TREEditorContext
 
 interface TRELineInter {
     fun focus()
+    fun focusFromLast(){
+        focus()
+    }
+    fun focusFormStart(){
+        focus()
+    }
     fun releaseFocus()
 
     fun getComposable(context: TREEditorContext):@Composable ()->Unit

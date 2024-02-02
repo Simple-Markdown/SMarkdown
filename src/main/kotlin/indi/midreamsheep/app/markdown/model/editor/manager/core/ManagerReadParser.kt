@@ -17,7 +17,7 @@ class ManagerReadParser {
     @Injector
     private val defaultParser: DefaultParser? = null
 
-    fun parse(manager: indi.midreamsheep.app.markdown.model.editor.manager.TREStateManager, content: String) {
+    fun parse(manager: TREStateManager, content: String) {
         var lineNumber = 0
         val split = content.split("\n")
         if (split.isEmpty()) return
@@ -26,7 +26,7 @@ class ManagerReadParser {
                 break
             }
             var parser:ParagraphParser? = null
-            if(!split[lineNumber].isEmpty()){
+            if(split[lineNumber].isNotEmpty()){
                 //获取首字母
                 val start = split[lineNumber][0]
                 //获取解析器
@@ -44,7 +44,7 @@ class ManagerReadParser {
             lineNumber = parser!!.analyse(split, lineNumber, manager)
         }
         if (manager.getMarkdownLineStateList().size==0){
-            manager.getMarkdownLineStateList().add(indi.midreamsheep.app.markdown.model.editor.line.TRELineState(manager))
+            manager.getMarkdownLineStateList().add(TRELineState(manager))
         }
     }
 }

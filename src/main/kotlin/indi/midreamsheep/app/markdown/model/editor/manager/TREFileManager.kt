@@ -4,5 +4,7 @@ interface TREFileManager {
     fun read():Pair<Boolean,String>
     fun store():Pair<Boolean,String>
     fun isRead():Boolean
-    fun getStateManager(): indi.midreamsheep.app.markdown.model.editor.manager.TREStateManager
+    fun getStateManager(): TREStateManager
+    fun getContent():String
+    fun setContent(content:String)
 }

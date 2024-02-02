@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.markdown.ui.editor.code
+package indi.midreamsheep.app.markdown.ui.editor.render.code
 
 import androidx.compose.runtime.Composable
 import indi.midreamsheep.app.markdown.model.editor.line.TRELineState

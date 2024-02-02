@@ -1,14 +1,15 @@
 package indi.midreamsheep.app.markdown.model.editor.manager.core
 
+import indi.midreamsheep.app.markdown.model.editor.manager.TREFileManager
 import indi.midreamsheep.app.markdown.tool.context.getBean
 import java.io.File
 
-class TRELocalFileManager(private var file: File) : indi.midreamsheep.app.markdown.model.editor.manager.TREFileManager {
+class TRELocalFileManager(private var file: File) : TREFileManager {
 
-    private val markdownStateManager = indi.midreamsheep.app.markdown.model.editor.manager.core.CoreTREStateManager()
+    private val markdownStateManager = CoreTREStateManager()
     private var isRead = false
 
-    private val parser = getBean(indi.midreamsheep.app.markdown.model.editor.manager.core.ManagerReadParser::class.java)
+    private val parser = getBean(ManagerReadParser::class.java)
 
     override fun read(): Pair<Boolean, String> {
         val readText = file.readText()
@@ -18,11 +19,7 @@ class TRELocalFileManager(private var file: File) : indi.midreamsheep.app.markdo
     }
 
     override fun store(): Pair<Boolean, String> {
-        var result = ""
-        for (markdownLineState in markdownStateManager.getMarkdownLineStateList()) {
-            result += markdownLineState.line.getContent()
-        }
-        file.writeText(result)
+        file.writeText(getContent())
         return Pair(true, "")
     }
 
@@ -32,5 +29,22 @@ class TRELocalFileManager(private var file: File) : indi.midreamsheep.app.markdo
 
     override fun getStateManager(): indi.midreamsheep.app.markdown.model.editor.manager.TREStateManager {
         return markdownStateManager
+    }
+
+    override fun getContent(): String {
+        var result = ""
+        val list = markdownStateManager.getMarkdownLineStateList()
+        for ((index, treLineState) in list.withIndex()) {
+            result += treLineState.line.getContent()
+            if (index != list.size) {
+                result += "\n"
+            }
+        }
+        return result
+    }
+
+    override fun setContent(content: String) {
+        markdownStateManager.getMarkdownLineStateList().clear()
+        parser.parse(markdownStateManager,content)
     }
 }

@@ -22,7 +22,9 @@ import indi.midreamsheep.app.markdown.context.editor.TREEditorContext
 import indi.midreamsheep.app.markdown.model.editor.manager.TREFileManager
 import indi.midreamsheep.app.markdown.model.shortcut.editor.TREEditorShortcutKeyManager
 import indi.midreamsheep.app.markdown.tool.context.getBean
-import indi.midreamsheep.app.markdown.ui.editor.topbar.topBar
+import indi.midreamsheep.app.markdown.ui.editor.render.renderList
+import indi.midreamsheep.app.markdown.ui.editor.render.topbar.topBar
+import indi.midreamsheep.app.markdown.ui.editor.source.sourceEditor
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -45,7 +47,13 @@ fun editor(
         topBar(context)
         Row (Modifier.weight(1f)){
             Spacer(Modifier.weight(1f))
-            EditorList(context,Modifier.weight(10f), getBean(TREEditorShortcutKeyManager::class.java),listState)
+
+            if (context.isSourceMode.value){
+                sourceEditor(context, Modifier.weight(10f), getBean(TREEditorShortcutKeyManager::class.java),listState)
+            }else{
+                renderList(context, Modifier.weight(10f), getBean(TREEditorShortcutKeyManager::class.java),listState)
+            }
+
             Spacer(Modifier.weight(1f))
             VerticalScrollbar(
                 modifier = Modifier.fillMaxHeight(),
@@ -64,55 +72,4 @@ fun editor(
         }
     }
 
-}
-
-@OptIn(DelicateCoroutinesApi::class)
-@Composable
-fun EditorList(
-    context: TREEditorContext,
-    modifier: Modifier,
-    treEditorShortcutKeyManager: TREEditorShortcutKeyManager,
-    listState: LazyListState
-) {
-    context.informationDisplay.value()
-    val stateManager = context.editorFileManager.getStateManager()
-    val lineStateList = stateManager.getMarkdownLineStateList()
-    var isChange by remember { mutableStateOf(false) }
-    LazyColumn(
-        state = listState,
-        modifier = modifier.fillMaxSize().padding(top = 10.dp)
-            .clickable (
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = {
-                    if (stateManager.getCurrentMarkdownLineState() != null) {
-                        stateManager.getCurrentMarkdownLineState()!!.line.releaseFocus()
-                        Thread.sleep(10)
-                    }
-                    lineStateList[lineStateList.size-1].line.focus()
-                }
-            )
-            .onPreviewKeyEvent {
-                    keyEvent: KeyEvent ->
-                GlobalScope.launch {
-                    treEditorShortcutKeyManager.keyEvent(keyEvent)
-                    treEditorShortcutKeyManager.execute(context)
-                }
-                isChange = !isChange
-                false
-            }
-    ) {
-        for (markdownLineState in lineStateList) {
-            item {
-                markdownLineState.line.getComposable(context)()
-            }
-        }
-    }
-    LaunchedEffect(isChange){
-        val currentMarkdownLineState = stateManager.getCurrentMarkdownLineState() ?: return@LaunchedEffect
-        listState.animateScrollToItem(lineStateList.indexOf(currentMarkdownLineState))
-    }
-    LaunchedEffect(key1 = lineStateList.size) {
-        listState.animateScrollToItem(lineStateList.size-1)
-    }
 }

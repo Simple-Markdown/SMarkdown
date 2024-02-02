@@ -13,16 +13,11 @@ import indi.midreamsheep.app.markdown.context.di.inject.mapdi.annotation.MapInje
 import indi.midreamsheep.app.markdown.model.editor.line.core.CoreTRELine
 import indi.midreamsheep.app.markdown.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.markdown.model.editor.parser.ParagraphParser
-import indi.midreamsheep.app.markdown.model.editor.parser.SpanParse
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
-import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @MapInjector(target = "paragraph",key="#")
 @Comment
 class HeadParser: ParagraphParser {
-
-    @Injector
-    private val spanParser: SpanParse? = null;
 
     override fun formatCheck(text: String): Boolean {
         return getLevel(text) != -1
@@ -31,8 +26,8 @@ class HeadParser: ParagraphParser {
     override fun getComposable(
         text: String,
         recall: () -> Unit,
-        stateList: indi.midreamsheep.app.markdown.model.editor.manager.TREStateManager,
-        state: indi.midreamsheep.app.markdown.model.editor.line.core.CoreTRELine
+        stateList: TREStateManager,
+        state: CoreTRELine
     ): @Composable () -> Unit {
         val level = getLevel(text)
         var subSequence = text.subSequence(level, text.length)
