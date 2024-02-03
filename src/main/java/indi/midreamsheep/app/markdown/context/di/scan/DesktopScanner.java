@@ -1,6 +1,7 @@
 package indi.midreamsheep.app.markdown.context.di.scan;
 
 import live.midreamsheep.frame.sioc.scan.inter.ClassesAbstractScanner;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,20 +12,39 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
+/**
+ * 用于给桌面端的ioc扫描器，用于扫描所有的class文件
+ * 1. 扫描build/classes目录下的所有class(用于编码)
+ * 2. 扫描核心包
+ * 3. 扫描libs目录下的所有jar包
+ * 4. 扫描plugins下的插件
+ * @author midreamsheep
+ * */
+@Slf4j
 public class DesktopScanner extends ClassesAbstractScanner {
     @Override
     public Set<Class<?>> doScan() {
         String root = System.getProperty("user.dir");
+        log.info("scan paths:{}",root);
         Set<Class<?>> result = new HashSet<>();
         //扫描build/classes目录下的所有class(用于编码)
         result.addAll(scanClasses(root + "/build/classes/java/main/",root + "/build/classes/java/main/"));
         result.addAll(scanClasses(root + "/build/classes/kotlin/main/",root + "/build/classes/kotlin/main/"));
         //扫描核心包
+        log.info("scan core.jar:{}",root + "/core.jar");
         result.addAll(scanAJar(root + "/core.jar"));
         //扫描libs目录下的所有jar包
+        log.info("scan libs:{}",root + "/libs");
         result.addAll(scanJars(root + "/libs"));
-        //扫描plugins下的所有jar包
+        //扫描plugins下的插件
+        log.info("scan plugins:{}",root + "/plugins");
         result.addAll(scanJars(root + "/plugins"));
+        PluginScannerTool.PluginConfig pluginLoading = PluginScannerTool.getPluginLoading();
+        for (String name : pluginLoading.getName()) {
+            log.info("scan plugin:{}",name);
+            result.addAll(scanJars(root + "/plugins/"+name+"/"));
+        }
+        log.info("scan success,find {} classes",result.size());
         return result;
     }
 

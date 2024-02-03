@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.markdown.context.main.TREMainPageContext
 import indi.midreamsheep.app.markdown.tool.context.getBean
+import indi.midreamsheep.app.markdown.ui.plugin.pluginPage
 import indi.midreamsheep.app.markdown.ui.setting.settingPage
 
 @Composable
@@ -54,7 +55,9 @@ fun sideBar(modifier: Modifier, context: TREMainPageContext) {
             contentDescription = "Settings",
             modifier = Modifier.size(35.dp)
                 .onClick {
-
+                    context.composable.value = {
+                        pluginPage()
+                    }
                 }
         )
         Spacer(modifier = Modifier.height(10.dp))

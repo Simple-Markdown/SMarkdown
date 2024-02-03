@@ -168,13 +168,27 @@ class CoreTRELine(private var wrapper: TRELineState) :
             }
         }
         if (keyEvent.key == Key.Backspace&&keyEvent.type == KeyEventType.KeyDown){
+            val index = stateManager.getMarkdownLineStateList().indexOf(wrapper)
+            if (index==0){
+                return false
+            }
             if (content.value.text.isEmpty()){
-                val index = stateManager.getMarkdownLineStateList().indexOf(wrapper)
-                if (index > 0) {
-                    releaseFocus()
-                    stateManager.getMarkdownLineStateList()[index-1].line.focus()
-                    stateManager.getMarkdownLineStateList().remove(wrapper)
-                }
+                releaseFocus()
+                stateManager.getMarkdownLineStateList()[index-1].line.focusFromLast()
+                stateManager.getMarkdownLineStateList().remove(wrapper)
+                return true
+            }
+            if (content.value.selection.start == 0){
+                val lastLine = stateManager.getMarkdownLineStateList()[index-1].line as CoreTRELine
+                lastLine.focus()
+                val lastLineContent = lastLine.content.value.text
+                lastLine.content.value = TextFieldValue(
+                    text = lastLineContent+content.value.text,
+                    selection = TextRange(lastLineContent.length)
+                )
+                releaseFocus()
+                stateManager.getMarkdownLineStateList().remove(wrapper)
+                return true
             }
         }
         return false

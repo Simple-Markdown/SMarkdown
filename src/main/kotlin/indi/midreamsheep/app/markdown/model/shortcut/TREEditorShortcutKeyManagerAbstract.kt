@@ -14,49 +14,39 @@ import kotlinx.coroutines.launch
 
 abstract class TREEditorShortcutKeyManagerAbstract {
     private val pressKeys = HashSet<Long>()
-    private var lastTime = System.currentTimeMillis()-1000
-    private var lastShortcut:TREShortcutKey? = null
     @OptIn(DelicateCoroutinesApi::class)
     fun keyEvent(keyEvent: KeyEvent, context: TREContext,needExecute:Boolean): Boolean {
         if (keyEvent.type == KeyDown){
             pressKeys.add(keyEvent.key.keyCode)
-            println("按下了"+keyEvent.key.keyCode)
+            if (!needExecute){
+                return false
+            }
+            val (hasShortKey, shortcut) = execute()
+            GlobalScope.launch {
+                shortcut?.action(context)
+            }
+            return hasShortKey
         }else if (keyEvent.type == KeyUp){
             pressKeys.remove(keyEvent.key.keyCode)
-            println("松开了"+keyEvent.key.keyCode)
-            return false
         }
-        if (!needExecute){
-            return false
-        }
-        val (hasShortKey, shortcut) = execute()
-        GlobalScope.launch {
-            val nowTime = System.currentTimeMillis()
-            if (lastShortcut==shortcut&&nowTime - lastTime < 1000){
-                return@launch
-            }
-            if (shortcut!=null){
-                shortcut.action(context)
-                lastShortcut = shortcut
-                lastTime = System.currentTimeMillis()
-            }
-        }
-        return hasShortKey
+        return false
     }
 
-    @OptIn(ExperimentalComposeUiApi::class)
     private fun execute(): Pair<Boolean, TREShortcutKey?> {
         for (keyAction in getActions()) {
             for (key in keyAction.getKeys()) {
                 if (key.size != pressKeys.size) {
                     continue
                 }
+                var isMatch = true
                 for (l in key) {
                     if (!pressKeys.contains(l)) {
-                        return Pair(false,null)
+                        isMatch = false
                     }
                 }
-                lastShortcut = keyAction
+                if (!isMatch) {
+                    continue
+                }
                 return Pair(true,keyAction)
             }
         }

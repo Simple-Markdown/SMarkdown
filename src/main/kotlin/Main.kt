@@ -5,22 +5,23 @@ import androidx.compose.ui.window.application
 import indi.midreamsheep.app.markdown.model.editor.parser.MarkdownParse
 import indi.midreamsheep.app.markdown.tool.context.getBean
 import indi.midreamsheep.app.markdown.ui.main.mainPage
-import java.io.File
+
+val logger: org.slf4j.Logger = TRE.getLogger()!!
 
 @Composable
 fun App() {
     MaterialTheme(
     ) {
-        //editor(LocalTREFileManager(File("/home/midreamsheep/backgroud/test.md")))
-        //settingPage()
-        //fileChooser()
         mainPage()
     }
 }
 
 fun main() = application {
+    logger.info("Application start")
+    logger.info("start to inject bean")
+    getBean(MarkdownParse::class.java)
+    logger.info("start to display window")
     Window(onCloseRequest = ::exitApplication) {
-        val bean = getBean(MarkdownParse::class.java)
         App()
     }
 }

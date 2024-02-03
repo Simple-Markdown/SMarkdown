@@ -35,6 +35,12 @@ dependencies {
     implementation("org.projectlombok:lombok:1.18.20")
     //导入hutool
     implementation("cn.hutool:hutool-all:5.7.10")
+    //日志工具
+    implementation("org.slf4j:slf4j-api:1.7.32")
+    implementation("org.slf4j:slf4j-simple:1.7.32")
+    //导入log4j2
+    implementation("org.apache.logging.log4j:log4j-api:2.14.1")
+    implementation("org.apache.logging.log4j:log4j-core:2.14.1")
 }
 
 compose.desktop {
@@ -48,3 +54,4 @@ compose.desktop {
         }
     }
 }
+
