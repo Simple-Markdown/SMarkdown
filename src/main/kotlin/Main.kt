@@ -2,9 +2,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import indi.midreamsheep.app.markdown.model.editor.parser.MarkdownParse
-import indi.midreamsheep.app.markdown.tool.context.getBean
-import indi.midreamsheep.app.markdown.ui.main.mainPage
+import indi.midreamsheep.app.tre.model.editor.parser.MarkdownParse
+import indi.midreamsheep.app.tre.tool.context.getBean
+import indi.midreamsheep.app.tre.ui.main.mainPage
 
 val logger: org.slf4j.Logger = TRE.getLogger()!!
 
