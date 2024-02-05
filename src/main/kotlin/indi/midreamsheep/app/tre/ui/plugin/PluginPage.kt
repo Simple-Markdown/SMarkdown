@@ -22,28 +22,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.hutool.json.JSONUtil
 import indi.midreamsheep.app.tre.context.di.scan.PluginScannerTool
-import indi.midreamsheep.app.tre.model.plugin.Plugin
-import indi.midreamsheep.app.tre.model.plugin.scanPlugins
+import indi.midreamsheep.app.tre.context.plugin.PluginContext
+import indi.midreamsheep.app.tre.context.plugin.viewmodel.pojo.Plugin
 import java.awt.Desktop
 import java.io.File
 import java.net.URI
 
 @Composable
 fun pluginPage() {
+    val pluginContext = PluginContext()
     //扫描插件
-    val scanPlugins = scanPlugins()
     //插件界面
     Column {
-        pluginList(scanPlugins,Modifier.weight(1f))
+        pluginList(pluginContext,Modifier.weight(1f))
         //下方按钮
-        toolBar(scanPlugins)
+        toolBar(pluginContext,Modifier)
     }
 }
 
 @Composable
-fun toolBar(scanPlugins: List<Plugin>) {
+fun toolBar(pluginContext: PluginContext, modifier: Modifier.Companion) {
     Row(
-        modifier = Modifier.fillMaxWidth().background(Color(0xFFE0E0E0)).padding(end = 10.dp),
+        modifier = modifier.fillMaxWidth().background(Color(0xFFE0E0E0)).padding(end = 10.dp),
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
     ){
@@ -55,15 +55,7 @@ fun toolBar(scanPlugins: List<Plugin>) {
         Button(
             modifier = Modifier,
             onClick = {
-                val loadingPlugins:MutableList<String> = mutableListOf()
-                for (plugin in scanPlugins) {
-                    if (plugin.isClicked.value) {
-                        loadingPlugins.add(plugin.fileName!!)
-                    }
-                }
-                val pluginConfig = PluginScannerTool.PluginConfig()
-                pluginConfig.name = loadingPlugins
-                File(System.getProperty("user.dir") + "/plugins/" + "plugin-config.json").writeText(JSONUtil.toJsonStr(pluginConfig))
+                pluginContext.pluginAction.save()
             },
             shape = RoundedCornerShape(0.dp),
             colors = androidx.compose.material.ButtonDefaults.buttonColors(
@@ -77,13 +69,13 @@ fun toolBar(scanPlugins: List<Plugin>) {
 }
 
 @Composable
-fun pluginList(scanPlugins: List<Plugin>,modifier: Modifier) {
-
+fun pluginList(pluginContext: PluginContext, modifier: Modifier) {
+    val plugins = pluginContext.pluginViewModel.getPlugins()
     LazyColumn(
         modifier = modifier
     ) {
-        items(scanPlugins.size) { index ->
-            pluginItem(scanPlugins[index], Modifier)
+        items(plugins.size) { index ->
+            pluginItem(plugins[index], Modifier)
         }
     }
 }
@@ -91,7 +83,7 @@ fun pluginList(scanPlugins: List<Plugin>,modifier: Modifier) {
 @Composable
 fun pluginItem(plugin: Plugin, modifier: Modifier) {
     Box(
-        Modifier.fillMaxWidth().padding(10.dp)
+        modifier.fillMaxWidth().padding(10.dp)
     ){
         Row {
             //插件图标

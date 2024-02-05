@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.editor.manager.core
 
 import indi.midreamsheep.app.tre.model.editor.manager.TREFileManager
-import indi.midreamsheep.app.tre.tool.context.getBean
+import indi.midreamsheep.app.tre.api.tool.ioc.getBean
 import java.io.File
 
 class TRELocalFileManager(private var file: File) : TREFileManager {

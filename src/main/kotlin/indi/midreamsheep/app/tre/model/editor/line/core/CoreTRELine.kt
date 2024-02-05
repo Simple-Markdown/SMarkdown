@@ -23,9 +23,9 @@ import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRELineInter
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.parser.MarkdownParse
-import indi.midreamsheep.app.tre.tool.context.getBean
+import indi.midreamsheep.app.tre.api.tool.ioc.getBean
 
-class CoreTRELine(private var wrapper: TRELineState) :
+class CoreTRELine(var wrapper: TRELineState) :
     TRELineInter {
 
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))

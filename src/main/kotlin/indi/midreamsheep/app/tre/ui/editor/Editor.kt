@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.manager.TREFileManager
 import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyManager
-import indi.midreamsheep.app.tre.tool.context.getBean
+import indi.midreamsheep.app.tre.api.tool.ioc.getBean
 import indi.midreamsheep.app.tre.ui.editor.render.renderList
 import indi.midreamsheep.app.tre.ui.editor.render.topbar.topBar
 import indi.midreamsheep.app.tre.ui.editor.source.sourceEditor

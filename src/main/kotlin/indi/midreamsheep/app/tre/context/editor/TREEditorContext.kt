@@ -16,4 +16,12 @@ class TREEditorContext(/**编辑文件的管理器*/val editorFileManager: TREFi
     var stateString = mutableStateOf("初始化成功")
     /**是否是源文件模式*/
     var isSourceMode = mutableStateOf(false)
+
+    /**
+     * state
+     * */
+
+    /**
+     * action
+     * */
 }

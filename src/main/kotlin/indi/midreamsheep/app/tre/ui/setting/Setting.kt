@@ -22,7 +22,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.context.setting.ConfigManager
-import indi.midreamsheep.app.tre.tool.context.getBean
+import indi.midreamsheep.app.tre.api.tool.ioc.getBean
 
 @Composable
 fun settingPage(){
