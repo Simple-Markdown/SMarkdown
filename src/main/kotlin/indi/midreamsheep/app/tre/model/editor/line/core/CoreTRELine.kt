@@ -20,13 +20,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.editor.line.TRELineInter
+import indi.midreamsheep.app.tre.model.editor.line.TRELine
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.parser.MarkdownParse
 import indi.midreamsheep.app.tre.api.tool.ioc.getBean
+import indi.midreamsheep.app.tre.model.editor.line.TRETextLine
 
 class CoreTRELine(var wrapper: TRELineState) :
-    TRELineInter {
+    TRELine,TRETextLine {
 
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
     private var selection = 0
@@ -84,7 +85,7 @@ class CoreTRELine(var wrapper: TRELineState) :
                     }
                 }
                 .onPreviewKeyEvent {
-                    return@onPreviewKeyEvent keyEvent(it,context)
+                    return@onPreviewKeyEvent context.shortcutAction.textFieldEvent(it)
                 }
                 .focusRequester(markdownLine.focusRequester)
                 .padding(top =  3.dp, bottom = 3.dp, start = 0.dp, end = 0.dp)
@@ -120,77 +121,11 @@ class CoreTRELine(var wrapper: TRELineState) :
         content.value = content.value.copy(selection = TextRange(0))
     }
 
-    @OptIn(ExperimentalComposeUiApi::class)
-    private fun keyEvent(
-        keyEvent: KeyEvent,
-        context: TREEditorContext
-    ): Boolean{
-        val stateManager = context.editorFileManager.getStateManager()
-        if (keyEvent.key == Key.Enter){
-            if (keyEvent.type != KeyEventType.KeyDown){
-                return true
-            }
-            val markdownLineStateList = stateManager.getMarkdownLineStateList()
-            val index = markdownLineStateList.indexOf(wrapper)
-            val newMarkdownLineState = TRELineState(stateManager)
+    override fun getTextFieldValue(): TextFieldValue {
+        return content.value
+    }
 
-            markdownLineStateList.add(index+1,newMarkdownLineState)
-
-            //数据更新
-            val start = content.value.selection.start
-            val newLineText = content.value.text.substring(start)
-
-            (newMarkdownLineState.line as CoreTRELine).content.value = TextFieldValue(newLineText)
-            content.value = TextFieldValue(content.value.text.substring(0,start))
-
-            newMarkdownLineState.line.focus()
-            releaseFocus()
-            return true
-        }
-        if (keyEvent.key == Key.DirectionRight&&keyEvent.type == KeyEventType.KeyDown){
-            val cursorAtEnd = content.value.selection.collapsed && content.value.selection.start == content.value.text.length
-            if (cursorAtEnd) {
-                val index = stateManager.getMarkdownLineStateList().indexOf(wrapper)
-                if (index < stateManager.getMarkdownLineStateList().size - 1) {
-                    releaseFocus()
-                    stateManager.getMarkdownLineStateList()[index + 1].line.focusFormStart()
-                }
-            }
-        }
-        if (keyEvent.key == Key.DirectionLeft&&keyEvent.type == KeyEventType.KeyDown){
-            val cursorAtEnd = content.value.selection.collapsed && content.value.selection.start == 0
-            if (cursorAtEnd) {
-                val index = stateManager.getMarkdownLineStateList().indexOf(wrapper)
-                if (index > 0) {
-                    releaseFocus()
-                    stateManager.getMarkdownLineStateList()[index-1].line.focusFromLast()
-                }
-            }
-        }
-        if (keyEvent.key == Key.Backspace&&keyEvent.type == KeyEventType.KeyDown){
-            val index = stateManager.getMarkdownLineStateList().indexOf(wrapper)
-            if (index==0){
-                return false
-            }
-            if (content.value.text.isEmpty()){
-                releaseFocus()
-                stateManager.getMarkdownLineStateList()[index-1].line.focusFromLast()
-                stateManager.getMarkdownLineStateList().remove(wrapper)
-                return true
-            }
-            if (content.value.selection.start == 0){
-                val lastLine = stateManager.getMarkdownLineStateList()[index-1].line as CoreTRELine
-                lastLine.focus()
-                val lastLineContent = lastLine.content.value.text
-                lastLine.content.value = TextFieldValue(
-                    text = lastLineContent+content.value.text,
-                    selection = TextRange(lastLineContent.length)
-                )
-                releaseFocus()
-                stateManager.getMarkdownLineStateList().remove(wrapper)
-                return true
-            }
-        }
-        return false
+    override fun setTextFieldValue(value: TextFieldValue) {
+        content.value = value
     }
 }

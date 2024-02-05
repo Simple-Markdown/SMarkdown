@@ -20,8 +20,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.hutool.json.JSONUtil
-import indi.midreamsheep.app.tre.context.di.scan.PluginScannerTool
 import indi.midreamsheep.app.tre.context.plugin.PluginContext
 import indi.midreamsheep.app.tre.context.plugin.viewmodel.pojo.Plugin
 import java.awt.Desktop
@@ -31,7 +29,6 @@ import java.net.URI
 @Composable
 fun pluginPage() {
     val pluginContext = PluginContext()
-    //扫描插件
     //插件界面
     Column {
         pluginList(pluginContext,Modifier.weight(1f))
@@ -47,11 +44,6 @@ fun toolBar(pluginContext: PluginContext, modifier: Modifier.Companion) {
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
     ){
-        /*Button(
-            onClick = {}
-        ){
-            Text("import new plugin")
-        }*/
         Button(
             modifier = Modifier,
             onClick = {

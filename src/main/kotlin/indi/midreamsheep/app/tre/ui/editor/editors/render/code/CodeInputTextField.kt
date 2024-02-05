@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.ui.editor.render.code
+package indi.midreamsheep.app.tre.ui.editor.editors.render.code
 
 import androidx.compose.runtime.Composable
 

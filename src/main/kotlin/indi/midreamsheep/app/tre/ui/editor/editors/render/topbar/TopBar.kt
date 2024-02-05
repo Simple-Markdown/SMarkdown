@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.ui.editor.render.topbar
+package indi.midreamsheep.app.tre.ui.editor.editors.render.topbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

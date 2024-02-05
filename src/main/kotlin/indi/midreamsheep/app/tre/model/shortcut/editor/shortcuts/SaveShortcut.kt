@@ -2,34 +2,26 @@ package indi.midreamsheep.app.tre.model.shortcut.editor.shortcuts
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.*
-import indi.midreamsheep.app.tre.context.api.annotation.EditorShortcutKey
+import indi.midreamsheep.app.tre.context.api.annotation.shortcut.EditorShortcutKey
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKey
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKey
+import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyHandler
 
 @EditorShortcutKey
-class SaveShortcut: TREEditorShortcutKey {
+class SaveShortcut: TREEditorShortcutKeyHandler() {
 
-
-    @OptIn(DelicateCoroutinesApi::class)
     override fun action(context: TREEditorContext) {
-        GlobalScope.launch {
-            context.stateString.value = "Saving"
-            context.editorFileManager.store()
-            context.stateString.value = "saving success"
-        }
+        context.fileAction.store()
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
-    override fun getKeys(): List<List<Long>> {
+    override fun getKeys(): List<TREShortcutKey> {
         return listOf(
-            listOf(
+            TREShortcutKey(
                 Key.S.keyCode,
                 Key.CtrlLeft.keyCode,
             ),
-            listOf(
+            TREShortcutKey(
                 Key.S.keyCode,
                 Key.CtrlRight.keyCode,
             )

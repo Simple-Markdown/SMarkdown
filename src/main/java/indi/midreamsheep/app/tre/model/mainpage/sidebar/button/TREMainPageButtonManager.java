@@ -10,6 +10,6 @@ import java.util.List;
 @Comment
 @Data
 public  class TREMainPageButtonManager {
-    @ListInjector(target = "<ainPageButtons")
+    @ListInjector(target = "MainPageButtons")
     List<TREMainPageButton> buttons = new LinkedList<>();
 }

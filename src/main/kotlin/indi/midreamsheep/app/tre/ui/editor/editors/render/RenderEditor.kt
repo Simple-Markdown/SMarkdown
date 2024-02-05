@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.ui.editor.render
+package indi.midreamsheep.app.tre.ui.editor.editors.render
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -18,13 +18,10 @@ import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyManag
 fun renderList(
     context: TREEditorContext,
     modifier: Modifier,
-    treEditorShortcutKeyManager: TREEditorShortcutKeyManager,
     listState: LazyListState
 ) {
-    context.informationDisplay.value()
     val stateManager = context.editorFileManager.getStateManager()
     val lineStateList = stateManager.getMarkdownLineStateList()
-    var isChange by remember { mutableStateOf(false) }
     LazyColumn(
         state = listState,
         modifier = modifier.fillMaxSize().padding(top = 10.dp)
@@ -39,21 +36,13 @@ fun renderList(
                     lineStateList[lineStateList.size-1].line.focus()
                 }
             )
-            .onPreviewKeyEvent {
-                keyEvent: KeyEvent ->
-                isChange = !isChange
-                return@onPreviewKeyEvent treEditorShortcutKeyManager.keyEvent(keyEvent,context,true)
-            }
+
     ) {
         for (markdownLineState in lineStateList) {
             item {
                 markdownLineState.line.getComposable(context)()
             }
         }
-    }
-    LaunchedEffect(isChange){
-        val currentMarkdownLineState = stateManager.getCurrentMarkdownLineState() ?: return@LaunchedEffect
-        listState.animateScrollToItem(lineStateList.indexOf(currentMarkdownLineState))
     }
     LaunchedEffect(key1 = lineStateList.size) {
         listState.animateScrollToItem(lineStateList.size-1)

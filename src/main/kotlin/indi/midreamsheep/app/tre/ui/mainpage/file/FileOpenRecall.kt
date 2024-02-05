@@ -5,7 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.Window
 import indi.midreamsheep.app.tre.api.Recall
 import indi.midreamsheep.app.tre.model.editor.manager.core.TRELocalFileManager
-import indi.midreamsheep.app.tre.ui.editor.editor
+import indi.midreamsheep.app.tre.ui.editor.editorPage
 import java.io.File
 
 class FileOpenRecall(private val file:File) :Recall<MutableState<Boolean>> {
@@ -16,7 +16,7 @@ class FileOpenRecall(private val file:File) :Recall<MutableState<Boolean>> {
                 value.value = false
             }
         ){
-            editor(TRELocalFileManager(file))
+            editorPage(TRELocalFileManager(file))
         }
     }
 

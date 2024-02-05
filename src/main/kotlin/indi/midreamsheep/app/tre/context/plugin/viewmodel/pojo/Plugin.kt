@@ -1,9 +1,6 @@
 package indi.midreamsheep.app.tre.context.plugin.viewmodel.pojo
 
 import androidx.compose.runtime.mutableStateOf
-import cn.hutool.json.JSONUtil
-import indi.midreamsheep.app.tre.context.di.scan.PluginScannerTool
-import java.io.File
 
 class Plugin {
     var name: String? = null

@@ -3,7 +3,6 @@ package indi.midreamsheep.app.tre.context.di.scan;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.json.JSONUtil;
 import indi.midreamsheep.app.tre.context.di.scan.jarloader.TREJarLoader;
-import live.midreamsheep.frame.sioc.di.processor.comment.CommentProcessor;
 import live.midreamsheep.frame.sioc.scan.inter.ClassesAbstractScanner;
 import lombok.extern.slf4j.Slf4j;
 

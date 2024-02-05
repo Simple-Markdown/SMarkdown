@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.ui.editor.source
+package indi.midreamsheep.app.tre.ui.editor.editors.source
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,15 +11,16 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.unit.dp
+import indi.midreamsheep.app.tre.api.tool.ioc.getBean
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyManager
+import indi.midreamsheep.app.tre.model.shortcut.editor.shortcuts.ToggleTheEditorShortcut
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun sourceEditor(
     context: TREEditorContext,
     modifier: Modifier,
-    key: TREEditorShortcutKeyManager,
     listState: LazyListState
 ){
     val focusRequester = remember { FocusRequester() }
@@ -33,16 +34,16 @@ fun sourceEditor(
             .fillMaxSize().padding(top = 10.dp)
             .onPreviewKeyEvent {
                 keyEvent ->
-                if (keyEvent.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
                 if (keyEvent.key == Key.Slash && keyEvent.isCtrlPressed) {
-                    context.isSourceMode.value = false
+/*                    context.editorStateAction.renderMode()
                     context.editorFileManager.setContent(content)
                     context.editorFileManager.getStateManager().setCurrentMarkdownLineState(
                         context.editorFileManager.getStateManager().getMarkdownLineStateList().last()
-                    )
-                    key.clear()
+                    )*/
+                    getBean(ToggleTheEditorShortcut::class.java).action(context)
                     return@onPreviewKeyEvent true
                 }
+                context.shortcutAction.updateTextFieldEvent(keyEvent)
                 return@onPreviewKeyEvent false
             }
             .focusRequester(focusRequester)

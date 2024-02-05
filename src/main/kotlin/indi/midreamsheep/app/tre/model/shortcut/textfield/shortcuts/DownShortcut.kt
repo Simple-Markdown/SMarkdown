@@ -1,29 +1,30 @@
-package indi.midreamsheep.app.tre.model.shortcut.editor.shortcuts
+package indi.midreamsheep.app.tre.model.shortcut.textfield.shortcuts
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
-import indi.midreamsheep.app.tre.context.api.annotation.EditorShortcutKey
+import indi.midreamsheep.app.tre.context.api.annotation.shortcut.TextFieldShortcutKey
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKey
+import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKey
+import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyHandler
 
-@EditorShortcutKey
-class UpShortcut: TREEditorShortcutKey {
+@TextFieldShortcutKey
+class DownShortcut: TREEditorShortcutKeyHandler() {
     override fun action(context: TREEditorContext) {
         val stateManager = context.editorFileManager.getStateManager()
         val currentMarkdownLineState = stateManager.getCurrentMarkdownLineState() ?: return
         val markdownLineStateList = stateManager.getMarkdownLineStateList()
         val index = markdownLineStateList.indexOf(currentMarkdownLineState)
-        if (index > 0) {
+        if (index < markdownLineStateList.size - 1) {
             currentMarkdownLineState.line.releaseFocus()
-            markdownLineStateList[index - 1].line.focus()
+            markdownLineStateList[index + 1].line.focus()
         }
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
-    override fun getKeys(): List<List<Long>> {
+    override fun getKeys(): List<TREShortcutKey> {
         return listOf(
-            listOf(
-                Key.DirectionUp.keyCode
+            TREShortcutKey(
+                Key.DirectionDown.keyCode
             )
         )
     }

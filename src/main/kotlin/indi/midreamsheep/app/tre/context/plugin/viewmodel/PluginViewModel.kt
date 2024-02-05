@@ -7,7 +7,7 @@ import java.io.File
 
 class PluginViewModel {
 
-    val plugins = scanPlugins()
+    private val plugins = scanPlugins()
 
     fun getPlugins() = plugins
 
