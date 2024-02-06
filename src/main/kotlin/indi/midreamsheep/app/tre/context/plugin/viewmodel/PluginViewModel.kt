@@ -1,11 +1,13 @@
 package indi.midreamsheep.app.tre.context.plugin.viewmodel
 
 import cn.hutool.json.JSONUtil
+import indi.midreamsheep.app.tre.context.TREViewModel
 import indi.midreamsheep.app.tre.context.di.scan.PluginScannerTool
+import indi.midreamsheep.app.tre.context.plugin.TREPluginContext
 import indi.midreamsheep.app.tre.context.plugin.viewmodel.pojo.Plugin
 import java.io.File
 
-class PluginViewModel {
+class PluginViewModel(context: TREPluginContext) : TREViewModel<TREPluginContext>(context) {
 
     private val plugins = scanPlugins()
 

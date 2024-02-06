@@ -1,14 +1,15 @@
 package indi.midreamsheep.app.tre.context.plugin.action
 
 import cn.hutool.json.JSONUtil
+import indi.midreamsheep.app.tre.context.TREAction
 import indi.midreamsheep.app.tre.context.di.scan.PluginScannerTool
-import indi.midreamsheep.app.tre.context.plugin.PluginContext
+import indi.midreamsheep.app.tre.context.plugin.TREPluginContext
 import java.io.File
 
-class PluginAction(private val pluginContext: PluginContext) {
+class PluginAction(context: TREPluginContext): TREAction<TREPluginContext>(context) {
     fun save() {
         val loadingPlugins:MutableList<String> = mutableListOf()
-        for (plugin in pluginContext.pluginViewModel.getPlugins()) {
+        for (plugin in context.pluginViewModel.getPlugins()) {
             if (plugin.isClicked.value) {
                 loadingPlugins.add(plugin.fileName!!)
             }

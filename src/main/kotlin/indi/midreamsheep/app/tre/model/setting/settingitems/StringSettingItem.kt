@@ -10,9 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.model.setting.SettingItem
+import indi.midreamsheep.app.tre.api.Display
+import indi.midreamsheep.app.tre.model.setting.setting.TRESettingItem
 
-class StringSettingItem(data: String, private var displayContent: String) : SettingItem<String> {
+class StringSettingItem(data: String, private var displayContent: String) :
+    TRESettingItem<String> {
 
     private var data = mutableStateOf("")
 
@@ -23,8 +25,9 @@ class StringSettingItem(data: String, private var displayContent: String) : Sett
     override fun getData(): String {
         return data.value
     }
-    override fun getComposable():@Composable () -> Unit {
-        return {
+
+    override fun getDisplay(): Display {
+        return Display {
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -42,6 +45,7 @@ class StringSettingItem(data: String, private var displayContent: String) : Sett
             }
         }
     }
+
 
     /**
      * 设置数据

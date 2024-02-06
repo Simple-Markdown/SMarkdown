@@ -4,6 +4,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import indi.midreamsheep.app.tre.context.api.annotation.shortcut.EditorShortcutKey
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
+import indi.midreamsheep.app.tre.context.editor.viewmodel.EditorStateViewModel
 import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKey
 import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyHandler
 
@@ -11,7 +12,15 @@ import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyHandl
 class ToggleTheEditorShortcut: TREEditorShortcutKeyHandler() {
 
     override fun action(context: TREEditorContext) {
-       context.editorStateAction.toggleMode()
+        when (context.editorStateViewModel.editorMode.value) {
+            EditorStateViewModel.EditorMode.RENDER -> {
+                    // do nothing
+            }
+            EditorStateViewModel.EditorMode.SOURCE -> {
+                context.editorFileManager.setContent(context.editorFileManager.getContent().value)
+            }
+        }
+        context.editorStateAction.toggleMode()
     }
 
     @OptIn(ExperimentalComposeUiApi::class)

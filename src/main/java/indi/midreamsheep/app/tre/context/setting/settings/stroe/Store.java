@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.context.setting.settings.stroe;
 
 import indi.midreamsheep.app.tre.context.api.annotation.setting.Config;
-import indi.midreamsheep.app.tre.model.setting.AbstractStandardConfig;
+import indi.midreamsheep.app.tre.model.setting.setting.TRECoreSetting;
 import indi.midreamsheep.app.tre.model.setting.settingitems.StringSettingItem;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,6 +12,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Config
-public class Store extends AbstractStandardConfig {
+public class Store extends TRECoreSetting {
     private StringSettingItem rootPath = new StringSettingItem(System.getProperty("user.dir")/*+ File.separator + "files" + File.separator*/,"根目录");
 }

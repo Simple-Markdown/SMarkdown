@@ -10,9 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.model.setting.SettingItem
+import indi.midreamsheep.app.tre.api.Display
+import indi.midreamsheep.app.tre.model.setting.setting.TRESettingItem
 
-class IntInputSettingItem(data: Int, private var displayContent: String) : SettingItem<Int> {
+class IntInputSettingItem(data: Int, private var displayContent: String) : TRESettingItem<Int> {
 
     private var data = mutableStateOf("")
 
@@ -24,8 +25,8 @@ class IntInputSettingItem(data: Int, private var displayContent: String) : Setti
             return data.value.toInt()
     }
 
-    override fun getComposable():@Composable () -> Unit {
-        return {
+    override fun getDisplay(): Display {
+        return Display {
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {

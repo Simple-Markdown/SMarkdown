@@ -26,7 +26,6 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
     implementation(compose.ui)
-    implementation(compose.runtime)
     //导入本地jar包
     implementation(files("libs/SIOC.jar"))
     implementation(files("libs/DenpendenceInjector.jar"))

@@ -13,7 +13,6 @@ import androidx.compose.ui.input.key.*
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.tool.ioc.getBean
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyManager
 import indi.midreamsheep.app.tre.model.shortcut.editor.shortcuts.ToggleTheEditorShortcut
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -23,26 +22,17 @@ fun sourceEditor(
     modifier: Modifier,
     listState: LazyListState
 ){
+    context.editorFileManager.getContent().value = context.editorFileManager.getSourceContent()
     val focusRequester = remember { FocusRequester() }
-    var content by remember {mutableStateOf(context.editorFileManager.getContent())}
     BasicTextField(
-        value = content,
+        value = context.editorFileManager.getContent().value,
         onValueChange = {
-            content = it
+            context.editorFileManager.getContent().value = it
         },
         modifier = modifier
             .fillMaxSize().padding(top = 10.dp)
             .onPreviewKeyEvent {
                 keyEvent ->
-                if (keyEvent.key == Key.Slash && keyEvent.isCtrlPressed) {
-/*                    context.editorStateAction.renderMode()
-                    context.editorFileManager.setContent(content)
-                    context.editorFileManager.getStateManager().setCurrentMarkdownLineState(
-                        context.editorFileManager.getStateManager().getMarkdownLineStateList().last()
-                    )*/
-                    getBean(ToggleTheEditorShortcut::class.java).action(context)
-                    return@onPreviewKeyEvent true
-                }
                 context.shortcutAction.updateTextFieldEvent(keyEvent)
                 return@onPreviewKeyEvent false
             }

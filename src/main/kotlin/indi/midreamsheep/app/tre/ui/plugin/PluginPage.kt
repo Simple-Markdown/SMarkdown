@@ -20,7 +20,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import indi.midreamsheep.app.tre.context.plugin.PluginContext
+import indi.midreamsheep.app.tre.context.plugin.TREPluginContext
 import indi.midreamsheep.app.tre.context.plugin.viewmodel.pojo.Plugin
 import java.awt.Desktop
 import java.io.File
@@ -28,7 +28,7 @@ import java.net.URI
 
 @Composable
 fun pluginPage() {
-    val pluginContext = PluginContext()
+    val pluginContext = TREPluginContext()
     //插件界面
     Column {
         pluginList(pluginContext,Modifier.weight(1f))
@@ -38,7 +38,7 @@ fun pluginPage() {
 }
 
 @Composable
-fun toolBar(pluginContext: PluginContext, modifier: Modifier.Companion) {
+fun toolBar(pluginContext: TREPluginContext, modifier: Modifier.Companion) {
     Row(
         modifier = modifier.fillMaxWidth().background(Color(0xFFE0E0E0)).padding(end = 10.dp),
         horizontalArrangement = Arrangement.End,
@@ -61,7 +61,7 @@ fun toolBar(pluginContext: PluginContext, modifier: Modifier.Companion) {
 }
 
 @Composable
-fun pluginList(pluginContext: PluginContext, modifier: Modifier) {
+fun pluginList(pluginContext: TREPluginContext, modifier: Modifier) {
     val plugins = pluginContext.pluginViewModel.getPlugins()
     LazyColumn(
         modifier = modifier
