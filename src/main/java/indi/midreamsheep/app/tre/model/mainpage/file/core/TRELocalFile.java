@@ -1,13 +1,15 @@
 package indi.midreamsheep.app.tre.model.mainpage.file.core;
 
-import androidx.compose.runtime.MutableState;
+import cn.hutool.core.io.FileUtil;
 import indi.midreamsheep.app.tre.api.Recall;
 import indi.midreamsheep.app.tre.model.mainpage.file.TREFile;
 import indi.midreamsheep.app.tre.ui.mainpage.file.FileOpenRecall;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,7 +41,17 @@ public class TRELocalFile implements TREFile {
     }
 
     @Override
-    public Recall<MutableState<Boolean>> getRecall() {
-        return new FileOpenRecall(file);
+    public String readText() {
+        return FileUtil.readString(file, Charset.defaultCharset());
+    }
+
+    @Override
+    public Recall<TREFile> getRecall() {
+        return new FileOpenRecall();
+    }
+
+    @Override
+    public void writeText(@NotNull String sourceContent) {
+        FileUtil.writeString(sourceContent, file, Charset.defaultCharset());
     }
 }

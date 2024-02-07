@@ -2,6 +2,7 @@ package indi.midreamsheep.app.tre.ui.mainpage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
@@ -14,10 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import indi.midreamsheep.app.tre.context.app.TREAppContext
 import indi.midreamsheep.app.tre.context.app.viewmodel.pojo.TREWindow
 import indi.midreamsheep.app.tre.context.mainpage.TREMainPageContext
 import indi.midreamsheep.app.tre.ui.setting.SettingWindow
-import treAppContext
 
 @Composable
 fun mainPage() {
@@ -81,7 +82,10 @@ fun leftScreen(
 }
 
 @Composable
-fun rightScreen(modifier: Modifier, context: TREMainPageContext) {
+fun rightScreen(
+    modifier: Modifier,
+    context: TREMainPageContext
+) {
     Column(
         modifier
     ) {
@@ -98,7 +102,14 @@ fun rightScreen(modifier: Modifier, context: TREMainPageContext) {
             for (button in context.mainPageButtonViewModel.getButtons()) {
                 item {
                     Row(
-                        modifier = Modifier.padding(bottom = 5.dp).fillMaxWidth().background(Color(0xFFEEEBEB)).padding(5.dp),
+                        modifier = Modifier
+                            .padding(bottom = 5.dp)
+                            .fillMaxWidth()
+                            .background(Color(0xFFEEEBEB))
+                            .clickable {
+                                button.onClick(context)
+                            }
+                            .padding(5.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
@@ -130,7 +141,7 @@ fun rightScreen(modifier: Modifier, context: TREMainPageContext) {
         ) {
             IconButton(
                 onClick = {
-                    treAppContext.windowAction.registerWindow(
+                    TREAppContext.context.windowAction.registerWindow(
                         TREWindow(
                             windowDisplay = SettingWindow(),
                             name = "SettingWindow"

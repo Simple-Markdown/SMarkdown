@@ -6,13 +6,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyManager
 
 @Composable
 fun renderList(
@@ -36,6 +36,9 @@ fun renderList(
                     lineStateList[lineStateList.size-1].line.focus()
                 }
             )
+            .onPreviewKeyEvent{
+                return@onPreviewKeyEvent context.shortcutAction.textFieldEvent(it)
+            }
 
     ) {
         for (markdownLineState in lineStateList) {

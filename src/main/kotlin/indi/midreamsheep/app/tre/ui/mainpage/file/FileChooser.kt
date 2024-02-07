@@ -43,15 +43,11 @@ fun fileItem(file: TREFile) {
 fun aFile(
     file: TREFile
 ){
-    val isClicked = remember { mutableStateOf(false) }
-    if (isClicked.value) {
-        file.getRecall().recall(isClicked)
-    }
     Text(
         text = file.getName(),
         style = MaterialTheme.typography.h6,
         modifier = Modifier.padding(start = 26.dp).clickable{
-            isClicked.value = true
+            file.recall.recall(file)
         }
     )
 }

@@ -1,10 +1,10 @@
-package indi.midreamsheep.app.tre.model.editor.parser
+package indi.midreamsheep.app.tre.model.editor.parser.parser
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.line.core.CoreTRELine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
+import indi.midreamsheep.app.tre.model.styletext.StyleTextTree
 
 interface ParagraphParser {
     /**
@@ -15,7 +15,14 @@ interface ParagraphParser {
     /**
      * 获取渲染函数
      * */
-    fun getComposable(text: String, recall: () -> Unit, stateList: TREStateManager, state: CoreTRELine):@Composable ()->Unit
+    fun getAnnotatedString(text: TextFieldValue, stateList: TREStateManager, state: CoreTRELine):StyleTextTree
+
+
+    /**
+     * 当多个解析器都能解析时，通过权重来判断
+     * 权重为语法的复杂度，越复杂的语法权重越高，一般为特征字符的数量
+     * */
+    fun getWeight(text: String):Int
     /**
      * text解析，用于对文本进行初始化解释时调用
      * @return下一次解析的起始位置

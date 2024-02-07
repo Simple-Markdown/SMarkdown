@@ -32,8 +32,8 @@ class EnterShortcut: TREEditorShortcutKeyHandler() {
         (newMarkdownLineState.line as CoreTRELine).content.value = TextFieldValue(newLineText)
         textValue.setTextFieldValue(TextFieldValue(textValue.getTextFieldValue().text.substring(0,start)))
 
-        newMarkdownLineState.line.focus()
         wrapper.line.releaseFocus()
+        newMarkdownLineState.line.focus()
     }
 
     override fun isEnable(context: TREContext?): Boolean {

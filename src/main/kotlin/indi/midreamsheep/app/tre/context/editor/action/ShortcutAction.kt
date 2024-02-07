@@ -21,8 +21,4 @@ class ShortcutAction(context:TREEditorContext): TREAction<TREEditorContext>(cont
         context.shortcutViewModel.textFieldShortcutKeyManager.keyEvent(keyEvent,context,false)
     }
 
-    fun textFieldClear() {
-        context.shortcutViewModel.textFieldShortcutKeyManager.clear()
-    }
-
 }

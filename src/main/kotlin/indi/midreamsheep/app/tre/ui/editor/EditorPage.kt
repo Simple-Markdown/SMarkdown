@@ -5,20 +5,16 @@ import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Switch
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.manager.TREFileManager
-import indi.midreamsheep.app.tre.api.tool.ioc.getBean
-import indi.midreamsheep.app.tre.context.editor.viewmodel.EditorStateViewModel
-import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyManager
 import indi.midreamsheep.app.tre.ui.editor.bottom.bottomBar
 import indi.midreamsheep.app.tre.ui.editor.editors.render.renderList
 import indi.midreamsheep.app.tre.ui.editor.editors.render.topbar.topBar
-import indi.midreamsheep.app.tre.ui.editor.editors.source.sourceEditor
 
 @Composable
 fun editorPage(
@@ -68,12 +64,13 @@ fun editor(
     listState: LazyListState,
     context: TREEditorContext
 ){
-    when(context.editorStateViewModel.editorMode.value){
+/*    when(context.editorStateViewModel.editorMode.value){
         EditorStateViewModel.EditorMode.RENDER -> {
             renderList(context, modifier, listState)
         }
         EditorStateViewModel.EditorMode.SOURCE -> {
             sourceEditor(context, modifier, listState)
         }
-    }
+    }*/
+    renderList(context, modifier, listState)
 }

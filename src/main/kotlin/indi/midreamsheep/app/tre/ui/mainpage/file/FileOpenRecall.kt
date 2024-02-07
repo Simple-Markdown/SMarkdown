@@ -1,23 +1,16 @@
 package indi.midreamsheep.app.tre.ui.mainpage.file
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.ui.window.Window
 import indi.midreamsheep.app.tre.api.Recall
-import indi.midreamsheep.app.tre.model.editor.manager.core.TRELocalFileManager
-import indi.midreamsheep.app.tre.ui.editor.editorPage
-import java.io.File
+import indi.midreamsheep.app.tre.context.app.TREAppContext
+import indi.midreamsheep.app.tre.context.app.viewmodel.pojo.TREWindow
+import indi.midreamsheep.app.tre.model.mainpage.file.TREFile
+import indi.midreamsheep.app.tre.ui.editor.LocalEditorWindow
 
-class FileOpenRecall(private val file:File) :Recall<MutableState<Boolean>> {
-    @Composable
-    override fun recall(value: MutableState<Boolean>) {
-        Window(
-            onCloseRequest = {
-                value.value = false
-            }
-        ){
-            editorPage(TRELocalFileManager(file))
-        }
+class FileOpenRecall :Recall<TREFile> {
+    override fun recall(
+        value:TREFile
+    ) {
+        TREAppContext.context.windowAction.registerWindow(TREWindow(LocalEditorWindow(value),"file editor"))
     }
 
 }

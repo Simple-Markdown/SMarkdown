@@ -1,8 +1,10 @@
 package indi.midreamsheep.app.tre.model.editor.parser
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.AnnotatedString
 import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapInjector
+import indi.midreamsheep.app.tre.model.editor.parser.parser.SpanParser
+import indi.midreamsheep.app.tre.model.styletext.StyleTextTree
+import indi.midreamsheep.app.tre.model.styletext.leaf.TRECoreLeaf
+import indi.midreamsheep.app.tre.model.styletext.pojo.StyleTextOffsetMapping
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 
 @Comment
@@ -10,48 +12,86 @@ class SpanParse {
     @MapInjector(target = "span")
     private val spanParserList = HashMap<Char, List<SpanParser>>()
 
+
+    /**
+     * 块解析器
+     * 参数：text 将要解析的文本
+     *          selection 光标位置，光标位置为相对位置，即相对与text的位置
+     *          isFocus 是否拥有焦点
+     *          offsetMapping 偏移量映射
+     * */
     fun parse(
-        text:String
-    ): Pair<AnnotatedString, List<@Composable ()->Unit>>
+        text: String,
+        selection: Int,
+        isFocus: Boolean,
+        offsetMapping: StyleTextOffsetMapping
+    ): List<StyleTextTree>
     {
-        var pointer = 0
-        var resultAnnotatedString = AnnotatedString("")
-        val resultList = ArrayList<@Composable ()->Unit>()
+
+        var transformedPoint = 0
+        var originalOffsetStart = 0
+
+        val resultList = mutableListOf<StyleTextTree>()
 
         var normalString = ""
 
         while(true) {
-            if (pointer>=text.length) break
-            val startChar = text[pointer]
+            if (originalOffsetStart>=text.length) break
+            //获取处理器
+            val startChar = text[originalOffsetStart]
             val spanParsers = spanParserList[startChar]
-
             if (spanParsers==null) {
-                normalString += text[pointer]
-                pointer++
+                normalString += text[originalOffsetStart]
+                originalOffsetStart++
                 continue
             }
-            if (normalString.isNotEmpty()) {
-                resultAnnotatedString += AnnotatedString(normalString)
-                normalString = ""
-            }
-            var flag = false
+            val spanList:MutableList<SpanParser> = mutableListOf()
             spanParsers.forEach {
-                if (it.formatCheck(text.substring(pointer))){
-                    val (chatNumber, annotatedString, list) = it.generateAnnotatedString(text.substring(pointer))
-                    pointer+=chatNumber
-                    resultAnnotatedString += annotatedString
-                    resultList.addAll(list)
-                    flag = true
+                if (it.formatCheck(text.substring(originalOffsetStart))){
+                    spanList.add(it)
                 }
             }
-            if (!flag) {
-                pointer++
-                normalString += startChar
+            var weight = 0
+            var parser: SpanParser? = null
+            spanList.forEach {
+                val w = it.getWeight(text.substring(originalOffsetStart))
+                if (w>weight){
+                    weight = w
+                    parser = it
+                }
             }
+            if (parser==null){
+                normalString += text[originalOffsetStart]
+                originalOffsetStart++
+                continue
+            }
+
+            // 处理普通文本
+            if (normalString.isNotEmpty()) {
+                resultList.add(TRECoreLeaf(normalString,StyleTextOffsetMapping(originalOffsetStart+offsetMapping.originalOffsetStart - normalString.length, transformedPoint+offsetMapping.transformedOffsetStart)))
+                transformedPoint += normalString.length
+                normalString = ""
+            }
+
+            //进行解析
+            val leaf = parser!!.generateLeaf(
+                text.substring(originalOffsetStart),
+                selection - originalOffsetStart,
+                isFocus,
+                StyleTextOffsetMapping(
+                    originalOffsetStart+offsetMapping.originalOffsetStart,
+                    transformedPoint+offsetMapping.transformedOffsetStart
+                )
+            )
+
+            transformedPoint += leaf.transformedSize()
+            originalOffsetStart += leaf.originalSize()
+            resultList.add(leaf)
         }
         if (normalString.isNotEmpty()) {
-            resultAnnotatedString += AnnotatedString(normalString)
+            resultList.add(TRECoreLeaf(normalString,StyleTextOffsetMapping(originalOffsetStart+offsetMapping.originalOffsetStart-normalString.length, transformedPoint+offsetMapping.transformedOffsetStart)))
         }
-        return Pair(resultAnnotatedString,resultList)
+        return resultList
     }
+
 }

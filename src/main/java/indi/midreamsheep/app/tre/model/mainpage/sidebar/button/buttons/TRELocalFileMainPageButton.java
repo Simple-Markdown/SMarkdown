@@ -1,11 +1,13 @@
 package indi.midreamsheep.app.tre.model.mainpage.sidebar.button.buttons;
 
 import androidx.compose.ui.graphics.ImageBitmap;
-import indi.midreamsheep.app.tre.api.Display;
 import indi.midreamsheep.app.tre.api.tool.image.ImageToolKt;
 import indi.midreamsheep.app.tre.context.api.annotation.mainpage.MainPageButton;
+import indi.midreamsheep.app.tre.context.app.TREAppContext;
+import indi.midreamsheep.app.tre.context.app.viewmodel.pojo.TREWindow;
 import indi.midreamsheep.app.tre.context.mainpage.TREMainPageContext;
 import indi.midreamsheep.app.tre.model.mainpage.sidebar.button.TREMainPageButton;
+import indi.midreamsheep.app.tre.ui.editor.OpenFileWindow;
 
 import java.io.File;
 
@@ -29,6 +31,11 @@ public class TRELocalFileMainPageButton implements TREMainPageButton {
 
     @Override
     public void onClick(TREMainPageContext context) {
-
+        TREAppContext.Companion.getContext().getWindowAction().registerWindow(
+                new TREWindow(
+                        new OpenFileWindow(),
+                        "文件编辑"
+                )
+        );
     }
 }

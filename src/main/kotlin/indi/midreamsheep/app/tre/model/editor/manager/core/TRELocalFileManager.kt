@@ -4,9 +4,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import indi.midreamsheep.app.tre.model.editor.manager.TREFileManager
 import indi.midreamsheep.app.tre.api.tool.ioc.getBean
+import indi.midreamsheep.app.tre.model.mainpage.file.TREFile
 import java.io.File
 
-class TRELocalFileManager(private var file: File) : TREFileManager {
+class TRELocalFileManager(private var file: TREFile) : TREFileManager {
 
     private val markdownStateManager = CoreTREStateManager()
     private var isRead = false

@@ -1,14 +1,15 @@
 package indi.midreamsheep.app.tre.model.editor.parser
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapInjector
-import indi.midreamsheep.app.tre.model.editor.parser.impl.DefaultParser
+import indi.midreamsheep.app.tre.model.editor.line.core.CoreTRELine
+import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
+import indi.midreamsheep.app.tre.model.editor.parser.impl.paragraph.DefaultParser
+import indi.midreamsheep.app.tre.model.editor.parser.parser.ParagraphParser
+import indi.midreamsheep.app.tre.model.styletext.StyleTextTree
+import indi.midreamsheep.app.tre.model.styletext.leaf.TRECoreLeaf
+import indi.midreamsheep.app.tre.model.styletext.pojo.StyleTextOffsetMapping
+import indi.midreamsheep.app.tre.model.styletext.root.TRECoreStyleTextRoot
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
@@ -22,35 +23,37 @@ class MarkdownParse {
     private val defaultParser: DefaultParser? = null
 
     fun parse(
-        text: String,
-        state: indi.midreamsheep.app.tre.model.editor.line.core.CoreTRELine,
-        stateList: indi.midreamsheep.app.tre.model.editor.manager.TREStateManager,
-        recall: () -> Unit
-    ):@Composable ()->Unit {
-        if(text.isEmpty()) {
-            return {
-                Text(
-                    text="",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(20.dp)
-                        .clickable {
-                            recall()
-                        }
-                )
-            }
+        text: TextFieldValue,
+        state: CoreTRELine,
+        stateList: TREStateManager
+    ): StyleTextTree {
+        if(text.text.isEmpty()) {
+            val treCoreStyleTextRoot = TRECoreStyleTextRoot()
+            treCoreStyleTextRoot.addChildren(TRECoreLeaf("", StyleTextOffsetMapping(0,0)))
+            return treCoreStyleTextRoot
         }
-        val startChar = text[0]
+        val startChar = text.text[0]
         var parser: ParagraphParser? = null;
+
+        val parserList:MutableList<ParagraphParser> = mutableListOf()
         val paragraphParsers = paragraphParser[startChar]
         paragraphParsers?.forEach {
-            if (it.formatCheck(text)){
+            if (it.formatCheck(text.text)){
+                parserList.add(it)
+            }
+        }
+        //找到权重最高的解析器
+        var weight = 0
+        parserList.forEach {
+            val w = it.getWeight(text.text)
+            if (w>weight){
+                weight = w
                 parser = it
             }
         }
         if (parser==null){
             parser = defaultParser
         }
-        return parser!!.getComposable(text,recall,stateList,state)
+        return parser!!.getAnnotatedString(text,stateList,state)
     }
 }
