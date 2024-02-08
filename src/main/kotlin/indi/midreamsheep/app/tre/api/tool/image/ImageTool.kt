@@ -3,12 +3,13 @@ package indi.midreamsheep.app.tre.api.tool.image
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.res.loadImageBitmap
+import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.res.loadXmlImageVector
 import androidx.compose.ui.unit.Density
 import org.xml.sax.InputSource
 import java.io.File
+import java.io.InputStream
 import java.net.URL
 
 
@@ -16,6 +17,9 @@ import java.net.URL
 
 fun loadImageBitmap(file: File): ImageBitmap =
     file.inputStream().buffered().use(::loadImageBitmap)
+
+fun loadImageBitmap(inputStream: InputStream): ImageBitmap =
+    inputStream.buffered().use(::loadImageBitmap)
 
 fun loadSvgPainter(file: File, density: Density): Painter =
     file.inputStream().buffered().use { loadSvgPainter(it, density) }

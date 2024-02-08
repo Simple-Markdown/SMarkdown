@@ -1,7 +1,9 @@
 package indi.midreamsheep.app.tre.model.editor.parser
 
 import androidx.compose.ui.text.input.TextFieldValue
+import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapInjector
+import indi.midreamsheep.app.tre.model.editor.line.core.CoreDefaultDisplay
 import indi.midreamsheep.app.tre.model.editor.line.core.CoreTRELine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.editor.parser.impl.paragraph.DefaultParser
@@ -25,12 +27,13 @@ class MarkdownParse {
     fun parse(
         text: TextFieldValue,
         state: CoreTRELine,
-        stateList: TREStateManager
-    ): TREStyleTextTree {
+        stateList: TREStateManager,
+        recall: ()->Unit
+    ): Pair<TREStyleTextTree,Display> {
         if(text.text.isEmpty()) {
             val treCoreStyleTextRoot = TRECoreStyleTextRoot()
             treCoreStyleTextRoot.addChildren(TRECoreLeaf("", TREStyleTextOffsetMapping(0,0)))
-            return treCoreStyleTextRoot
+            return Pair(treCoreStyleTextRoot,CoreDefaultDisplay(state))
         }
         val startChar = text.text[0]
         var parser: ParagraphParser? = null;
@@ -54,6 +57,6 @@ class MarkdownParse {
         if (parser==null){
             parser = defaultParser
         }
-        return parser!!.getAnnotatedString(text,stateList,state)
+        return parser!!.getAnnotatedString(text,stateList,state,recall)
     }
 }

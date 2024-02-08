@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.model.mainpage.file.core;
 import cn.hutool.core.io.FileUtil;
 import indi.midreamsheep.app.tre.api.Recall;
 import indi.midreamsheep.app.tre.model.mainpage.file.TREFile;
-import indi.midreamsheep.app.tre.ui.mainpage.file.FileOpenRecall;
+import indi.midreamsheep.app.tre.ui.filechooser.FileOpenRecall;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;

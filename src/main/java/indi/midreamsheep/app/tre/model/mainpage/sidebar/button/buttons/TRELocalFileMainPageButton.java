@@ -7,9 +7,11 @@ import indi.midreamsheep.app.tre.context.app.TREAppContext;
 import indi.midreamsheep.app.tre.context.app.viewmodel.pojo.TREWindow;
 import indi.midreamsheep.app.tre.context.mainpage.TREMainPageContext;
 import indi.midreamsheep.app.tre.model.mainpage.sidebar.button.TREMainPageButton;
+import indi.midreamsheep.app.tre.model.setting.settings.StoreSetting;
 import indi.midreamsheep.app.tre.ui.editor.OpenFileWindow;
 
 import java.io.File;
+import java.util.Objects;
 
 @MainPageButton
 public class TRELocalFileMainPageButton implements TREMainPageButton {
@@ -26,7 +28,7 @@ public class TRELocalFileMainPageButton implements TREMainPageButton {
 
     @Override
     public ImageBitmap getIcon() {
-        return ImageToolKt.loadImageBitmap( new File("/home/midreamsheep/workplace/markdown/src/main/resources/baseline_folder_black_18pt_3x.png"));
+        return ImageToolKt.loadImageBitmap(Objects.requireNonNull(StoreSetting.class.getResourceAsStream("/baseline_folder_black_18pt_3x.png")));
     }
 
     @Override

@@ -23,7 +23,9 @@ dependencies {
     // compose.desktop.currentOs should be used in launcher-sourceSet
     // (in a separate module for demo project and in testMain).
     // With compose.desktop.common you will also lose @Preview functionality
-    implementation(compose.desktop.currentOs)
+    implementation(compose.desktop.windows_x64)
+    implementation(compose.desktop.linux_arm64)
+    implementation(compose.desktop.linux_x64)
     implementation(compose.material3)
     implementation(compose.ui)
     //导入本地jar包
@@ -45,7 +47,6 @@ dependencies {
 compose.desktop {
     application {
         mainClass = "MainKt"
-
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "markdown"
@@ -53,4 +54,3 @@ compose.desktop {
         }
     }
 }
-

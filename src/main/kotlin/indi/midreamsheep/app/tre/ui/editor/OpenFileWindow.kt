@@ -8,7 +8,7 @@ import indi.midreamsheep.app.tre.api.tool.ioc.getBean
 import indi.midreamsheep.app.tre.context.setting.settings.stroe.Store
 import indi.midreamsheep.app.tre.model.mainpage.file.core.TRELocalFile
 import indi.midreamsheep.app.tre.ui.app.WindowDisplay
-import indi.midreamsheep.app.tre.ui.mainpage.file.fileChooser
+import indi.midreamsheep.app.tre.ui.filechooser.fileChooser
 import java.io.File
 
 class OpenFileWindow: WindowDisplay() {

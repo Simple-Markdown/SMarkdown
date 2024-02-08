@@ -26,7 +26,7 @@ abstract class TREStyleTextRoot:TREStyleTextTree {
             }
             point -= child.originalSize()
         }
-        return children[children.size - 1].originalToTransformed(point)
+        return offset
     }
 
     /**
@@ -41,6 +41,6 @@ abstract class TREStyleTextRoot:TREStyleTextTree {
             }
             point -= child.transformedSize()
         }
-        return children[children.size - 1].transformedToOriginal(point)
+        return offset
     }
 }

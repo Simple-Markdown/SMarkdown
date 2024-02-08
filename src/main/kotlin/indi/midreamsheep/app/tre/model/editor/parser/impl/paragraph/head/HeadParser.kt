@@ -1,7 +1,9 @@
 package indi.midreamsheep.app.tre.model.editor.parser.impl.paragraph.head
 
 import androidx.compose.ui.text.input.TextFieldValue
+import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapInjector
+import indi.midreamsheep.app.tre.model.editor.line.core.CoreDefaultDisplay
 import indi.midreamsheep.app.tre.model.editor.line.core.CoreTRELine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.editor.parser.parser.ParagraphParser
@@ -19,13 +21,14 @@ class HeadParser: ParagraphParser {
     override fun getAnnotatedString(
         text: TextFieldValue,
         stateList: TREStateManager,
-        state: CoreTRELine
-    ): TREStyleTextTree {
+        state: CoreTRELine,
+        recall: () -> Unit
+    ): Pair<TREStyleTextTree, Display> {
         val level = getLevel(text.text)
         var subSequence = text.text.subSequence(level, text.text.length)
         if (subSequence.isNotEmpty()) subSequence = subSequence.subSequence(1, subSequence.length)
         val isDisplay = text.selection.start <= level+1&&state.isFocus.value
-        return StyleTextHeadRoot(subSequence.toString(), level, isDisplay)
+        return Pair(StyleTextHeadRoot(subSequence.toString(), level, isDisplay), CoreDefaultDisplay(state))
     }
 
     /**

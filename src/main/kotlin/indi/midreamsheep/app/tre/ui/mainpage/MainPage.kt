@@ -5,7 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
@@ -18,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.context.app.TREAppContext
 import indi.midreamsheep.app.tre.context.app.viewmodel.pojo.TREWindow
 import indi.midreamsheep.app.tre.context.mainpage.TREMainPageContext
+import indi.midreamsheep.app.tre.ui.mainpage.history.recentUsed
 import indi.midreamsheep.app.tre.ui.setting.SettingWindow
 
 @Composable
@@ -73,10 +77,10 @@ fun leftScreen(
             fontWeight = FontWeight.Bold
         )
         //最近使用
-        Column(
+        Box(
             modifier = Modifier.fillMaxSize().background(Color(0xFFFAFAFA))
         ) {
-
+            recentUsed()
         }
     }
 }

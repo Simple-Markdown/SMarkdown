@@ -5,6 +5,7 @@ import androidx.compose.ui.window.Window
 import indi.midreamsheep.app.tre.model.editor.manager.core.TRELocalFileManager
 import indi.midreamsheep.app.tre.model.mainpage.file.TREFile
 import indi.midreamsheep.app.tre.ui.app.WindowDisplay
+import logger
 
 class LocalEditorWindow(private val file:TREFile): WindowDisplay() {
     @Composable
@@ -12,6 +13,7 @@ class LocalEditorWindow(private val file:TREFile): WindowDisplay() {
         Window(onCloseRequest = {
             close?.invoke()
         }) {
+            logger.info("open file: ${file.name}")
             editorPage(TRELocalFileManager(file))
         }
     }

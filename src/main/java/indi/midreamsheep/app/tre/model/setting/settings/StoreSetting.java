@@ -12,6 +12,7 @@ import lombok.Data;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @ASettingGroup
 @Data
@@ -26,7 +27,8 @@ public class StoreSetting implements SettingGroup {
 
     @Override
     public ImageBitmap getIcon() {
-        return ImageToolKt.loadImageBitmap( new File("/home/midreamsheep/workplace/markdown/src/main/resources/baseline_folder_black_18pt_3x.png"));
+        //获取资源目录下的图片
+        return ImageToolKt.loadImageBitmap(Objects.requireNonNull(StoreSetting.class.getResourceAsStream("/baseline_folder_black_18pt_3x.png")));
     }
 
 }

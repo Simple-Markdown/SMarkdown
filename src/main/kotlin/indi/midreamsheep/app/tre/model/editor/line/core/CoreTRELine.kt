@@ -18,18 +18,29 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.tool.ioc.getBean
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRELine
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.line.TRETextLine
+import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.editor.parser.MarkdownParse
 import indi.midreamsheep.app.tre.model.editor.parser.TREOffsetMapping
+import indi.midreamsheep.app.tre.model.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.model.styletext.root.TRECoreStyleTextRoot
 
-class CoreTRELine(var wrapper: TRELineState) :
-    TRELine,TRETextLine {
+class CoreTRELine(wrapper: TRELineState) :
+    TRELine, TRETextLine {
 
+    val parser = getBean(MarkdownParse::class.java)
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
+    var styleText:MutableState<TREStyleTextTree> = mutableStateOf(TRECoreStyleTextRoot())
+    private var preview:MutableState<Display> = mutableStateOf(CoreDefaultDisplay(this))
+    val recall = {
+        focus()
+    }
+    private var wrapper: TRELineState? = wrapper
 
     private var selection = 0
     private var focusRequester: FocusRequester = FocusRequester()
@@ -38,7 +49,7 @@ class CoreTRELine(var wrapper: TRELineState) :
 
     override fun focus() {
         isFocus.value = true
-        wrapper.markdownLineInter.setCurrentMarkdownLineState(wrapper)
+        wrapper!!.markdownLineInter.setCurrentMarkdownLineState(wrapper!!)
         content.value = content.value.copy(selection = TextRange(selection))
     }
 
@@ -47,9 +58,14 @@ class CoreTRELine(var wrapper: TRELineState) :
         selection = content.value.selection.start
     }
 
-    override fun getComposable(context: TREEditorContext):@Composable () -> Unit {
+    override fun getComposable(context: TREEditorContext): @Composable () -> Unit {
+        buildContent(wrapper!!.markdownLineInter)
         return {
-                editorInput( context)
+            if (isFocus.value) {
+                editorInput()
+            } else {
+                preview.value.display()
+            }
         }
     }
 
@@ -58,9 +74,7 @@ class CoreTRELine(var wrapper: TRELineState) :
     }
 
     @Composable
-    fun editorInput(
-        context: TREEditorContext
-    ){
+    fun editorInput() {
         BasicTextField(
             value = content.value,
             onValueChange = { newValue ->
@@ -76,25 +90,17 @@ class CoreTRELine(var wrapper: TRELineState) :
                 .onFocusChanged {
                     isFocus.value = it.isFocused
                 }
-                .padding(top =  3.dp, bottom = 3.dp, start = 0.dp, end = 0.dp),
+                .padding(top = 3.dp, bottom = 3.dp, start = 0.dp, end = 0.dp),
             visualTransformation = { text ->
-                val styleTextRoot = getBean(MarkdownParse::class.java).parse(
-                    content.value,
-                    this,
-                    context.editorFileManager.getStateManager()
-                )
+                buildContent(wrapper!!.markdownLineInter)
                 TransformedText(
-                    text = styleTextRoot.build(),
-                    offsetMapping =  TREOffsetMapping(styleTextRoot)
+                    text = styleText.value.build(),
+                    offsetMapping = TREOffsetMapping(styleText.value)
                 )
             }
         )
-        LaunchedEffect(isFocus.value){
-            if (isFocus.value){
-                focusRequester.requestFocus()
-            }else{
-                focusRequester.freeFocus()
-            }
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
         }
     }
 
@@ -115,5 +121,13 @@ class CoreTRELine(var wrapper: TRELineState) :
 
     override fun setTextFieldValue(value: TextFieldValue) {
         content.value = value
+    }
+
+    private fun buildContent(
+        context: TREStateManager
+    ){
+        val (tree,display) = parser.parse(content.value, this, context,recall)
+        styleText.value = tree
+        preview.value = display
     }
 }

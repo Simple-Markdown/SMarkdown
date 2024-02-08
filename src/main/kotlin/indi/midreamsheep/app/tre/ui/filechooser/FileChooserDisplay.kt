@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.ui.mainpage.file
+package indi.midreamsheep.app.tre.ui.filechooser
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
