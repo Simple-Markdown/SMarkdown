@@ -2,9 +2,9 @@ package indi.midreamsheep.app.tre.model.editor.parser
 
 import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapInjector
 import indi.midreamsheep.app.tre.model.editor.parser.parser.SpanParser
-import indi.midreamsheep.app.tre.model.styletext.StyleTextTree
+import indi.midreamsheep.app.tre.model.styletext.TREStyleTextTree
 import indi.midreamsheep.app.tre.model.styletext.leaf.TRECoreLeaf
-import indi.midreamsheep.app.tre.model.styletext.pojo.StyleTextOffsetMapping
+import indi.midreamsheep.app.tre.model.styletext.pojo.TREStyleTextOffsetMapping
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 
 @Comment
@@ -24,14 +24,20 @@ class SpanParse {
         text: String,
         selection: Int,
         isFocus: Boolean,
-        offsetMapping: StyleTextOffsetMapping
-    ): List<StyleTextTree>
+        offsetMapping: TREStyleTextOffsetMapping
+    ): List<TREStyleTextTree>
     {
+
+        if (text.isEmpty()){
+            return listOf(
+                TRECoreLeaf("",offsetMapping)
+            )
+        }
 
         var transformedPoint = 0
         var originalOffsetStart = 0
 
-        val resultList = mutableListOf<StyleTextTree>()
+        val resultList = mutableListOf<TREStyleTextTree>()
 
         var normalString = ""
 
@@ -68,7 +74,7 @@ class SpanParse {
 
             // 处理普通文本
             if (normalString.isNotEmpty()) {
-                resultList.add(TRECoreLeaf(normalString,StyleTextOffsetMapping(originalOffsetStart+offsetMapping.originalOffsetStart - normalString.length, transformedPoint+offsetMapping.transformedOffsetStart)))
+                resultList.add(TRECoreLeaf(normalString,TREStyleTextOffsetMapping(originalOffsetStart+offsetMapping.originalOffsetStart - normalString.length, transformedPoint+offsetMapping.transformedOffsetStart)))
                 transformedPoint += normalString.length
                 normalString = ""
             }
@@ -78,7 +84,7 @@ class SpanParse {
                 text.substring(originalOffsetStart),
                 selection - originalOffsetStart,
                 isFocus,
-                StyleTextOffsetMapping(
+                TREStyleTextOffsetMapping(
                     originalOffsetStart+offsetMapping.originalOffsetStart,
                     transformedPoint+offsetMapping.transformedOffsetStart
                 )
@@ -89,7 +95,7 @@ class SpanParse {
             resultList.add(leaf)
         }
         if (normalString.isNotEmpty()) {
-            resultList.add(TRECoreLeaf(normalString,StyleTextOffsetMapping(originalOffsetStart+offsetMapping.originalOffsetStart-normalString.length, transformedPoint+offsetMapping.transformedOffsetStart)))
+            resultList.add(TRECoreLeaf(normalString,TREStyleTextOffsetMapping(originalOffsetStart+offsetMapping.originalOffsetStart-normalString.length, transformedPoint+offsetMapping.transformedOffsetStart)))
         }
         return resultList
     }

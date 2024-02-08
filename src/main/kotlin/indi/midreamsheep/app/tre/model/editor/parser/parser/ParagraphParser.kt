@@ -4,7 +4,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.line.core.CoreTRELine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
-import indi.midreamsheep.app.tre.model.styletext.StyleTextTree
+import indi.midreamsheep.app.tre.model.styletext.TREStyleTextTree
 
 interface ParagraphParser {
     /**
@@ -15,7 +15,7 @@ interface ParagraphParser {
     /**
      * 获取渲染函数
      * */
-    fun getAnnotatedString(text: TextFieldValue, stateList: TREStateManager, state: CoreTRELine):StyleTextTree
+    fun getAnnotatedString(text: TextFieldValue, stateList: TREStateManager, state: CoreTRELine):TREStyleTextTree
 
 
     /**

@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.model.editor.parser.impl.span.bold
+package indi.midreamsheep.app.tre.model.editor.parser.impl.span.italic
 
 import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapInjector
 import indi.midreamsheep.app.tre.model.editor.parser.SpanParse
@@ -7,29 +7,34 @@ import indi.midreamsheep.app.tre.model.styletext.TREStyleTextTree
 import indi.midreamsheep.app.tre.model.styletext.pojo.TREStyleTextOffsetMapping
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
-import lombok.extern.slf4j.Slf4j
 
 @MapInjector(target = "span",key="*")
 @Comment
-@Slf4j
-class BoldParser: SpanParser {
+class ItalicParser: SpanParser {
 
     @Injector
     private val spanParse: SpanParse? = null
 
     override fun formatCheck(text: String): Boolean {
-        if (text.length<4) return false
-        if (text[0]!='*'||text[1]!='*') return false
-        var pointer = 2
-        while (pointer<text.length-1) {
-            if (text[pointer]=='*'&&text[pointer+1]=='*') return true
+        if (text.length<2) return false
+        //找到下一个不为*的位置
+        var pointer = 0
+        while (pointer<text.length) {
+            if (text[pointer]!='*') break
+            pointer++
+        }
+        if (pointer==text.length) return false
+        //找到下一个为*的位置
+        while (pointer<text.length) {
+            if (text[pointer]=='*') return true
             pointer++
         }
         return false
     }
 
-    override fun getWeight(text: String): Int = 4
-
+    override fun getWeight(text: String): Int {
+        return 2
+    }
 
     override fun generateLeaf(
         text: String,
@@ -37,10 +42,9 @@ class BoldParser: SpanParser {
         isFocus: Boolean,
         styleTextOffsetMapping: TREStyleTextOffsetMapping
     ): TREStyleTextTree {
-
-        var pointer = 2
+        var pointer = 1
         while (pointer<text.length-1) {
-            if (text[pointer]=='*'&&text[pointer+1]=='*') break
+            if (text[pointer]=='*') break
             pointer++
         }
         //找到下一个不为*的位置
@@ -49,11 +53,17 @@ class BoldParser: SpanParser {
             if (text[pointer]!='*') break
             pointer++
         }
-        val isDisplay = selection in 0..pointer
+        val substring:String = text.substring(1, pointer - 1)
 
-        val substring:String = text.substring(2, pointer - 2)
+        val isDisplay = selection in 0..pointer&&isFocus
 
-        val boldLeaf = StyleTextBoldLeaf(
+        val originalOffsetStart = styleTextOffsetMapping.originalOffsetStart + 1
+        val transformedOffsetStart = styleTextOffsetMapping.transformedOffsetStart + if (isDisplay) 1 else 0
+
+        val (childrenList) = spanParse!!.parse(substring,selection-1,isFocus,TREStyleTextOffsetMapping(
+            originalOffsetStart, transformedOffsetStart
+        ))
+        val italicLeaf = StyleTextItalicLeaf(
             substring,
             TREStyleTextOffsetMapping(
                 styleTextOffsetMapping.originalOffsetStart,
@@ -61,17 +71,7 @@ class BoldParser: SpanParser {
             ),
             isDisplay
         )
-
-        val originalOffsetStart = styleTextOffsetMapping.originalOffsetStart + 2
-        val transformedOffsetStart = styleTextOffsetMapping.transformedOffsetStart+if (isDisplay) 2 else 0
-
-        val list = spanParse!!.parse(substring,selection-2,isFocus,
-            TREStyleTextOffsetMapping(originalOffsetStart, transformedOffsetStart)
-        )
-
-        list.forEach {
-            boldLeaf.addChildren(it)
-        }
-        return boldLeaf
+        italicLeaf.addChildren(childrenList)
+        return italicLeaf
     }
 }

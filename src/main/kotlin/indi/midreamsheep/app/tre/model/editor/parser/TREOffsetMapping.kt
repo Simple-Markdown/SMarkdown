@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.editor.parser
 
 import androidx.compose.ui.text.input.OffsetMapping
-import indi.midreamsheep.app.tre.model.styletext.StyleTextTree
+import indi.midreamsheep.app.tre.model.styletext.TREStyleTextTree
 
 /**
  * 偏移量映射
@@ -9,7 +9,7 @@ import indi.midreamsheep.app.tre.model.styletext.StyleTextTree
  * 正为增加，负为减少
  * allCount:原文本 总字符数量
  * */
-class TREOffsetMapping(private val styleTextTree: StyleTextTree) : OffsetMapping {
+class TREOffsetMapping(private val styleTextTree: TREStyleTextTree) : OffsetMapping {
 
     override fun originalToTransformed(offset: Int) = styleTextTree.originalToTransformed(offset)
 

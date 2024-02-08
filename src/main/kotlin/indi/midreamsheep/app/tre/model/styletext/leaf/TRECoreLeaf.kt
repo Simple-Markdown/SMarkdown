@@ -2,13 +2,13 @@ package indi.midreamsheep.app.tre.model.styletext.leaf
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
-import indi.midreamsheep.app.tre.model.styletext.pojo.StyleTextOffsetMapping
+import indi.midreamsheep.app.tre.model.styletext.pojo.TREStyleTextOffsetMapping
 import indi.midreamsheep.app.tre.model.styletext.root.TRECoreStyleTextRoot
 
 /**
  * 核心叶子节点，内部存储纯文本内容
  * */
-open class TRECoreLeaf(private val content:String,private val offsetMapping: StyleTextOffsetMapping): TRECoreStyleTextRoot() {
+open class TRECoreLeaf(private val content:String,private val offsetMapping: TREStyleTextOffsetMapping): TRECoreStyleTextRoot() {
     override fun originalSize() = content.length
     override fun transformedSize() = content.length
 
@@ -20,7 +20,6 @@ open class TRECoreLeaf(private val content:String,private val offsetMapping: Sty
             append(content)
         }
     }
-
 
     /**
      * 源文本到转换后文本的偏移

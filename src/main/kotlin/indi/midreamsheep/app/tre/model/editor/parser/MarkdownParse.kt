@@ -6,9 +6,9 @@ import indi.midreamsheep.app.tre.model.editor.line.core.CoreTRELine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.editor.parser.impl.paragraph.DefaultParser
 import indi.midreamsheep.app.tre.model.editor.parser.parser.ParagraphParser
-import indi.midreamsheep.app.tre.model.styletext.StyleTextTree
+import indi.midreamsheep.app.tre.model.styletext.TREStyleTextTree
 import indi.midreamsheep.app.tre.model.styletext.leaf.TRECoreLeaf
-import indi.midreamsheep.app.tre.model.styletext.pojo.StyleTextOffsetMapping
+import indi.midreamsheep.app.tre.model.styletext.pojo.TREStyleTextOffsetMapping
 import indi.midreamsheep.app.tre.model.styletext.root.TRECoreStyleTextRoot
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
@@ -26,10 +26,10 @@ class MarkdownParse {
         text: TextFieldValue,
         state: CoreTRELine,
         stateList: TREStateManager
-    ): StyleTextTree {
+    ): TREStyleTextTree {
         if(text.text.isEmpty()) {
             val treCoreStyleTextRoot = TRECoreStyleTextRoot()
-            treCoreStyleTextRoot.addChildren(TRECoreLeaf("", StyleTextOffsetMapping(0,0)))
+            treCoreStyleTextRoot.addChildren(TRECoreLeaf("", TREStyleTextOffsetMapping(0,0)))
             return treCoreStyleTextRoot
         }
         val startChar = text.text[0]

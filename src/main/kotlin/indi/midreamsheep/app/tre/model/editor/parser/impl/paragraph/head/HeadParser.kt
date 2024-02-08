@@ -5,7 +5,7 @@ import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapInjector
 import indi.midreamsheep.app.tre.model.editor.line.core.CoreTRELine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.editor.parser.parser.ParagraphParser
-import indi.midreamsheep.app.tre.model.styletext.StyleTextTree
+import indi.midreamsheep.app.tre.model.styletext.TREStyleTextTree
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 
 @MapInjector(target = "paragraph",key="#")
@@ -20,7 +20,7 @@ class HeadParser: ParagraphParser {
         text: TextFieldValue,
         stateList: TREStateManager,
         state: CoreTRELine
-    ): StyleTextTree {
+    ): TREStyleTextTree {
         val level = getLevel(text.text)
         var subSequence = text.text.subSequence(level, text.text.length)
         if (subSequence.isNotEmpty()) subSequence = subSequence.subSequence(1, subSequence.length)

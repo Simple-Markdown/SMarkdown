@@ -30,4 +30,20 @@ open class TRECoreStyleTextRoot: TREStyleTextRoot() {
         return size
     }
 
+    protected fun childrenOriginalSize(): Int {
+        var size = 0
+        children.forEach {
+            size += it.originalSize()
+        }
+        return size
+    }
+
+    protected fun childrenTransformedSize(): Int {
+        var size = 0
+        children.forEach {
+            size += it.transformedSize()
+        }
+        return size
+    }
+
 }

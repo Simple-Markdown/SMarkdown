@@ -5,8 +5,8 @@ import indi.midreamsheep.app.tre.model.editor.line.core.CoreTRELine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.editor.parser.SpanParse
 import indi.midreamsheep.app.tre.model.editor.parser.parser.ParagraphParser
-import indi.midreamsheep.app.tre.model.styletext.StyleTextTree
-import indi.midreamsheep.app.tre.model.styletext.pojo.StyleTextOffsetMapping
+import indi.midreamsheep.app.tre.model.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.model.styletext.pojo.TREStyleTextOffsetMapping
 import indi.midreamsheep.app.tre.model.styletext.root.TRECoreStyleTextRoot
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
@@ -25,13 +25,10 @@ class DefaultParser: ParagraphParser {
         text: TextFieldValue,
         stateList: TREStateManager,
         state: CoreTRELine
-    ): StyleTextTree {
+    ): TREStyleTextTree {
         val treCoreStyleTextRoot = TRECoreStyleTextRoot()
-        println(
-            "text.text = ${text.text}, text.selection.start = ${text.selection.start}, state.isFocus.value = ${state.isFocus.value}"
-        )
         val list = spanParser!!.parse(text.text, text.selection.start,state.isFocus.value,
-            StyleTextOffsetMapping(0,0) )
+            TREStyleTextOffsetMapping(0,0) )
         for (styleTextLeaf in list) {
             treCoreStyleTextRoot.addChildren(styleTextLeaf)
         }

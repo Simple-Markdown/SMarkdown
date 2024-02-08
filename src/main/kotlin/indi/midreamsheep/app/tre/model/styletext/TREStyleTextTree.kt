@@ -5,7 +5,7 @@ import androidx.compose.ui.text.AnnotatedString
 /**
  * 构建文本样式树
  * */
-interface StyleTextTree {
+interface TREStyleTextTree {
     /**
      * 获取用于显示的AnnotatedString
      * */
@@ -21,6 +21,6 @@ interface StyleTextTree {
     fun originalSize():Int
     fun transformedSize():Int
 
-    fun addChildren(styleTextTree: StyleTextTree)
-    fun getChildren(): Array<StyleTextTree?>
+    fun addChildren(styleTextTree: TREStyleTextTree)
+    fun getChildren(): Array<TREStyleTextTree?>
 }
