@@ -1,6 +1,7 @@
 package indi.midreamsheep.app.tre.context.di.inject.mapdi.processor;
 
-import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapInjector;
+import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapKey;
+import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapInject;
 import indi.midreamsheep.app.tre.context.di.inject.mapdi.handler.MapInjectorHandler;
 import live.midreamsheep.frame.sioc.api.handle.ContextHandler;
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment;
@@ -28,27 +29,31 @@ public class MapInjectorProcessor extends DecorateProcessor {
     }
 
     private void processClassFlag(ClassMetaDefinition classMetaDefinition, List<ContextHandler> list){
-        MapInjector annotation = classMetaDefinition.getAnnotationInfo().getAnnotation(MapInjector.class);
+        MapInject annotation = classMetaDefinition.getAnnotationInfo().getAnnotation(MapInject.class);
         if (annotation==null){
             return;
         }
-        String target = annotation.target();
+        String target = annotation.value();
         if (!map.containsKey(target)) {
             map.put(target,new LinkedList<>());
         }
-        map.get(target).add(new MapInjectorHandler.InjectorData(annotation.key(),classMetaDefinition.getOwnClass()));
+        MapKey key = classMetaDefinition.getAnnotationInfo().getAnnotation(MapKey.class);
+        if (key==null){
+            throw new RuntimeException("the class tagged by MapInject must be tagged by MapKey too!");
+        }
+        map.get(target).add(new MapInjectorHandler.InjectorData(key.value(),classMetaDefinition.getOwnClass()));
     }
 
     private void processFieldFlag(ClassMetaDefinition classMetaDefinition, List<ContextHandler> list){
         for (FieldInter fieldInter : classMetaDefinition.getFieldInfo().getFieldInterList()) {
-            MapInjector annotation = fieldInter.getAnnotationInfo().getAnnotation(MapInjector.class);
+            MapInject annotation = fieldInter.getAnnotationInfo().getAnnotation(MapInject.class);
             if (annotation == null) {
                 continue;
             }
-            if (!map.containsKey(annotation.target())){
-                map.put(annotation.target(),new LinkedList<>());
+            if (!map.containsKey(annotation.value())){
+                map.put(annotation.value(),new LinkedList<>());
             }
-            list.add(new MapInjectorHandler(fieldInter.getField(),classMetaDefinition.getOwnClass(),map.get(annotation.target())));
+            list.add(new MapInjectorHandler(fieldInter.getField(),classMetaDefinition.getOwnClass(),map.get(annotation.value())));
         }
     }
 }

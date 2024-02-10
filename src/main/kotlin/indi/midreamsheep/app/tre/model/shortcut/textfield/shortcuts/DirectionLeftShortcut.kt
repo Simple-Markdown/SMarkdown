@@ -18,7 +18,7 @@ class DirectionLeftShortcut: TREEditorShortcutKeyHandler() {
 
     override fun action(context: TREEditorContext?) {
         val stateManager = context!!.editorFileManager.getStateManager()
-        val treTextLine = stateManager.getCurrentMarkdownLineState()
+        val treTextLine = stateManager.getCurrentMarkdownLine()
         val index = stateManager.getMarkdownLineStateList().indexOf(treTextLine)
         treTextLine!!.line.releaseFocus()
         stateManager.getMarkdownLineStateList()[index-1].line.focusFromLast()

@@ -11,7 +11,7 @@ import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyHandl
 class DownShortcut: TREEditorShortcutKeyHandler() {
     override fun action(context: TREEditorContext) {
         val stateManager = context.editorFileManager.getStateManager()
-        val currentMarkdownLineState = stateManager.getCurrentMarkdownLineState() ?: return
+        val currentMarkdownLineState = stateManager.getCurrentMarkdownLine() ?: return
         val markdownLineStateList = stateManager.getMarkdownLineStateList()
         val index = markdownLineStateList.indexOf(currentMarkdownLineState)
         if (index < markdownLineStateList.size - 1) {

@@ -64,13 +64,5 @@ fun editor(
     listState: LazyListState,
     context: TREEditorContext
 ){
-/*    when(context.editorStateViewModel.editorMode.value){
-        EditorStateViewModel.EditorMode.RENDER -> {
-            renderList(context, modifier, listState)
-        }
-        EditorStateViewModel.EditorMode.SOURCE -> {
-            sourceEditor(context, modifier, listState)
-        }
-    }*/
     renderList(context, modifier, listState)
 }

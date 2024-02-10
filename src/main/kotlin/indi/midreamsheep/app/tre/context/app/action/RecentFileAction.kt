@@ -47,7 +47,7 @@ class RecentFileAction(context:TREAppContext): TREAction<TREAppContext>(context)
         for (recentUsed in recentFileList) {
             val file = File(path + File.separator + recentUsed.name + "_" + recentUsed.time+".tre")
             file.createNewFile()
-            file.writeText(file.absolutePath)
+            file.writeText(recentUsed.path)
         }
         //排序
         recentFileList.sortByDescending { it.time }

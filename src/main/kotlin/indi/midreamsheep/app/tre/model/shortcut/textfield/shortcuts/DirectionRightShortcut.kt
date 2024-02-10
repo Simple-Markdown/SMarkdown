@@ -5,7 +5,6 @@ import androidx.compose.ui.input.key.Key
 import indi.midreamsheep.app.tre.context.TREContext
 import indi.midreamsheep.app.tre.context.api.annotation.shortcut.TextFieldShortcutKey
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.editor.line.TRETextLine
 import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKey
 import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyHandler
 import indi.midreamsheep.app.tre.model.shortcut.textfield.TextFileShortcutTool
@@ -18,7 +17,7 @@ class DirectionRightShortcut: TREEditorShortcutKeyHandler() {
 
     override fun action(context: TREEditorContext?) {
         val stateManager = context!!.editorFileManager.getStateManager()
-        val treTextLine = stateManager.getCurrentMarkdownLineState()
+        val treTextLine = stateManager.getCurrentMarkdownLine()
         val index = stateManager.getMarkdownLineStateList().indexOf(treTextLine)
         treTextLine!!.line.releaseFocus()
         stateManager.getMarkdownLineStateList()[index+1].line.focusFormStart()

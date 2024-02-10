@@ -15,8 +15,8 @@ class TextFileShortcutTool {
             return false
         }
         val stateManager = context.editorFileManager.getStateManager()
-        val wrapper = stateManager.getCurrentMarkdownLineState() ?: return false
-        if (wrapper.line !is TRETextLine){
+        val wrapper = stateManager.getCurrentMarkdownLine()
+        if (wrapper!!.line !is TRETextLine){
             return false
         }
         var wrongIndex = 0

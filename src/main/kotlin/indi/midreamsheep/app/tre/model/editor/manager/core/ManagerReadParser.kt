@@ -1,17 +1,17 @@
 package indi.midreamsheep.app.tre.model.editor.manager.core
 
-import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapInjector
+import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapInject
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
-import indi.midreamsheep.app.tre.model.editor.parser.parser.ParagraphParser
+import indi.midreamsheep.app.tre.model.render.parser.ParagraphParser
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
-import indi.midreamsheep.app.tre.model.editor.parser.impl.paragraph.DefaultParser
+import indi.midreamsheep.app.tre.model.render.parser.paragraph.DefaultParser
 
 @Comment
 class ManagerReadParser {
 
-    @MapInjector(target = "paragraph")
+    @MapInject(value = "paragraph")
     private val paragraphParser = HashMap<Char,List<ParagraphParser>>()
 
     @Injector
