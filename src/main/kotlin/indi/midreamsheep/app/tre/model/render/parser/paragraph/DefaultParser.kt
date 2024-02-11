@@ -23,6 +23,7 @@ class DefaultParser: ParagraphParser {
 
     override fun getAnnotatedString(
         text: TextFieldValue,
+        selection:Int,
         stateList: TREStateManager,
         line: TRECoreLine
     ): TRETextRender {
@@ -30,14 +31,13 @@ class DefaultParser: ParagraphParser {
         val treCoreStyleTextRoot = TRECoreStyleTextRoot()
         render.styleTextTree = treCoreStyleTextRoot
 
-        val list = spanParser!!.parse(text.text, text.selection.start,line.isFocus.value,
+        val list = spanParser!!.parse(text.text, selection,line.isFocus.value,
             TREStyleTextOffsetMapping(0,0) ,
             render
         )
         for (styleTextLeaf in list) {
             treCoreStyleTextRoot.addChildren(styleTextLeaf)
         }
-
         return render
     }
 

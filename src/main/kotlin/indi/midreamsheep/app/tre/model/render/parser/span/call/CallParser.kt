@@ -18,6 +18,9 @@ import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextOffsetMappin
 import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextTree
 import lombok.extern.slf4j.Slf4j
 
+/**
+ * TODO 测试
+ * */
 @InLineParser
 @MapKey("C")
 @Slf4j

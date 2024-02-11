@@ -42,7 +42,7 @@ class EnterShortcut: TREEditorShortcutKeyHandler() {
         }
         val stateManager = context.editorFileManager.getStateManager()
         stateManager.getCurrentMarkdownLine() ?: return false
-        return true
+        return stateManager.getCurrentMarkdownLine()!!.line is TRETextLine
     }
 
     @OptIn(ExperimentalComposeUiApi::class)

@@ -1,9 +1,6 @@
 package indi.midreamsheep.app.tre.model.editor.line.core
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,7 +30,7 @@ import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextOffsetMappin
 import indi.midreamsheep.app.tre.model.render.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.model.render.styletext.root.TRECoreStyleTextRoot
 
-class TRECoreLine(wrapper: TRELineState) :
+class TRECoreLine(val wrapper: TRELineState) :
     TRELine, TRETextLine {
 
     val parser = getBean(TRELineParser::class.java)
@@ -46,8 +43,6 @@ class TRECoreLine(wrapper: TRELineState) :
         }
     )
 
-    private var wrapper: TRELineState? = wrapper
-
     private var selection = 0
     private var focusRequester: FocusRequester = FocusRequester()
     var isFocus = mutableStateOf(false)
@@ -55,7 +50,7 @@ class TRECoreLine(wrapper: TRELineState) :
 
     override fun focus() {
         isFocus.value = true
-        wrapper!!.markdownLineInter.setCurrentMarkdownLineState(wrapper!!)
+        wrapper.markdownLineInter.setCurrentMarkdownLineState(wrapper)
         content.value = content.value.copy(selection = TextRange(selection))
     }
 
@@ -65,7 +60,7 @@ class TRECoreLine(wrapper: TRELineState) :
     }
 
     override fun getComposable(context: TREEditorContext): @Composable () -> Unit {
-        buildContent(wrapper!!.markdownLineInter)
+        buildContent(wrapper.markdownLineInter)
         return {
             if (isFocus.value) {
                 editorInput()
@@ -98,7 +93,7 @@ class TRECoreLine(wrapper: TRELineState) :
                 }
                 .padding(top = 3.dp, bottom = 3.dp, start = 0.dp, end = 0.dp),
             visualTransformation = { text ->
-                buildContent(wrapper!!.markdownLineInter)
+                buildContent(wrapper.markdownLineInter)
                 TransformedText(
                     text = render.value.styleTextTree!!.build(),
                     offsetMapping = TREOffsetMappingAdapter(render.value.styleTextTree!!),
@@ -106,16 +101,26 @@ class TRECoreLine(wrapper: TRELineState) :
             },
             decorationBox = { innerTextField ->
                 Column(modifier = Modifier.fillMaxWidth()) {
-                    render.value.prefixDecorations.forEach {
+                    render.value.prefixLineDecorations.forEach {
                         it.display()
                     }
-                    Box{
-                        innerTextField.invoke()
-                        render.value.inlineDecorations.forEach {
+                    Box(
+                        Modifier.height(IntrinsicSize.Max).fillMaxWidth()
+                    ) {
+                        render.value.backgroundDecorations.forEach {
                             it.display()
                         }
+                        Row{
+                            render.value.prefixTextDecorations.forEach {
+                                it.display()
+                            }
+                            innerTextField.invoke()
+                            render.value.suffixTextDecorations.forEach {
+                                it.display()
+                            }
+                        }
                     }
-                    render.value.suffixDecorations.forEach {
+                    render.value.suffixLineDecorations.forEach {
                         it.display()
                     }
                 }
@@ -131,18 +136,26 @@ class TRECoreLine(wrapper: TRELineState) :
         Column(
             Modifier.fillMaxWidth()
         ) {
-            render.value.prefixDecorations.forEach {
+            render.value.prefixLineDecorations.forEach {
                 it.display()
             }
-            Box(
-                modifier = Modifier.fillMaxWidth()
-            ){
-                render.value.previewDisplay.display()
-                render.value.inlineDecorations.forEach {
+            Box(Modifier.fillMaxWidth().height(IntrinsicSize.Max)) {
+                render.value.backgroundDecorations.forEach {
                     it.display()
                 }
+                Row(
+                    Modifier.height(IntrinsicSize.Max)
+                ) {
+                    render.value.prefixTextDecorations.forEach {
+                        it.display()
+                    }
+                    render.value.previewDisplay.display()
+                    render.value.suffixTextDecorations.forEach {
+                        it.display()
+                    }
+                }
             }
-            render.value.suffixDecorations.forEach {
+            render.value.suffixLineDecorations.forEach {
                 it.display()
             }
         }
@@ -171,6 +184,6 @@ class TRECoreLine(wrapper: TRELineState) :
     private fun buildContent(
         context: TREStateManager
     ){
-        render.value = parser.parse(content.value, this, context)
+        render.value = parser.parse(content.value, content.value.selection.start, this, context)
     }
 }

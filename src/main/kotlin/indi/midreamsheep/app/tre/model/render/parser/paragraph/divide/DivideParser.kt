@@ -40,6 +40,7 @@ class DivideParser: ParagraphParser {
 
     override fun getAnnotatedString(
         text: TextFieldValue,
+        selection:Int,
         stateList: TREStateManager,
         line: TRECoreLine
     ): TRETextRender {

@@ -23,6 +23,7 @@ class TRELineParser {
 
     fun parse(
         text: TextFieldValue,
+        selection: Int,
         state: TRECoreLine,
         stateList: TREStateManager
     ): TRETextRender {
@@ -56,6 +57,6 @@ class TRELineParser {
         if (parser==null){
             parser = defaultParser
         }
-        return parser!!.getAnnotatedString(text,stateList,state)
+        return parser!!.getAnnotatedString(text,selection,stateList,state)
     }
 }
