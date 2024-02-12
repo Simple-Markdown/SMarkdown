@@ -1,11 +1,10 @@
 package indi.midreamsheep.app.tre.model.render.parser.span.bold
 
-import indi.midreamsheep.app.tre.context.api.annotation.render.InLineParser
-import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapKey
+import indi.midreamsheep.app.tre.api.annotation.render.InLineParser
+import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.model.render.TREInlineParser
 import indi.midreamsheep.app.tre.model.render.TRETextRender
 import indi.midreamsheep.app.tre.model.render.parser.SpanParser
-import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextOffsetMapping
 import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextTree
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 import lombok.extern.slf4j.Slf4j
@@ -36,7 +35,6 @@ class BoldParser: SpanParser {
         text: String,
         selection: Int,
         isFocus: Boolean,
-        styleTextOffsetMapping: TREStyleTextOffsetMapping,
         render: TRETextRender
     ): TREStyleTextTree {
 
@@ -57,20 +55,10 @@ class BoldParser: SpanParser {
 
         val boldLeaf = StyleTextBoldLeaf(
             substring,
-            TREStyleTextOffsetMapping(
-                styleTextOffsetMapping.originalOffsetStart,
-                styleTextOffsetMapping.transformedOffsetStart
-            ),
             isDisplay
         )
 
-        val originalOffsetStart = styleTextOffsetMapping.originalOffsetStart + 2
-        val transformedOffsetStart = styleTextOffsetMapping.transformedOffsetStart+if (isDisplay) 2 else 0
-
-        val list = spanParse!!.parse(substring,selection-2,isFocus,
-            TREStyleTextOffsetMapping(originalOffsetStart, transformedOffsetStart),
-            render
-        )
+        val list = spanParse!!.parse(substring,selection-2,isFocus, render)
 
         list.forEach {
             boldLeaf.addChildren(it)

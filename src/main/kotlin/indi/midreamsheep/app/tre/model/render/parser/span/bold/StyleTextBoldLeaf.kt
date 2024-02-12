@@ -6,12 +6,10 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextOffsetMapping
 import indi.midreamsheep.app.tre.model.render.styletext.root.TRECoreStyleTextRoot
 
 class StyleTextBoldLeaf(
     private val content:String,
-    private val offsetMapping: TREStyleTextOffsetMapping,
     private val isDisplay: Boolean
 ): TRECoreStyleTextRoot() {
 
@@ -69,13 +67,13 @@ class StyleTextBoldLeaf(
     override fun originalToTransformed(offset: Int): Int {
         if(isDisplay){
             if (offset <= 2){
-                return offsetMapping.transformedOffsetStart + offset
+                return offset
             }
             if (offset >= childrenOriginalSize() + 2){
-                return offsetMapping.transformedOffsetStart + offset + childrenTransformedSize() - childrenOriginalSize()
+                return offset + childrenTransformedSize() - childrenOriginalSize()
             }
         }
-        return super.originalToTransformed(offset-2)
+        return super.originalToTransformed(offset-2) + 2
     }
 
     /**
@@ -85,8 +83,8 @@ class StyleTextBoldLeaf(
      * */
     override fun transformedToOriginal(offset: Int): Int {
         if (isDisplay){
-            return super.transformedToOriginal(offset-2)
+            return super.transformedToOriginal(offset-2)+2
         }
-        return super.transformedToOriginal(offset)
+        return super.transformedToOriginal(offset)+2
     }
 }

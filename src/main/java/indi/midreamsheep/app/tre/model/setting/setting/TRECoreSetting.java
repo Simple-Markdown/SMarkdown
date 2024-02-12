@@ -3,8 +3,8 @@ package indi.midreamsheep.app.tre.model.setting.setting;
 import androidx.compose.runtime.Composable;
 import cn.hutool.core.io.FileUtil;
 import indi.midreamsheep.app.tre.api.Display;
-import indi.midreamsheep.app.tre.context.di.init.annotation.Init;
-import indi.midreamsheep.app.tre.context.setting.tool.SettingUtil;
+import indi.midreamsheep.app.tre.service.ioc.di.init.annotation.Init;
+import indi.midreamsheep.app.tre.model.setting.setting.tool.SettingUtil;
 import indi.midreamsheep.app.tre.model.setting.SettingDisplay;
 import lombok.extern.slf4j.Slf4j;
 

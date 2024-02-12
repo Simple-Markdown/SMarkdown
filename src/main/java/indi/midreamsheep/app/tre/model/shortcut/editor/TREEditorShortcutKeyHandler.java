@@ -14,7 +14,7 @@ public abstract class TREEditorShortcutKeyHandler implements TREShortcutKeyHandl
 
     @Override
     public boolean isEnable(TREContext context) {
-        return true;
+        return context instanceof TREEditorContext;
     }
 
     protected abstract void action(TREEditorContext context);

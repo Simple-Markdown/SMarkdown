@@ -3,8 +3,8 @@ package indi.midreamsheep.app.tre.ui.filechooser
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.api.tool.ioc.getBean
-import indi.midreamsheep.app.tre.context.setting.settings.stroe.Store
+import indi.midreamsheep.app.tre.tool.ioc.getBean
+import indi.midreamsheep.app.tre.model.setting.settings.store.Store
 import indi.midreamsheep.app.tre.model.mainpage.file.core.TRELocalFile
 import java.io.File
 

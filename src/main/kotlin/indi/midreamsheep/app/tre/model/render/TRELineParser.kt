@@ -1,12 +1,11 @@
 package indi.midreamsheep.app.tre.model.render
 
 import androidx.compose.ui.text.input.TextFieldValue
-import indi.midreamsheep.app.tre.context.api.annotation.render.LineParser
+import indi.midreamsheep.app.tre.api.annotation.render.LineParser
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.parser.ParagraphParser
 import indi.midreamsheep.app.tre.model.render.parser.paragraph.DefaultParser
-import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextOffsetMapping
 import indi.midreamsheep.app.tre.model.render.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.model.render.styletext.root.TRECoreStyleTextRoot
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
@@ -29,7 +28,7 @@ class TRELineParser {
     ): TRETextRender {
         if(text.text.isEmpty()) {
             val treCoreStyleTextRoot = TRECoreStyleTextRoot()
-            treCoreStyleTextRoot.addChildren(TRECoreLeaf("", TREStyleTextOffsetMapping(0,0)))
+            treCoreStyleTextRoot.addChildren(TRECoreLeaf(""))
 
             val render = TRETextRender(state)
             render.styleTextTree = treCoreStyleTextRoot

@@ -2,7 +2,7 @@ package indi.midreamsheep.app.tre.context.plugin.action
 
 import cn.hutool.json.JSONUtil
 import indi.midreamsheep.app.tre.context.TREAction
-import indi.midreamsheep.app.tre.context.di.scan.PluginScannerTool
+import indi.midreamsheep.app.tre.service.ioc.di.scan.PluginScannerTool
 import indi.midreamsheep.app.tre.context.plugin.TREPluginContext
 import java.io.File
 

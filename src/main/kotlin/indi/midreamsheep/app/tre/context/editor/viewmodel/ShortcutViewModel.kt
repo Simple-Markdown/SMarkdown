@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.context.editor.viewmodel
 
-import indi.midreamsheep.app.tre.api.tool.ioc.getBean
+import indi.midreamsheep.app.tre.tool.ioc.getBean
 import indi.midreamsheep.app.tre.context.TREViewModel
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyManager

@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.model.shortcut.textfield.shortcuts
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import indi.midreamsheep.app.tre.context.TREContext
-import indi.midreamsheep.app.tre.context.api.annotation.shortcut.TextFieldShortcutKey
+import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKey
 import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyHandler

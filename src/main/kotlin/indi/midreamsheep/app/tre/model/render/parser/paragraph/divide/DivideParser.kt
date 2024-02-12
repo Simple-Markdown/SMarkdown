@@ -3,19 +3,19 @@ package indi.midreamsheep.app.tre.model.render.parser.paragraph.divide
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Divider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.context.api.annotation.render.LineParser
-import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapKey
+import indi.midreamsheep.app.tre.api.annotation.render.LineParser
+import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRETextRender
 import indi.midreamsheep.app.tre.model.render.parser.ParagraphParser
-import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextOffsetMapping
 import indi.midreamsheep.app.tre.model.render.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.model.render.styletext.root.TRECoreStyleTextRoot
 
@@ -44,10 +44,7 @@ class DivideParser: ParagraphParser {
         stateList: TREStateManager,
         line: TRECoreLine
     ): TRETextRender {
-        val apply = TRECoreLeaf(
-            content = text.text,
-            offsetMapping = TREStyleTextOffsetMapping(0, 0)
-        )
+        val apply = TRECoreLeaf(text.text)
         val tree = TRECoreStyleTextRoot()
         tree.addChildren(apply)
 
@@ -65,7 +62,16 @@ class DivideParser: ParagraphParser {
                 Divider()
             }
         }
-
+        render.backgroundDecorations.add(
+            Display {
+                Column(
+                    Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Divider()
+                }
+            }
+        )
         return render
     }
 

@@ -20,13 +20,15 @@ abstract class TREStyleTextRoot: TREStyleTextTree {
      * */
     override fun originalToTransformed(offset: Int): Int {
         var point = offset
+        var transformedOffset = 0
         for (child in children) {
             if (point <= child.originalSize()) {
-                return child.originalToTransformed(point)
+                return child.originalToTransformed(point)+transformedOffset
             }
             point -= child.originalSize()
+            transformedOffset += child.transformedSize()
         }
-        return offset
+        return transformedOffset
     }
 
     /**
@@ -35,12 +37,14 @@ abstract class TREStyleTextRoot: TREStyleTextTree {
      * */
     override fun transformedToOriginal(offset: Int): Int {
         var point = offset
+        var originalOffset = 0
         for (child in children) {
             if (point <= child.transformedSize()) {
-                return child.transformedToOriginal(point)
+                return child.transformedToOriginal(point)+originalOffset
             }
             point -= child.transformedSize()
+            originalOffset += child.originalSize()
         }
-        return offset
+        return originalOffset
     }
 }

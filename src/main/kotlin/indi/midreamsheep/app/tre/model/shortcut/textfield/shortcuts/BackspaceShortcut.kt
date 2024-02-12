@@ -5,7 +5,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.context.TREContext
-import indi.midreamsheep.app.tre.context.api.annotation.shortcut.TextFieldShortcutKey
+import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRETextLine
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
@@ -39,7 +39,12 @@ class BackspaceShortcut: TREEditorShortcutKeyHandler() {
     }
 
     override fun isEnable(context: TREContext?): Boolean {
-        return textFileShortcutTool!!.check(context!!, true)
+        if (!super.isEnable(context)) return false
+        if (!textFileShortcutTool!!.check(context!!, true)) return false
+        val stateManager = (context as TREEditorContext).editorFileManager.getStateManager()
+        val wrapper = stateManager.getCurrentMarkdownLine() ?: return false
+        val index = stateManager.getMarkdownLineStateList().indexOf(wrapper)
+        return stateManager.getMarkdownLineStateList()[index-1].line is TRETextLine
     }
 
     @OptIn(ExperimentalComposeUiApi::class)

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Closeable;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.LinkedList;

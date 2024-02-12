@@ -6,12 +6,9 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle.Companion.Italic
 import androidx.compose.ui.text.withStyle
-import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextOffsetMapping
 import indi.midreamsheep.app.tre.model.render.styletext.root.TRECoreStyleTextRoot
 
 class StyleTextItalicLeaf(
-    private val content:String,
-    private val offsetMapping: TREStyleTextOffsetMapping,
     private val isDisplay: Boolean
 ): TRECoreStyleTextRoot() {
 
@@ -57,14 +54,14 @@ class StyleTextItalicLeaf(
     override fun originalToTransformed(offset: Int): Int {
         if(isDisplay){
             if (offset <= 1){
-                return offsetMapping.transformedOffsetStart + offset
+                return offset
             }
             if (offset >= childrenOriginalSize() + 1){
-                return offsetMapping.transformedOffsetStart + offset+ childrenTransformedSize() - childrenOriginalSize()
+                return offset+ childrenTransformedSize() - childrenOriginalSize()
             }
-            return super.originalToTransformed(offset - 1)
+            return super.originalToTransformed(offset - 1)+1
         }
-        return super.originalToTransformed(offset-1)
+        return super.originalToTransformed(offset-1)+1
     }
 
     /**
@@ -73,8 +70,8 @@ class StyleTextItalicLeaf(
      * */
     override fun transformedToOriginal(offset: Int): Int {
         if (isDisplay){
-            return super.transformedToOriginal(offset-1)
+            return super.transformedToOriginal(offset-1)+1
         }
-        return super.transformedToOriginal(offset)
+        return super.transformedToOriginal(offset)+1
     }
 }

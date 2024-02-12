@@ -1,8 +1,7 @@
 package indi.midreamsheep.app.tre.model.render
 
-import indi.midreamsheep.app.tre.context.api.annotation.render.InLineParser
+import indi.midreamsheep.app.tre.api.annotation.render.InLineParser
 import indi.midreamsheep.app.tre.model.render.parser.SpanParser
-import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextOffsetMapping
 import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextTree
 import indi.midreamsheep.app.tre.model.render.styletext.leaf.TRECoreLeaf
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
@@ -25,14 +24,13 @@ class TREInlineParser {
         text: String,
         selection: Int,
         isFocus: Boolean,
-        offsetMapping: TREStyleTextOffsetMapping,
         render: TRETextRender
     ): List<TREStyleTextTree>
     {
 
         if (text.isEmpty()){
             return listOf(
-                TRECoreLeaf("",offsetMapping)
+                TRECoreLeaf("")
             )
         }
 
@@ -76,10 +74,7 @@ class TREInlineParser {
 
             // 处理普通文本
             if (normalString.isNotEmpty()) {
-                resultList.add(TRECoreLeaf(normalString,
-                    TREStyleTextOffsetMapping(originalOffsetStart+offsetMapping.originalOffsetStart - normalString.length, transformedPoint+offsetMapping.transformedOffsetStart)
-                )
-                )
+                resultList.add(TRECoreLeaf(normalString))
                 transformedPoint += normalString.length
                 normalString = ""
             }
@@ -89,10 +84,6 @@ class TREInlineParser {
                 text.substring(originalOffsetStart),
                 selection - originalOffsetStart,
                 isFocus,
-                TREStyleTextOffsetMapping(
-                    originalOffsetStart+offsetMapping.originalOffsetStart,
-                    transformedPoint+offsetMapping.transformedOffsetStart
-                ),
                 render
             )
 
@@ -101,10 +92,7 @@ class TREInlineParser {
             resultList.add(leaf)
         }
         if (normalString.isNotEmpty()) {
-            resultList.add(TRECoreLeaf(normalString,
-                TREStyleTextOffsetMapping(originalOffsetStart+offsetMapping.originalOffsetStart-normalString.length, transformedPoint+offsetMapping.transformedOffsetStart)
-            )
-            )
+            resultList.add(TRECoreLeaf(normalString))
         }
         return resultList
     }

@@ -6,11 +6,9 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextOffsetMapping
 import indi.midreamsheep.app.tre.model.render.styletext.root.TRECoreStyleTextRoot
 
 class StyleTextCallLeaf(
-    private val offsetMapping: TREStyleTextOffsetMapping,
     private val isDisplay: Boolean,
     private val id: Long
 ): TRECoreStyleTextRoot() {
@@ -42,10 +40,10 @@ class StyleTextCallLeaf(
     override fun transformedSize() = 4 + if (isDisplay) 1 else 0
 
     override fun originalToTransformed(offset: Int): Int {
-        return offsetMapping.transformedOffsetStart + offset
+        return offset
     }
 
     override fun transformedToOriginal(offset: Int): Int {
-        return offsetMapping.originalOffsetStart + offset
+        return offset
     }
 }

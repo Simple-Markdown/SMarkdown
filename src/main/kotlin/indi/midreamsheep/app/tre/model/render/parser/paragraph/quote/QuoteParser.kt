@@ -7,8 +7,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.context.api.annotation.render.LineParser
-import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapKey
+import indi.midreamsheep.app.tre.api.annotation.render.LineParser
+import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRELineParser

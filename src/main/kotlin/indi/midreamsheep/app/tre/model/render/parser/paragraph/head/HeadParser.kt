@@ -3,8 +3,8 @@ package indi.midreamsheep.app.tre.model.render.parser.paragraph.head
 import androidx.compose.material3.Divider
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.context.api.annotation.render.LineParser
-import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapKey
+import indi.midreamsheep.app.tre.api.annotation.render.LineParser
+import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRETextRender

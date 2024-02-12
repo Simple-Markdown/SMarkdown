@@ -15,22 +15,23 @@ class TextFileShortcutTool {
             return false
         }
         val stateManager = context.editorFileManager.getStateManager()
-        val wrapper = stateManager.getCurrentMarkdownLine()
-        if (wrapper!!.line !is TRETextLine){
+        val currentState = stateManager.getCurrentMarkdownLine()
+        if (currentState!!.line !is TRETextLine){
             return false
         }
         var wrongIndex = 0
         if (!start){
             wrongIndex = stateManager.getMarkdownLineStateList().size-1
+
         }
-        if (stateManager.getMarkdownLineStateList().indexOf(wrapper)==wrongIndex){
+        if (stateManager.getMarkdownLineStateList().indexOf(currentState)==wrongIndex){
             return false
         }
         var wrongSelection = 0
         if (!start){
-            wrongSelection = (wrapper.line as TRETextLine).getTextFieldValue().text.length
+            wrongSelection = (currentState.line as TRETextLine).getTextFieldValue().text.length
         }
-        if ((wrapper.line as TRETextLine).getTextFieldValue().selection.start!=wrongSelection){
+        if ((currentState.line as TRETextLine).getTextFieldValue().selection.start!=wrongSelection){
             return false
         }
         return true

@@ -17,7 +17,7 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import indi.midreamsheep.app.tre.api.tool.ioc.getBean
+import indi.midreamsheep.app.tre.tool.ioc.getBean
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRELine
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
@@ -26,7 +26,6 @@ import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRELineParser
 import indi.midreamsheep.app.tre.model.render.TREOffsetMappingAdapter
 import indi.midreamsheep.app.tre.model.render.TRETextRender
-import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextOffsetMapping
 import indi.midreamsheep.app.tre.model.render.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.model.render.styletext.root.TRECoreStyleTextRoot
 
@@ -38,7 +37,7 @@ class TRECoreLine(val wrapper: TRELineState) :
     var render: MutableState<TRETextRender> = mutableStateOf(
         TRETextRender(this).apply {
             styleTextTree = TRECoreStyleTextRoot().apply {
-                addChildren(TRECoreLeaf("", TREStyleTextOffsetMapping(0, 0)))
+                addChildren(TRECoreLeaf(""))
             }
         }
     )
@@ -80,6 +79,7 @@ class TRECoreLine(val wrapper: TRELineState) :
             value = content.value,
             onValueChange = { newValue ->
                 content.value = newValue
+                buildContent(wrapper.markdownLineInter)
             },
             textStyle = TextStyle(
                 fontSize = 15.sp,
@@ -93,7 +93,6 @@ class TRECoreLine(val wrapper: TRELineState) :
                 }
                 .padding(top = 3.dp, bottom = 3.dp, start = 0.dp, end = 0.dp),
             visualTransformation = { text ->
-                buildContent(wrapper.markdownLineInter)
                 TransformedText(
                     text = render.value.styleTextTree!!.build(),
                     offsetMapping = TREOffsetMappingAdapter(render.value.styleTextTree!!),

@@ -11,15 +11,14 @@ class StyleTextQuoteRoot(
 
     override fun originalToTransformed(offset: Int): Int {
         if (isDisplay){
-            if (offset < level*2) return offset
-            return super.originalToTransformed(offset)
+            return offset
         }
         return super.originalToTransformed(offset-level*2)
     }
 
     override fun transformedToOriginal(offset: Int): Int {
-        if (isDisplay) return super.transformedToOriginal(offset)
-        return super.transformedToOriginal(offset-level*2)
+        if (isDisplay) return offset
+        return super.transformedToOriginal(offset) + level*2
     }
 
     override fun build(): AnnotatedString {

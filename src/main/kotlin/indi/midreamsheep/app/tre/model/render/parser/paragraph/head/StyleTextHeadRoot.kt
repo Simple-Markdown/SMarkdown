@@ -16,7 +16,6 @@ class StyleTextHeadRoot(
 
     override fun originalToTransformed(offset: Int): Int {
         if (isDisplay) return offset
-        if (offset - level -1 < 0) return 0
         return offset - level -1
     }
 

@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.toolbar.file.tools
 
 import androidx.compose.runtime.Composable
-import indi.midreamsheep.app.tre.context.api.annotation.toolbar.toolbars.FileToolBar
+import indi.midreamsheep.app.tre.api.annotation.toolbar.toolbars.FileToolBar
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.toolbar.SubBarItem
 

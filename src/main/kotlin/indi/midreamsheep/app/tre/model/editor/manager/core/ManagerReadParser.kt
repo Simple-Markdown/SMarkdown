@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.model.editor.manager.core
 
-import indi.midreamsheep.app.tre.context.di.inject.mapdi.annotation.MapInject
+import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapInject
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.parser.ParagraphParser

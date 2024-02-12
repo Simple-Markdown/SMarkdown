@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.toolbar.system
 
-import indi.midreamsheep.app.tre.context.api.annotation.toolbar.ToolBar
-import indi.midreamsheep.app.tre.context.di.inject.listdi.annotation.ListInjector
+import indi.midreamsheep.app.tre.api.annotation.toolbar.ToolBar
+import indi.midreamsheep.app.tre.service.ioc.di.inject.listdi.annotation.ListInjector
 import indi.midreamsheep.app.tre.model.toolbar.SubBarItem
 import indi.midreamsheep.app.tre.model.toolbar.TopBarItem
 
