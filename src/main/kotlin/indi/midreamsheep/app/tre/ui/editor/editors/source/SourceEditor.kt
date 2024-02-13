@@ -11,9 +11,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.tool.ioc.getBean
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.shortcut.editor.shortcuts.ToggleTheEditorShortcut
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

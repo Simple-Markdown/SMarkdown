@@ -7,9 +7,12 @@ import indi.midreamsheep.app.tre.ui.app.WindowDisplay
 class MainPageWindow: WindowDisplay() {
     @Composable
     override fun display() {
-        Window(onCloseRequest = {
+        Window(
+            onCloseRequest = {
             close?.invoke()
-        }) {
+        },
+            title = "Text Render Engine"
+        ) {
             mainPage()
         }
     }

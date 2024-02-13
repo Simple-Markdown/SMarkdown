@@ -5,8 +5,8 @@ import androidx.compose.ui.input.key.Key
 import indi.midreamsheep.app.tre.context.TREContext
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKey
-import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyHandler
+import indi.midreamsheep.app.tre.model.shortcut.entity.TREShortcutKeyTotalMatch
+import indi.midreamsheep.app.tre.model.shortcut.handler.TREEditorShortcutKeyHandler
 import indi.midreamsheep.app.tre.model.shortcut.textfield.TextFileShortcutTool
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
@@ -29,9 +29,9 @@ class DirectionLeftShortcut: TREEditorShortcutKeyHandler() {
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
-    override fun getKeys(): List<TREShortcutKey> {
+    override fun getKeys(): List<TREShortcutKeyTotalMatch> {
         return listOf(
-            TREShortcutKey(
+            TREShortcutKeyTotalMatch(
                 Key.DirectionLeft.keyCode
             )
         )

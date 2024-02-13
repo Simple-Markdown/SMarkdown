@@ -14,27 +14,17 @@ import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * 默认的本地文件实现
+ * 通过本地文件系统读取文件内容
+ * @see TREFile
+ * @author midreamsheep
+ * */
 @Data
 @AllArgsConstructor
 public class TRELocalFile implements TREFile {
 
     private File file;
-
-    @Override
-    public List<TREFile> listSubFiles() {
-        File[] files = file.listFiles();
-        List<TREFile> treFiles = new LinkedList<>();
-        assert files != null;
-        for (File subFile : files) {
-            treFiles.add(new TRELocalFile(subFile));
-        }
-        return treFiles;
-    }
-
-    @Override
-    public boolean isDirectory() {
-        return file.isDirectory();
-    }
 
     @Override
     public String getName() {
@@ -44,11 +34,6 @@ public class TRELocalFile implements TREFile {
     @Override
     public String readText() {
         return FileUtil.readString(file, Charset.defaultCharset());
-    }
-
-    @Override
-    public Recall<TREFile> getRecall() {
-        return new FileOpenRecall();
     }
 
     @Override

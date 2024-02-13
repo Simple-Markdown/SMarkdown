@@ -8,7 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * 用于标记一个类是编辑器editor层级下的工具栏
+ * 用于标记一个类是编辑器file层级下的工具栏
  * @author midreamsheep
  * 标记类必须继承 {@link indi.midreamsheep.app.tre.model.toolbar.SubBarItem}
  * */

@@ -5,8 +5,8 @@ import indi.midreamsheep.app.tre.context.TREContext
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRETextLine
-import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKey
-import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyHandler
+import indi.midreamsheep.app.tre.model.shortcut.entity.TREShortcutKeyTotalMatch
+import indi.midreamsheep.app.tre.model.shortcut.handler.TREEditorShortcutKeyHandler
 
 @TextFieldShortcutKey
 class UpShortcut: TREEditorShortcutKeyHandler() {
@@ -18,9 +18,9 @@ class UpShortcut: TREEditorShortcutKeyHandler() {
         markdownLineStateList[markdownLineStateList.indexOf(currentMarkdownLineState) - 1].line.focus()
     }
 
-    override fun getKeys(): List<TREShortcutKey> {
+    override fun getKeys(): List<TREShortcutKeyTotalMatch> {
         return listOf(
-            TREShortcutKey(
+            TREShortcutKeyTotalMatch(
                 Key.DirectionUp.keyCode
             )
         )

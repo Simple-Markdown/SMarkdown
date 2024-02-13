@@ -5,7 +5,14 @@ import indi.midreamsheep.app.tre.context.app.TREAppContext
 import indi.midreamsheep.app.tre.context.app.viewmodel.pojo.TREWindow
 import logger
 
+/**
+ * 窗口相关的action
+ * */
 class WindowAction(context: TREAppContext): TREAction<TREAppContext>(context){
+
+    /**
+     * 注册一个窗口进行显示
+     * */
     fun registerWindow(
         window: TREWindow
     ) {
@@ -20,6 +27,9 @@ class WindowAction(context: TREAppContext): TREAction<TREAppContext>(context){
         )
     }
 
+    /**
+     * 移除一个窗口
+     * */
     fun removeWindow(
         window: TREWindow
     ) {

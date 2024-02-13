@@ -10,4 +10,5 @@ import indi.midreamsheep.app.tre.context.mainpage.viewmodel.MainPageButtonViewMo
 class TREMainPageContext : TREContext {
     /** 左侧点击的按钮的管理器 */
     val mainPageButtonViewModel = MainPageButtonViewModel(this)
+
 }

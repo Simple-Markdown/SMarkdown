@@ -7,6 +7,10 @@ import lombok.Data;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * 设置组管理器
+ * 用于管理设置组，通过ioc容器进行注入
+ * */
 @Comment
 @Data
 public class SettingGroupManager {

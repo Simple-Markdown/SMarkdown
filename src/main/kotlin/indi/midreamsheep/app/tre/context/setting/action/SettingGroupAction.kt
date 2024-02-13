@@ -10,4 +10,8 @@ class SettingGroupAction(context: SettingPageContext): TREAction<SettingPageCont
     ) {
         context.settingGroupViewModel.currentSettingGroup.value = settingGroup
     }
+
+    fun saveCurrentSetting() {
+        context.settingGroupViewModel.currentSettingGroup.value.save()
+    }
 }

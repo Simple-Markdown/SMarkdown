@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.context.app.TREAppContext
 import indi.midreamsheep.app.tre.context.mainpage.recentused.pojo.RecentUsed
 import indi.midreamsheep.app.tre.model.mainpage.file.core.TRELocalFile
-import indi.midreamsheep.app.tre.ui.filechooser.FileOpenRecall
+import indi.midreamsheep.app.tre.ui.editor.registerLocalEditorWindow
 import java.io.File
 
 @Composable
@@ -37,7 +37,7 @@ fun recentUsedItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                FileOpenRecall().recall(TRELocalFile(File(recentUsed.path)))
+                registerLocalEditorWindow(TRELocalFile(File(recentUsed.path)))
             }
             .padding(bottom =  5.dp,start = 3.dp,end =3.dp)
     ) {

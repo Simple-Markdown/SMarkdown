@@ -5,6 +5,9 @@ import indi.midreamsheep.app.tre.service.ioc.TREApplicationContext;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 带二级缓存的IOC容器封装
+ * */
 @SuppressWarnings("unchecked")
 public class TREIocWithCatch {
 

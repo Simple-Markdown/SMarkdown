@@ -13,8 +13,8 @@ import java.lang.annotation.Target;
  * 标记类必须继承 {@link indi.midreamsheep.app.tre.model.toolbar.TopBarItem}
  * */
 @Comment
-@ListInjector(target = "config" )
+@ListInjector(target = "StoreSetting" )
 @Target({ElementType.TYPE})
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
-public @interface Config {
+public @interface StoreSetting {
 }

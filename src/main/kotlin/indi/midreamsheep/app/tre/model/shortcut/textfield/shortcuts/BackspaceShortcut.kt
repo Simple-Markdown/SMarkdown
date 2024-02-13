@@ -9,8 +9,8 @@ import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRETextLine
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
-import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKey
-import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyHandler
+import indi.midreamsheep.app.tre.model.shortcut.entity.TREShortcutKeyTotalMatch
+import indi.midreamsheep.app.tre.model.shortcut.handler.TREEditorShortcutKeyHandler
 import indi.midreamsheep.app.tre.model.shortcut.textfield.TextFileShortcutTool
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
@@ -48,9 +48,9 @@ class BackspaceShortcut: TREEditorShortcutKeyHandler() {
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
-    override fun getKeys(): List<TREShortcutKey> {
+    override fun getKeys(): List<TREShortcutKeyTotalMatch> {
         return listOf(
-            TREShortcutKey(
+            TREShortcutKeyTotalMatch(
                 Key.Backspace.keyCode
             )
         )

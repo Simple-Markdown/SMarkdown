@@ -1,9 +1,13 @@
-package indi.midreamsheep.app.tre.model.shortcut.editor;
+package indi.midreamsheep.app.tre.model.shortcut.handler;
 
 import indi.midreamsheep.app.tre.context.TREContext;
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext;
 import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKeyHandler;
 
+/**
+ * 编辑器快捷键处理器
+ * 仅仅对上下文环境进行了限制
+ * */
 public abstract class TREEditorShortcutKeyHandler implements TREShortcutKeyHandler {
     @Override
     public void action(TREContext context) {

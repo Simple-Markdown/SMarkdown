@@ -1,14 +1,12 @@
 package indi.midreamsheep.app.tre.ui.editor
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.*
 import androidx.compose.ui.window.Window
-import indi.midreamsheep.app.tre.tool.ioc.getBean
-import indi.midreamsheep.app.tre.model.setting.settings.store.Store
+import com.darkrockstudios.libraries.mpfilepicker.FilePicker
+import indi.midreamsheep.app.tre.context.app.TREAppContext
+import indi.midreamsheep.app.tre.context.app.viewmodel.pojo.TREWindow
 import indi.midreamsheep.app.tre.model.mainpage.file.core.TRELocalFile
 import indi.midreamsheep.app.tre.ui.app.WindowDisplay
-import indi.midreamsheep.app.tre.ui.filechooser.fileChooser
 import java.io.File
 
 class OpenFileWindow: WindowDisplay() {
@@ -17,10 +15,23 @@ class OpenFileWindow: WindowDisplay() {
         Window(onCloseRequest = {
             close?.invoke()
         }) {
-            fileChooser(
-                modifier = Modifier.fillMaxSize(),
-                rootFile  = TRELocalFile(File(getBean(Store::class.java).rootPath.data))
-            )
+            var showFilePicker by remember { mutableStateOf(true) }
+            FilePicker(show = showFilePicker) { platformFile ->
+                if (platformFile == null) {
+                    showFilePicker = true
+                    close?.invoke()
+                    return@FilePicker
+                }
+                showFilePicker = false
+                val file = TRELocalFile(File(platformFile.path))
+                TREAppContext.context.windowAction.registerWindow(
+                    TREWindow(
+                        name = "file",
+                        windowDisplay = LocalEditorWindow(file)
+                    )
+                )
+                close?.invoke()
+            }
         }
     }
 }

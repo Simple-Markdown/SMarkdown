@@ -12,14 +12,22 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+/**
+ * 核心设置的模板类
+ * 用于管理设置，通过ioc容器进行注入
+ * */
 @Slf4j
 public class TRECoreSetting implements TRESetting{
 
+    //配置文件的根目录
     private static final String rootPath = System.getProperty("user.dir")+ File.separator + "configs" + File.separator;
 
+    /**
+     * 初始化读取本地配置文件并通过反射对子项进行赋值
+     * */
     @Init
     public void init(){
-        File file = new File(rootPath+ getSettingName()+".json");
+        File file = new File(rootPath+ getSettingPath());
         if (!file.exists()){
             return;
         }
@@ -27,6 +35,10 @@ public class TRECoreSetting implements TRESetting{
         SettingUtil.setData(this,s);
     }
 
+    /**
+     * 使用默认的显示方式
+     * */
+    @Override
     public Display getDisplay() {
         return new SettingDisplay(SettingUtil.getConfigs(this));
     }
@@ -37,7 +49,7 @@ public class TRECoreSetting implements TRESetting{
     }
 
     @Composable
-    public boolean write() {
+    public boolean save() {
         //写入文件
         File file = new File(rootPath+ getSettingName()+".json");
         if (!file.exists()){
@@ -55,5 +67,9 @@ public class TRECoreSetting implements TRESetting{
 
     private String getJsonString(){
         return SettingUtil.getJson(this);
+    }
+
+    private String getSettingPath(){
+        return getSettingName()+".json";
     }
 }

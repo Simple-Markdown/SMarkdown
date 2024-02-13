@@ -6,8 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.context.setting.SettingPageContext
+import indi.midreamsheep.app.tre.service.language.TRELanguageResource
 
 @Composable
 fun settingPage() {
@@ -81,34 +83,64 @@ fun setting(
     context: SettingPageContext
 ) {
     val rememberLazyListState = rememberLazyListState()
-    Row {
-        LazyColumn(
-            modifier = modifier
-                .padding(10.dp),
-            state = rememberLazyListState
+    Column(
+        modifier.fillMaxSize()
+    ) {
+        Row(
+            Modifier.weight(1f)
         ) {
-            val value = context.settingGroupViewModel.currentSettingGroup.value
-            for (setting in value.configs) {
-                item {
-                    Text(
-                        text = setting.settingName,
-                        style = MaterialTheme.typography.body2,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Box(
-                        Modifier.background(Color.White)
-                            .clip(RoundedCornerShape(5.dp))
-                            .background(Color(0xFFF0F0F1))
-                            .padding(5.dp)
-                    ) {
-                        setting.getDisplay().display()
+            LazyColumn(
+                modifier = Modifier.padding(10.dp),
+                state = rememberLazyListState
+            ) {
+                val value = context.settingGroupViewModel.currentSettingGroup.value
+                for (setting in value.configs) {
+                    item {
+                        Text(
+                            text = setting.settingName,
+                            style = MaterialTheme.typography.body2,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Box(
+                            Modifier.background(Color.White)
+                                .clip(RoundedCornerShape(5.dp))
+                                .background(Color(0xFFF0F0F1))
+                                .padding(5.dp)
+                        ) {
+                            setting.getDisplay().display()
+                        }
                     }
                 }
             }
+            VerticalScrollbar(
+                modifier = Modifier.fillMaxHeight(),
+                adapter = ScrollbarAdapter(rememberLazyListState)
+            )
         }
-        VerticalScrollbar(
-            modifier = Modifier.fillMaxHeight(),
-            adapter = ScrollbarAdapter(rememberLazyListState)
-        )
+        Divider()
+        //下放的按钮
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .clip(RoundedCornerShape(0.dp))
+                    .background(Color.Gray.copy(0.1f))
+                    .border(1.dp, Color.Black.copy(0.7f), RoundedCornerShape(0.dp))
+                    .clickable {
+                        context.settingGroupAction.saveCurrentSetting()
+                    }
+            ) {
+                Text(
+                    TRELanguageResource.getLanguage("SettingSave","apply"),
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.body2,
+                    modifier = Modifier.padding(vertical =  5.dp, horizontal = 10.dp)
+                )
+            }
+        }
     }
 }

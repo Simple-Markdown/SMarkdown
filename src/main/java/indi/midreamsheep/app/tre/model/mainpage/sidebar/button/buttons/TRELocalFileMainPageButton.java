@@ -6,7 +6,7 @@ import indi.midreamsheep.app.tre.context.app.TREAppContext;
 import indi.midreamsheep.app.tre.context.app.viewmodel.pojo.TREWindow;
 import indi.midreamsheep.app.tre.context.mainpage.TREMainPageContext;
 import indi.midreamsheep.app.tre.model.mainpage.sidebar.button.TREMainPageButton;
-import indi.midreamsheep.app.tre.model.setting.settings.StoreSetting;
+import indi.midreamsheep.app.tre.model.setting.settings.store.StoreSettingGroup;
 import indi.midreamsheep.app.tre.tool.image.ImageToolKt;
 import indi.midreamsheep.app.tre.ui.editor.OpenFileWindow;
 
@@ -27,7 +27,7 @@ public class TRELocalFileMainPageButton implements TREMainPageButton {
 
     @Override
     public ImageBitmap getIcon() {
-        return ImageToolKt.loadImageBitmap(Objects.requireNonNull(StoreSetting.class.getResourceAsStream("/baseline_folder_black_18pt_3x.png")));
+        return ImageToolKt.loadImageBitmap(Objects.requireNonNull(StoreSettingGroup.class.getResourceAsStream("/baseline_folder_black_18pt_3x.png")));
     }
 
     @Override

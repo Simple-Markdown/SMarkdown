@@ -1,17 +1,26 @@
 package indi.midreamsheep.app.tre.model.mainpage.file;
 
-import androidx.compose.runtime.MutableState;
-import indi.midreamsheep.app.tre.api.Recall;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
+/**
+ * TRE使用的抽象文件接口
+ * @author midreamsheep
+ * */
 public interface TREFile {
-    List<TREFile> listSubFiles();
-    boolean isDirectory();
+    /**
+     * 获取文件名
+     * @return 文件名
+     * */
     String getName();
+    /**
+     * 读取文件内容
+     * 可以通过网络或者本地文件系统读取
+     * @return 文件内容
+     * */
     String readText();
-    Recall<TREFile> getRecall();
-
+    /**
+     * 写出文件
+     * 可以通过网络或者本地文件系统写出
+     * */
     void writeText(@NotNull String sourceContent);
 }

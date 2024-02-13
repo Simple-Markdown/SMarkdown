@@ -6,8 +6,8 @@ import indi.midreamsheep.app.tre.context.TREContext
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRETextLine
-import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKey
-import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyHandler
+import indi.midreamsheep.app.tre.model.shortcut.entity.TREShortcutKeyTotalMatch
+import indi.midreamsheep.app.tre.model.shortcut.handler.TREEditorShortcutKeyHandler
 
 @TextFieldShortcutKey
 class DownShortcut: TREEditorShortcutKeyHandler() {
@@ -23,9 +23,9 @@ class DownShortcut: TREEditorShortcutKeyHandler() {
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
-    override fun getKeys(): List<TREShortcutKey> {
+    override fun getKeys(): List<TREShortcutKeyTotalMatch> {
         return listOf(
-            TREShortcutKey(
+            TREShortcutKeyTotalMatch(
                 Key.DirectionDown.keyCode
             )
         )

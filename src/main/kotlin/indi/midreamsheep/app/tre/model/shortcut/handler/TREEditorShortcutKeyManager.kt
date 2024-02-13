@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.model.shortcut.editor
+package indi.midreamsheep.app.tre.model.shortcut.handler
 
 import indi.midreamsheep.app.tre.service.ioc.di.inject.listdi.annotation.ListInjector
 import indi.midreamsheep.app.tre.model.shortcut.TREEditorShortcutKeyManagerAbstract

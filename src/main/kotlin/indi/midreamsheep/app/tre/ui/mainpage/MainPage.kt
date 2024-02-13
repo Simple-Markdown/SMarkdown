@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.context.app.TREAppContext
 import indi.midreamsheep.app.tre.context.app.viewmodel.pojo.TREWindow
 import indi.midreamsheep.app.tre.context.mainpage.TREMainPageContext
+import indi.midreamsheep.app.tre.service.language.TRELanguageResource
 import indi.midreamsheep.app.tre.ui.mainpage.history.recentUsed
 import indi.midreamsheep.app.tre.ui.setting.SettingWindow
 
@@ -42,7 +43,7 @@ fun mainPage() {
                 contentDescription = "book"
             )
             Text(
-                text = "TextRenderEngineer 2024",
+                text = "TextRenderEngine 2024",
                 modifier = Modifier.padding(5.dp),
                 style = MaterialTheme.typography.h5,
                 fontWeight = FontWeight.Bold
@@ -71,7 +72,7 @@ fun leftScreen(
         modifier
     ) {
         Text(
-            text = "最近打开",
+            text = TRELanguageResource.getLanguage("RecentUsed", "Recent Used"),
             modifier = Modifier.padding(5.dp),
             style = MaterialTheme.typography.h6,
             fontWeight = FontWeight.Bold
@@ -94,7 +95,7 @@ fun rightScreen(
         modifier
     ) {
         Text(
-            text = "开始使用",
+            text = TRELanguageResource.getLanguage("Start", "start"),
             modifier = Modifier.padding(5.dp),
             style = MaterialTheme.typography.h6,
             fontWeight = FontWeight.Bold

@@ -1,12 +1,12 @@
-package indi.midreamsheep.app.tre.model.shortcut.editor.shortcuts
+package indi.midreamsheep.app.tre.model.shortcut.handler.shortcuts
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorShortcutKey
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.context.editor.viewmodel.EditorStateViewModel
-import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKey
-import indi.midreamsheep.app.tre.model.shortcut.editor.TREEditorShortcutKeyHandler
+import indi.midreamsheep.app.tre.model.shortcut.entity.TREShortcutKeyTotalMatch
+import indi.midreamsheep.app.tre.model.shortcut.handler.TREEditorShortcutKeyHandler
 
 @EditorShortcutKey
 class ToggleTheEditorShortcut: TREEditorShortcutKeyHandler() {
@@ -24,9 +24,12 @@ class ToggleTheEditorShortcut: TREEditorShortcutKeyHandler() {
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
-    override fun getKeys(): List<TREShortcutKey> {
+    override fun getKeys(): List<TREShortcutKeyTotalMatch> {
         return listOf(
-            TREShortcutKey(Key.CtrlLeft.keyCode,Key.Slash.keyCode)
+            TREShortcutKeyTotalMatch(
+                Key.CtrlLeft.keyCode,
+                Key.Slash.keyCode
+            )
         )
     }
 }
