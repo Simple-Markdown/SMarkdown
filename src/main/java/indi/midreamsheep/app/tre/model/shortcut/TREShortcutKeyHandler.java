@@ -20,5 +20,5 @@ public interface TREShortcutKeyHandler {
     /**
      * 获取快捷键的定义
      * */
-    List<TREShortcutKeyTotalMatch> getKeys();
+    List<TREShortcutKeyEntity> getKeys();
 }

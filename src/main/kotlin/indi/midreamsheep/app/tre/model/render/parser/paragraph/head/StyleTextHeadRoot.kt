@@ -29,7 +29,7 @@ class StyleTextHeadRoot(
             withStyle(
                 SpanStyle(
                     fontWeight = FontWeight.Bold,
-                    fontSize = (10+level*10).sp
+                    fontSize = (15+(6-level+1)*5).sp,
                 )
             ) {
                 if (isDisplay){

@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
@@ -22,9 +23,6 @@ fun renderList(
     LazyColumn(
         state = listState,
         modifier = modifier.fillMaxSize().padding(top = 10.dp)
-            .onPreviewKeyEvent{
-                return@onPreviewKeyEvent context.shortcutAction.textFieldEvent(it)
-            }
 
     ) {
         for (markdownLineState in lineStateList) {
@@ -37,6 +35,11 @@ fun renderList(
        if (stateManager.getCurrentMarkdownLineState().value == null){
            return@LaunchedEffect
        }
-       listState.animateScrollToItem(lineStateList.indexOf(stateManager.getCurrentMarkdownLineState().value!!))
+       val currentIndex = lineStateList.indexOf(stateManager.getCurrentMarkdownLine()!!)
+       // 检查当前行是否在可视范围内
+       if (currentIndex !in listState.firstVisibleItemIndex..<listState.firstVisibleItemIndex + listState.layoutInfo.visibleItemsInfo.size) {
+           // 如果不在可视范围内，滚动到当前行
+           listState.scrollToItem(currentIndex)
+       }
     }
 }

@@ -3,6 +3,7 @@ package indi.midreamsheep.app.tre.model.render.parser.paragraph.code.editor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRELine
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
@@ -10,7 +11,7 @@ import indi.midreamsheep.app.tre.ui.editor.editors.render.code.codeInputTextFiel
 
 class TRECodeLine(val wrapper:TRELineState,type:String):TRELine {
 
-    val content = mutableStateOf("")
+    val content = mutableStateOf(TextFieldValue(""))
     val codeType = mutableStateOf(type.replace("```",""))
     val focus = mutableStateOf(false)
     val focusRequester = FocusRequester()
@@ -22,6 +23,7 @@ class TRECodeLine(val wrapper:TRELineState,type:String):TRELine {
 
     override fun releaseFocus() {
          focus.value = false
+        wrapper.markdownLineInter.setCurrentMarkdownLineState(null)
     }
 
     override fun getComposable(context: TREEditorContext):@Composable () -> Unit {
@@ -31,6 +33,6 @@ class TRECodeLine(val wrapper:TRELineState,type:String):TRELine {
     }
 
     override fun getContent(): String {
-        return "```${codeType}\n${content.value}\n```\n"
+        return "```${codeType.value}\n${content.value.text}\n```\n"
     }
 }

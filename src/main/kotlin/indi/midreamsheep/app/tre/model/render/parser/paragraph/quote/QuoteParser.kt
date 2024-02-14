@@ -8,12 +8,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.LineParser
-import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRELineParser
 import indi.midreamsheep.app.tre.model.render.TRETextRender
 import indi.midreamsheep.app.tre.model.render.parser.ParagraphParser
+import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @LineParser
@@ -64,7 +64,7 @@ class QuoteParser: ParagraphParser {
             render.backgroundDecorations.add(
                 Display {
                     Box(
-                        Modifier.fillMaxSize().background(Color.Gray.copy(alpha = 0.2f))
+                        Modifier.fillMaxSize().background(Color.Gray.copy(alpha = 0.1f))
                     ) {}
                 }
             )

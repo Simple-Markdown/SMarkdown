@@ -1,14 +1,12 @@
 package indi.midreamsheep.app.tre.model.editor.line.core
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
 import indi.midreamsheep.app.tre.api.Display
+import indi.midreamsheep.app.tre.tool.expand.simpleClickable
 
 class TRECoreDisplay(val line:TRECoreLine):Display {
     @Composable
@@ -16,16 +14,14 @@ class TRECoreDisplay(val line:TRECoreLine):Display {
         val value = line.render.value.styleTextTree!!
         Text(
             text = value.build(),
-            style = TextStyle(
-                fontSize = 15.sp,
-                textAlign = TextAlign.Start
-            ),
+            style = MaterialTheme.typography.bodyLarge,
             inlineContent = line.render.value.previewAnnotation,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable {
+                .simpleClickable{
                     line.focus()
-                },
+                }
+            ,
         )
     }
 }

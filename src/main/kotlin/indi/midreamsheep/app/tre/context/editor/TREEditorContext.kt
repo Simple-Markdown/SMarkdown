@@ -1,6 +1,5 @@
 package indi.midreamsheep.app.tre.context.editor
 
-import androidx.compose.runtime.mutableStateOf
 import indi.midreamsheep.app.tre.context.TREContext
 import indi.midreamsheep.app.tre.context.editor.action.BottomBarAction
 import indi.midreamsheep.app.tre.context.editor.action.EditorStateAction
@@ -15,7 +14,7 @@ import indi.midreamsheep.app.tre.model.editor.manager.TREFileManager
 /**
  * 编辑器的上下文
  * */
-class TREEditorContext(/**编辑文件的管理器*/val editorFileManager: TREFileManager): TREContext {
+class TREEditorContext(/**编辑文件的管理器*/var editorFileManager: TREFileManager): TREContext {
 
     /**
      * ViewModel

@@ -3,13 +3,14 @@ package indi.midreamsheep.app.tre.model.shortcut.textfield.shortcuts
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.input.TextFieldValue
-import indi.midreamsheep.app.tre.context.TREContext
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
+import indi.midreamsheep.app.tre.context.TREContext
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.line.TRETextLine
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
-import indi.midreamsheep.app.tre.model.shortcut.entity.TREShortcutKeyTotalMatch
+import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKeyEntity
+import indi.midreamsheep.app.tre.model.shortcut.entity.TREShortcutKeyWeakMatch
 import indi.midreamsheep.app.tre.model.shortcut.handler.TREEditorShortcutKeyHandler
 
 @TextFieldShortcutKey
@@ -46,9 +47,9 @@ class EnterShortcut: TREEditorShortcutKeyHandler() {
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
-    override fun getKeys(): List<TREShortcutKeyTotalMatch> {
+    override fun getKeys(): List<TREShortcutKeyEntity> {
         return listOf(
-            TREShortcutKeyTotalMatch(
+            TREShortcutKeyWeakMatch(
                 Key.Enter.keyCode
             )
         )

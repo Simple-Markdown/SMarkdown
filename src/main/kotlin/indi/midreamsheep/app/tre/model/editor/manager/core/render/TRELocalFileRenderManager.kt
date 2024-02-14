@@ -1,17 +1,16 @@
-package indi.midreamsheep.app.tre.model.editor.manager.core
+package indi.midreamsheep.app.tre.model.editor.manager.core.render
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import indi.midreamsheep.app.tre.tool.ioc.getBean
 import indi.midreamsheep.app.tre.model.editor.manager.TREFileManager
+import indi.midreamsheep.app.tre.model.editor.manager.core.CoreTREStateManager
+import indi.midreamsheep.app.tre.model.editor.manager.core.ManagerReadParser
 import indi.midreamsheep.app.tre.model.mainpage.file.TREFile
+import indi.midreamsheep.app.tre.tool.ioc.getBean
 
-class TRELocalFileManager(private var file: TREFile) : TREFileManager {
+class TRELocalFileRenderManager(private var file: TREFile) : TREFileManager {
 
     private val markdownStateManager = CoreTREStateManager()
     private var isRead = false
     private val parser = getBean(ManagerReadParser::class.java)
-    private val content = mutableStateOf("")
 
 
     override fun read(): Pair<Boolean, String> {
@@ -22,7 +21,7 @@ class TRELocalFileManager(private var file: TREFile) : TREFileManager {
     }
 
     override fun store(): Pair<Boolean, String> {
-        file.writeText(getSourceContent())
+        file.writeText(getContent())
         return Pair(true, "")
     }
 
@@ -34,7 +33,7 @@ class TRELocalFileManager(private var file: TREFile) : TREFileManager {
         return markdownStateManager
     }
 
-    override fun getSourceContent(): String {
+    override fun getContent(): String {
         var result = ""
         val list = markdownStateManager.getMarkdownLineStateList()
         for ((index, treLineState) in list.withIndex()) {
@@ -49,9 +48,5 @@ class TRELocalFileManager(private var file: TREFile) : TREFileManager {
     override fun setContent(content: String) {
         markdownStateManager.getMarkdownLineStateList().clear()
         parser.parse(markdownStateManager,content)
-    }
-
-    override fun getContent(): MutableState<String> {
-        return content
     }
 }

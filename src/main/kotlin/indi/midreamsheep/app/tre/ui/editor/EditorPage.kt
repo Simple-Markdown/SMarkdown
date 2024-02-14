@@ -6,35 +6,31 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.editor.manager.TREFileManager
+import indi.midreamsheep.app.tre.context.editor.viewmodel.EditorStateViewModel
 import indi.midreamsheep.app.tre.ui.editor.bottom.bottomBar
 import indi.midreamsheep.app.tre.ui.editor.editors.render.renderList
 import indi.midreamsheep.app.tre.ui.editor.editors.render.topbar.topBar
+import indi.midreamsheep.app.tre.ui.editor.editors.source.sourceEditor
 
 @Composable
 fun editorPage(
-    treFileManager: TREFileManager
+    context: TREEditorContext
 ){
+    val treFileManager = context.editorFileManager
     if (!treFileManager.isRead()){
         val (result, errorMsg) = treFileManager.read()
         if (!result){
             error(errorMsg)
         }
     }
-    val context  = remember { TREEditorContext(treFileManager) }
     val listState = rememberLazyListState()
 
     context.dialogVewModel.displayDialog()
     Column(
         modifier = Modifier.padding(0.dp)
-            .onPreviewKeyEvent {
-                return@onPreviewKeyEvent context.shortcutAction.editorEvent(it)
-            }
     ) {
         //上方的工具栏
         topBar(context)
@@ -64,5 +60,8 @@ fun editor(
     listState: LazyListState,
     context: TREEditorContext
 ){
-    renderList(context, modifier, listState)
+    when (context.editorStateViewModel.editorMode.value) {
+        EditorStateViewModel.EditorMode.RENDER -> renderList(context, modifier, listState)
+        EditorStateViewModel.EditorMode.SOURCE -> sourceEditor(context, modifier, listState)
+    }
 }

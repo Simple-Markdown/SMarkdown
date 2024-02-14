@@ -2,6 +2,7 @@ package indi.midreamsheep.app.tre.model.editor.line.core
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -10,14 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import indi.midreamsheep.app.tre.tool.ioc.getBean
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRELine
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
@@ -28,6 +25,7 @@ import indi.midreamsheep.app.tre.model.render.TREOffsetMappingAdapter
 import indi.midreamsheep.app.tre.model.render.TRETextRender
 import indi.midreamsheep.app.tre.model.render.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.model.render.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.tool.ioc.getBean
 
 class TRECoreLine(val wrapper: TRELineState) :
     TRELine, TRETextLine {
@@ -49,20 +47,25 @@ class TRECoreLine(val wrapper: TRELineState) :
 
     override fun focus() {
         isFocus.value = true
-        wrapper.markdownLineInter.setCurrentMarkdownLineState(wrapper)
         content.value = content.value.copy(selection = TextRange(selection))
+        wrapper.markdownLineInter.setCurrentMarkdownLineState(wrapper)
     }
 
     override fun releaseFocus() {
         isFocus.value = false
         selection = content.value.selection.start
+        wrapper.markdownLineInter.getCurrentMarkdownLine()?.let {
+            if (it == wrapper) {
+                wrapper.markdownLineInter.setCurrentMarkdownLineState(null)
+            }
+        }
     }
 
     override fun getComposable(context: TREEditorContext): @Composable () -> Unit {
         buildContent(wrapper.markdownLineInter)
         return {
             if (isFocus.value) {
-                editorInput()
+                editorInput(context)
             } else {
                 preview()
             }
@@ -74,25 +77,34 @@ class TRECoreLine(val wrapper: TRELineState) :
     }
 
     @Composable
-    fun editorInput() {
+    fun editorInput(
+        context: TREEditorContext
+    ) {
         BasicTextField(
             value = content.value,
             onValueChange = { newValue ->
-                content.value = newValue
+                val count = newValue.text.count { it == '\t' }
+                content.value = newValue.copy(
+                    text = newValue.text.replace("\t", "    "),
+                    selection = TextRange(
+                        start =  newValue.selection.start + 3 * count,
+                        end = newValue.selection.end + 3 * count
+                    )
+                )
                 buildContent(wrapper.markdownLineInter)
             },
-            textStyle = TextStyle(
-                fontSize = 15.sp,
-                textAlign = TextAlign.Start
-            ),
+            textStyle = MaterialTheme.typography.bodyLarge,
             modifier = Modifier
                 .fillMaxWidth()
                 .focusRequester(focusRequester)
                 .onFocusChanged {
                     isFocus.value = it.isFocused
                 }
-                .padding(top = 3.dp, bottom = 3.dp, start = 0.dp, end = 0.dp),
-            visualTransformation = { text ->
+                .onPreviewKeyEvent {
+                    return@onPreviewKeyEvent context.shortcutAction.textFieldEvent(it)
+                }
+            ,
+            visualTransformation = { _ ->
                 TransformedText(
                     text = render.value.styleTextTree!!.build(),
                     offsetMapping = TREOffsetMappingAdapter(render.value.styleTextTree!!),
@@ -127,6 +139,7 @@ class TRECoreLine(val wrapper: TRELineState) :
         )
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
+            context.editorFileManager.getStateManager().setCurrentMarkdownLineState(wrapper)
         }
     }
 
@@ -185,4 +198,5 @@ class TRECoreLine(val wrapper: TRELineState) :
     ){
         render.value = parser.parse(content.value, content.value.selection.start, this, context)
     }
+
 }

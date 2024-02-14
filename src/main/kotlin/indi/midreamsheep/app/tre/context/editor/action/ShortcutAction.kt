@@ -6,19 +6,10 @@ import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 
 class ShortcutAction(context:TREEditorContext): TREAction<TREEditorContext>(context) {
     fun editorEvent(keyEvent: KeyEvent): Boolean{
-        return context.shortcutViewModel.editorShortcutKeyManager.keyEvent(keyEvent,context,true)
-    }
-
-    fun updateEditorEvent(keyEvent: KeyEvent){
-        context.shortcutViewModel.editorShortcutKeyManager.keyEvent(keyEvent,context,false)
+        return context.shortcutViewModel.editorShortcutKeyManager.keyEvent(keyEvent,context)
     }
 
     fun textFieldEvent(keyEvent: KeyEvent): Boolean{
-        return context.shortcutViewModel.textFieldShortcutKeyManager.keyEvent(keyEvent,context,true)
+        return context.shortcutViewModel.textFieldShortcutKeyManager.keyEvent(keyEvent,context)
     }
-
-    fun updateTextFieldEvent(keyEvent: KeyEvent){
-        context.shortcutViewModel.textFieldShortcutKeyManager.keyEvent(keyEvent,context,false)
-    }
-
 }

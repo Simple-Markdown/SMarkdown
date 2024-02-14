@@ -8,5 +8,5 @@ interface TREStateManager {
     fun getMarkdownLineStateList(): SnapshotStateList<TRELineState>
     fun getCurrentMarkdownLine(): TRELineState?
     fun getCurrentMarkdownLineState(): MutableState<TRELineState?>
-    fun setCurrentMarkdownLineState(markdownLineState: TRELineState)
+    fun setCurrentMarkdownLineState(markdownLineState: TRELineState?)
 }

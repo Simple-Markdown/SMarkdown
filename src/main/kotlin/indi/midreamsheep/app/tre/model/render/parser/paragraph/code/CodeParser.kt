@@ -3,13 +3,13 @@ package indi.midreamsheep.app.tre.model.render.parser.paragraph.code
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.LineParser
-import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRETextRender
 import indi.midreamsheep.app.tre.model.render.parser.ParagraphParser
 import indi.midreamsheep.app.tre.model.render.parser.paragraph.code.editor.TRECodeLine
+import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 
 @LineParser
 @MapKey("`")
@@ -56,4 +56,38 @@ class CodeParser: ParagraphParser {
         return 3
     }
 
+    /**
+     * text解析，用于对文本进行初始化解释时调用
+     * @return下一次解析的起始位置
+     * */
+    override fun analyse(texts: List<String>, lineNumber: Int, state: TREStateManager): Int {
+        //找到下一个结束
+        var index = lineNumber+1
+        while (true){
+            if (index==texts.size){
+                break
+            }
+            if (texts[index].startsWith("```")){
+                //获取代码块类型
+                val type = texts[lineNumber].replace("```","")
+                //组合代码块
+                val code = StringBuilder()
+                for (i in lineNumber+1 until index){
+                    code.append(texts[i]).append("\n")
+                }
+                if (index-lineNumber-1>0){
+                    code.delete(code.length-1,code.length)
+                }
+                val newLine = TRELineState(state).apply {
+                    this.line = TRECodeLine(this,type).apply {
+                        content.value = TextFieldValue(code.toString())
+                    }
+                }
+                state.getMarkdownLineStateList().add(newLine)
+                return index+1
+            }
+            index++
+        }
+        return super.analyse(texts, lineNumber, state)
+    }
 }

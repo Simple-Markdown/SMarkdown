@@ -12,12 +12,4 @@ class EditorStateAction(context:TREEditorContext): TREAction<TREEditorContext>(c
     fun renderMode() {
         context.editorStateViewModel.editorMode.value = EditorStateViewModel.EditorMode.RENDER
     }
-
-    fun toggleMode() {
-        if (context.editorStateViewModel.editorMode.value == EditorStateViewModel.EditorMode.RENDER) {
-            sourceMode()
-        } else {
-            renderMode()
-        }
-    }
 }
