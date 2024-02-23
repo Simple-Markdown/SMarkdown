@@ -29,12 +29,12 @@ class BackspaceShortcut: TREEditorShortcutKeyHandler() {
             val index = stateManager.getMarkdownLineStateList().indexOf(currentState)
             val lastLine = stateManager.getMarkdownLineStateList()[index-1].line as TRETextLine
 
+            (lastLine as TRELine).focusFromLast()
             val lastLineContent = lastLine.getTextFieldValue().text
             lastLine.setTextFieldValue(TextFieldValue(
                 text = lastLineContent+treTextLine.getTextFieldValue().text,
                 selection = TextRange(lastLineContent.length)
             ))
-            (lastLine as TRELine).focusFromLast()
 
             currentState.line.releaseFocus()
             stateManager.getMarkdownLineStateList().remove(currentState)

@@ -62,8 +62,6 @@ class LinkParser: SpanParser {
         val linkName = text.substring(linkStart+1, pointer)
 
         val isDisplay = selection in 0..pointer+1 && isFocus
-        println("linkName: $linkName, displayName: $displayName, isDisplay: $isDisplay")
-        println(text)
         return StyleTextLinkLeaf(
             linkName = linkName,
             displayName = displayName,

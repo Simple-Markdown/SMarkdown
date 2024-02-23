@@ -7,6 +7,9 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key.Companion.Enter
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.tool.expand.simpleClickable
@@ -24,6 +27,14 @@ fun renderList(
         modifier = modifier.fillMaxSize().padding(top = 10.dp)
             .simpleClickable {
                 lineStateList[lineStateList.size - 1].line.focus()
+            }
+            .onKeyEvent { keyEvent ->
+                if (keyEvent.key == Enter) {
+                    // 处理回车键的事件
+                    true // 表示这个事件已经被处理
+                } else {
+                    false // 表示这个事件没有被处理，应该传递给其他处理器
+                }
             }
     ) {
         for (markdownLineState in lineStateList) {
