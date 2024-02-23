@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +21,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.style.TextAlign
@@ -41,8 +44,8 @@ fun codeInputTextField(
                 codeLine.content.value = newValue.copy(
                     text = newValue.text.replace("\t", "    "),
                     selection = TextRange(
-                        start =  selection.start + count * 3,
-                        end =  selection.end + count * 3
+                        start = selection.start + count * 3,
+                        end = selection.end + count * 3
                     )
                 )
             },
@@ -62,8 +65,9 @@ fun codeInputTextField(
                     }
                 }
                 .background(Color(0xFFF0F0F1))
-                .padding(5.dp)
-            ,
+                .padding(5.dp),
+            keyboardActions = KeyboardActions(onDone = {}),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             visualTransformation = { _ ->
                 TransformedText(
                     text = build(codeLine.content.value.text),

@@ -4,11 +4,12 @@ import androidx.compose.material3.Divider
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.LineParser
-import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRETextRender
 import indi.midreamsheep.app.tre.model.render.parser.ParagraphParser
+import indi.midreamsheep.app.tre.model.render.styletext.leaf.TRECoreLeaf
+import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 
 @LineParser
 @MapKey("#")
@@ -31,7 +32,11 @@ class HeadParser: ParagraphParser {
 
         val render = TRETextRender(line)
 
-        render.styleTextTree = StyleTextHeadRoot(subSequence.toString(), level, isDisplay)
+        render.styleTextTree = StyleTextHeadRoot(level, isDisplay).apply {
+            addChildren(
+                TRECoreLeaf(subSequence.toString())
+            )
+        }
         render.suffixLineDecorations.add(
             Display {
                 Divider()

@@ -49,26 +49,24 @@ class QuoteParser: ParagraphParser {
             line,
             stateList
         )
-        if (!isDisplay) {
-            render.prefixTextDecorations.add(
-                Display {
-                    repeat(level) {
-                        Box(
-                            Modifier.fillMaxHeight().width(5.dp).background(Color.Green)
-                        ) {}
-                        Spacer(modifier = Modifier.width(5.dp))
-                    }
-                }
-            )
-            //设置背景颜色
-            render.backgroundDecorations.add(
-                Display {
+        render.prefixTextDecorations.add(
+            Display {
+                repeat(level) {
                     Box(
-                        Modifier.fillMaxSize().background(Color.Gray.copy(alpha = 0.1f))
+                        Modifier.fillMaxHeight().width(5.dp).background(Color.Green)
                     ) {}
+                    Spacer(modifier = Modifier.width(5.dp))
                 }
-            )
-        }
+            }
+        )
+        //设置背景颜色
+        render.backgroundDecorations.add(
+            Display {
+                Box(
+                    Modifier.fillMaxSize().background(Color.Gray.copy(alpha = 0.1f))
+                ) {}
+            }
+        )
         render.prefixLineDecorations.addAll(parse.prefixLineDecorations)
         render.suffixLineDecorations.addAll(parse.suffixLineDecorations)
         render.suffixTextDecorations.addAll(parse.suffixTextDecorations)

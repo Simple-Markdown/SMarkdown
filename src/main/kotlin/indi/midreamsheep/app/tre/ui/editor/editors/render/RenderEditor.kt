@@ -7,10 +7,9 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
+import indi.midreamsheep.app.tre.tool.expand.simpleClickable
 
 @Composable
 fun renderList(
@@ -23,7 +22,9 @@ fun renderList(
     LazyColumn(
         state = listState,
         modifier = modifier.fillMaxSize().padding(top = 10.dp)
-
+            .simpleClickable {
+                lineStateList[lineStateList.size - 1].line.focus()
+            }
     ) {
         for (markdownLineState in lineStateList) {
             item {

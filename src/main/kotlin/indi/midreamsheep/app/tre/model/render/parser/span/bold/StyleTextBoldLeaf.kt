@@ -65,13 +65,11 @@ class StyleTextBoldLeaf(
      * **Ren**
      * */
     override fun originalToTransformed(offset: Int): Int {
-        if(isDisplay){
-            if (offset <= 2){
-                return offset
-            }
-            if (offset >= childrenOriginalSize() + 2){
-                return offset + childrenTransformedSize() - childrenOriginalSize()
-            }
+        if (offset <= 2){
+            return offset
+        }
+        if (offset >= childrenOriginalSize() + 2){
+            return offset + childrenTransformedSize() - childrenOriginalSize()
         }
         return super.originalToTransformed(offset-2) + 2
     }
@@ -82,9 +80,6 @@ class StyleTextBoldLeaf(
      * content
      * */
     override fun transformedToOriginal(offset: Int): Int {
-        if (isDisplay){
-            return super.transformedToOriginal(offset-2)+2
-        }
-        return super.transformedToOriginal(offset)+2
+        return super.transformedToOriginal(offset-2)+2
     }
 }

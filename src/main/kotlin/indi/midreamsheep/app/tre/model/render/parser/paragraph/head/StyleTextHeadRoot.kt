@@ -9,19 +9,18 @@ import androidx.compose.ui.unit.sp
 import indi.midreamsheep.app.tre.model.render.styletext.root.TRECoreStyleTextRoot
 
 class StyleTextHeadRoot(
-    private val content: String,
     private val level: Int,
     private val isDisplay: Boolean,
 ): TRECoreStyleTextRoot() {
 
     override fun originalToTransformed(offset: Int): Int {
         if (isDisplay) return offset
-        return offset - level -1
+        return super.originalToTransformed(offset - level - 1)
     }
 
     override fun transformedToOriginal(offset: Int): Int {
         if (isDisplay) return offset
-        return offset + level + 1
+        return super.transformedToOriginal(offset) + level*2
     }
 
     override fun build(): AnnotatedString {
@@ -35,16 +34,18 @@ class StyleTextHeadRoot(
                 if (isDisplay){
                     append("#".repeat(level) + " ")
                 }
-                append(content)
+                for (child in getChildren()) {
+                    append(child!!.build())
+                }
             }
         }
     }
 
     override fun originalSize(): Int {
-        return content.length + level + 1
+        return childrenOriginalSize() + level + 1
     }
 
     override fun transformedSize(): Int {
-        return content.length+ if (isDisplay) level + 1 else 0
+        return childrenTransformedSize() + if (isDisplay) level + 1 else 0
     }
 }
