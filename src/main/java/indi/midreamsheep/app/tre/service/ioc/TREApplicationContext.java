@@ -2,7 +2,6 @@ package indi.midreamsheep.app.tre.service.ioc;
 
 
 import indi.midreamsheep.app.tre.service.ioc.di.scan.DesktopScanner;
-import indi.midreamsheep.app.tre.service.ioc.di.scan.PackageBeanDefinitionsFactoryCatch;
 import live.midreamsheep.frame.sioc.api.builder.application.ApplicationContextBuilder;
 import live.midreamsheep.frame.sioc.api.context.application.ApplicationContext;
 import live.midreamsheep.frame.sioc.scan.PackageBeanDefinitionsFactory;
@@ -18,7 +17,7 @@ public class TREApplicationContext {
     private static final ApplicationContext applicationContext;
     static {
         ApplicationContextBuilder applicationContextBuilder = new ApplicationContextBuilder();
-        PackageBeanDefinitionsFactory packageBeanDefinitionsFactory = new PackageBeanDefinitionsFactoryCatch(new DesktopScanner(), new CoreClassParserToDefinition());
+        PackageBeanDefinitionsFactory packageBeanDefinitionsFactory = new PackageBeanDefinitionsFactory(new DesktopScanner(), new CoreClassParserToDefinition());
         applicationContextBuilder.setClassbeanHandlerFactory(packageBeanDefinitionsFactory);
         applicationContext = applicationContextBuilder.build();
     }

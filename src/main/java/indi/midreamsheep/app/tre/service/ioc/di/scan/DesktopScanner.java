@@ -1,9 +1,13 @@
 package indi.midreamsheep.app.tre.service.ioc.di.scan;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.json.JSONUtil;
 import indi.midreamsheep.app.tre.constant.AppPathConstant;
 import indi.midreamsheep.app.tre.service.ioc.di.scan.jarloader.TREJarLoader;
+import live.midreamsheep.frame.sioc.scan.annotation.meta.ProcessorFlag;
+import live.midreamsheep.frame.sioc.scan.annotation.meta.SIocFlag;
+import live.midreamsheep.frame.sioc.scan.clazz.ClassMetaDefinition;
+import live.midreamsheep.frame.sioc.scan.clazz.ClassMetaDefinitionImpl;
+import live.midreamsheep.frame.sioc.scan.clazz.annotation.AnnotationInfo;
 import live.midreamsheep.frame.sioc.scan.inter.ClassesAbstractScanner;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,7 +54,31 @@ public class DesktopScanner extends ClassesAbstractScanner {
         }
 
         log.info("scan success,find {} classes",result.size());
+        if(!useCatch){
+            outputCatch(result);
+        }
         return result;
+    }
+
+    private void outputCatch(Set<Class<?>> result) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Class<?> aClass : result) {
+            if (parse(aClass)!=null) {
+                stringBuilder.append(aClass.getName()).append("\n");
+            }
+        }
+        FileUtil.writeUtf8String(stringBuilder.toString(), AppPathConstant.CACHE_SCANNER_PATH);
+    }
+
+    private ClassMetaDefinition parse(Class<?> aClass) {
+        ClassMetaDefinition classMetaDefinition = new ClassMetaDefinitionImpl(aClass);
+        classMetaDefinition.initAnnotationInfo();
+        AnnotationInfo annotationInfo = classMetaDefinition.getAnnotationInfo();
+        if (annotationInfo.getAnnotation(SIocFlag.class) == null && annotationInfo.getAnnotation(ProcessorFlag.class) == null) {
+            return null;
+        } else {
+            return classMetaDefinition;
+        }
     }
 
     private Set<String> getCatch() {
