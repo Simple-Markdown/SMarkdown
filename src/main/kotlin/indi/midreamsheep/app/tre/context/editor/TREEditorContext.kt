@@ -1,10 +1,7 @@
 package indi.midreamsheep.app.tre.context.editor
 
 import indi.midreamsheep.app.tre.context.TREContext
-import indi.midreamsheep.app.tre.context.editor.action.BottomBarAction
-import indi.midreamsheep.app.tre.context.editor.action.EditorStateAction
-import indi.midreamsheep.app.tre.context.editor.action.FileAction
-import indi.midreamsheep.app.tre.context.editor.action.ShortcutAction
+import indi.midreamsheep.app.tre.context.editor.action.*
 import indi.midreamsheep.app.tre.context.editor.viewmodel.BottomBarViewModel
 import indi.midreamsheep.app.tre.context.editor.viewmodel.DialogViewModel
 import indi.midreamsheep.app.tre.context.editor.viewmodel.EditorStateViewModel
@@ -31,4 +28,5 @@ class TREEditorContext(/**编辑文件的管理器*/var editorFileManager: TREFi
     val fileAction = FileAction(this)
     val shortcutAction = ShortcutAction(this)
     val editorStateAction = EditorStateAction(this)
+    val clipboardAction = ClipboardAction(this)
 }

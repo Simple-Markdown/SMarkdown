@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.LineParser
@@ -28,23 +27,21 @@ class QuoteParser: ParagraphParser {
     }
 
     override fun getAnnotatedString(
-        text: TextFieldValue,
+        text: String,
         selection:Int,
         stateList: TREStateManager,
         line: TRECoreLine
     ): TRETextRender {
         val render = TRETextRender(line)
-        val level = getLevel(text.text)
+        val level = getLevel(text)
 
-        val isDisplay = line.isFocus.value&&text.selection.start<=level*2
+        val isDisplay = line.isFocus.value&&selection<=level*2
         render.styleTextTree = StyleTextQuoteRoot(
             level,
             isDisplay,
         )
         val parse = parser!!.parse(
-            text.copy(
-                text = text.text.substring(level*2),
-            ),
+            text.substring(level*2),
             selection-level*2,
             line,
             stateList

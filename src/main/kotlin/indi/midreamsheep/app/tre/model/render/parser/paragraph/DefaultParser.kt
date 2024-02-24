@@ -1,6 +1,5 @@
 package indi.midreamsheep.app.tre.model.render.parser.paragraph
 
-import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TREInlineParser
@@ -21,7 +20,7 @@ class DefaultParser: ParagraphParser {
     }
 
     override fun getAnnotatedString(
-        text: TextFieldValue,
+        text: String,
         selection:Int,
         stateList: TREStateManager,
         line: TRECoreLine
@@ -30,7 +29,7 @@ class DefaultParser: ParagraphParser {
         val treCoreStyleTextRoot = TRECoreStyleTextRoot()
         render.styleTextTree = treCoreStyleTextRoot
 
-        val list = spanParser!!.parse(text.text, selection,line.isFocus.value, render)
+        val list = spanParser!!.parse(text, selection,line.isFocus.value, render)
         for (styleTextLeaf in list) {
             treCoreStyleTextRoot.addChildren(styleTextLeaf)
         }

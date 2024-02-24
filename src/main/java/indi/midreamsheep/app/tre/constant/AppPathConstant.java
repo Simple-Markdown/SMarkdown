@@ -5,10 +5,10 @@ import java.nio.charset.StandardCharsets;
 
 import static java.io.File.separator;
 
-public class ProjectPathConstant {
+public class AppPathConstant {
     //项目根路径
     public static final String CORE_JAR_PATH = URLDecoder.decode(
-            ProjectPathConstant.class.getProtectionDomain().getCodeSource().getLocation().getPath(), StandardCharsets.UTF_8
+            AppPathConstant.class.getProtectionDomain().getCodeSource().getLocation().getPath(), StandardCharsets.UTF_8
     );
 
     public static final String ROOT_PATH = CORE_JAR_PATH.substring(0, CORE_JAR_PATH.lastIndexOf("/"));

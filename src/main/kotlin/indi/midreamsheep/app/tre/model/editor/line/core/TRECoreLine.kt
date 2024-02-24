@@ -16,7 +16,6 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.editor.line.TRELine
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.line.TRETextLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
@@ -27,8 +26,7 @@ import indi.midreamsheep.app.tre.model.render.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.model.render.styletext.root.TRECoreStyleTextRoot
 import indi.midreamsheep.app.tre.tool.ioc.getBean
 
-class TRECoreLine(val wrapper: TRELineState) :
-    TRELine, TRETextLine {
+class TRECoreLine(val wrapper: TRELineState) : TRETextLine {
 
     val parser = getBean(TRELineParser::class.java)
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
@@ -75,6 +73,8 @@ class TRECoreLine(val wrapper: TRELineState) :
     override fun getContent(): String {
         return content.value.text
     }
+
+    override fun getLineState() = wrapper
 
     @Composable
     fun editorInput(
@@ -196,7 +196,7 @@ class TRECoreLine(val wrapper: TRELineState) :
     private fun buildContent(
         context: TREStateManager
     ){
-        render.value = parser.parse(content.value, content.value.selection.start, this, context)
+        render.value = parser.parse(content.value.text, content.value.selection.start, this, context)
     }
 
 }

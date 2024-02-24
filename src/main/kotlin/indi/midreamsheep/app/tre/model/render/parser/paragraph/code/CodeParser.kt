@@ -26,17 +26,17 @@ class CodeParser: ParagraphParser {
      * 获取渲染函数
      * */
     override fun getAnnotatedString(
-        text: TextFieldValue,
+        text: String,
         selection:Int,
         stateList: TREStateManager,
         line: TRECoreLine
     ): TRETextRender {
         val render = TRETextRender(line)
-        render.styleTextTree = StyleTextCodeRoot(text.text)
+        render.styleTextTree = StyleTextCodeRoot(text)
         render.previewDisplay = Display {
             //对于代码块进行替换
             val newLine = TRELineState(stateList).apply {
-                this.line = TRECodeLine(this,text.text).apply {
+                this.line = TRECodeLine(this,text).apply {
                     focus.value = true
                 }
             }

@@ -1,7 +1,6 @@
 package indi.midreamsheep.app.tre.model.render.parser.paragraph.head
 
 import androidx.compose.material3.Divider
-import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.LineParser
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
@@ -20,13 +19,13 @@ class HeadParser: ParagraphParser {
     }
 
     override fun getAnnotatedString(
-        text: TextFieldValue,
+        text: String,
         selection:Int,
         stateList: TREStateManager,
         line: TRECoreLine
     ): TRETextRender {
-        val level = getLevel(text.text)
-        var subSequence = text.text.subSequence(level, text.text.length)
+        val level = getLevel(text)
+        var subSequence = text.subSequence(level, text.length)
         if (subSequence.isNotEmpty()) subSequence = subSequence.subSequence(1, subSequence.length)
         val isDisplay = selection <= level+1&&line.isFocus.value
 

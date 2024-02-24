@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.context.plugin.viewmodel
 
 import cn.hutool.json.JSONUtil
-import indi.midreamsheep.app.tre.constant.ProjectPathConstant
+import indi.midreamsheep.app.tre.constant.AppPathConstant
 import indi.midreamsheep.app.tre.context.TREViewModel
 import indi.midreamsheep.app.tre.context.plugin.TREPluginContext
 import indi.midreamsheep.app.tre.context.plugin.viewmodel.pojo.Plugin
@@ -16,10 +16,14 @@ class PluginViewModel(context: TREPluginContext) : TREViewModel<TREPluginContext
 
     private fun scanPlugins(): List<Plugin> {
         val list:MutableList<Plugin> = mutableListOf()
-        val rootPath = ProjectPathConstant.ROOT_PATH+ File.separator+"plugins"+ File.separator
+        val rootPath = AppPathConstant.ROOT_PATH+ File.separator+"plugins"+ File.separator
 
         val configFile = File(rootPath + "plugin-config.json")
         if (!configFile.exists()) {
+            if(!configFile.parentFile.exists()){
+                configFile.parentFile.mkdirs()
+            }
+            configFile.createNewFile()
             configFile.writeText(JSONUtil.toJsonStr(PluginScannerTool.PluginConfig()))
             return list
         }

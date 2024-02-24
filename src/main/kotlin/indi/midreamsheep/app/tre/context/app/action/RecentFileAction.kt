@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.context.app.action
 
-import indi.midreamsheep.app.tre.constant.ProjectPathConstant
+import indi.midreamsheep.app.tre.constant.AppPathConstant
 import indi.midreamsheep.app.tre.context.TREAction
 import indi.midreamsheep.app.tre.context.app.TREAppContext
 import indi.midreamsheep.app.tre.context.mainpage.recentused.pojo.RecentUsed
@@ -37,7 +37,7 @@ class RecentFileAction(context:TREAppContext): TREAction<TREAppContext>(context)
 
     private fun updateRecentFile() {
         val recentFileList = context.recentFileViewModel.recentFileList
-        val path = ProjectPathConstant.ROOT_PATH+File.separator+"runtime" + File.separator + "data" + File.separator + "RecentUsed"
+        val path = AppPathConstant.ROOT_PATH+File.separator+"runtime" + File.separator + "data" + File.separator + "RecentUsed"
         val file = File(path)
         if (!file.exists()) {
             file.mkdirs()

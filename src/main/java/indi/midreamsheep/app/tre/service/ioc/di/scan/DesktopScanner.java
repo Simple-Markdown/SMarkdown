@@ -2,7 +2,7 @@ package indi.midreamsheep.app.tre.service.ioc.di.scan;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.json.JSONUtil;
-import indi.midreamsheep.app.tre.constant.ProjectPathConstant;
+import indi.midreamsheep.app.tre.constant.AppPathConstant;
 import indi.midreamsheep.app.tre.service.ioc.di.scan.jarloader.TREJarLoader;
 import live.midreamsheep.frame.sioc.scan.inter.ClassesAbstractScanner;
 import lombok.extern.slf4j.Slf4j;
@@ -28,27 +28,27 @@ import java.util.jar.JarInputStream;
 public class DesktopScanner extends ClassesAbstractScanner {
     @Override
     public Set<Class<?>> doScan() {
-        log.info("start scan classes: {}",ProjectPathConstant.ROOT_PATH);
+        log.info("start scan classes: {}", AppPathConstant.ROOT_PATH);
         //获取缓存
         Set<String> aCatch = getCatch();
         log.debug("catch:{}",aCatch);
         boolean useCatch = !aCatch.isEmpty();
         //进行扫描
         //扫描核心包
-        log.info("scan core.jar:{}", ProjectPathConstant.CORE_JAR_PATH);
+        log.info("scan core.jar:{}", AppPathConstant.CORE_JAR_PATH);
         Set<Class<?>> result = scanCoreJar(useCatch,aCatch);
 
         //扫描libs目录下的所有jar包
-        log.info("scan libs:{}",ProjectPathConstant.LIBS_PATH);
-        result.addAll(scanJars(ProjectPathConstant.LIBS_PATH,useCatch,aCatch));
+        log.info("scan libs:{}", AppPathConstant.LIBS_PATH);
+        result.addAll(scanJars(AppPathConstant.LIBS_PATH,useCatch,aCatch));
 
         //扫描plugins下的插件
-        log.info("scan plugins:{}",ProjectPathConstant.PLUGIN_PATH);
+        log.info("scan plugins:{}", AppPathConstant.PLUGIN_PATH);
 
         PluginScannerTool.PluginConfig pluginLoading = PluginScannerTool.getPluginLoading();
         for (String name : pluginLoading.getName()) {
-            log.info("scan plugin:{} location:{}",name,ProjectPathConstant.PLUGIN_PATH+File.separator+name+File.separator);
-            result.addAll(scanJars(ProjectPathConstant.PLUGIN_PATH+File.separator+name+File.separator,useCatch,aCatch));
+            log.info("scan plugin:{} location:{}",name, AppPathConstant.PLUGIN_PATH+File.separator+name+File.separator);
+            result.addAll(scanJars(AppPathConstant.PLUGIN_PATH+File.separator+name+File.separator,useCatch,aCatch));
         }
 
         log.info("scan success,find {} classes",result.size());
@@ -58,7 +58,7 @@ public class DesktopScanner extends ClassesAbstractScanner {
     @SuppressWarnings("unchecked")
     private Set<String> getCatch() {
         Set<String> aCatch = new HashSet<>();
-        File file = new File(ProjectPathConstant.CACHE_SCANNER_PATH);
+        File file = new File(AppPathConstant.CACHE_SCANNER_PATH);
         if (!file.exists()){
             return aCatch;
         }
@@ -105,13 +105,13 @@ public class DesktopScanner extends ClassesAbstractScanner {
             return classes;
         }
 
-        if (!new File(ProjectPathConstant.CORE_JAR_PATH).exists()){
+        if (!new File(AppPathConstant.CORE_JAR_PATH).exists()){
             return classes;
         }
         JarInputStream jarInputStream;
         JarEntry nextJarEntry;
         try {
-            jarInputStream = new JarInputStream(new FileInputStream(ProjectPathConstant.CORE_JAR_PATH));
+            jarInputStream = new JarInputStream(new FileInputStream(AppPathConstant.CORE_JAR_PATH));
             nextJarEntry = jarInputStream.getNextJarEntry();
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -132,7 +132,7 @@ public class DesktopScanner extends ClassesAbstractScanner {
                 log.debug(e.getMessage());
             }
         }
-        log.debug("scan jar:{} success,find {} classes", ProjectPathConstant.CORE_JAR_PATH,classes.size());
+        log.debug("scan jar:{} success,find {} classes", AppPathConstant.CORE_JAR_PATH,classes.size());
         return classes;
     }
 }

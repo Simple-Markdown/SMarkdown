@@ -20,7 +20,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import indi.midreamsheep.app.tre.constant.ProjectPathConstant
+import indi.midreamsheep.app.tre.constant.AppPathConstant
 import indi.midreamsheep.app.tre.context.plugin.TREPluginContext
 import indi.midreamsheep.app.tre.context.plugin.viewmodel.pojo.Plugin
 import java.awt.Desktop
@@ -128,7 +128,7 @@ fun displayLink(
 fun pluginIcon(plugin: Plugin) {
     //从本地通过绝对路径加载插件图标
     val use =
-        File(ProjectPathConstant.ROOT_PATH+ "/plugins/" + plugin.fileName + "/" + "icon.png").inputStream().buffered()
+        File(AppPathConstant.ROOT_PATH+ "/plugins/" + plugin.fileName + "/" + "icon.png").inputStream().buffered()
             .use(::loadImageBitmap)
     Image(
         use,

@@ -10,7 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,23 +18,37 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import indi.midreamsheep.app.tre.constant.page.SettingPageConstant
 import indi.midreamsheep.app.tre.context.setting.SettingPageContext
 import indi.midreamsheep.app.tre.service.language.TRELanguageResource
+import indi.midreamsheep.app.tre.ui.page.settingpage.plugin.pluginPage
 
 @Composable
 fun settingPage(
     returnMainPage:()->Unit
 ) {
+    var showExtension by remember { mutableStateOf(false) }
     val settingPageContext = SettingPageContext()
     Row(
         Modifier.fillMaxSize()
     ) {
         //sidebar
-        settingSideBar(Modifier, settingPageContext,returnMainPage)
+        settingSideBar(Modifier, settingPageContext,returnMainPage){
+            showExtension = it
+        }
         //具体的配置项
-        setting(Modifier.weight(1f), settingPageContext)
+        Box(
+            Modifier.weight(1f)
+        ) {
+            if (showExtension) {
+                pluginPage()
+            } else {
+                setting(Modifier, settingPageContext)
+            }
+        }
     }
 }
 
@@ -43,25 +57,40 @@ fun settingSideBar(
     modifier: Modifier,
     settingPageContext: SettingPageContext,
     returnMainPage: () -> Unit,
+    showExtension: (Boolean) ->Unit,
 ) {
     Column(
         modifier = modifier.fillMaxHeight()
+            .width(IntrinsicSize.Max)
             .background(Color(0xFFF0F0F1))
             .padding(horizontal = 10.dp, vertical = 15.dp)
     ) {
-        LazyColumn(
-            modifier = Modifier.weight(1f)
+        Column(
+            modifier = Modifier.weight(1f).verticalScroll(rememberScrollState())
         ) {
-            item {
-                for (settingGroup in settingPageContext.settingGroupViewModel.getSettingGroupList()) {
-                    settingButton(settingGroup.name, BitmapPainter(settingGroup.icon)){
-                        settingPageContext.settingGroupAction.setCurrentSettingGroup(settingGroup)
-                    }
+            for (settingGroup in settingPageContext.settingGroupViewModel.getSettingGroupList()) {
+                settingButton(settingGroup.name, BitmapPainter(settingGroup.icon)){
+                    showExtension(false)
+                    settingPageContext.settingGroupAction.setCurrentSettingGroup(settingGroup)
                 }
+                Spacer(modifier = Modifier.height(10.dp))
             }
         }
+
         settingButton(
-            displayName = TRELanguageResource.getLanguage("SettingBack","back"),
+            displayName = TRELanguageResource.getLanguage(
+                SettingPageConstant.PLUGIN_KEY,SettingPageConstant.PLUGIN_VALUE_DEFAULT
+            ),
+            displayIcon = painterResource("extension.png"),
+            onClick = {
+                showExtension(true)
+            }
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        settingButton(
+            displayName = TRELanguageResource.getLanguage(
+                SettingPageConstant.RETURN_HOME_KEY,SettingPageConstant.RETURN_HOME_VALUE_DEFAULT
+            ),
             displayIcon = rememberVectorPainter(Icons.Filled.ArrowBack),
             onClick = returnMainPage
         )
@@ -79,6 +108,7 @@ fun settingButton(
             .clip(RoundedCornerShape(5.dp))
             .background(Color.White)
             .widthIn(min = 180.dp)
+            .fillMaxWidth()
             .clickable {
                 onClick.invoke()
             }
@@ -163,7 +193,9 @@ fun setting(
                     }
             ) {
                 Text(
-                    TRELanguageResource.getLanguage("SettingSave","apply"),
+                    TRELanguageResource.getLanguage(
+                        SettingPageConstant.SAVE_KEY,SettingPageConstant.SAVE_VALUE_DEFAULT
+                    ),
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.body2,

@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.model.setting.setting;
 import androidx.compose.runtime.Composable;
 import cn.hutool.core.io.FileUtil;
 import indi.midreamsheep.app.tre.api.Display;
-import indi.midreamsheep.app.tre.constant.ProjectPathConstant;
+import indi.midreamsheep.app.tre.constant.AppPathConstant;
 import indi.midreamsheep.app.tre.service.ioc.di.init.annotation.Init;
 import indi.midreamsheep.app.tre.model.setting.setting.tool.SettingUtil;
 import indi.midreamsheep.app.tre.model.setting.SettingDisplay;
@@ -21,7 +21,7 @@ import java.nio.charset.Charset;
 public class TRECoreSetting implements TRESetting{
 
     //配置文件的根目录
-    private static final String rootPath = ProjectPathConstant.ROOT_PATH+ File.separator + "configs" + File.separator;
+    private static final String rootPath = AppPathConstant.ROOT_PATH+ File.separator + "configs" + File.separator;
 
     /**
      * 初始化读取本地配置文件并通过反射对子项进行赋值

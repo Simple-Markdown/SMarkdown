@@ -45,6 +45,6 @@ abstract class TREStyleTextRoot: TREStyleTextTree {
             point -= child.transformedSize()
             originalOffset += child.originalSize()
         }
-        return originalOffset
+        return offset
     }
 }

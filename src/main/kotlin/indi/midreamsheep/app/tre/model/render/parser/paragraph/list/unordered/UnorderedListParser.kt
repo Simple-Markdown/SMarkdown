@@ -8,7 +8,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.LineParser
@@ -32,21 +31,21 @@ class UnorderedListParser: ParagraphParser {
     }
 
     override fun getAnnotatedString(
-        text: TextFieldValue,
+        text: String,
         selection:Int,
         stateList: TREStateManager,
         line: TRECoreLine
     ): TRETextRender {
         val render = TRETextRender(line)
 
-        val isDisplay = line.isFocus.value&&text.selection.start<=2
+        val isDisplay = line.isFocus.value&&selection<=2
 
         render.styleTextTree = StyleTextUnorderedListRoot(
             isDisplay,
         )
 
         val parse = parser!!.parse(
-            text = text.text.substring(2),
+            text = text.substring(2),
             selection = selection - 2,
             isFocus = line.isFocus.value,
             render = render

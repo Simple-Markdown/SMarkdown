@@ -1,6 +1,5 @@
 package indi.midreamsheep.app.tre.model.render
 
-import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.annotation.render.LineParser
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
@@ -21,12 +20,12 @@ class TRELineParser {
     private val defaultParser: DefaultParser? = null
 
     fun parse(
-        text: TextFieldValue,
+        text: String,
         selection: Int,
         state: TRECoreLine,
         stateList: TREStateManager
     ): TRETextRender {
-        if(text.text.isEmpty()) {
+        if(text.isEmpty()) {
             val treCoreStyleTextRoot = TRECoreStyleTextRoot()
             treCoreStyleTextRoot.addChildren(TRECoreLeaf(""))
 
@@ -34,20 +33,20 @@ class TRELineParser {
             render.styleTextTree = treCoreStyleTextRoot
             return render
         }
-        val startChar = text.text[0]
+        val startChar = text[0]
         var parser: ParagraphParser? = null;
 
         val parserList:MutableList<ParagraphParser> = mutableListOf()
         val paragraphParsers = paragraphParser[startChar]
         paragraphParsers?.forEach {
-            if (it.formatCheck(text.text)){
+            if (it.formatCheck(text)){
                 parserList.add(it)
             }
         }
         //找到权重最高的解析器
         var weight = 0
         parserList.forEach {
-            val w = it.getWeight(text.text)
+            val w = it.getWeight(text)
             if (w>weight){
                 weight = w
                 parser = it

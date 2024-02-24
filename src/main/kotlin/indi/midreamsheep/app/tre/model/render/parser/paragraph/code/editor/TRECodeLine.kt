@@ -35,4 +35,6 @@ class TRECodeLine(val wrapper:TRELineState,type:String):TRELine {
     override fun getContent(): String {
         return "```${codeType.value}\n${content.value.text}\n```\n"
     }
+
+    override fun getLineState() = wrapper
 }

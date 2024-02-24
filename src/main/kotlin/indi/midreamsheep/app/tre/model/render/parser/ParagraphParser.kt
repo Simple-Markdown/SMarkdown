@@ -16,7 +16,7 @@ interface ParagraphParser {
      * 获取渲染函数
      * */
     fun getAnnotatedString(
-        text: TextFieldValue,
+        text: String,
         selection:Int,
         stateList: TREStateManager,
         line: TRECoreLine

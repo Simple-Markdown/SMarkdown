@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.service.language;
 
-import indi.midreamsheep.app.tre.constant.ProjectPathConstant;
+import indi.midreamsheep.app.tre.constant.AppPathConstant;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
@@ -17,7 +17,7 @@ public class TRELanguageResource {
 
     static {
         languageProperties = new Properties();
-        try (FileInputStream fileInputStream = new FileInputStream(ProjectPathConstant.LANGUAGE_PATH)) {
+        try (FileInputStream fileInputStream = new FileInputStream(AppPathConstant.LANGUAGE_PATH)) {
             languageProperties.load(fileInputStream);
         }catch (IOException e){
             log.info("load language file error",e);
