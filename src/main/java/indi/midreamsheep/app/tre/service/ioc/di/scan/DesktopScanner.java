@@ -10,9 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
@@ -55,7 +53,6 @@ public class DesktopScanner extends ClassesAbstractScanner {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
     private Set<String> getCatch() {
         Set<String> aCatch = new HashSet<>();
         File file = new File(AppPathConstant.CACHE_SCANNER_PATH);
@@ -63,7 +60,13 @@ public class DesktopScanner extends ClassesAbstractScanner {
             return aCatch;
         }
         //解析json
-        aCatch.addAll(JSONUtil.toBean(FileUtil.readUtf8String(file), Set.class));
+        String[] split = FileUtil.readUtf8String(file).split("\n");
+        for (String s : split) {
+            if (s.isEmpty()) {
+                continue;
+            }
+            aCatch.add(s);
+        }
         return aCatch;
     }
 

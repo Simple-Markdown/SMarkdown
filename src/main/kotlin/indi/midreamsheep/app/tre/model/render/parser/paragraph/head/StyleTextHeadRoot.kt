@@ -15,12 +15,12 @@ class StyleTextHeadRoot(
 
     override fun originalToTransformed(offset: Int): Int {
         if (isDisplay) return offset
-        return super.originalToTransformed(offset - level - 1)
+        return offset - level - 1
     }
 
     override fun transformedToOriginal(offset: Int): Int {
         if (isDisplay) return offset
-        return super.transformedToOriginal(offset) + level*2
+        return offset + level+1
     }
 
     override fun build(): AnnotatedString {
