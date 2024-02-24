@@ -2,6 +2,7 @@ package indi.midreamsheep.app.tre.service.ioc.di.scan;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.json.JSONUtil;
+import indi.midreamsheep.app.tre.constant.ProjectPathConstant;
 import lombok.Data;
 
 import java.io.File;
@@ -13,9 +14,8 @@ import java.util.List;
  * */
 public class PluginScannerTool {
     public static PluginConfig getPluginLoading() {
-        String root = System.getProperty("user.dir");
         //读取plugins下的配置文件
-        File file = new File(root + "/plugins/plugin-config.json");
+        File file = new File(ProjectPathConstant.PLUGIN_CONFIG_PATH);
         if (!(file.exists()&&file.isFile())){
             return new PluginConfig();
         }

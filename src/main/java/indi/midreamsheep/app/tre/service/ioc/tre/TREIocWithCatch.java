@@ -17,8 +17,12 @@ public class TREIocWithCatch {
         if(BEAN_MAP.containsKey(clazz)){
             return (T) BEAN_MAP.get(clazz);
         }
-        T bean = TREApplicationContext.getApplicationContext().getBean(clazz);
-        BEAN_MAP.put(clazz,bean);
-        return bean;
+        try{
+            T bean = TREApplicationContext.getApplicationContext().getBean(clazz);
+            BEAN_MAP.put(clazz,bean);
+            return bean;
+        }catch (Exception e){
+            throw new RuntimeException("can not get bean by class:"+clazz);
+        }
     }
 }

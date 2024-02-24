@@ -1,9 +1,10 @@
 package indi.midreamsheep.app.tre.context.plugin.action
 
 import cn.hutool.json.JSONUtil
+import indi.midreamsheep.app.tre.constant.ProjectPathConstant
 import indi.midreamsheep.app.tre.context.TREAction
-import indi.midreamsheep.app.tre.service.ioc.di.scan.PluginScannerTool
 import indi.midreamsheep.app.tre.context.plugin.TREPluginContext
+import indi.midreamsheep.app.tre.service.ioc.di.scan.PluginScannerTool
 import java.io.File
 
 class PluginAction(context: TREPluginContext): TREAction<TREPluginContext>(context) {
@@ -16,7 +17,7 @@ class PluginAction(context: TREPluginContext): TREAction<TREPluginContext>(conte
         }
         val pluginConfig = PluginScannerTool.PluginConfig()
         pluginConfig.name = loadingPlugins
-        File(System.getProperty("user.dir") + "/plugins/" + "plugin-config.json").writeText(JSONUtil.toJsonStr(pluginConfig))
+        File(ProjectPathConstant.ROOT_PATH + "/plugins/" + "plugin-config.json").writeText(JSONUtil.toJsonStr(pluginConfig))
     }
 
 }

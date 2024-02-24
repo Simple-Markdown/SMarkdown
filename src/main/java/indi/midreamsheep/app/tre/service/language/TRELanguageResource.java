@@ -1,12 +1,11 @@
 package indi.midreamsheep.app.tre.service.language;
 
+import indi.midreamsheep.app.tre.constant.ProjectPathConstant;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-
-import static java.io.File.separator;
 
 /**
  * 语言资源的封装
@@ -18,11 +17,10 @@ public class TRELanguageResource {
 
     static {
         languageProperties = new Properties();
-            String path = System.getProperty("user.dir")+ separator+"configs"+separator + "language"+separator+ "language.properties";
-        try (FileInputStream fileInputStream = new FileInputStream(path)) {
+        try (FileInputStream fileInputStream = new FileInputStream(ProjectPathConstant.LANGUAGE_PATH)) {
             languageProperties.load(fileInputStream);
         }catch (IOException e){
-            log.error("load language file error",e);
+            log.info("load language file error",e);
         }
     }
 

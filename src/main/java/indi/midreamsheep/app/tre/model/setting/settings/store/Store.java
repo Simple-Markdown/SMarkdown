@@ -1,6 +1,7 @@
 package indi.midreamsheep.app.tre.model.setting.settings.store;
 
 import indi.midreamsheep.app.tre.api.annotation.setting.StoreSetting;
+import indi.midreamsheep.app.tre.constant.ProjectPathConstant;
 import indi.midreamsheep.app.tre.model.setting.setting.TRECoreSetting;
 import indi.midreamsheep.app.tre.model.setting.settingitems.StringSettingItem;
 import lombok.Data;
@@ -13,5 +14,5 @@ import lombok.EqualsAndHashCode;
 @Data
 @StoreSetting
 public class Store extends TRECoreSetting {
-    private StringSettingItem rootPath = new StringSettingItem(System.getProperty("user.dir"),"根目录");
+    private StringSettingItem rootPath = new StringSettingItem(ProjectPathConstant.ROOT_PATH,"根目录");
 }

@@ -1,5 +1,6 @@
 package indi.midreamsheep.app.tre.context.mainpage.recentused.pojo
 
+import indi.midreamsheep.app.tre.constant.ProjectPathConstant
 import java.io.File
 
 data class RecentUsed(
@@ -9,7 +10,7 @@ data class RecentUsed(
 )
 
 fun readRecentUsed(): List<RecentUsed> {
-    val path = System.getProperty("user.dir")+File.separator+"runtime" + File.separator + "data" + File.separator + "RecentUsed"
+    val path = ProjectPathConstant.ROOT_PATH+File.separator+"runtime" + File.separator + "data" + File.separator + "RecentUsed"
     val file = File(path)
     val result = mutableListOf<RecentUsed>()
     //如果文件不存在

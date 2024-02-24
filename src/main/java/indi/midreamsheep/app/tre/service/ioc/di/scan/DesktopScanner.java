@@ -2,6 +2,7 @@ package indi.midreamsheep.app.tre.service.ioc.di.scan;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.json.JSONUtil;
+import indi.midreamsheep.app.tre.constant.ProjectPathConstant;
 import indi.midreamsheep.app.tre.service.ioc.di.scan.jarloader.TREJarLoader;
 import live.midreamsheep.frame.sioc.scan.inter.ClassesAbstractScanner;
 import lombok.extern.slf4j.Slf4j;
@@ -27,43 +28,37 @@ import java.util.jar.JarInputStream;
 public class DesktopScanner extends ClassesAbstractScanner {
     @Override
     public Set<Class<?>> doScan() {
-        String root = System.getProperty("user.dir");
-        log.info("start scan classes: {}",root);
+        log.info("start scan classes: {}",ProjectPathConstant.ROOT_PATH);
         //获取缓存
-        Set<String> aCatch = getCatch(root);
+        Set<String> aCatch = getCatch();
         log.debug("catch:{}",aCatch);
         boolean useCatch = !aCatch.isEmpty();
         //进行扫描
-        Set<Class<?>> result = new HashSet<>();
-
-        //扫描build/classes目录下的所有class(用于编码)
-        result.addAll(scanClasses(root + "/build/classes/java/main/",root + "/build/classes/java/main/"));
-        result.addAll(scanClasses(root + "/build/classes/kotlin/main/",root + "/build/classes/kotlin/main/"));
-
         //扫描核心包
-        log.info("scan core.jar:{}",root + "/core.jar");
-        result.addAll(scanAJar(root + "/core.jar",useCatch,aCatch));
+        log.info("scan core.jar:{}", ProjectPathConstant.CORE_JAR_PATH);
+        Set<Class<?>> result = scanCoreJar(useCatch,aCatch);
 
         //扫描libs目录下的所有jar包
-        log.info("scan libs:{}",root + "/libs");
-        result.addAll(scanJars(root + "/libs",useCatch,aCatch));
+        log.info("scan libs:{}",ProjectPathConstant.LIBS_PATH);
+        result.addAll(scanJars(ProjectPathConstant.LIBS_PATH,useCatch,aCatch));
 
         //扫描plugins下的插件
-        log.info("scan plugins:{}",root + "/plugins");
+        log.info("scan plugins:{}",ProjectPathConstant.PLUGIN_PATH);
 
         PluginScannerTool.PluginConfig pluginLoading = PluginScannerTool.getPluginLoading();
         for (String name : pluginLoading.getName()) {
-            log.info("scan plugin:{} location:{}",name,root + "/plugins/"+name+"/");
-            result.addAll(scanJars(root + "/plugins/"+name+"/",useCatch,aCatch));
+            log.info("scan plugin:{} location:{}",name,ProjectPathConstant.PLUGIN_PATH+File.separator+name+File.separator);
+            result.addAll(scanJars(ProjectPathConstant.PLUGIN_PATH+File.separator+name+File.separator,useCatch,aCatch));
         }
 
         log.info("scan success,find {} classes",result.size());
         return result;
     }
 
-    private Set<String> getCatch(String root) {
+    @SuppressWarnings("unchecked")
+    private Set<String> getCatch() {
         Set<String> aCatch = new HashSet<>();
-        File file = new File(root + "/cache/scanner.catch");
+        File file = new File(ProjectPathConstant.CACHE_SCANNER_PATH);
         if (!file.exists()){
             return aCatch;
         }
@@ -94,15 +89,29 @@ public class DesktopScanner extends ClassesAbstractScanner {
         return new HashSet<>();
     }
 
-    private Set<Class<?>> scanAJar(String path, boolean useCatch, Set<String> aCatch){
+    private Set<Class<?>> scanCoreJar(boolean useCatch, Set<String> aCatch){
+
         Set<Class<?>> classes = new HashSet<>();
-        if (!new File(path).exists()){
+        if(useCatch){
+            for (String s : aCatch) {
+                try {
+                    Class<?> aClass = Class.forName(s);
+                    classes.add(aClass);
+                    log.debug("load class:{} success",aClass.getName());
+                } catch (Throwable e) {
+                    log.debug("load class:{} failed error:{}",s,e.getMessage());
+                }
+            }
             return classes;
         }
-        JarInputStream jarInputStream = null;
-        JarEntry nextJarEntry = null;
+
+        if (!new File(ProjectPathConstant.CORE_JAR_PATH).exists()){
+            return classes;
+        }
+        JarInputStream jarInputStream;
+        JarEntry nextJarEntry;
         try {
-            jarInputStream = new JarInputStream(new FileInputStream(path));
+            jarInputStream = new JarInputStream(new FileInputStream(ProjectPathConstant.CORE_JAR_PATH));
             nextJarEntry = jarInputStream.getNextJarEntry();
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -111,14 +120,10 @@ public class DesktopScanner extends ClassesAbstractScanner {
         while (null != nextJarEntry) {
                 String name = nextJarEntry.getName();
                 if (name.endsWith(".class")) {
-                    String className = name.replace("/", ".").replace(".class", "");
-                    if (useCatch && !aCatch.contains(className)) {
-                        continue;
-                    }
                     try {
                         classes.add(Class.forName(name.replace(".class", "").replaceAll("/", ".")));
-                    } catch (Throwable ignored) {
-                        log.debug("load class:{} failed error:{}",name,ignored.getMessage());
+                    } catch (Throwable e) {
+                        log.debug("load class:{} failed error:{}",name,e.getMessage());
                     }
                 }
             try {
@@ -127,29 +132,7 @@ public class DesktopScanner extends ClassesAbstractScanner {
                 log.debug(e.getMessage());
             }
         }
-        log.debug("scan jar:{} success,find {} classes",path,classes.size());
-        return classes;
-    }
-
-    private Set<Class<?>> scanClasses(String path,String rootPath){
-        Set<Class<?>> classes = new HashSet<>();
-        File rootDictionary = new File(path);
-        if (rootDictionary.exists() && rootDictionary.isDirectory()){
-            File[] files = rootDictionary.listFiles();
-            if(files==null){
-                return classes;
-            }
-            for (File file : files) {
-                if (file.isDirectory()){
-                    classes.addAll(Objects.requireNonNull(scanClasses(file.getAbsolutePath(),rootPath)));
-                }
-                if (file.getName().endsWith(".class")){
-                    try {
-                        classes.add(Class.forName(file.getAbsolutePath().replace(rootPath,"").replace(".class", "").replaceAll("/", ".")));
-                    } catch (ClassNotFoundException|ExceptionInInitializerError|NoClassDefFoundError ignored) {}
-                }
-            }
-        }
+        log.debug("scan jar:{} success,find {} classes", ProjectPathConstant.CORE_JAR_PATH,classes.size());
         return classes;
     }
 }

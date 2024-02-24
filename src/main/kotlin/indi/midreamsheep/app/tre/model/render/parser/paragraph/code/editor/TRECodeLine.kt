@@ -7,7 +7,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRELine
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
-import indi.midreamsheep.app.tre.ui.editor.editors.render.code.codeInputTextField
+import indi.midreamsheep.app.tre.ui.page.editorpage.editors.render.code.codeInputTextField
 
 class TRECodeLine(val wrapper:TRELineState,type:String):TRELine {
 

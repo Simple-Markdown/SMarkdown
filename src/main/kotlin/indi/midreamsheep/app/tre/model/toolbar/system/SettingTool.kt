@@ -6,7 +6,7 @@ import androidx.compose.ui.window.Window
 import indi.midreamsheep.app.tre.api.annotation.toolbar.toolbars.EditorToolBar
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.toolbar.SubBarItem
-import indi.midreamsheep.app.tre.ui.setting.settingPage
+import indi.midreamsheep.app.tre.ui.page.settingpage.settingPage
 
 @EditorToolBar
 class SettingTool : SubBarItem() {
@@ -18,7 +18,9 @@ class SettingTool : SubBarItem() {
             return@Window
         }) {
             MaterialTheme{
-                settingPage()
+                settingPage(){
+
+                }
             }
         }
     }
