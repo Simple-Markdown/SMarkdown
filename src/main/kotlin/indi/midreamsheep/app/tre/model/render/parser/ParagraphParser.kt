@@ -11,7 +11,7 @@ interface ParagraphParser {
      * 行格式检查
      * 通过检查才会调用getComposable进行渲染
      * */
-    fun formatCheck(text: String):Boolean
+    fun formatCheck(text: String):Boolean = true
     /**
      * 获取渲染函数
      * */

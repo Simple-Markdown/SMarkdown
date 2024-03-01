@@ -16,14 +16,14 @@ class StyleTextBoldLeaf(
     /**
      * 获取用于显示的AnnotatedString
      * */
-    override fun build(): AnnotatedString {
+    override fun build(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
             withStyle(
                 style = SpanStyle(
                     fontWeight = FontWeight.Bold
                 )
             ) {
-                if (isDisplay){
+                if (isFocus&&isDisplay){
                     withStyle(
                         style = SpanStyle(
                             color = Color.Gray
@@ -33,9 +33,9 @@ class StyleTextBoldLeaf(
                     }
                 }
                 for (child in getChildren()) {
-                    append(child!!.build())
+                    append(child!!.build(isFocus))
                 }
-                if (isDisplay){
+                if (isFocus&&isDisplay){
                     withStyle(
                         style = SpanStyle(
                             color = Color.Gray

@@ -15,14 +15,14 @@ class StyleTextItalicLeaf(
     /**
      * 获取用于显示的AnnotatedString
      * */
-    override fun build(): AnnotatedString {
+    override fun build(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
             withStyle(
                 style = SpanStyle(
                     fontStyle = Italic
                 )
             ) {
-                if (isDisplay){
+                if (isFocus&&isDisplay){
                     withStyle(
                         style = SpanStyle(
                             color = Color.Gray
@@ -32,9 +32,9 @@ class StyleTextItalicLeaf(
                     }
                 }
                 for (child in getChildren()) {
-                    append(child!!.build())
+                    append(child!!.build(isFocus))
                 }
-                if (isDisplay){
+                if (isFocus&&isDisplay){
                     withStyle(
                         style = SpanStyle(
                             color = Color.Gray

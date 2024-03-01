@@ -9,7 +9,7 @@ interface TREStyleTextTree {
     /**
      * 获取用于显示的AnnotatedString
      * */
-    fun build():AnnotatedString
+    fun build(isFocus: Boolean):AnnotatedString
     /**
      * 源文本到转换后文本的偏移
      * */

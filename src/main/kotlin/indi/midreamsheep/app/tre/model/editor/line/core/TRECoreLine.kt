@@ -38,20 +38,17 @@ class TRECoreLine(val wrapper: TRELineState) : TRETextLine {
         }
     )
 
-    private var selection = 0
     private var focusRequester: FocusRequester = FocusRequester()
     var isFocus = mutableStateOf(false)
 
 
     override fun focus() {
         isFocus.value = true
-        content.value = content.value.copy(selection = TextRange(selection))
         wrapper.markdownLineInter.setCurrentMarkdownLineState(wrapper)
     }
 
     override fun releaseFocus() {
         isFocus.value = false
-        selection = content.value.selection.start
         wrapper.markdownLineInter.getCurrentMarkdownLine()?.let {
             if (it == wrapper) {
                 wrapper.markdownLineInter.setCurrentMarkdownLineState(null)
@@ -106,33 +103,17 @@ class TRECoreLine(val wrapper: TRELineState) : TRETextLine {
             ,
             visualTransformation = { _ ->
                 TransformedText(
-                    text = render.value.styleTextTree!!.build(),
+                    text = render.value.styleTextTree!!.build(true),
                     offsetMapping = TREOffsetMappingAdapter(render.value.styleTextTree!!),
                 )
             },
             decorationBox = { innerTextField ->
                 Column(modifier = Modifier.fillMaxWidth()) {
-                    render.value.prefixLineDecorations.forEach {
-                        it.display()
+                    coreComposable {
+                        innerTextField()
                     }
-                    Box(
-                        Modifier.height(IntrinsicSize.Max).fillMaxWidth()
-                    ) {
-                        render.value.backgroundDecorations.forEach {
-                            it.display()
-                        }
-                        Row{
-                            render.value.prefixTextDecorations.forEach {
-                                it.display()
-                            }
-                            innerTextField.invoke()
-                            render.value.suffixTextDecorations.forEach {
-                                it.display()
-                            }
-                        }
-                    }
-                    render.value.suffixLineDecorations.forEach {
-                        it.display()
+                    if (render.value.isPreView()){
+                        preview()
                     }
                 }
             }
@@ -145,6 +126,15 @@ class TRECoreLine(val wrapper: TRELineState) : TRETextLine {
 
     @Composable
     fun preview(){
+        coreComposable {
+            render.value.previewDisplay.display()
+        }
+    }
+
+    @Composable
+    fun coreComposable(
+        content:@Composable () -> Unit
+    ) {
         Column(
             Modifier.fillMaxWidth()
         ) {
@@ -161,7 +151,7 @@ class TRECoreLine(val wrapper: TRELineState) : TRETextLine {
                     render.value.prefixTextDecorations.forEach {
                         it.display()
                     }
-                    render.value.previewDisplay.display()
+                    content.invoke()
                     render.value.suffixTextDecorations.forEach {
                         it.display()
                     }
@@ -171,7 +161,6 @@ class TRECoreLine(val wrapper: TRELineState) : TRETextLine {
                 it.display()
             }
         }
-
     }
 
     override fun focusFromLast() {

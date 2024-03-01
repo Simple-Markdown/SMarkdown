@@ -14,7 +14,7 @@ open class TRECoreLeaf(private val content:String): TRECoreStyleTextRoot() {
     /**
      * 获取用于显示的AnnotatedString
      * */
-    override fun build(): AnnotatedString {
+    override fun build(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
             append(content)
         }

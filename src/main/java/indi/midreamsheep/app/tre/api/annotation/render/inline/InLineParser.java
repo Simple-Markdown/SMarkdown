@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.api.annotation.render;
+package indi.midreamsheep.app.tre.api.annotation.render.inline;
 
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapInject;
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment;

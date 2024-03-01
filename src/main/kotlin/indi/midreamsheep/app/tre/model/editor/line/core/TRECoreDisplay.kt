@@ -13,7 +13,7 @@ class TRECoreDisplay(val line:TRECoreLine):Display {
     override fun display() {
         val value = line.render.value.styleTextTree!!
         Text(
-            text = value.build(),
+            text = value.build(false),
             style = MaterialTheme.typography.bodyLarge,
             inlineContent = line.render.value.previewAnnotation,
             modifier = Modifier

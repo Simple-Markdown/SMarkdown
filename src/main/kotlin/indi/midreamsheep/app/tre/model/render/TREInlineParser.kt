@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.model.render
 
-import indi.midreamsheep.app.tre.api.annotation.render.InLineParser
+import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParser
 import indi.midreamsheep.app.tre.model.render.parser.SpanParser
 import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextTree
 import indi.midreamsheep.app.tre.model.render.styletext.leaf.TRECoreLeaf

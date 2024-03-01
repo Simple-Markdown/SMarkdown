@@ -3,13 +3,12 @@ package indi.midreamsheep.app.tre.model.render.parser.paragraph.divide
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Divider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.api.annotation.render.LineParser
+import indi.midreamsheep.app.tre.api.annotation.render.line.LineParser
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRETextRender
@@ -61,16 +60,6 @@ class DivideParser: ParagraphParser {
                 Divider()
             }
         }
-        render.backgroundDecorations.add(
-            Display {
-                Column(
-                    Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Divider()
-                }
-            }
-        )
         return render
     }
 

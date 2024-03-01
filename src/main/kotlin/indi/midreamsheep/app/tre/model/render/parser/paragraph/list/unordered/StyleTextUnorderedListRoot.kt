@@ -20,13 +20,13 @@ class StyleTextUnorderedListRoot(
         return super.transformedToOriginal(offset) + 2
     }
 
-    override fun build(): AnnotatedString {
+    override fun build(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
-            if (isDisplay){
+            if (isDisplay&&isFocus){
                 append("- ")
             }
             for (child in getChildren()) {
-                append(child!!.build())
+                append(child!!.build(isFocus))
             }
         }
     }

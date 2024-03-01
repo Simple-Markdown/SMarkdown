@@ -19,7 +19,7 @@ class StyleTextCodeRoot(
         return offset
     }
 
-    override fun build(): AnnotatedString {
+    override fun build(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
             withStyle(
                 SpanStyle(

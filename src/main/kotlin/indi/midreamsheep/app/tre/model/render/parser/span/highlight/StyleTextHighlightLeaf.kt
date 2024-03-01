@@ -9,29 +9,29 @@ import indi.midreamsheep.app.tre.model.render.styletext.root.TRECoreStyleTextRoo
 
 class StyleTextHighlightLeaf(
     private val content: String,
-    private val display: Boolean
+    private val isDisplay: Boolean
 ): TRECoreStyleTextRoot() {
 
     /**
      * 获取用于显示的AnnotatedString
      * */
-    override fun build(): AnnotatedString {
+    override fun build(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
             append("(")
-            if (display){
+            if (isFocus&&isDisplay){
                 withStyle(
                     style = SpanStyle(
                         background = Color.Blue.copy(alpha = 0.1f),
                     )
                 ) {
                     for (child in getChildren()) {
-                        append(child!!.build())
+                        append(child!!.build(isFocus))
                     }
                 }
             }
             else {
                 for (child in getChildren()) {
-                    append(child!!.build())
+                    append(child!!.build(isFocus))
                 }
             }
             append(")")

@@ -6,10 +6,10 @@ import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextRoot
 
 open class TRECoreStyleTextRoot: TREStyleTextRoot() {
 
-    override fun build(): AnnotatedString {
+    override fun build(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
             children.forEach {
-                append(it.build())
+                append(it.build(isFocus))
             }
         }
     }

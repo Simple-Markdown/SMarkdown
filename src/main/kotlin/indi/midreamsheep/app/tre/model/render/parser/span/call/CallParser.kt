@@ -10,7 +10,7 @@ import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.unit.sp
 import cn.hutool.core.lang.generator.SnowflakeGenerator
-import indi.midreamsheep.app.tre.api.annotation.render.InLineParser
+import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParser
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.model.render.TRETextRender
 import indi.midreamsheep.app.tre.model.render.parser.SpanParser

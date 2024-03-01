@@ -3,14 +3,14 @@ package indi.midreamsheep.app.tre.model.render.parser.paragraph.list.unordered
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.api.annotation.render.LineParser
+import indi.midreamsheep.app.tre.api.annotation.render.line.LineParser
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TREInlineParser
@@ -64,7 +64,7 @@ class UnorderedListParser: ParagraphParser {
                         modifier = Modifier
                             .align(Alignment.Center)
                             .size(6.dp)
-                            .clip(CircleShape)
+                            .clip(RoundedCornerShape(100))
                             .background(Color.Black)
                     ) {
                     }

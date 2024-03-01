@@ -2,7 +2,7 @@ package indi.midreamsheep.app.tre.model.render.parser.paragraph.code
 
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.api.annotation.render.LineParser
+import indi.midreamsheep.app.tre.api.annotation.render.line.LineParser
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager

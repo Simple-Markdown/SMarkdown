@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.model.render.parser.span.link
 
-import indi.midreamsheep.app.tre.api.annotation.render.InLineParser
+import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParser
 import indi.midreamsheep.app.tre.model.render.TREInlineParser
 import indi.midreamsheep.app.tre.model.render.TRETextRender
 import indi.midreamsheep.app.tre.model.render.parser.SpanParser

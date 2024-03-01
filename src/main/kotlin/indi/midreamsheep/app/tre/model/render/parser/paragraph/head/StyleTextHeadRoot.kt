@@ -23,7 +23,7 @@ class StyleTextHeadRoot(
         return offset + level+1
     }
 
-    override fun build(): AnnotatedString {
+    override fun build(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
             withStyle(
                 SpanStyle(
@@ -31,11 +31,11 @@ class StyleTextHeadRoot(
                     fontSize = (15+(6-level+1)*5).sp,
                 )
             ) {
-                if (isDisplay){
+                if (isDisplay&&isFocus){
                     append("#".repeat(level) + " ")
                 }
                 for (child in getChildren()) {
-                    append(child!!.build())
+                    append(child!!.build(isFocus))
                 }
             }
         }

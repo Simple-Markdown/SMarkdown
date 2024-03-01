@@ -23,4 +23,8 @@ class TRETextRender(line:TRECoreLine) {
     var previewDisplay:Display = TRECoreDisplay(line)
     // 预览时对富文本的注解处理
     val previewAnnotation:MutableMap<String,InlineTextContent> = mutableMapOf()
+    // 是否是预览
+    var preview:Boolean = false
+
+    fun isPreView() = previewDisplay !is TRECoreDisplay || previewAnnotation.isNotEmpty() || preview
 }

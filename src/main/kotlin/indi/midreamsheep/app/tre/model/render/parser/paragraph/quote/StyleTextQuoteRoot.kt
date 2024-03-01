@@ -21,13 +21,13 @@ class StyleTextQuoteRoot(
         return super.transformedToOriginal(offset) + level*2
     }
 
-    override fun build(): AnnotatedString {
+    override fun build(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
-            if (isDisplay){
+            if (isFocus&&isDisplay){
                 append("> ".repeat(level))
             }
             for (child in getChildren()) {
-                append(child!!.build())
+                append(child!!.build(isFocus))
             }
         }
     }

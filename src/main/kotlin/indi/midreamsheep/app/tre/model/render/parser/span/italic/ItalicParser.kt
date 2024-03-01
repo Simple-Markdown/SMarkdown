@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.model.render.parser.span.italic
 
-import indi.midreamsheep.app.tre.api.annotation.render.InLineParser
+import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParser
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.model.render.TREInlineParser
 import indi.midreamsheep.app.tre.model.render.TRETextRender

@@ -22,6 +22,7 @@ fun renderList(
 ) {
     val stateManager = context.editorFileManager.getStateManager()
     val lineStateList = stateManager.getMarkdownLineStateList()
+
     LazyColumn(
         state = listState,
         modifier = modifier.fillMaxSize().padding(top = 10.dp)
@@ -29,12 +30,7 @@ fun renderList(
                 lineStateList[lineStateList.size - 1].line.focus()
             }
             .onKeyEvent { keyEvent ->
-                if (keyEvent.key == Enter) {
-                    // 处理回车键的事件
-                    true // 表示这个事件已经被处理
-                } else {
-                    false // 表示这个事件没有被处理，应该传递给其他处理器
-                }
+                keyEvent.key == Enter
             }
     ) {
         for (markdownLineState in lineStateList) {

@@ -1,6 +1,7 @@
 package indi.midreamsheep.app.tre.model.render
 
-import indi.midreamsheep.app.tre.api.annotation.render.LineParser
+import indi.midreamsheep.app.tre.api.annotation.render.line.LineParser
+import indi.midreamsheep.app.tre.api.annotation.render.line.LineRegParser
 import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.parser.ParagraphParser
@@ -16,6 +17,9 @@ class TRELineParser {
     @LineParser
     private val paragraphParser = HashMap<Char,List<ParagraphParser>>()
 
+    @LineRegParser
+    private val paragraphRegParser = HashMap<String,List<ParagraphParser>>()
+
     @Injector
     private val defaultParser: DefaultParser? = null
 
@@ -25,6 +29,7 @@ class TRELineParser {
         state: TRECoreLine,
         stateList: TREStateManager
     ): TRETextRender {
+
         if(text.isEmpty()) {
             val treCoreStyleTextRoot = TRECoreStyleTextRoot()
             treCoreStyleTextRoot.addChildren(TRECoreLeaf(""))
@@ -38,6 +43,13 @@ class TRELineParser {
 
         val parserList:MutableList<ParagraphParser> = mutableListOf()
         val paragraphParsers = paragraphParser[startChar]
+        paragraphRegParser.forEach {
+            if (it.key.toRegex().matches(text)){
+                it.value.forEach { parser ->
+                    parserList.add(parser)
+                }
+            }
+        }
         paragraphParsers?.forEach {
             if (it.formatCheck(text)){
                 parserList.add(it)
