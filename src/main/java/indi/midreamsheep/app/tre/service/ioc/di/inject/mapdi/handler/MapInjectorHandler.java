@@ -41,7 +41,6 @@ public class MapInjectorHandler extends AbstractContextHandler {
                             injectChar(applicationContext,map);
                             break;
                         default:
-                            System.out.println("不支持的类型" + parameterizedType.getActualTypeArguments()[0].getTypeName());
                             //injectChar(applicationContext,map);
                     }
                 }

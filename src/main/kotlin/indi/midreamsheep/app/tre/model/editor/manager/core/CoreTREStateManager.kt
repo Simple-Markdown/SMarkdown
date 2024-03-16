@@ -4,11 +4,13 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 
 class CoreTREStateManager: TREStateManager {
 
+    private lateinit var context: TREEditorContext
     private val markdownLineStateList = mutableStateListOf<TRELineState>()
     private var currentMarkdownLineState: MutableState<TRELineState?> = mutableStateOf(null)
 
@@ -27,5 +29,11 @@ class CoreTREStateManager: TREStateManager {
     override fun setCurrentMarkdownLineState(markdownLineState: TRELineState?) {
         currentMarkdownLineState.value = markdownLineState
     }
+
+    override fun getContext() = context
+    override fun setContext(context: TREEditorContext) {
+        this.context = context
+    }
+
 
 }

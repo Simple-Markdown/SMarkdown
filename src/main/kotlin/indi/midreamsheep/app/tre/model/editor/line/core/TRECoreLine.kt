@@ -19,20 +19,21 @@ import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.line.TRETextLine
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
-import indi.midreamsheep.app.tre.model.render.TRELineParser
 import indi.midreamsheep.app.tre.model.render.TREOffsetMappingAdapter
-import indi.midreamsheep.app.tre.model.render.TRETextRender
-import indi.midreamsheep.app.tre.model.render.styletext.leaf.TRECoreLeaf
-import indi.midreamsheep.app.tre.model.render.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.model.render.TRERender
+import indi.midreamsheep.app.tre.model.render.style.styletext.leaf.TRECoreLeaf
+import indi.midreamsheep.app.tre.model.render.style.styletext.root.TRECoreStyleTextRoot
 import indi.midreamsheep.app.tre.tool.ioc.getBean
 
-class TRECoreLine(val wrapper: TRELineState) : TRETextLine {
+class TRECoreLine(
+    val wrapper: TRELineState
+) : TRETextLine {
 
-    val parser = getBean(TRELineParser::class.java)
+    val parser = getBean(indi.midreamsheep.app.tre.model.parser.paragraph.TRELineParser::class.java)
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
-    var render: MutableState<TRETextRender> = mutableStateOf(
-        TRETextRender(this).apply {
-            styleTextTree = TRECoreStyleTextRoot().apply {
+    var render: MutableState<TRERender> = mutableStateOf(
+        TRERender(this).apply {
+            styleText.styleTextTree = TRECoreStyleTextRoot().apply {
                 addChildren(TRECoreLeaf(""))
             }
         }
@@ -98,21 +99,21 @@ class TRECoreLine(val wrapper: TRELineState) : TRETextLine {
                     isFocus.value = it.isFocused
                 }
                 .onPreviewKeyEvent {
-                    return@onPreviewKeyEvent context.shortcutAction.textFieldEvent(it)
+                    return@onPreviewKeyEvent render.value.listener.handleKeyEvent(it,context)
                 }
             ,
             visualTransformation = { _ ->
                 TransformedText(
-                    text = render.value.styleTextTree!!.build(true),
-                    offsetMapping = TREOffsetMappingAdapter(render.value.styleTextTree!!),
+                    text = render.value.styleText.styleTextTree!!.build(true),
+                    offsetMapping = TREOffsetMappingAdapter(render.value.styleText.styleTextTree!!),
                 )
             },
             decorationBox = { innerTextField ->
                 Column(modifier = Modifier.fillMaxWidth()) {
-                    coreComposable {
+                    coreComposable(render.value) {
                         innerTextField()
                     }
-                    if (render.value.isPreView()){
+                    if (render.value.styleText.isPreView()){
                         preview()
                     }
                 }
@@ -126,38 +127,39 @@ class TRECoreLine(val wrapper: TRELineState) : TRETextLine {
 
     @Composable
     fun preview(){
-        coreComposable {
-            render.value.previewDisplay.display()
+        coreComposable(render.value) {
+            render.value.styleText.previewDisplay.display()
         }
     }
 
     @Composable
     fun coreComposable(
-        content:@Composable () -> Unit
+        textRender: TRERender,
+        content: @Composable () -> Unit
     ) {
         Column(
             Modifier.fillMaxWidth()
         ) {
-            render.value.prefixLineDecorations.forEach {
+            textRender.styleText.prefixLineDecorations.forEach {
                 it.display()
             }
             Box(Modifier.fillMaxWidth().height(IntrinsicSize.Max)) {
-                render.value.backgroundDecorations.forEach {
+                textRender.styleText.backgroundDecorations.forEach {
                     it.display()
                 }
                 Row(
                     Modifier.height(IntrinsicSize.Max)
                 ) {
-                    render.value.prefixTextDecorations.forEach {
+                    textRender.styleText.prefixTextDecorations.forEach {
                         it.display()
                     }
                     content.invoke()
-                    render.value.suffixTextDecorations.forEach {
+                    textRender.styleText.suffixTextDecorations.forEach {
                         it.display()
                     }
                 }
             }
-            render.value.suffixLineDecorations.forEach {
+            textRender.styleText.suffixLineDecorations.forEach {
                 it.display()
             }
         }
@@ -182,10 +184,10 @@ class TRECoreLine(val wrapper: TRELineState) : TRETextLine {
         content.value = value
     }
 
-    private fun buildContent(
-        context: TREStateManager
+    fun buildContent(
+        treStateManager: TREStateManager
     ){
-        render.value = parser.parse(content.value.text, content.value.selection.start, this, context)
+        render.value = parser.parse(content.value.text, content.value.selection.start, this, treStateManager)
     }
 
 }

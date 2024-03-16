@@ -32,7 +32,8 @@ public class DesktopScanner extends ClassesAbstractScanner {
     public Set<Class<?>> doScan() {
         log.info("start scan classes: {}", AppPathConstant.ROOT_PATH);
         //获取缓存
-        Set<String> aCatch = getCatch();
+        //Set<String> aCatch = getCatch();
+        Set<String> aCatch = new HashSet<>();
         log.debug("catch:{}",aCatch);
         boolean useCatch = !aCatch.isEmpty();
         //进行扫描

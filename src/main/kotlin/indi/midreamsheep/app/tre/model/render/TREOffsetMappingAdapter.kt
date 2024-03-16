@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.render
 
 import androidx.compose.ui.text.input.OffsetMapping
-import indi.midreamsheep.app.tre.model.render.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.model.render.style.styletext.TREStyleTextTree
 
 /**
  * 偏移量映射

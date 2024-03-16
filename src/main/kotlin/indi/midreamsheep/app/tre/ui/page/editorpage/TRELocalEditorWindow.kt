@@ -16,6 +16,7 @@ class TRELocalEditorWindow(private val treLocalFile:TRELocalFile): TREWindow(tre
     override fun getDisplay() = Display {
         val manager = TRELocalFileRenderManager(treLocalFile)
         val context = remember { TREEditorContext(manager) }
+        context.editorFileManager.getStateManager().setContext(context)
         Window(onCloseRequest = {
             close()
         }, title = name,

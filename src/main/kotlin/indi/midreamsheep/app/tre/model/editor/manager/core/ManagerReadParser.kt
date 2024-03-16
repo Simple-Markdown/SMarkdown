@@ -1,21 +1,20 @@
 package indi.midreamsheep.app.tre.model.editor.manager.core
 
-import indi.midreamsheep.app.tre.api.annotation.render.line.LineParser
+import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserList
 import indi.midreamsheep.app.tre.model.editor.line.TRELineState
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
-import indi.midreamsheep.app.tre.model.render.parser.ParagraphParser
-import indi.midreamsheep.app.tre.model.render.parser.paragraph.DefaultParser
+import indi.midreamsheep.app.tre.model.parser.LineParser
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @Comment
 class ManagerReadParser {
 
-    @LineParser
-    private val paragraphParser = HashMap<Char,List<ParagraphParser>>()
+    @LineParserList
+    private val paragraphParser = HashMap<Char,List<LineParser>>()
 
     @Injector
-    private val defaultParser: DefaultParser? = null
+    private val defaultParser: indi.midreamsheep.app.tre.model.parser.paragraph.DefaultParser? = null
 
     fun parse(manager: TREStateManager, content: String) {
         var lineNumber = 0
@@ -25,7 +24,7 @@ class ManagerReadParser {
             if (lineNumber==split.size){
                 break
             }
-            var parser: ParagraphParser? = null
+            var parser: LineParser? = null
             if(split[lineNumber].isNotEmpty()){
                 //获取首字母
                 val start = split[lineNumber][0]

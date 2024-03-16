@@ -27,7 +27,6 @@ fun editorPage(
         }
     }
     val listState = rememberLazyListState()
-
     context.dialogVewModel.displayDialog()
     Column(
         modifier = Modifier.padding(0.dp)
