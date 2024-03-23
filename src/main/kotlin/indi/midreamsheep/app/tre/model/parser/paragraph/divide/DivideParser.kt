@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserList
-import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
+import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.parser.LineParser
 import indi.midreamsheep.app.tre.model.render.TRERender
@@ -40,7 +40,7 @@ class DivideParser: LineParser {
         text: String,
         selection:Int,
         stateList: TREStateManager,
-        line: TRECoreLine
+        line: TRECoreBlock
     ): TRERender {
         val apply = TRECoreLeaf(text)
         val tree = TRECoreStyleTextRoot()

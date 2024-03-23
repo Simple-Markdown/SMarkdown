@@ -5,22 +5,26 @@ import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.editor.line.TRELineState
-import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
+import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
+import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.render.listener.TRERenderListener
-import indi.midreamsheep.app.tre.model.shortcut.entity.TREShortcutKeyWeakMatch
+import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakMatch
 
 class DivideListener: TRERenderListener() {
     override fun keyEvent(key: KeyEvent, context: TREEditorContext): Boolean {
         //Enter
-        if (context.shortcutAction.textFiledCheck(TREShortcutKeyWeakMatch(Enter.keyCode))) {
+        if (context.shortcutAction.textFiledCheck(
+                TREShortcutKeyWeakMatch(
+                    Enter.keyCode
+                )
+            )) {
             val stateManager = context.editorFileManager.getStateManager()
-            val markdownLineStateList = stateManager.getMarkdownLineStateList()
-            val currentMarkdownLineState = stateManager.getCurrentMarkdownLineState().value!!
+            val markdownLineStateList = stateManager.getTREBlockStateList()
+            val currentMarkdownLineState = stateManager.getCurrentBlockState().value!!
             val index = markdownLineStateList.indexOf(currentMarkdownLineState)
-            val newMarkdownLineState = TRELineState(stateManager)
+            val newMarkdownLineState = TREBlockState(stateManager)
             markdownLineStateList.add(index + 1, newMarkdownLineState)
-            val treCoreLine = newMarkdownLineState.line as TRECoreLine
+            val treCoreLine = newMarkdownLineState.line as TRECoreBlock
             treCoreLine.content.value = TextFieldValue(
                 text = "- ",
                 selection = TextRange(2)

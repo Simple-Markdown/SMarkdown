@@ -21,7 +21,7 @@ fun renderList(
     listState: LazyListState
 ) {
     val stateManager = context.editorFileManager.getStateManager()
-    val lineStateList = stateManager.getMarkdownLineStateList()
+    val lineStateList = stateManager.getTREBlockStateList()
 
     LazyColumn(
         state = listState,
@@ -35,15 +35,15 @@ fun renderList(
     ) {
         for (markdownLineState in lineStateList) {
             item {
-                markdownLineState.line.getComposable(context)()
+                markdownLineState.line.getComposable(context).display()
             }
         }
     }
-   LaunchedEffect(key1 = stateManager.getCurrentMarkdownLineState().value) {
-       if (stateManager.getCurrentMarkdownLineState().value == null){
+   LaunchedEffect(key1 = stateManager.getCurrentBlockState().value) {
+       if (stateManager.getCurrentBlockState().value == null){
            return@LaunchedEffect
        }
-       val currentIndex = lineStateList.indexOf(stateManager.getCurrentMarkdownLine()!!)
+       val currentIndex = lineStateList.indexOf(stateManager.getCurrentBlock()!!)
        // 检查当前行是否在可视范围内
        if (currentIndex !in listState.firstVisibleItemIndex..<listState.firstVisibleItemIndex + listState.layoutInfo.visibleItemsInfo.size) {
            // 如果不在可视范围内，滚动到当前行

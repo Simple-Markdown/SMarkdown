@@ -28,11 +28,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.parser.paragraph.code.editor.TRECodeLine
+import indi.midreamsheep.app.tre.model.parser.paragraph.code.editor.TRECodeBlock
 
 @Composable
 fun codeInputTextField(
-    codeLine: TRECodeLine,
+    codeLine: TRECodeBlock,
     context: TREEditorContext
 ) {
     Column {

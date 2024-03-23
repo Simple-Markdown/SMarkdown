@@ -3,10 +3,10 @@ package indi.midreamsheep.app.tre.model.parser.paragraph.code
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserList
-import indi.midreamsheep.app.tre.model.editor.line.TRELineState
-import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
+import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
+import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
-import indi.midreamsheep.app.tre.model.parser.paragraph.code.editor.TRECodeLine
+import indi.midreamsheep.app.tre.model.parser.paragraph.code.editor.TRECodeBlock
 import indi.midreamsheep.app.tre.model.render.TRERender
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 
@@ -28,19 +28,19 @@ class CodeParser: indi.midreamsheep.app.tre.model.parser.LineParser {
         text: String,
         selection:Int,
         stateList: TREStateManager,
-        line: TRECoreLine
+        line: TRECoreBlock
     ): TRERender {
         val render = TRERender(line)
         render.styleText.styleTextTree = StyleTextCodeRoot(text)
         render.styleText.preview = false
         render.styleText.previewDisplay = Display {
             //对于代码块进行替换
-            val newLine = TRELineState(stateList).apply {
-                this.line = TRECodeLine(this,text).apply {
+            val newLine = TREBlockState(stateList).apply {
+                this.line = TRECodeBlock(this,text).apply {
                     focus.value = true
                 }
             }
-            val list = stateList.getMarkdownLineStateList()
+            val list = stateList.getTREBlockStateList()
             list.indexOf(line.wrapper).let {
                 list[it] = newLine
             }
@@ -78,12 +78,12 @@ class CodeParser: indi.midreamsheep.app.tre.model.parser.LineParser {
                 if (index-lineNumber-1>0){
                     code.delete(code.length-1,code.length)
                 }
-                val newLine = TRELineState(state).apply {
-                    this.line = TRECodeLine(this,type).apply {
+                val newLine = TREBlockState(state).apply {
+                    this.line = TRECodeBlock(this,type).apply {
                         content.value = TextFieldValue(code.toString())
                     }
                 }
-                state.getMarkdownLineStateList().add(newLine)
+                state.getTREBlockStateList().add(newLine)
                 return index+1
             }
             index++

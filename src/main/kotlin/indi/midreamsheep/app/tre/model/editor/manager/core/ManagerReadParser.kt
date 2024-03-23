@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.editor.manager.core
 
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserList
-import indi.midreamsheep.app.tre.model.editor.line.TRELineState
+import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.parser.LineParser
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
@@ -42,8 +42,8 @@ class ManagerReadParser {
             //解析
             lineNumber = parser!!.analyse(split, lineNumber, manager)
         }
-        if (manager.getMarkdownLineStateList().size==0){
-            manager.getMarkdownLineStateList().add(TRELineState(manager))
+        if (manager.getTREBlockStateList().size==0){
+            manager.getTREBlockStateList().add(TREBlockState(manager))
         }
     }
 }

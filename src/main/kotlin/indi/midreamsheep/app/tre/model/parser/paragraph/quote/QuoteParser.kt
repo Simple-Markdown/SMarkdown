@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserList
-import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
+import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.parser.LineParser
 import indi.midreamsheep.app.tre.model.render.TRERender
@@ -29,7 +29,7 @@ class QuoteParser: LineParser {
         text: String,
         selection:Int,
         stateList: TREStateManager,
-        line: TRECoreLine
+        line: TRECoreBlock
     ): TRERender {
         val render = TRERender(line)
         val level = getLevel(text)

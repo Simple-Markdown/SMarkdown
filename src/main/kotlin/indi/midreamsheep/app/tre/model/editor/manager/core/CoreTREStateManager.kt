@@ -5,28 +5,28 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.editor.line.TRELineState
+import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 
 class CoreTREStateManager: TREStateManager {
 
     private lateinit var context: TREEditorContext
-    private val markdownLineStateList = mutableStateListOf<TRELineState>()
-    private var currentMarkdownLineState: MutableState<TRELineState?> = mutableStateOf(null)
+    private val markdownLineStateList = mutableStateListOf<TREBlockState>()
+    private var currentMarkdownLineState: MutableState<TREBlockState?> = mutableStateOf(null)
 
-    override fun getMarkdownLineStateList(): SnapshotStateList<TRELineState> {
+    override fun getTREBlockStateList(): SnapshotStateList<TREBlockState> {
         return markdownLineStateList
     }
 
-    override fun getCurrentMarkdownLineState(): MutableState<TRELineState?> {
+    override fun getCurrentBlockState(): MutableState<TREBlockState?> {
         return currentMarkdownLineState
     }
 
-    override fun getCurrentMarkdownLine(): TRELineState? {
+    override fun getCurrentBlock(): TREBlockState? {
         return currentMarkdownLineState.value
     }
 
-    override fun setCurrentMarkdownLineState(markdownLineState: TRELineState?) {
+    override fun setCurrentBlockState(markdownLineState: TREBlockState?) {
         currentMarkdownLineState.value = markdownLineState
     }
 

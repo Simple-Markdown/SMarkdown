@@ -35,7 +35,7 @@ class TRELocalFileRenderManager(private var file: TREFile) : TREFileManager {
 
     override fun getContent(): String {
         var result = ""
-        val list = markdownStateManager.getMarkdownLineStateList()
+        val list = markdownStateManager.getTREBlockStateList()
         for ((index, treLineState) in list.withIndex()) {
             result += treLineState.line.getContent()
             if (index != list.size) {
@@ -46,7 +46,7 @@ class TRELocalFileRenderManager(private var file: TREFile) : TREFileManager {
     }
 
     override fun setContent(content: String) {
-        markdownStateManager.getMarkdownLineStateList().clear()
+        markdownStateManager.getTREBlockStateList().clear()
         parser.parse(markdownStateManager,content)
     }
 }

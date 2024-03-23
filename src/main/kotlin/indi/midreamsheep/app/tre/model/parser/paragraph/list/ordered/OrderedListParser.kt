@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.parser.paragraph.list.ordered
 
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineRegParser
-import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
+import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRERender
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
@@ -14,7 +14,7 @@ class OrderedListParser: indi.midreamsheep.app.tre.model.parser.LineParser {
         text: String,
         selection:Int,
         stateList: TREStateManager,
-        line: TRECoreLine
+        line: TRECoreBlock
     ): TRERender {
         println("hello")
         return TRERender(line)

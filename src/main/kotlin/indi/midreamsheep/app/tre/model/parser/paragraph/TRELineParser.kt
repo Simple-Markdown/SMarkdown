@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.model.parser.paragraph
 
-import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
+import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRERender
 import indi.midreamsheep.app.tre.model.render.style.styletext.leaf.TRECoreLeaf
@@ -17,7 +17,7 @@ class TRELineParser {
     fun parse(
         text: String,
         selection: Int,
-        state: TRECoreLine,
+        state: TRECoreBlock,
         stateList: TREStateManager
     ): TRERender {
         if(text.isEmpty()) {

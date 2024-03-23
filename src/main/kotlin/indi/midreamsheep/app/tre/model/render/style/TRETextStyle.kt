@@ -2,11 +2,11 @@ package indi.midreamsheep.app.tre.model.render.style
 
 import androidx.compose.foundation.text.InlineTextContent
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreDisplay
-import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
+import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreDisplay
+import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.render.style.styletext.TREStyleTextTree
 
-class TRETextStyle(line:TRECoreLine) {
+class TRETextStyle(line:TRECoreBlock) {
     // 样式文本树
     var styleTextTree: TREStyleTextTree? = null
     // 文本前缀修饰组,上一行修饰

@@ -3,9 +3,10 @@ package indi.midreamsheep.app.tre.model.parser.paragraph.head
 import androidx.compose.material3.Divider
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserList
-import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
+import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRERender
+import indi.midreamsheep.app.tre.model.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.model.render.style.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 
@@ -21,7 +22,7 @@ class HeadParser: indi.midreamsheep.app.tre.model.parser.LineParser {
         text: String,
         selection:Int,
         stateList: TREStateManager,
-        line: TRECoreLine
+        line: TRECoreBlock
     ): TRERender {
         val level = getLevel(text)
         var subSequence = text.subSequence(level, text.length)
@@ -40,6 +41,9 @@ class HeadParser: indi.midreamsheep.app.tre.model.parser.LineParser {
                 Divider()
             }
         )
+        render.offsetMap = object : TRERenderOffsetMap {
+            override fun getStartOffset() = level+1
+        }
         return render
     }
 

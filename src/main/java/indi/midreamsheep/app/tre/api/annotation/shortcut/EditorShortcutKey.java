@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.api.annotation.shortcut;
 
 import indi.midreamsheep.app.tre.service.ioc.di.inject.listdi.annotation.ListInjector;
-import indi.midreamsheep.app.tre.model.shortcut.TREShortcutKeyHandler;
+import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyHandler;
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment;
 
 import java.lang.annotation.ElementType;

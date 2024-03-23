@@ -1,8 +1,8 @@
 package indi.midreamsheep.app.tre.model.parser
 
 import androidx.compose.ui.text.input.TextFieldValue
-import indi.midreamsheep.app.tre.model.editor.line.TRELineState
-import indi.midreamsheep.app.tre.model.editor.line.core.TRECoreLine
+import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
+import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRERender
 
@@ -19,7 +19,7 @@ interface LineParser {
         text: String,
         selection:Int,
         stateList: TREStateManager,
-        line: TRECoreLine
+        line: TRECoreBlock
     ):TRERender
 
 
@@ -33,12 +33,12 @@ interface LineParser {
      * @return下一次解析的起始位置
      * */
     fun analyse(texts:List<String>, lineNumber:Int, state: TREStateManager):Int{
-        val markdownLineState = TRELineState(state)
+        val markdownLineState = TREBlockState(state)
         val line = markdownLineState.line
-        if (line is TRECoreLine){
+        if (line is TRECoreBlock){
             line.content.value = TextFieldValue(texts[lineNumber])
         }
-        state.getMarkdownLineStateList().add(markdownLineState)
+        state.getTREBlockStateList().add(markdownLineState)
         return lineNumber+1
     }
 }
