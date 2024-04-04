@@ -16,6 +16,4 @@ class TRERender(
     var listener: TRERenderListener = TREDefaultRenderListener()
     // 块域
     var offsetMap: TRERenderOffsetMap = TRERenderDefaultOffsetMap()
-    // 前置组件 TODO
-    // 右键专属菜单 TODO
 }

@@ -41,7 +41,7 @@ class CodeParser: indi.midreamsheep.app.tre.model.parser.LineParser {
                 }
             }
             val list = stateList.getTREBlockStateList()
-            list.indexOf(line.wrapper).let {
+            list.indexOf(line.lineState).let {
                 list[it] = newLine
             }
         }

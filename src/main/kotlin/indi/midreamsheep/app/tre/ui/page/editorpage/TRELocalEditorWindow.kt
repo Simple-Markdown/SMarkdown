@@ -7,8 +7,10 @@ import indi.midreamsheep.app.tre.context.app.TREAppContext
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.context.mainpage.recentused.pojo.RecentUsed
 import indi.midreamsheep.app.tre.model.editor.manager.core.render.TRELocalFileRenderManager
+import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyManager
 import indi.midreamsheep.app.tre.model.mainpage.file.core.TRELocalFile
 import indi.midreamsheep.app.tre.service.window.TREWindow
+import indi.midreamsheep.app.tre.tool.ioc.getBean
 import logger
 
 class TRELocalEditorWindow(private val treLocalFile:TRELocalFile): TREWindow(treLocalFile.name) {
@@ -21,7 +23,7 @@ class TRELocalEditorWindow(private val treLocalFile:TRELocalFile): TREWindow(tre
             close()
         }, title = name,
             onPreviewKeyEvent = {
-                return@Window context.shortcutAction.editorEvent(it)
+                return@Window getBean(TREEditorShortcutKeyManager::class.java).keyEvent(it,context)
             }
         ) {
             logger.info("open file: ${treLocalFile.name}")

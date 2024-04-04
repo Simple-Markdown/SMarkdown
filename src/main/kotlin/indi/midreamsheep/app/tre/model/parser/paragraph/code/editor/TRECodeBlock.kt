@@ -5,11 +5,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.editor.block.TREBlock
+import indi.midreamsheep.app.tre.model.editor.block.TREBlockAbstract
 import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
 import indi.midreamsheep.app.tre.ui.page.editorpage.editors.render.code.codeInputTextField
 
-class TRECodeBlock(val wrapper:TREBlockState, type:String): TREBlock {
+class TRECodeBlock(lineState:TREBlockState, type:String): TREBlockAbstract(lineState) {
 
     val content = mutableStateOf(TextFieldValue(""))
     val codeType = mutableStateOf(type.replace("```",""))
@@ -18,15 +18,15 @@ class TRECodeBlock(val wrapper:TREBlockState, type:String): TREBlock {
 
     override fun focus() {
         focus.value = true
-        wrapper.markdownLineInter.setCurrentBlockState(wrapper)
+        lineState.markdownLineInter.setCurrentBlockState(lineState)
     }
 
     override fun releaseFocus() {
          focus.value = false
-        wrapper.markdownLineInter.setCurrentBlockState(null)
+        lineState.markdownLineInter.setCurrentBlockState(null)
     }
 
-    override fun getComposable(context: TREEditorContext):Display {
+    override fun getDisplay(context: TREEditorContext):Display {
         return Display{
             codeInputTextField(this, context)
         }
@@ -36,5 +36,5 @@ class TRECodeBlock(val wrapper:TREBlockState, type:String): TREBlock {
         return "```${codeType.value}\n${content.value.text}\n```\n"
     }
 
-    override fun getLineState() = wrapper
+    override fun getLineState() = lineState
 }

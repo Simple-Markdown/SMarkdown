@@ -7,13 +7,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
 import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
-import indi.midreamsheep.app.tre.model.render.listener.TRERenderListener
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakMatch
+import indi.midreamsheep.app.tre.model.render.listener.TRERenderListener
 
 class DivideListener: TRERenderListener() {
     override fun keyEvent(key: KeyEvent, context: TREEditorContext): Boolean {
         //Enter
-        if (context.shortcutAction.textFiledCheck(
+        if (context.treTextFieldShortcutKeyManager.check(
                 TREShortcutKeyWeakMatch(
                     Enter.keyCode
                 )

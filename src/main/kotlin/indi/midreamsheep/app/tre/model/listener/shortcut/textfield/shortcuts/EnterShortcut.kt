@@ -8,7 +8,9 @@ import indi.midreamsheep.app.tre.context.TREContext
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
 import indi.midreamsheep.app.tre.model.editor.block.TRETextBlock
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
+import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
+import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakMatch
 import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
@@ -16,25 +18,40 @@ import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortc
 @TextFieldShortcutKey
 class EnterShortcut: TREEditorShortcutKeyHandler() {
     override fun action(context: TREEditorContext?) {
-        val stateManager = (context as TREEditorContext).editorFileManager.getStateManager()
+        val stateManager = context!!.editorFileManager.getStateManager()
+        val stateList = stateManager.getTREBlockStateList()
+
         val wrapper = stateManager.getCurrentBlock() ?: return
-        val textValue = (wrapper.line as TRETextBlock)
+        val currentLine = (wrapper.line as TRETextBlock)
+        val currentLineNumber = stateList.indexOf(wrapper)
 
-        val markdownLineStateList = stateManager.getTREBlockStateList()
-        val index = markdownLineStateList.indexOf(wrapper)
-        val newMarkdownLineState = TREBlockState(stateManager)
+        val newLine = TREBlockState(stateManager)
 
-        markdownLineStateList.add(index+1,newMarkdownLineState)
+        val start = currentLine.getTextFieldValue().selection.start
+        val newLineText = currentLine.getTextFieldValue().text.substring(start)
 
-        //数据更新
-        val start = textValue.getTextFieldValue().selection.start
-        val newLineText = textValue.getTextFieldValue().text.substring(start)
+        val treOperatorGroup = TREOperatorGroup().apply {
+            addOperator(TREBlockInsert(currentLineNumber+1,newLine.line))
+            addOperator(TREContentChange(
+                TextFieldValue(),
+                TextFieldValue(newLineText),
+                currentLineNumber+1
+            ))
+            addOperator(
+                TREContentChange(
+                    currentLine.getTextFieldValue(),
+                    currentLine.getTextFieldValue().copy(
+                        text = currentLine.getTextFieldValue().text.substring(0,start),
+                    ),
+                    currentLineNumber
+                )
+            )
+        }
 
-        (newMarkdownLineState.line as TRECoreBlock).content.value = TextFieldValue(newLineText)
-        textValue.setTextFieldValue(TextFieldValue(textValue.getTextFieldValue().text.substring(0,start)))
+        stateManager.executeOperator(treOperatorGroup)
 
         wrapper.line.releaseFocus()
-        newMarkdownLineState.line.focus()
+        newLine.line.focus()
     }
 
     override fun isEnable(context: TREContext?): Boolean {

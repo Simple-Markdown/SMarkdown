@@ -35,7 +35,7 @@ fun renderList(
     ) {
         for (markdownLineState in lineStateList) {
             item {
-                markdownLineState.line.getComposable(context).display()
+                markdownLineState.line.getDisplay(context).display()
             }
         }
     }
@@ -46,6 +46,9 @@ fun renderList(
        val currentIndex = lineStateList.indexOf(stateManager.getCurrentBlock()!!)
        // 检查当前行是否在可视范围内
        if (currentIndex !in listState.firstVisibleItemIndex..<listState.firstVisibleItemIndex + listState.layoutInfo.visibleItemsInfo.size) {
+           if (currentIndex==-1){
+                return@LaunchedEffect
+           }
            // 如果不在可视范围内，滚动到当前行
            listState.scrollToItem(currentIndex)
        }

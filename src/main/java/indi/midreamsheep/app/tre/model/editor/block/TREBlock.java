@@ -4,6 +4,13 @@ import indi.midreamsheep.app.tre.api.Display;
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext;
 
 public interface TREBlock {
+
+    /**
+     * 获取Block的唯一id
+     * id默认通过雪花算法生成
+     * */
+    long getId();
+
     /**
      * 从上次获取焦点的位置获取焦点
      * */
@@ -11,15 +18,11 @@ public interface TREBlock {
     /**
      * 从最后获取焦点
      * */
-    default void focusFromLast(){
-        focus();
-    }
+    void focusFromLast();
     /**
      * 从开始获取焦点
      * */
-    default void focusFormStart(){
-        focus();
-    }
+    void focusFormStart();
     /**
      * 释放焦点
      * */
@@ -27,7 +30,7 @@ public interface TREBlock {
     /**
      * 获取当前的composable
      * */
-    Display getComposable(TREEditorContext context);
+    Display getDisplay(TREEditorContext context);
     /**
      * 获取当前的内容
      * */

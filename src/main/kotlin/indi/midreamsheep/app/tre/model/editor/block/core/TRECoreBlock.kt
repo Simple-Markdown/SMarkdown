@@ -17,9 +17,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
+import indi.midreamsheep.app.tre.model.editor.block.TREBlockAbstract
 import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
 import indi.midreamsheep.app.tre.model.editor.block.TRETextBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
+import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.render.TREOffsetMappingAdapter
 import indi.midreamsheep.app.tre.model.render.TRERender
 import indi.midreamsheep.app.tre.model.render.style.styletext.leaf.TRECoreLeaf
@@ -27,8 +29,8 @@ import indi.midreamsheep.app.tre.model.render.style.styletext.root.TRECoreStyleT
 import indi.midreamsheep.app.tre.tool.ioc.getBean
 
 class TRECoreBlock(
-    val wrapper: TREBlockState
-) : TRETextBlock {
+    lineState: TREBlockState
+) : TREBlockAbstract(lineState),TRETextBlock {
 
     val parser = getBean(indi.midreamsheep.app.tre.model.parser.paragraph.TRELineParser::class.java)
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
@@ -46,20 +48,20 @@ class TRECoreBlock(
 
     override fun focus() {
         isFocus.value = true
-        wrapper.markdownLineInter.setCurrentBlockState(wrapper)
+        lineState.markdownLineInter.setCurrentBlockState(lineState)
     }
 
     override fun releaseFocus() {
         isFocus.value = false
-        wrapper.markdownLineInter.getCurrentBlock()?.let {
-            if (it == wrapper) {
-                wrapper.markdownLineInter.setCurrentBlockState(null)
+        lineState.markdownLineInter.getCurrentBlock()?.let {
+            if (it == lineState) {
+                lineState.markdownLineInter.setCurrentBlockState(null)
             }
         }
     }
 
-    override fun getComposable(context: TREEditorContext): Display {
-        buildContent(wrapper.markdownLineInter)
+    override fun getDisplay(context: TREEditorContext): Display {
+        buildContent(lineState.markdownLineInter)
         return Display{
             if (isFocus.value) {
                 editorInput(context)
@@ -73,8 +75,6 @@ class TRECoreBlock(
         return content.value.text
     }
 
-    override fun getLineState() = wrapper
-
     @Composable
     fun editorInput(
         context: TREEditorContext
@@ -83,14 +83,23 @@ class TRECoreBlock(
             value = content.value,
             onValueChange = { newValue ->
                 val count = newValue.text.count { it == '\t' }
-                content.value = newValue.copy(
-                    text = newValue.text.replace("\t", "    "),
-                    selection = TextRange(
-                        start =  newValue.selection.start + 3 * count,
-                        end = newValue.selection.end + 3 * count
+                if(content.value.text.equals(newValue.text)){
+                    setTextFieldValue(newValue)
+                    return@BasicTextField
+                }
+                context.editorFileManager.getStateManager().executeOperator(
+                    TREContentChange(
+                        content.value,
+                        newValue.copy(
+                            text = newValue.text.replace("\t", "    "),
+                            selection = TextRange(
+                                start =  newValue.selection.start + 3 * count,
+                                end = newValue.selection.end + 3 * count
+                            )
+                        ),
+                        context.editorFileManager.getStateManager().getTREBlockStateList().indexOf(lineState),
                     )
                 )
-                buildContent(wrapper.markdownLineInter)
             },
             textStyle = MaterialTheme.typography.bodyLarge,
             modifier = Modifier
@@ -122,7 +131,7 @@ class TRECoreBlock(
         )
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
-            context.editorFileManager.getStateManager().setCurrentBlockState(wrapper)
+            context.editorFileManager.getStateManager().setCurrentBlockState(lineState)
         }
     }
 
@@ -177,29 +186,18 @@ class TRECoreBlock(
         content.value = content.value.copy(selection = TextRange(0))
     }
 
-    override fun getTextFieldValue(): TextFieldValue {
-        return content.value
-    }
+    override fun getTextFieldValue() = content.value
 
     override fun setTextFieldValue(value: TextFieldValue) {
         content.value = value
+        buildContent(lineState.markdownLineInter)
     }
 
     fun buildContent(
         treStateManager: TREStateManager
     ){
         render.value = parser.parse(content.value.text, content.value.selection.start, this, treStateManager)
-   /*     println(content.value.selection.start)
-        println(render.value.offsetMap.getStartOffset())
-        if(render.value.offsetMap.getStartOffset()>content.value.selection.start){
-            content.value = TextFieldValue(
-                text = content.value.text,
-                selection = TextRange(
-                    start = render.value.offsetMap.getStartOffset(),
-                    end = render.value.offsetMap.getStartOffset()
-                )
-            )
-        }*/
     }
+
 
 }

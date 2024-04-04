@@ -11,12 +11,12 @@ abstract class TRERenderListener{
         key:KeyEvent,
         context: TREEditorContext
     ):Boolean {
-        context.shortcutAction.textFieldUpdate(key)
+        context.treTextFieldShortcutKeyManager.update((key))
         if (keyEvent(key,context)){
-            context.shortcutAction.textFieldEventClear()
+            context.treTextFieldShortcutKeyManager.clear()
             return true
         }
-        return context.shortcutAction.textFieldEvent(key)
+        return context.treTextFieldShortcutKeyManager.keyEvent(key,context)
     }
 
 }
