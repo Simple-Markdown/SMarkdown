@@ -44,7 +44,8 @@ class TRECoreBlock(
 
     private var focusRequester: FocusRequester = FocusRequester()
     var isFocus = mutableStateOf(false)
-
+    //维护一张属性表，用于存储属性
+    val propertySet = mutableSetOf<Long>()
 
     override fun focus() {
         isFocus.value = true
@@ -61,8 +62,11 @@ class TRECoreBlock(
     }
 
     override fun getDisplay(context: TREEditorContext): Display {
-        buildContent(lineState.markdownLineInter)
+        setTextFieldValue(content.value)
         return Display{
+            if(content.value.selection.start < render.value.offsetMap.getStartOffset()){
+                content.value = content.value.copy(selection = TextRange(render.value.offsetMap.getStartOffset()))
+            }
             if (isFocus.value) {
                 editorInput(context)
             } else {
@@ -71,9 +75,7 @@ class TRECoreBlock(
         }
     }
 
-    override fun getContent(): String {
-        return content.value.text
-    }
+    override fun getContent() = content.value.text
 
     @Composable
     fun editorInput(
@@ -82,24 +84,18 @@ class TRECoreBlock(
         BasicTextField(
             value = content.value,
             onValueChange = { newValue ->
-                val count = newValue.text.count { it == '\t' }
-                if(content.value.text.equals(newValue.text)){
+                if (content.value.text == newValue.text) {
                     setTextFieldValue(newValue)
                     return@BasicTextField
                 }
                 context.editorFileManager.getStateManager().executeOperator(
                     TREContentChange(
                         content.value,
-                        newValue.copy(
-                            text = newValue.text.replace("\t", "    "),
-                            selection = TextRange(
-                                start =  newValue.selection.start + 3 * count,
-                                end = newValue.selection.end + 3 * count
-                            )
-                        ),
+                        newValue,
                         context.editorFileManager.getStateManager().getTREBlockStateList().indexOf(lineState),
                     )
                 )
+
             },
             textStyle = MaterialTheme.typography.bodyLarge,
             modifier = Modifier
@@ -109,9 +105,8 @@ class TRECoreBlock(
                     isFocus.value = it.isFocused
                 }
                 .onPreviewKeyEvent {
-                    return@onPreviewKeyEvent render.value.listener.handleKeyEvent(it,context)
-                }
-            ,
+                    return@onPreviewKeyEvent render.value.listener.handleKeyEvent(it, context)
+                },
             visualTransformation = { _ ->
                 TransformedText(
                     text = render.value.styleText.styleTextTree!!.build(true),
@@ -123,11 +118,11 @@ class TRECoreBlock(
                     coreComposable(render.value) {
                         innerTextField()
                     }
-                    if (render.value.styleText.isPreView()){
+                    if (render.value.styleText.isPreView()) {
                         preview()
                     }
                 }
-            }
+            },
         )
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
@@ -183,21 +178,32 @@ class TRECoreBlock(
 
     override fun focusFormStart() {
         focus()
-        content.value = content.value.copy(selection = TextRange(0))
+        content.value = content.value.copy(selection = TextRange(render.value.offsetMap.getStartOffset()))
     }
 
     override fun getTextFieldValue() = content.value
 
     override fun setTextFieldValue(value: TextFieldValue) {
-        content.value = value
+        //处理制表符
+        val count = value.text.count { it == '\t' }
+        var selection = value.selection
+        if(count!=0){
+            selection = TextRange(
+                start = value.selection.start + 3*count,
+                end = value.selection.end + 3*count
+            )
+        }
+        content.value = value.copy(
+            text = value.text.replace("\t", "    "),
+            selection = selection
+        )
         buildContent(lineState.markdownLineInter)
     }
 
     fun buildContent(
-        treStateManager: TREStateManager
+        treStateManager: TREStateManager,
+        textFieldValue: TextFieldValue = content.value
     ){
-        render.value = parser.parse(content.value.text, content.value.selection.start, this, treStateManager)
+        render.value = parser.parse(textFieldValue.text, textFieldValue.selection.start, this, treStateManager)
     }
-
-
 }

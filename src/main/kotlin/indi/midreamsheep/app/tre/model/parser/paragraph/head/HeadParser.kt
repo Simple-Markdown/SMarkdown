@@ -2,17 +2,22 @@ package indi.midreamsheep.app.tre.model.parser.paragraph.head
 
 import androidx.compose.material3.Divider
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserList
+import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.render.TRERender
 import indi.midreamsheep.app.tre.model.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.model.render.style.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
+import indi.midreamsheep.app.tre.tool.id.IdUtil
 
-@LineParserList
+@LineParserMap
 @MapKey("#")
 class HeadParser: indi.midreamsheep.app.tre.model.parser.LineParser {
+
+    companion object{
+        val id = IdUtil.generateId()
+    }
 
     override fun formatCheck(text: String): Boolean {
         return getLevel(text) != -1
@@ -27,10 +32,18 @@ class HeadParser: indi.midreamsheep.app.tre.model.parser.LineParser {
         val level = getLevel(text)
         var subSequence = text.subSequence(level, text.length)
         if (subSequence.isNotEmpty()) subSequence = subSequence.subSequence(1, subSequence.length)
-        val isDisplay = selection <= level
-
         val render = TRERender(line)
+        var isDisplay = selection <= level+1
 
+        if (selection>level+1||stateList.getCurrentBlock()!=line.lineState){
+            line.propertySet.add(id)
+        }
+        if (line.propertySet.contains(id)){
+            render.offsetMap = object : TRERenderOffsetMap {
+                override fun getStartOffset() = level+1
+            }
+            isDisplay = false
+        }
         render.styleText.styleTextTree = StyleTextHeadRoot(level, isDisplay).apply {
             addChildren(
                 TRECoreLeaf(subSequence.toString())
@@ -41,9 +54,10 @@ class HeadParser: indi.midreamsheep.app.tre.model.parser.LineParser {
                 Divider()
             }
         )
-        render.offsetMap = object : TRERenderOffsetMap {
-            override fun getStartOffset() = level+1
-        }
+
+        render.listener = HeadListener(
+            line,id
+        )
         return render
     }
 

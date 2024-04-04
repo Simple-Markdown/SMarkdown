@@ -3,6 +3,7 @@ package indi.midreamsheep.app.tre.model.listener.shortcut.textfield
 import indi.midreamsheep.app.tre.context.TREContext
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.block.TRETextBlock
+import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 
 @Comment
@@ -28,6 +29,9 @@ class TextFileShortcutTool {
             return false
         }
         var wrongSelection = 0
+        if(currentState.line is TRECoreBlock){
+            wrongSelection = (currentState.line as TRECoreBlock).render.value.offsetMap.getStartOffset()
+        }
         if (!start){
             wrongSelection = (currentState.line as TRETextBlock).getTextFieldValue().text.length
         }

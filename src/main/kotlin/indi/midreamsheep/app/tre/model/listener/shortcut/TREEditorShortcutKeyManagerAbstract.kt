@@ -15,7 +15,6 @@ abstract class TREEditorShortcutKeyManagerAbstract {
         val (hasShortKey, shortcut) = execute(context)
         if (hasShortKey){
             shortcut?.handle(context)
-            clear()
             return true
         }
         return false

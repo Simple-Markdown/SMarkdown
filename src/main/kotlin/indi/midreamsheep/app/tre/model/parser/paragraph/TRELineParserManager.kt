@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.model.parser.paragraph
 
-import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserList
+import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineRegParser
 import indi.midreamsheep.app.tre.api.inter.manager.TREListManager
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
@@ -9,7 +9,7 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 @Comment
 class TRELineParserManager : TREListManager<indi.midreamsheep.app.tre.model.parser.LineParser>{
 
-    @LineParserList
+    @LineParserMap
     private val paragraphParser = HashMap<Char,List<indi.midreamsheep.app.tre.model.parser.LineParser>>()
 
     @LineRegParser

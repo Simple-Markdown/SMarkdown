@@ -16,5 +16,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 @MapInject("LineParser")
-public @interface LineParserList {
+public @interface LineParserMap {
 }

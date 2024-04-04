@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserList
+import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.parser.LineParser
@@ -14,7 +14,7 @@ import indi.midreamsheep.app.tre.model.render.TRERender
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
-@LineParserList
+@LineParserMap
 @MapKey(">")
 class QuoteParser: LineParser {
 

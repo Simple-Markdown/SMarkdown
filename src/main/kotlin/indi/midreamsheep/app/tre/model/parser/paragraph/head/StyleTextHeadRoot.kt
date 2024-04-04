@@ -1,5 +1,6 @@
 package indi.midreamsheep.app.tre.model.parser.paragraph.head
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -9,7 +10,7 @@ import androidx.compose.ui.unit.sp
 import indi.midreamsheep.app.tre.model.render.style.styletext.root.TRECoreStyleTextRoot
 
 class StyleTextHeadRoot(
-    private val level: Int,
+    val level: Int,
     private val isDisplay: Boolean,
 ): TRECoreStyleTextRoot() {
 
@@ -31,8 +32,14 @@ class StyleTextHeadRoot(
                     fontSize = (15+(6-level+1)*5).sp,
                 )
             ) {
-                if (isDisplay&&isFocus){
-                    append("#".repeat(level) + " ")
+                withStyle(
+                    SpanStyle(
+                        color = Color.Gray
+                    )
+                ){
+                    if (isDisplay&&isFocus){
+                        append("#".repeat(level) + " ")
+                    }
                 }
                 for (child in getChildren()) {
                     append(child!!.build(isFocus))

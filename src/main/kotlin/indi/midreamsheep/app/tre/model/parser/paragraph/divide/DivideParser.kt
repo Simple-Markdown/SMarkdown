@@ -8,7 +8,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserList
+import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.parser.LineParser
@@ -17,7 +17,7 @@ import indi.midreamsheep.app.tre.model.render.style.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.model.render.style.styletext.root.TRECoreStyleTextRoot
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 
-@LineParserList
+@LineParserMap
 @MapKey("-")
 class DivideParser: LineParser {
 

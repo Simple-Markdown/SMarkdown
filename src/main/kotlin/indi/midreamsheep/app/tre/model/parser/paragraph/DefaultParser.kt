@@ -32,6 +32,9 @@ class DefaultParser: indi.midreamsheep.app.tre.model.parser.LineParser {
         for (styleTextLeaf in list) {
             treCoreStyleTextRoot.addChildren(styleTextLeaf)
         }
+        if(text == line.content.value.text){
+            line.propertySet.clear()
+        }
         return render
     }
 

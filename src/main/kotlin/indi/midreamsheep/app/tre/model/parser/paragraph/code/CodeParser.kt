@@ -2,7 +2,7 @@ package indi.midreamsheep.app.tre.model.parser.paragraph.code
 
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserList
+import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
 import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
@@ -10,7 +10,7 @@ import indi.midreamsheep.app.tre.model.parser.paragraph.code.editor.TRECodeBlock
 import indi.midreamsheep.app.tre.model.render.TRERender
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 
-@LineParserList
+@LineParserMap
 @MapKey("`")
 class CodeParser: indi.midreamsheep.app.tre.model.parser.LineParser {
     /**
