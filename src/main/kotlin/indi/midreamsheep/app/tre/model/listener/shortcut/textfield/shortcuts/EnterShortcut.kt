@@ -1,6 +1,5 @@
 package indi.midreamsheep.app.tre.model.listener.shortcut.textfield.shortcuts
 
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
@@ -63,7 +62,6 @@ class EnterShortcut: TREEditorShortcutKeyHandler() {
         return stateManager.getCurrentBlock()!!.line is TRETextBlock
     }
 
-    @OptIn(ExperimentalComposeUiApi::class)
     override fun getKeys(): List<TREShortcutKeyChecker> {
         return listOf(
             TREShortcutKeyWeakMatch(

@@ -18,7 +18,6 @@ abstract class TRERenderListener{
             return false
         }
         if (keyEvent(key,context)){
-            context.treTextFieldShortcutKeyManager.clear()
             return true
         }
         return context.treTextFieldShortcutKeyManager.keyEvent(key,context)

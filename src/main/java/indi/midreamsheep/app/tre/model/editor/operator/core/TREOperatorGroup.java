@@ -29,4 +29,11 @@ public class TREOperatorGroup extends TREOperatorAbstract {
     public void addOperator(TREOperator operator) {
         operators.add(operator);
     }
+
+    @Override
+    public String toString() {
+        return "TREOperatorGroup{" +
+                "operators=" + operators +
+                '}';
+    }
 }

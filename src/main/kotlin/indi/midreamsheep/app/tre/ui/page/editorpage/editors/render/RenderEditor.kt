@@ -30,12 +30,12 @@ fun renderList(
                 lineStateList[lineStateList.size - 1].line.focus()
             }
             .onKeyEvent { keyEvent ->
-                keyEvent.key == Enter
+                return@onKeyEvent keyEvent.key == Enter
             }
     ) {
         for (markdownLineState in lineStateList) {
             item {
-                markdownLineState.line.getDisplay(context).display()
+                markdownLineState.line.getDisplay(context).getComposable()()
             }
         }
     }

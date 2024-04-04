@@ -2,6 +2,7 @@ package indi.midreamsheep.app.tre.model.listener.shortcut
 
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType.Companion.KeyDown
+import androidx.compose.ui.input.key.KeyEventType.Companion.KeyUp
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.type
 import indi.midreamsheep.app.tre.context.TREContext
@@ -36,12 +37,18 @@ abstract class TREEditorShortcutKeyManagerAbstract {
     fun clear() = manager().clearPressedKeys()
     fun check(keyEntity: TREShortcutKeyChecker) = keyEntity.check(manager().pressedKeys)
     fun update(keyEvent: KeyEvent):Boolean{
-        return if (keyEvent.type == KeyDown){
-            manager().addPressedKey(keyEvent.key.keyCode)
-            true
-        }else{
-            manager().removePressedKey(keyEvent.key.keyCode)
-            false
+        return when (keyEvent.type) {
+            KeyDown -> {
+                manager().addPressedKey(keyEvent.key.keyCode)
+                true
+            }
+            KeyUp -> {
+                manager().removePressedKey(keyEvent.key.keyCode)
+                false
+            }
+            else -> {
+                false
+            }
         }
     }
 }

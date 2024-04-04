@@ -1,6 +1,7 @@
 package indi.midreamsheep.app.tre.model.editor.block;
 
 import indi.midreamsheep.app.tre.api.Display;
+import indi.midreamsheep.app.tre.api.TREComposable;
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext;
 
 public interface TREBlock {
@@ -30,7 +31,7 @@ public interface TREBlock {
     /**
      * 获取当前的composable
      * */
-    Display getDisplay(TREEditorContext context);
+    TREComposable getDisplay(TREEditorContext context);
     /**
      * 获取当前的内容
      * */

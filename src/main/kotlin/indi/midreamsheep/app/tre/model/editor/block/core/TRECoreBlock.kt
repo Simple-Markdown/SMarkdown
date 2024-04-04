@@ -15,7 +15,7 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
-import indi.midreamsheep.app.tre.api.Display
+import indi.midreamsheep.app.tre.api.TREComposable
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.block.TREBlockAbstract
 import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
@@ -61,16 +61,19 @@ class TRECoreBlock(
         }
     }
 
-    override fun getDisplay(context: TREEditorContext): Display {
-        setTextFieldValue(content.value)
-        return Display{
-            if(content.value.selection.start < render.value.offsetMap.getStartOffset()){
-                content.value = content.value.copy(selection = TextRange(render.value.offsetMap.getStartOffset()))
-            }
-            if (isFocus.value) {
-                editorInput(context)
-            } else {
-                preview()
+    override fun getDisplay(context: TREEditorContext): TREComposable {
+        buildContent()
+        return TREComposable{
+            {
+                if(content.value.selection.start < render.value.offsetMap.getStartOffset()){
+                    content.value = content.value.copy(selection = TextRange(render.value.offsetMap.getStartOffset()))
+                    buildContent()
+                }
+                if (isFocus.value) {
+                    editorInput(context)
+                }else{
+                    preview()
+                }
             }
         }
     }
@@ -115,8 +118,32 @@ class TRECoreBlock(
             },
             decorationBox = { innerTextField ->
                 Column(modifier = Modifier.fillMaxWidth()) {
-                    coreComposable(render.value) {
-                        innerTextField()
+                    val textRender = render.value
+                    Column(
+                        Modifier.fillMaxWidth()
+                    ) {
+                        textRender.styleText.prefixLineDecorations.forEach {
+                            it.display()
+                        }
+                        Box(Modifier.fillMaxWidth().height(IntrinsicSize.Max)) {
+                            textRender.styleText.backgroundDecorations.forEach {
+                                it.display()
+                            }
+                            Row(
+                                Modifier.height(IntrinsicSize.Max)
+                            ) {
+                                textRender.styleText.prefixTextDecorations.forEach {
+                                    it.display()
+                                }
+                                innerTextField.invoke()
+                                textRender.styleText.suffixTextDecorations.forEach {
+                                    it.display()
+                                }
+                            }
+                        }
+                        textRender.styleText.suffixLineDecorations.forEach {
+                            it.display()
+                        }
                     }
                     if (render.value.styleText.isPreView()) {
                         preview()
@@ -126,22 +153,13 @@ class TRECoreBlock(
         )
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
-            context.editorFileManager.getStateManager().setCurrentBlockState(lineState)
+            focus()
         }
     }
 
     @Composable
     fun preview(){
-        coreComposable(render.value) {
-            render.value.styleText.previewDisplay.display()
-        }
-    }
-
-    @Composable
-    fun coreComposable(
-        textRender: TRERender,
-        content: @Composable () -> Unit
-    ) {
+        val textRender = render.value
         Column(
             Modifier.fillMaxWidth()
         ) {
@@ -158,7 +176,7 @@ class TRECoreBlock(
                     textRender.styleText.prefixTextDecorations.forEach {
                         it.display()
                     }
-                    content.invoke()
+                    render.value.styleText.previewDisplay.display()
                     textRender.styleText.suffixTextDecorations.forEach {
                         it.display()
                     }
@@ -184,7 +202,6 @@ class TRECoreBlock(
     override fun getTextFieldValue() = content.value
 
     override fun setTextFieldValue(value: TextFieldValue) {
-        //处理制表符
         val count = value.text.count { it == '\t' }
         var selection = value.selection
         if(count!=0){
@@ -197,11 +214,11 @@ class TRECoreBlock(
             text = value.text.replace("\t", "    "),
             selection = selection
         )
-        buildContent(lineState.markdownLineInter)
+        buildContent()
     }
 
     fun buildContent(
-        treStateManager: TREStateManager,
+        treStateManager: TREStateManager = lineState.markdownLineInter,
         textFieldValue: TextFieldValue = content.value
     ){
         render.value = parser.parse(textFieldValue.text, textFieldValue.selection.start, this, treStateManager)
