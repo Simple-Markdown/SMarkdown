@@ -13,7 +13,6 @@ import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
-import indi.midreamsheep.app.tre.model.parser.paragraph.divide.DivideListener
 import indi.midreamsheep.app.tre.model.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.model.render.TRERender
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
@@ -71,8 +70,6 @@ class UnorderedListParser: indi.midreamsheep.app.tre.model.parser.LineParser {
                 }
             }
         )
-        render.listener = DivideListener()
-
         return render
     }
     override fun getWeight(text: String): Int {

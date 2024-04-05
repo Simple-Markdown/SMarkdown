@@ -5,7 +5,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import indi.midreamsheep.app.tre.model.render.style.styletext.root.TRECoreStyleTextRoot
 
 class StyleTextQuoteRoot(
-    private val level: Int,
+    val level: Int,
     private val isDisplay: Boolean,
 ): TRECoreStyleTextRoot() {
 

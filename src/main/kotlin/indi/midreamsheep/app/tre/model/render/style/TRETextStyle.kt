@@ -2,8 +2,8 @@ package indi.midreamsheep.app.tre.model.render.style
 
 import androidx.compose.foundation.text.InlineTextContent
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreDisplay
 import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreDisplay
 import indi.midreamsheep.app.tre.model.render.style.styletext.TREStyleTextTree
 
 class TRETextStyle(line:TRECoreBlock) {
@@ -25,6 +25,18 @@ class TRETextStyle(line:TRECoreBlock) {
     val previewAnnotation:MutableMap<String,InlineTextContent> = mutableMapOf()
     // 是否启动
     var preview:Boolean = true
+
+    fun append(style: TRETextStyle){
+        styleTextTree?.addChildren(style.styleTextTree!!)
+        prefixLineDecorations.addAll(style.prefixLineDecorations)
+        prefixTextDecorations.addAll(style.prefixTextDecorations)
+        suffixLineDecorations.addAll(style.suffixLineDecorations)
+        suffixTextDecorations.addAll(style.suffixTextDecorations)
+        backgroundDecorations.addAll(style.backgroundDecorations)
+        previewDisplay = style.previewDisplay
+        previewAnnotation.putAll(style.previewAnnotation)
+        preview = style.preview||preview
+    }
 
     fun isPreView() = (previewDisplay !is TRECoreDisplay || previewAnnotation.isNotEmpty()) && preview
 }

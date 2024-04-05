@@ -10,8 +10,11 @@ import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.parser.LineParser
+import indi.midreamsheep.app.tre.model.parser.paragraph.TRELineParser
 import indi.midreamsheep.app.tre.model.render.TRERender
+import indi.midreamsheep.app.tre.model.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
+import indi.midreamsheep.app.tre.tool.id.IdUtil
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @LineParserMap
@@ -19,7 +22,11 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 class QuoteParser: LineParser {
 
     @Injector
-    val parser: indi.midreamsheep.app.tre.model.parser.paragraph.TRELineParser? = null
+    val parser: TRELineParser? = null
+
+    companion object{
+        val id = IdUtil.generateId()
+    }
 
     override fun formatCheck(text: String): Boolean {
         return getLevel(text) != -1
@@ -34,7 +41,12 @@ class QuoteParser: LineParser {
         val render = TRERender(line)
         val level = getLevel(text)
 
-        val isDisplay = selection<level*2
+        var isDisplay = selection<level*2
+        if (selection>=level*2||stateList.getCurrentBlock()!=line.lineState){
+            line.propertySet.add(id)
+        }
+        val isContain = line.propertySet.contains(id)
+        if(isContain) isDisplay = false
         render.styleText.styleTextTree = StyleTextQuoteRoot(
             level,
             isDisplay,
@@ -45,6 +57,13 @@ class QuoteParser: LineParser {
             line,
             stateList
         )
+
+        if (isContain){
+            render.offsetMap = object : TRERenderOffsetMap {
+                override fun getStartOffset() = level*2 + parse.offsetMap.getStartOffset()
+            }
+        }
+
         repeat(level) {
             render.styleText.prefixTextDecorations.add(
                 Display {
@@ -63,14 +82,16 @@ class QuoteParser: LineParser {
                 ) {}
             }
         )
-        render.styleText.prefixLineDecorations.addAll(parse.styleText.prefixLineDecorations)
-        render.styleText.suffixLineDecorations.addAll(parse.styleText.suffixLineDecorations)
-        render.styleText.suffixTextDecorations.addAll(parse.styleText.suffixTextDecorations)
-        render.styleText.previewAnnotation.putAll(parse.styleText.previewAnnotation)
-        render.styleText.prefixTextDecorations.addAll(parse.styleText.prefixTextDecorations)
-        render.styleText.backgroundDecorations.addAll(parse.styleText.backgroundDecorations)
-        render.styleText.previewDisplay = parse.styleText.previewDisplay
-        render.styleText.styleTextTree!!.addChildren(parse.styleText.styleTextTree!!)
+        render.styleText.append(parse.styleText)
+        parse.listener.setStartIndex(level*2)
+        render.listener = QuoteListener(
+            line,
+            id,
+            parse.listener
+        )
+        if (selection>=level*2||stateList.getCurrentBlock()!=line.lineState){
+            line.propertySet.add(id)
+        }
         return render
     }
 
