@@ -1,5 +1,6 @@
 package indi.midreamsheep.app.tre.model.render
 
+import indi.midreamsheep.app.tre.api.TREComposable
 import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.render.listener.TREDefaultRenderListener
 import indi.midreamsheep.app.tre.model.render.listener.TRERenderListener
@@ -16,4 +17,6 @@ class TRERender(
     var listener: TRERenderListener = TREDefaultRenderListener()
     // 块域
     var offsetMap: TRERenderOffsetMap = TRERenderDefaultOffsetMap()
+    // 前置按钮
+    var trePreButton: TREComposable? = null
 }

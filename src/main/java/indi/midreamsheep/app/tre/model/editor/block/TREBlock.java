@@ -33,6 +33,11 @@ public interface TREBlock {
      * */
     TREComposable getDisplay(TREEditorContext context);
     /**
+     * 获取前置按钮
+     * */
+    TREComposable getPreButton();
+
+    /**
      * 获取当前的内容
      * */
     String getContent();

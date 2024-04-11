@@ -13,6 +13,7 @@ import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
+import indi.midreamsheep.app.tre.model.parser.LineParser
 import indi.midreamsheep.app.tre.model.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.model.render.TRERender
 import indi.midreamsheep.app.tre.model.render.offsetmap.TRERenderOffsetMap
@@ -22,7 +23,7 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @LineParserMap
 @MapKey("-")
-class UnorderedListParser: indi.midreamsheep.app.tre.model.parser.LineParser {
+class UnorderedListParser: LineParser {
 
     @Injector
     val parser: TREInlineParser? = null

@@ -1,7 +1,9 @@
 package indi.midreamsheep.app.tre.model.parser.paragraph.head
 
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Text
 import indi.midreamsheep.app.tre.api.Display
+import indi.midreamsheep.app.tre.api.TREComposable
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
@@ -59,6 +61,10 @@ class HeadParser: indi.midreamsheep.app.tre.model.parser.LineParser {
             line,id,
             render.styleText.styleTextTree as StyleTextHeadRoot
         )
+
+        render.trePreButton = TREComposable { {
+            Text("H${level}")
+        } }
         return render
     }
 

@@ -35,7 +35,7 @@ fun renderList(
     ) {
         for (markdownLineState in lineStateList) {
             item {
-                markdownLineState.line.getDisplay(context).getComposable()()
+                markdownLineState.line.getDisplay(context).getComposable().invoke()
             }
         }
     }

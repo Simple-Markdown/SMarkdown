@@ -41,7 +41,7 @@ class TRECoreBlock(
             }
         }
     )
-
+    var preButton: MutableState<TREComposable?> = mutableStateOf(null)
     private var focusRequester: FocusRequester = FocusRequester()
     var isFocus = mutableStateOf(false)
     //维护一张属性表，用于存储属性
@@ -217,10 +217,15 @@ class TRECoreBlock(
         buildContent()
     }
 
-    fun buildContent(
+    private fun buildContent(
         treStateManager: TREStateManager = lineState.markdownLineInter,
         textFieldValue: TextFieldValue = content.value
     ){
         render.value = parser.parse(textFieldValue.text, textFieldValue.selection.start, this, treStateManager)
+        preButton.value = render.value.trePreButton
+    }
+
+    override fun getPreButton(): TREComposable {
+        return preButton.value ?: TREComposable.EMPTY
     }
 }
