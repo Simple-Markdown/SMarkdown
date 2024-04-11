@@ -13,22 +13,12 @@ import indi.midreamsheep.app.tre.model.render.style.styletext.TREStyleTextTree
 class HeadListener(
     private val line: TRECoreBlock,
     private val id:Long,
+    private val styleTextTree: StyleTextHeadRoot
 ): TRERenderListener() {
-
-    private var startIndex = 0
-
-    override fun setStartIndex(startIndex: Int) {
-        this.startIndex = startIndex
-    }
-
-    override fun getStartIndex(): Int {
-        return startIndex
-    }
 
     override fun keyEvent(
         key: KeyEvent,
-        context: TREEditorContext,
-        styleTextTree: TREStyleTextTree
+        context: TREEditorContext
     ): Boolean {
         //Enter
         if (context.treTextFieldShortcutKeyManager.check(
@@ -38,13 +28,13 @@ class HeadListener(
             )) {
             val treCoreBlock = context.editorFileManager.getStateManager().getCurrentBlock()!!.line as TRECoreBlock
             if (treCoreBlock.render.value.offsetMap.getStartOffset()==treCoreBlock.content.value.selection.start){
-                val styleTextHeadRoot = styleTextTree as StyleTextHeadRoot
-                val index = treCoreBlock.content.value.selection.start - (styleTextHeadRoot.level+1+getStartIndex())
+                val index = treCoreBlock.content.value.selection.start - (styleTextTree.level + 1)
+                val text = subString(treCoreBlock.content.value.text, getStartIndex(styleTextTree), getStartIndex(styleTextTree)+styleTextTree.level+1)
                 context.editorFileManager.getStateManager().executeOperator(
                     TREContentChange(
                         treCoreBlock.content.value,
                         treCoreBlock.content.value.copy(
-                            text = treCoreBlock.content.value.text.substring( styleTextHeadRoot.level+1+getStartIndex()),
+                            text = text,
                             selection = TextRange(index)
                         ),
                         context.editorFileManager.getStateManager().getTREBlockStateList().indexOf(treCoreBlock.lineState)
@@ -57,7 +47,14 @@ class HeadListener(
         return false
     }
 
+    private fun getStartIndex(styleTextTree: TREStyleTextTree):Int{
+        return styleTextTree.getOriginalStartOffset()
+    }
 
-
+    private fun subString(text: String, start: Int,end: Int):String{
+        val startStr = text.substring(0,start)
+        val endStr = text.substring(end)
+        return startStr+endStr
+    }
 
 }

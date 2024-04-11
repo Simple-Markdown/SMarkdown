@@ -25,6 +25,7 @@ class TRELineParser {
             treCoreStyleTextRoot.addChildren(TRECoreLeaf(""))
             val render = TRERender(state)
             render.styleText.styleTextTree = treCoreStyleTextRoot
+            state.propertySet.clear()
             return render
         }
         return defaultParser!!.get(text).getAnnotatedString(text,selection,stateList,state)

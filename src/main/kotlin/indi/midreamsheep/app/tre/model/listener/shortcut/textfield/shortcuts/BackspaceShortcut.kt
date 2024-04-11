@@ -12,7 +12,7 @@ import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockDelete
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
-import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakMatch
+import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
 import indi.midreamsheep.app.tre.model.listener.shortcut.textfield.TextFileShortcutTool
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
@@ -70,7 +70,7 @@ class BackspaceShortcut: TREEditorShortcutKeyHandler() {
 
     override fun getKeys(): List<TREShortcutKeyChecker> {
         return listOf(
-            TREShortcutKeyWeakMatch(
+            TREShortcutKeyWeakChecker(
                 Key.Backspace.keyCode
             )
         )

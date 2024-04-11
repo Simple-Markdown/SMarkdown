@@ -11,7 +11,7 @@ import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
-import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakMatch
+import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
 
 @TextFieldShortcutKey
@@ -64,7 +64,7 @@ class EnterShortcut: TREEditorShortcutKeyHandler() {
 
     override fun getKeys(): List<TREShortcutKeyChecker> {
         return listOf(
-            TREShortcutKeyWeakMatch(
+            TREShortcutKeyWeakChecker(
                 Key.Enter.keyCode
             )
         )

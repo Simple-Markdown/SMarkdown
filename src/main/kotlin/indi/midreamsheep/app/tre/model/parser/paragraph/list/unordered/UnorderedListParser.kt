@@ -15,7 +15,9 @@ import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.model.render.TRERender
+import indi.midreamsheep.app.tre.model.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
+import indi.midreamsheep.app.tre.tool.id.IdUtil
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @LineParserMap
@@ -24,6 +26,10 @@ class UnorderedListParser: indi.midreamsheep.app.tre.model.parser.LineParser {
 
     @Injector
     val parser: TREInlineParser? = null
+
+    companion object{
+        val ID = IdUtil.generateId()
+    }
 
     override fun formatCheck(text: String): Boolean {
         return text.startsWith("- ")
@@ -70,6 +76,21 @@ class UnorderedListParser: indi.midreamsheep.app.tre.model.parser.LineParser {
                 }
             }
         )
+        render.listener = UnorderedListListener(
+            line = line,
+            id = ID,
+            styleTextTree = render.styleText.styleTextTree as StyleTextUnorderedListRoot
+        )
+
+        if(!isDisplay&&line.isFocus.value){
+            line.propertySet.add(ID)
+        }
+
+        if(line.propertySet.contains(ID)){
+            render.offsetMap = object : TRERenderOffsetMap {
+                override fun getStartOffset() = 2
+            }
+        }
         return render
     }
     override fun getWeight(text: String): Int {

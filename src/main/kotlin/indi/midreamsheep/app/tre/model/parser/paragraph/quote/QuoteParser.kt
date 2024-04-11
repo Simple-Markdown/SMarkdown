@@ -83,11 +83,11 @@ class QuoteParser: LineParser {
             }
         )
         render.styleText.append(parse.styleText)
-        parse.listener.setStartIndex(level*2)
         render.listener = QuoteListener(
             line,
             id,
-            parse.listener
+            parse.listener,
+            render.styleText.styleTextTree as StyleTextQuoteRoot
         )
         if (selection>=level*2||stateList.getCurrentBlock()!=line.lineState){
             line.propertySet.add(id)

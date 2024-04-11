@@ -108,7 +108,7 @@ class TRECoreBlock(
                     isFocus.value = it.isFocused
                 }
                 .onPreviewKeyEvent {
-                    return@onPreviewKeyEvent render.value.listener.handleKeyEvent(it, context,render.value.styleText.styleTextTree!!)
+                    return@onPreviewKeyEvent render.value.listener.handleKeyEvent(it, context)
                 },
             visualTransformation = { _ ->
                 TransformedText(

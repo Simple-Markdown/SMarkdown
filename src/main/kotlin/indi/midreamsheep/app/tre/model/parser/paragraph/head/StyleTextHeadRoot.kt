@@ -42,7 +42,7 @@ class StyleTextHeadRoot(
                     }
                 }
                 for (child in getChildren()) {
-                    append(child!!.build(isFocus))
+                    append(child.build(isFocus))
                 }
             }
         }

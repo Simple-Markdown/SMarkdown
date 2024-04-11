@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.model.parser.paragraph.quote
+package indi.midreamsheep.app.tre.model.parser.paragraph.list.unordered
 
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
@@ -13,22 +13,14 @@ import indi.midreamsheep.app.tre.model.listener.shortcut.textfield.shortcuts.Ent
 import indi.midreamsheep.app.tre.model.render.listener.TRERenderListener
 import indi.midreamsheep.app.tre.tool.ioc.getBean
 
-class QuoteListener(
+class UnorderedListListener(
     private val line: TRECoreBlock,
     private val id:Long,
-    private val childListener: TRERenderListener,
-    private val styleTextTree: StyleTextQuoteRoot
+    private val styleTextTree: StyleTextUnorderedListRoot
 ): TRERenderListener() {
     override fun keyEvent(key: KeyEvent, context: TREEditorContext): Boolean {
         val stateManager = context.editorFileManager.getStateManager()
-        val startSize = stateManager.getTREBlockStateList().size
         val lineNumber = stateManager.getTREBlockStateList().indexOf(line.lineState)
-        if (childListener.keyEvent(key, context)) {
-            if(startSize!=stateManager.getTREBlockStateList().size){
-                nextLineDecoration(stateManager,lineNumber)
-            }
-            return true
-        }
         //Enter
         val treCoreBlock = stateManager.getCurrentBlock()!!.line as TRECoreBlock
         if (context.treTextFieldShortcutKeyManager.check(
@@ -42,7 +34,7 @@ class QuoteListener(
                     TREContentChange(
                         treCoreBlock.content.value,
                         treCoreBlock.content.value.copy(
-                            text = treCoreBlock.content.value.text.substring( 2),
+                            text = treCoreBlock.content.value.text.removeRange(styleTextTree.getOriginalStartOffset(),styleTextTree.getOriginalStartOffset()+2),
                             selection = TextRange(index)
                         ),
                         stateManager.getTREBlockStateList().indexOf(treCoreBlock.lineState)
@@ -56,7 +48,7 @@ class QuoteListener(
                 TREShortcutKeyWeakChecker(
                     Key.Enter.keyCode
                 )
-        )){
+            )){
             getBean(EnterShortcut::class.java).handle(context)
             nextLineDecoration(stateManager,lineNumber)
             return true
@@ -72,8 +64,8 @@ class QuoteListener(
         val treContentChange = TREContentChange(
             nextLine.content.value,
             nextLine.content.value.copy(
-                text = "> ".repeat(styleTextTree.level)+nextLine.content.value.text,
-                selection = TextRange(nextLine.content.value.selection.start + styleTextTree.level*2)
+                text = "- "+nextLine.content.value.text,
+                selection = TextRange(nextLine.content.value.selection.start+2)
             ),
             lineNumber + 1
         )

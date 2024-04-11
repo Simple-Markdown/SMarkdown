@@ -12,10 +12,10 @@ import java.util.Set;
  * */
 @Data
 @AllArgsConstructor
-public class TREShortcutKeyWeakMatch implements TREShortcutKeyChecker {
+public class TREShortcutKeyWeakChecker implements TREShortcutKeyChecker {
     private Long[] keys;
 
-    public TREShortcutKeyWeakMatch(long... keyCode) {
+    public TREShortcutKeyWeakChecker(long... keyCode) {
         this.keys = new Long[keyCode.length];
         for (int i = 0; i < keyCode.length; i++) {
             this.keys[i] = keyCode[i];

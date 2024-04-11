@@ -26,7 +26,7 @@ class StyleTextUnorderedListRoot(
                 append("- ")
             }
             for (child in getChildren()) {
-                append(child!!.build(isFocus))
+                append(child.build(isFocus))
             }
         }
     }
@@ -38,4 +38,8 @@ class StyleTextUnorderedListRoot(
     override fun transformedSize(): Int {
         return super.transformedSize()- if (isDisplay) 2 else 0
     }
+
+    override fun getChildrenOriginalStart() = 2
+
+    override fun getChildrenTransformedStart() = if (isDisplay) 2 else 0
 }

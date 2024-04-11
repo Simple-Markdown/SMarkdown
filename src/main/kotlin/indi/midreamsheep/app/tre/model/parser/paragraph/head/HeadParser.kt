@@ -56,7 +56,8 @@ class HeadParser: indi.midreamsheep.app.tre.model.parser.LineParser {
         )
 
         render.listener = HeadListener(
-            line,id
+            line,id,
+            render.styleText.styleTextTree as StyleTextHeadRoot
         )
         return render
     }
