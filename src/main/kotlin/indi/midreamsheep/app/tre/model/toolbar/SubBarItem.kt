@@ -1,6 +1,8 @@
 package indi.midreamsheep.app.tre.model.toolbar
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +31,7 @@ abstract class SubBarItem {
             }
         }
     }
-    @Composable
+
     abstract fun call(context: TREEditorContext)
 
     protected abstract fun getName():String

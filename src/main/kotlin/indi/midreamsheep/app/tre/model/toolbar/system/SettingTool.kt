@@ -1,28 +1,14 @@
 package indi.midreamsheep.app.tre.model.toolbar.system
 
-import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.window.Window
 import indi.midreamsheep.app.tre.api.annotation.toolbar.toolbars.EditorToolBar
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.toolbar.SubBarItem
-import indi.midreamsheep.app.tre.ui.page.settingpage.settingPage
 
 @EditorToolBar
 class SettingTool : SubBarItem() {
 
-    @Composable
     override fun call(context: TREEditorContext) {
-        //新建窗口
-        Window(onCloseRequest = {
-            return@Window
-        }) {
-            MaterialTheme{
-                settingPage(){
-
-                }
-            }
-        }
+        //注册设置界面 TODO
     }
 
     override fun getName(): String {

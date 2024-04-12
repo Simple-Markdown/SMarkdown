@@ -1,14 +1,22 @@
 package indi.midreamsheep.app.tre.model.toolbar
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 
 abstract class TopBarItem {
@@ -16,37 +24,40 @@ abstract class TopBarItem {
     fun getComposable(context: TREEditorContext): @Composable () -> Unit {
         return {
             var expanded by remember { mutableStateOf(false) }
-            Column(
+            var boxHeight by remember { mutableStateOf(0.dp) }
+            var boxWidth by remember { mutableStateOf(0.dp) }
+            val focusRequester = remember { FocusRequester() }
+            CustomIntrinsicBox(
                 modifier = Modifier.padding(0.dp)
+                    .focusRequester(focusRequester)
             ) {
-                TextButton(
+                Text(
+                    text = getName(),
+                    style = MaterialTheme.typography.body1,
                     modifier = Modifier
-                        .padding(0.dp)
-                        .defaultMinSize(1.dp, 1.dp)
+                        .onGloballyPositioned {
+                            boxHeight = it.size.height.dp
+                            boxWidth = it.size.width.dp
+                        }
+                        .clickable {
+                            expanded = !expanded
+                        }
+                        .padding(8.dp)
+                        .layoutId("button")
                     ,
-                    contentPadding = PaddingValues(5.dp),
-                    onClick = {
-                        expanded = true
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Transparent,
-                    ),
-                ) {
-                    Text(
-                        text = getName(),
-                        style = MaterialTheme.typography.body1,
-                        modifier = Modifier.padding(0.dp),
-                    )
-                }
-                DropdownMenu(
-                    modifier = Modifier,
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    for (subFloorBar in getSubBarList()) {
-                        subMenu(context, subFloorBar)
+                )
+                //if (expanded){
+                    Box(
+                        modifier = Modifier
+                            .offset(y = boxHeight)
+                            .zIndex(1f)
+                            .background(Color.Blue)
+                    ){
+                        for (subFloorBar in getSubBarList()) {
+                            subMenu(context, subFloorBar)
+                        }
                     }
-                }
+                //}
 
             }
         }
@@ -57,15 +68,40 @@ abstract class TopBarItem {
         context: TREEditorContext,
         subFloorBar: SubBarItem
     ) {
-        var isClicked by remember { mutableStateOf(false) }
-        if (isClicked) {
-            subFloorBar.call(context)
-        }
-        DropdownMenuItem(
-            modifier = Modifier, onClick = {
-                isClicked = true
+        Box(
+            modifier = Modifier.clickable {
+                subFloorBar.call(context)
             }) {
             subFloorBar.getComposable()()
+        }
+    }
+
+    @Composable
+    fun CustomIntrinsicBox(
+        modifier: Modifier = Modifier,
+        content: @Composable () -> Unit
+    ) {
+        Layout(
+            content = content,
+            modifier = modifier
+        ) { measurables, constraints ->
+            // 自定义测量逻辑
+            var placeableWidth = 0
+            var placeableHeight = 0
+            measurables.forEach { measurable ->
+                val placeable = measurable.measure(constraints)
+                if (measurable.layoutId == "button") {
+                    placeableWidth = placeable.width
+                    placeableHeight = placeable.height
+                }
+            }
+
+            layout(placeableWidth, placeableHeight) {
+                measurables.forEach { measurable ->
+                    val placeable = measurable.measure(constraints)
+                    placeable.placeRelative(0, 0)
+                }
+            }
         }
     }
 
