@@ -20,7 +20,7 @@ fun topBar(
 ){
     val list = getBean(TopMenuManager::class.java).topFloorBarList
     Row(
-        modifier = Modifier.fillMaxWidth().background(Color(0xfff2f2f2)).zIndex(1f)
+        modifier = Modifier.fillMaxWidth().background(Color(0xfff2f2f2)).zIndex(5f)
     ) {
         for ((index, topFloorBar) in list.withIndex()) {
             topFloorBar.getComposable(context)()

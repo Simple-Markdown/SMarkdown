@@ -11,8 +11,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
@@ -30,6 +32,9 @@ abstract class TopBarItem {
             CustomIntrinsicBox(
                 modifier = Modifier.padding(0.dp)
                     .focusRequester(focusRequester)
+                    .onFocusChanged {
+                        expanded = it.isFocused
+                    }
             ) {
                 Text(
                     text = getName(),
@@ -39,14 +44,12 @@ abstract class TopBarItem {
                             boxHeight = it.size.height.dp
                             boxWidth = it.size.width.dp
                         }
-                        .clickable {
-                            expanded = !expanded
-                        }
+                        .clickable {}
                         .padding(8.dp)
                         .layoutId("button")
                     ,
                 )
-                //if (expanded){
+                if (expanded){
                     Box(
                         modifier = Modifier
                             .offset(y = boxHeight)
@@ -57,7 +60,7 @@ abstract class TopBarItem {
                             subMenu(context, subFloorBar)
                         }
                     }
-                //}
+                }
 
             }
         }
@@ -88,17 +91,18 @@ abstract class TopBarItem {
             // 自定义测量逻辑
             var placeableWidth = 0
             var placeableHeight = 0
+            val placeables:MutableList<Placeable> = mutableListOf()
             measurables.forEach { measurable ->
                 val placeable = measurable.measure(constraints)
                 if (measurable.layoutId == "button") {
                     placeableWidth = placeable.width
                     placeableHeight = placeable.height
                 }
+                placeables.add(placeable)
             }
 
             layout(placeableWidth, placeableHeight) {
-                measurables.forEach { measurable ->
-                    val placeable = measurable.measure(constraints)
+                for (placeable in placeables) {
                     placeable.placeRelative(0, 0)
                 }
             }
