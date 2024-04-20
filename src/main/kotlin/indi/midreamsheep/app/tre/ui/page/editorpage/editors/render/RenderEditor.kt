@@ -98,7 +98,7 @@ fun renderList(
                 return@LaunchedEffect
            }
            // 如果不在可视范围内，滚动到当前行
-           listState.scrollToItem(currentIndex)
+           listState.animateScrollToItem(currentIndex)
        }
     }
 }
