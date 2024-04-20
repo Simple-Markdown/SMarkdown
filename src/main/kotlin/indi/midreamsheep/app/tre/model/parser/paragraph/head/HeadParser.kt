@@ -63,7 +63,7 @@ class HeadParser: indi.midreamsheep.app.tre.model.parser.LineParser {
         )
 
         render.trePreButton = TREComposable { {
-            Text("H${level}")
+            Text("H${level}    ")
         } }
         return render
     }

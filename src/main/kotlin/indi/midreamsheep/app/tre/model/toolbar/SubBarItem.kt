@@ -1,7 +1,10 @@
 package indi.midreamsheep.app.tre.model.toolbar
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,7 +18,7 @@ abstract class SubBarItem {
     fun getComposable():@Composable ()->Unit {
         return {
             Row(
-                modifier = Modifier
+                modifier = Modifier.border(1.dp, Color.Gray.copy(alpha = 0.2f)).background(Color.White).background(Color.Gray.copy(alpha = 0.05f)).padding(8.dp)
             ) {
                 Text(
                     color = Color.Black,

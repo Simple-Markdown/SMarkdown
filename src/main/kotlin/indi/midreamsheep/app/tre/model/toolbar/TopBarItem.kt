@@ -54,7 +54,6 @@ abstract class TopBarItem {
                         modifier = Modifier
                             .offset(y = boxHeight)
                             .zIndex(1f)
-                            .background(Color.Blue)
                     ){
                         for (subFloorBar in getSubBarList()) {
                             subMenu(context, subFloorBar)

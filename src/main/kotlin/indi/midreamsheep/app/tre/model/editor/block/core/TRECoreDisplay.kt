@@ -6,7 +6,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.tool.expand.simpleClickable
 
 class TRECoreDisplay(val line:TRECoreBlock):Display {
     @Composable
@@ -16,12 +15,7 @@ class TRECoreDisplay(val line:TRECoreBlock):Display {
             text = value.build(false),
             style = MaterialTheme.typography.bodyLarge,
             inlineContent = line.render.value.styleText.previewAnnotation,
-            modifier = Modifier
-                .fillMaxWidth()
-                .simpleClickable{
-                    line.focus()
-                }
-            ,
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }

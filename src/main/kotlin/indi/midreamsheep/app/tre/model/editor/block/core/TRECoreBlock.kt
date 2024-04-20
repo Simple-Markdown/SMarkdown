@@ -10,7 +10,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -41,7 +40,7 @@ class TRECoreBlock(
             }
         }
     )
-    var preButton: MutableState<TREComposable?> = mutableStateOf(null)
+    private var preButton: MutableState<TREComposable?> = mutableStateOf(null)
     private var focusRequester: FocusRequester = FocusRequester()
     var isFocus = mutableStateOf(false)
     //维护一张属性表，用于存储属性
@@ -104,9 +103,6 @@ class TRECoreBlock(
             modifier = Modifier
                 .fillMaxWidth()
                 .focusRequester(focusRequester)
-                .onFocusChanged {
-                    isFocus.value = it.isFocused
-                }
                 .onPreviewKeyEvent {
                     return@onPreviewKeyEvent render.value.listener.handleKeyEvent(it, context)
                 },

@@ -2,7 +2,10 @@ package indi.midreamsheep.app.tre.ui.page.editorpage
 
 import androidx.compose.foundation.ScrollbarAdapter
 import androidx.compose.foundation.VerticalScrollbar
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -35,14 +38,11 @@ fun editorPage(
         topBar(context)
         Row (Modifier.weight(1f)){
             //左间距
-            Spacer(Modifier.weight(1f))
             editor(
                 Modifier.weight(10f),
                 listState,
                 context
             )
-            //右间距
-            Spacer(Modifier.weight(1f))
             VerticalScrollbar(
                 modifier = Modifier.fillMaxHeight(),
                 adapter = ScrollbarAdapter(listState)
