@@ -11,6 +11,7 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.tool.expand.simpleClickable
 
@@ -54,10 +55,12 @@ fun renderList(
                         .simpleClickable {
                             treBlockState.line.focus()
                         }
+                        .zIndex(1f)
                 ) {
                     Spacer(modifier = Modifier.width(leftPadding.value))
                     Box(
                         Modifier.weight(1f)
+                            .zIndex(1f)
                     ){
                         Row(
                             modifier = Modifier
@@ -68,7 +71,9 @@ fun renderList(
                                     }
                                 }
                                 .offset(x = -preButtonOffset)
-                                .height(lineHeight),
+                                .height(lineHeight)
+                                .zIndex(1f)
+                            ,
                             verticalAlignment = Alignment.CenterVertically
                         ){
                             treBlockState.line.preButton.getComposable().invoke()

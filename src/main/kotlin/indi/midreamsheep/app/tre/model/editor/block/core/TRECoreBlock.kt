@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -68,10 +69,10 @@ class TRECoreBlock(
                     content.value = content.value.copy(selection = TextRange(render.value.offsetMap.getStartOffset()))
                     buildContent()
                 }
-                if (isFocus.value) {
-                    editorInput(context)
-                }else{
+                if((!isFocus.value)&&render.value.styleText.isPreView()){
                     preview()
+                }else{
+                    editorInput(context)
                 }
             }
         }
@@ -103,6 +104,11 @@ class TRECoreBlock(
             modifier = Modifier
                 .fillMaxWidth()
                 .focusRequester(focusRequester)
+                .onFocusChanged {
+                    if(it.isFocused){
+                        focus()
+                    }
+                }
                 .onPreviewKeyEvent {
                     return@onPreviewKeyEvent render.value.listener.handleKeyEvent(it, context)
                 },
@@ -147,9 +153,13 @@ class TRECoreBlock(
                 }
             },
         )
-        LaunchedEffect(Unit) {
-            focusRequester.requestFocus()
-            focus()
+        LaunchedEffect(isFocus.value) {
+            if (isFocus.value) {
+                focusRequester.requestFocus()
+            }else{
+                focusRequester.freeFocus()
+            }
+
         }
     }
 
