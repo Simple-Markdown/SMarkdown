@@ -34,7 +34,6 @@ abstract class TREEditorShortcutKeyManagerAbstract {
     }
     abstract fun getActions(): MutableList<TREShortcutKeyHandler>
 
-    fun clear() = manager().clearPressedKeys()
     fun check(keyEntity: TREShortcutKeyChecker) = keyEntity.check(manager().pressedKeys)
     fun update(keyEvent: KeyEvent):Boolean{
         return when (keyEvent.type) {

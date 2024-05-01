@@ -12,8 +12,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.block.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.tool.expand.simpleClickable
 
@@ -23,8 +25,9 @@ fun HeadButton(
     line: TRECoreBlock,
     styleTextTree: StyleTextHeadRoot,
     stateList: TREStateManager,
-
     ) {
+    var textWith by remember { mutableStateOf(0.dp) }
+    var menuWith by remember { mutableStateOf(0.dp) }
     var expanded by remember { mutableStateOf(false) }
     Row {
         Box(
@@ -39,7 +42,11 @@ fun HeadButton(
                 modifier = Modifier
                     .simpleClickable {
                         expanded = true
-                    },
+                    }
+                    .onGloballyPositioned {
+                        textWith = it.size.width.dp
+                    }
+                ,
                 color = Color.Gray
             )
             DropdownMenu(
@@ -47,6 +54,10 @@ fun HeadButton(
                 onDismissRequest = { expanded = false },
                 modifier = Modifier.padding(0.dp)
                     .background(Color.White)
+                    .onGloballyPositioned {
+                        menuWith = it.size.width.dp
+                    },
+                offset = DpOffset(-(menuWith - textWith)/2,3.dp)
             ) {
                 for(i in 1..6){
                     DropdownMenuItemContent(onClick = {

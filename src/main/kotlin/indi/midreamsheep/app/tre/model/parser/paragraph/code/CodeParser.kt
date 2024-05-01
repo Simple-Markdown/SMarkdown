@@ -4,11 +4,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.block.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.parser.paragraph.code.editor.TRECodeBlock
-import indi.midreamsheep.app.tre.model.render.TRERender
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
+import indi.midreamsheep.app.tre.shared.render.TRERender
 
 @LineParserMap
 @MapKey("`")
@@ -45,6 +45,7 @@ class CodeParser: indi.midreamsheep.app.tre.model.parser.LineParser {
                 list[it] = newLine
             }
         }
+        render.styleText.previewSpecial = true
         return render
     }
 

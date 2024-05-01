@@ -4,13 +4,13 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.text.TextRange
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.block.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.textfield.shortcuts.EnterShortcut
-import indi.midreamsheep.app.tre.model.render.listener.TRERenderListener
+import indi.midreamsheep.app.tre.shared.render.listener.TRERenderListener
 import indi.midreamsheep.app.tre.tool.ioc.getBean
 
 class QuoteListener(

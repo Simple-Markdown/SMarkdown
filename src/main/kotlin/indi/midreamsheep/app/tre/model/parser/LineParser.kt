@@ -2,9 +2,9 @@ package indi.midreamsheep.app.tre.model.parser
 
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.block.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
-import indi.midreamsheep.app.tre.model.render.TRERender
+import indi.midreamsheep.app.tre.shared.render.TRERender
 
 interface LineParser {
     /**
@@ -20,7 +20,7 @@ interface LineParser {
         selection:Int,
         stateList: TREStateManager,
         line: TRECoreBlock
-    ):TRERender
+    ): TRERender
 
 
     /**

@@ -9,13 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.block.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.parser.LineParser
-import indi.midreamsheep.app.tre.model.render.TRERender
-import indi.midreamsheep.app.tre.model.render.style.styletext.leaf.TRECoreLeaf
-import indi.midreamsheep.app.tre.model.render.style.styletext.root.TRECoreStyleTextRoot
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
+import indi.midreamsheep.app.tre.shared.render.TRERender
+import indi.midreamsheep.app.tre.shared.render.style.styletext.leaf.TRECoreLeaf
+import indi.midreamsheep.app.tre.shared.render.style.styletext.root.TRECoreStyleTextRoot
 
 @LineParserMap
 @MapKey("-")

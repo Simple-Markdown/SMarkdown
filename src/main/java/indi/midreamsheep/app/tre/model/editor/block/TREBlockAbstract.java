@@ -1,6 +1,7 @@
 package indi.midreamsheep.app.tre.model.editor.block;
 
-import indi.midreamsheep.app.tre.api.TREComposable;
+import indi.midreamsheep.app.tre.shared.render.prebutton.TREDefaultLinePreButton;
+import indi.midreamsheep.app.tre.shared.render.prebutton.TRELinePreButton;
 import indi.midreamsheep.app.tre.tool.id.IdUtil;
 import lombok.Getter;
 
@@ -31,7 +32,7 @@ public abstract class TREBlockAbstract implements TREBlock{
      * 获取前置按钮
      */
     @Override
-    public TREComposable getPreButton() {
-        return TREComposable.Companion.getEMPTY();
+    public TRELinePreButton getPreButton() {
+        return new TREDefaultLinePreButton();
     }
 }

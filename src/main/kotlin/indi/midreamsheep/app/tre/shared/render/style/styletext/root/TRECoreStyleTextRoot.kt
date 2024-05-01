@@ -1,8 +1,8 @@
-package indi.midreamsheep.app.tre.model.render.style.styletext.root
+package indi.midreamsheep.app.tre.shared.render.style.styletext.root
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
-import indi.midreamsheep.app.tre.model.render.style.styletext.TREStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.style.styletext.TREStyleTextRoot
 
 open class TRECoreStyleTextRoot: TREStyleTextRoot() {
 

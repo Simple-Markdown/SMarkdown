@@ -2,7 +2,7 @@ package indi.midreamsheep.app.tre.model.parser.paragraph.list.unordered
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
-import indi.midreamsheep.app.tre.model.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.style.styletext.root.TRECoreStyleTextRoot
 
 class StyleTextUnorderedListRoot(
     private val isDisplay: Boolean,

@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.model.render.style.styletext
+package indi.midreamsheep.app.tre.shared.render.style.styletext
 
 import androidx.compose.ui.text.AnnotatedString
 

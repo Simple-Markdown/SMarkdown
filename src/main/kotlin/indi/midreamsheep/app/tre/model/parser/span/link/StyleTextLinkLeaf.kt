@@ -6,7 +6,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import indi.midreamsheep.app.tre.model.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.style.styletext.root.TRECoreStyleTextRoot
 
 class StyleTextLinkLeaf(
     private val displayName:String,

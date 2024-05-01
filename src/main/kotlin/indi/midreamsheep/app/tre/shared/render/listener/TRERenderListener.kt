@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.model.render.listener
+package indi.midreamsheep.app.tre.shared.render.listener
 
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType

@@ -31,11 +31,11 @@ fun renderList(
     LazyColumn(
         state = listState,
         modifier = modifier.fillMaxSize().padding(top = 10.dp, start = 10.dp)
-            .simpleClickable {
-                lineStateList[lineStateList.size - 1].line.focus()
-            }
             .onKeyEvent { keyEvent ->
                 return@onKeyEvent keyEvent.key == Enter
+            }
+            .simpleClickable {
+                lineStateList[lineStateList.size - 1].line.focus()
             }
             .onGloballyPositioned {
                 if(lastWidth.value != it.size.width.dp){
@@ -76,7 +76,7 @@ fun renderList(
                             ,
                             verticalAlignment = Alignment.CenterVertically
                         ){
-                            treBlockState.line.preButton.getComposable().invoke()
+                            treBlockState.line.preButton.getPreButton().getComposable().invoke()
                         }
                         Box(
                             Modifier.fillMaxWidth()

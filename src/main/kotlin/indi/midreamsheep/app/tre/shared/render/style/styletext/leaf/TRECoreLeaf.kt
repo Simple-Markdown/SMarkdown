@@ -1,8 +1,8 @@
-package indi.midreamsheep.app.tre.model.render.style.styletext.leaf
+package indi.midreamsheep.app.tre.shared.render.style.styletext.leaf
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
-import indi.midreamsheep.app.tre.model.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.style.styletext.root.TRECoreStyleTextRoot
 
 /**
  * 核心叶子节点，内部存储纯文本内容

@@ -1,10 +1,10 @@
-package indi.midreamsheep.app.tre.model.render.style.styletext
+package indi.midreamsheep.app.tre.shared.render.style.styletext
 
 abstract class TREStyleTextRoot: TREStyleTextTree {
 
     protected val children = mutableListOf<TREStyleTextTree>()
 
-    private var parent:TREStyleTextTree? = null
+    private var parent: TREStyleTextTree? = null
 
     override fun addChildren(styleTextTree: TREStyleTextTree) {
         children.add(styleTextTree)

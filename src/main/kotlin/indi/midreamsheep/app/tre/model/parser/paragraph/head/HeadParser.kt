@@ -4,11 +4,12 @@ import androidx.compose.material3.Divider
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.TREComposable
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.block.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
-import indi.midreamsheep.app.tre.model.render.TRERender
-import indi.midreamsheep.app.tre.model.render.offsetmap.TRERenderOffsetMap
-import indi.midreamsheep.app.tre.model.render.style.styletext.leaf.TRECoreLeaf
+import indi.midreamsheep.app.tre.shared.render.TRERender
+import indi.midreamsheep.app.tre.shared.render.offsetmap.TRERenderOffsetMap
+import indi.midreamsheep.app.tre.shared.render.prebutton.TRELinePreButton
+import indi.midreamsheep.app.tre.shared.render.style.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.tool.id.IdUtil
 
@@ -40,8 +41,9 @@ class HeadParser: indi.midreamsheep.app.tre.model.parser.LineParser {
             line.propertySet.add(id)
         }
         if (line.propertySet.contains(id)){
-            render.offsetMap = object : TRERenderOffsetMap {
+            render.offsetMap = object : TRERenderOffsetMap() {
                 override fun getStartOffset() = level+1
+
             }
             isDisplay = false
         }
@@ -61,9 +63,13 @@ class HeadParser: indi.midreamsheep.app.tre.model.parser.LineParser {
             render.styleText.styleTextTree as StyleTextHeadRoot
         )
 
-        render.trePreButton = TREComposable { {
-            HeadButton(level,line, render.styleText.styleTextTree as StyleTextHeadRoot,stateList)
-        } }
+        render.trePreButton = TRELinePreButton{
+            TREComposable{
+                {
+                    HeadButton(level,line, render.styleText.styleTextTree as StyleTextHeadRoot,stateList)
+                }
+            }
+        }
         return render
     }
 

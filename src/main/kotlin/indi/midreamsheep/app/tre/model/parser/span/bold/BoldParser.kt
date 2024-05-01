@@ -3,8 +3,8 @@ package indi.midreamsheep.app.tre.model.parser.span.bold
 import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParserList
 import indi.midreamsheep.app.tre.model.parser.InlineParser
 import indi.midreamsheep.app.tre.model.parser.span.TREInlineParser
-import indi.midreamsheep.app.tre.model.render.TRERender
-import indi.midreamsheep.app.tre.model.render.style.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.shared.render.TRERender
+import indi.midreamsheep.app.tre.shared.render.style.styletext.TREStyleTextTree
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 import lombok.extern.slf4j.Slf4j

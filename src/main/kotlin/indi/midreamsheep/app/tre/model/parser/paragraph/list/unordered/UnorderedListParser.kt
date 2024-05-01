@@ -11,12 +11,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.Display
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.block.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.parser.LineParser
 import indi.midreamsheep.app.tre.model.parser.span.TREInlineParser
-import indi.midreamsheep.app.tre.model.render.TRERender
-import indi.midreamsheep.app.tre.model.render.offsetmap.TRERenderOffsetMap
+import indi.midreamsheep.app.tre.shared.render.TRERender
+import indi.midreamsheep.app.tre.shared.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.tool.id.IdUtil
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
@@ -88,7 +88,7 @@ class UnorderedListParser: LineParser {
         }
 
         if(line.propertySet.contains(ID)){
-            render.offsetMap = object : TRERenderOffsetMap {
+            render.offsetMap = object : TRERenderOffsetMap() {
                 override fun getStartOffset() = 2
             }
         }

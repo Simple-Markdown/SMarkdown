@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.parser.paragraph.head
 
 import androidx.compose.ui.text.TextRange
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.block.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperatorAbstract
 

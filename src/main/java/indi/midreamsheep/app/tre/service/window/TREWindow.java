@@ -2,7 +2,6 @@ package indi.midreamsheep.app.tre.service.window;
 
 import indi.midreamsheep.app.tre.api.Display;
 import indi.midreamsheep.app.tre.service.ioc.tre.TREIocWithCatch;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

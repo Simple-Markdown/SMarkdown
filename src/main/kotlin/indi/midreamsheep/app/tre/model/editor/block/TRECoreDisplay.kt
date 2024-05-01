@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.model.editor.block.core
+package indi.midreamsheep.app.tre.model.editor.block
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import indi.midreamsheep.app.tre.api.Display
 
-class TRECoreDisplay(val line:TRECoreBlock):Display {
+class TRECoreDisplay(val line: TRECoreBlock):Display {
     @Composable
     override fun display() {
         val value = line.render.value.styleText.styleTextTree!!

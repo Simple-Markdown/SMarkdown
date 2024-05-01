@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.model.editor.block.core
+package indi.midreamsheep.app.tre.model.editor.block
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
@@ -17,15 +17,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import indi.midreamsheep.app.tre.api.TREComposable
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.editor.block.TREBlockAbstract
-import indi.midreamsheep.app.tre.model.editor.block.TREBlockState
-import indi.midreamsheep.app.tre.model.editor.block.TRETextBlock
 import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
-import indi.midreamsheep.app.tre.model.render.TREOffsetMappingAdapter
-import indi.midreamsheep.app.tre.model.render.TRERender
-import indi.midreamsheep.app.tre.model.render.style.styletext.leaf.TRECoreLeaf
-import indi.midreamsheep.app.tre.model.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.TREOffsetMappingAdapter
+import indi.midreamsheep.app.tre.shared.render.TRERender
+import indi.midreamsheep.app.tre.shared.render.prebutton.TRELinePreButton
+import indi.midreamsheep.app.tre.shared.render.style.styletext.leaf.TRECoreLeaf
+import indi.midreamsheep.app.tre.shared.render.style.styletext.root.TRECoreStyleTextRoot
 import indi.midreamsheep.app.tre.tool.ioc.getBean
 
 class TRECoreBlock(
@@ -41,7 +39,6 @@ class TRECoreBlock(
             }
         }
     )
-    private var preButton: MutableState<TREComposable?> = mutableStateOf(null)
     private var focusRequester: FocusRequester = FocusRequester()
     var isFocus = mutableStateOf(false)
     //维护一张属性表，用于存储属性
@@ -65,11 +62,11 @@ class TRECoreBlock(
         buildContent()
         return TREComposable{
             {
-                if(content.value.selection.start < render.value.offsetMap.getStartOffset()){
-                    content.value = content.value.copy(selection = TextRange(render.value.offsetMap.getStartOffset()))
+                if(render.value.offsetMap.check(content.value.selection.start)){
+                    content.value = content.value.copy(selection = TextRange(render.value.offsetMap.resetOffset(content.value.selection.start)))
                     buildContent()
                 }
-                if((!isFocus.value)&&render.value.styleText.isPreView()){
+                if((!isFocus.value)&&(render.value.styleText.isPreView()||render.value.styleText.previewSpecial)){
                     preview()
                 }else{
                     editorInput(context)
@@ -202,7 +199,7 @@ class TRECoreBlock(
 
     override fun focusFormStart() {
         focus()
-        content.value = content.value.copy(selection = TextRange(render.value.offsetMap.getStartOffset()))
+        content.value = content.value.copy(selection = TextRange(0))
     }
 
     override fun getTextFieldValue() = content.value
@@ -228,10 +225,9 @@ class TRECoreBlock(
         textFieldValue: TextFieldValue = content.value
     ){
         render.value = parser.parse(textFieldValue.text, textFieldValue.selection.start, this, treStateManager)
-        preButton.value = render.value.trePreButton
     }
 
-    override fun getPreButton(): TREComposable {
-        return preButton.value ?: TREComposable.EMPTY
+    override fun getPreButton(): TRELinePreButton? {
+        return render.value.trePreButton
     }
 }

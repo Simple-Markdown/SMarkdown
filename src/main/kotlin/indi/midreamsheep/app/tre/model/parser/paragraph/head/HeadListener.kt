@@ -4,11 +4,11 @@ import androidx.compose.ui.input.key.Key.Companion.Backspace
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.text.TextRange
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.block.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
-import indi.midreamsheep.app.tre.model.render.listener.TRERenderListener
-import indi.midreamsheep.app.tre.model.render.style.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.shared.render.listener.TRERenderListener
+import indi.midreamsheep.app.tre.shared.render.style.styletext.TREStyleTextTree
 
 class HeadListener(
     private val line: TRECoreBlock,

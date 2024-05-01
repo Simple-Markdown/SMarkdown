@@ -1,12 +1,12 @@
-package indi.midreamsheep.app.tre.model.render.style
+package indi.midreamsheep.app.tre.shared.render.style
 
 import androidx.compose.foundation.text.InlineTextContent
 import indi.midreamsheep.app.tre.api.Display
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreDisplay
-import indi.midreamsheep.app.tre.model.render.style.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.model.editor.block.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.block.TRECoreDisplay
+import indi.midreamsheep.app.tre.shared.render.style.styletext.TREStyleTextTree
 
-class TRETextStyle(line:TRECoreBlock) {
+class TRETextStyle(line: TRECoreBlock) {
     // 样式文本树
     var styleTextTree: TREStyleTextTree? = null
     // 文本前缀修饰组,上一行修饰
@@ -25,6 +25,8 @@ class TRETextStyle(line:TRECoreBlock) {
     val previewAnnotation:MutableMap<String,InlineTextContent> = mutableMapOf()
     // 是否启动
     var preview:Boolean = true
+    // 特殊预览
+    var previewSpecial:Boolean = false
 
     fun append(style: TRETextStyle){
         styleTextTree?.addChildren(style.styleTextTree!!)
@@ -38,5 +40,5 @@ class TRETextStyle(line:TRECoreBlock) {
         preview = style.preview||preview
     }
 
-    fun isPreView() = (previewDisplay !is TRECoreDisplay || previewAnnotation.isNotEmpty()) && preview
+    fun isPreView() = (previewDisplay !is TRECoreDisplay || previewAnnotation.isNotEmpty()) && preview &&!previewSpecial
 }

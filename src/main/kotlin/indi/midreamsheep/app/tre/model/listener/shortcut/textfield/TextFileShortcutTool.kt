@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.model.listener.shortcut.textfield
 import indi.midreamsheep.app.tre.context.TREContext
 import indi.midreamsheep.app.tre.context.editor.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.block.TRETextBlock
-import indi.midreamsheep.app.tre.model.editor.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.model.editor.block.TRECoreBlock
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 
 @Comment

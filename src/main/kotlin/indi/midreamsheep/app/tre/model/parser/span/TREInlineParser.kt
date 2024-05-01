@@ -1,8 +1,8 @@
 package indi.midreamsheep.app.tre.model.parser.span
 
-import indi.midreamsheep.app.tre.model.render.TRERender
-import indi.midreamsheep.app.tre.model.render.style.styletext.TREStyleTextTree
-import indi.midreamsheep.app.tre.model.render.style.styletext.leaf.TRECoreLeaf
+import indi.midreamsheep.app.tre.shared.render.TRERender
+import indi.midreamsheep.app.tre.shared.render.style.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.shared.render.style.styletext.leaf.TRECoreLeaf
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
