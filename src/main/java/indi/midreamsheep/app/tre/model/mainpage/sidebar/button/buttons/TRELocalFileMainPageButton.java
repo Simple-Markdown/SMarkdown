@@ -2,11 +2,11 @@ package indi.midreamsheep.app.tre.model.mainpage.sidebar.button.buttons;
 
 import androidx.compose.ui.graphics.ImageBitmap;
 import indi.midreamsheep.app.tre.api.annotation.mainpage.MainPageButton;
-import indi.midreamsheep.app.tre.context.mainpage.TREMainPageContext;
+import indi.midreamsheep.app.tre.desktop.page.main.context.TREMainPageContext;
 import indi.midreamsheep.app.tre.model.mainpage.sidebar.button.TREMainPageButton;
 import indi.midreamsheep.app.tre.model.setting.settings.store.StoreSettingGroup;
 import indi.midreamsheep.app.tre.service.image.TREImageTool;
-import indi.midreamsheep.app.tre.ui.page.editorpage.OpenFileWindow;
+import indi.midreamsheep.app.tre.desktop.page.editor.OpenFileWindow;
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector;
 
 import java.util.Objects;

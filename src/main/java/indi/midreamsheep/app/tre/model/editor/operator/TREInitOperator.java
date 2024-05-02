@@ -1,15 +1,15 @@
 package indi.midreamsheep.app.tre.model.editor.operator;
 
-import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager;
+import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager;
 
 public class TREInitOperator extends TREOperatorAbstract{
     @Override
-    public void execute(TREStateManager stateManager) {
+    public void execute(TREBlockManager stateManager) {
         // do nothing
     }
 
     @Override
-    public void undo(TREStateManager stateManager) {
+    public void undo(TREBlockManager stateManager) {
         // do nothing
     }
 }

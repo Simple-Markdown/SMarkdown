@@ -2,11 +2,11 @@ package indi.midreamsheep.app.tre.model.setting.setting;
 
 import androidx.compose.runtime.Composable;
 import cn.hutool.core.io.FileUtil;
-import indi.midreamsheep.app.tre.api.Display;
+import indi.midreamsheep.app.tre.shared.api.display.Display;
 import indi.midreamsheep.app.tre.constant.AppPathConstant;
 import indi.midreamsheep.app.tre.service.ioc.di.init.annotation.Init;
 import indi.midreamsheep.app.tre.model.setting.setting.tool.SettingUtil;
-import indi.midreamsheep.app.tre.model.setting.SettingDisplay;
+import indi.midreamsheep.app.tre.desktop.page.setting.model.SettingDisplay;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;

@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.listener.shortcut;
 
 import indi.midreamsheep.app.tre.api.inter.event.TREEvent;
-import indi.midreamsheep.app.tre.context.TREContext;
+import indi.midreamsheep.app.tre.shared.api.context.TREContext;
 
 import java.util.List;
 

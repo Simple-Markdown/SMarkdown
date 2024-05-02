@@ -1,8 +1,8 @@
 package indi.midreamsheep.app.tre.service.window.run;
 
 import indi.midreamsheep.app.tre.model.mainpage.file.core.TRELocalFile;
-import indi.midreamsheep.app.tre.ui.page.editorpage.TRELocalEditorWindow;
-import indi.midreamsheep.app.tre.ui.page.mainpage.MainPageWindow;
+import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindow;
+import indi.midreamsheep.app.tre.desktop.page.main.MainPageWindow;
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment;
 import lombok.extern.slf4j.Slf4j;
 

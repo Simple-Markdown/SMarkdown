@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.model.editor.operator;
 
-import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager;
+import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager;
 import lombok.Data;
 
 @Data
@@ -11,10 +11,10 @@ public abstract class TREOperatorAbstract implements TREOperator{
     protected int operatorIndex;
 
     @Override
-    public abstract void execute(TREStateManager stateManager);
+    public abstract void execute(TREBlockManager stateManager);
 
     @Override
-    public abstract void undo(TREStateManager stateManager);
+    public abstract void undo(TREBlockManager stateManager);
 
 
 }

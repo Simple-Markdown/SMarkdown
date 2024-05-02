@@ -1,16 +1,16 @@
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.application
+import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.service.window.TREDesktopWindowService
 import indi.midreamsheep.app.tre.service.window.run.TREApplicationRunCommandParser
-import indi.midreamsheep.app.tre.tool.ioc.getBean
 
 val logger: org.slf4j.Logger = TRE.getLogger()!!
 
 @Composable
 fun App() {
     for (window in getBean(TREDesktopWindowService::class.java).snapshotStateList) {
-        window.display.display()
+        window.display.getComposable().invoke()
     }
 }
 

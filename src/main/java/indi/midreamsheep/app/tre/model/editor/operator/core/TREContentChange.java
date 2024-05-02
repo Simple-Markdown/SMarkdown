@@ -2,8 +2,8 @@ package indi.midreamsheep.app.tre.model.editor.operator.core;
 
 import androidx.compose.ui.text.input.TextFieldValue;
 import indi.midreamsheep.app.tre.model.editor.block.TREBlock;
-import indi.midreamsheep.app.tre.model.editor.block.TRETextBlock;
-import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager;
+import indi.midreamsheep.app.tre.shared.render.block.TRETextBlock;
+import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager;
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperatorAbstract;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class TREContentChange extends TREOperatorAbstract {
     private int lineIndex;
 
     @Override
-    public void execute(TREStateManager stateManager) {
+    public void execute(TREBlockManager stateManager) {
         TREBlock line = stateManager.getTREBlockStateList().get(lineIndex).getLine();
         if (line instanceof TRETextBlock textBlock) {
             textBlock.setTextFieldValue(newContent);
@@ -27,7 +27,7 @@ public class TREContentChange extends TREOperatorAbstract {
     }
 
     @Override
-    public void undo(TREStateManager stateManager) {
+    public void undo(TREBlockManager stateManager) {
         TREBlock line = stateManager.getTREBlockStateList().get(lineIndex).getLine();
         if (line instanceof TRETextBlock textBlock) {
             textBlock.setTextFieldValue(oldContent);

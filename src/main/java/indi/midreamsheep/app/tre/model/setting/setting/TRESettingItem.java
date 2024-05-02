@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.model.setting.setting;
 
-import indi.midreamsheep.app.tre.api.Display;
+import indi.midreamsheep.app.tre.shared.api.display.Display;
 
 /**
  * 设置项

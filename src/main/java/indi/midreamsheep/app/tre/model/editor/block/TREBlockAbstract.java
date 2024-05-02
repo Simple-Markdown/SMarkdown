@@ -1,7 +1,8 @@
 package indi.midreamsheep.app.tre.model.editor.block;
 
-import indi.midreamsheep.app.tre.shared.render.prebutton.TREDefaultLinePreButton;
-import indi.midreamsheep.app.tre.shared.render.prebutton.TRELinePreButton;
+import indi.midreamsheep.app.tre.shared.render.block.TREBlockState;
+import indi.midreamsheep.app.tre.shared.render.render.prebutton.TREDefaultLinePreButton;
+import indi.midreamsheep.app.tre.shared.render.render.prebutton.TRELinePreButton;
 import indi.midreamsheep.app.tre.tool.id.IdUtil;
 import lombok.Getter;
 

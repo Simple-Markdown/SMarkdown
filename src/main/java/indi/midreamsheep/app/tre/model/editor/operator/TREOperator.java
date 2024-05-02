@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.model.editor.operator;
 
-import indi.midreamsheep.app.tre.model.editor.manager.TREStateManager;
+import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager;
 
 /**
  * 操作接口
@@ -10,12 +10,12 @@ public interface TREOperator {
      * 执行操作
      * @param stateManager 状态管理器
      * */
-    void execute(TREStateManager stateManager);
+    void execute(TREBlockManager stateManager);
     /**
      * 撤销操作
      * @param stateManager 状态管理器
      * */
-    void undo(TREStateManager stateManager);
+    void undo(TREBlockManager stateManager);
     /**
      * 设置下一个操作
      * @param nextOperator 下一个操作

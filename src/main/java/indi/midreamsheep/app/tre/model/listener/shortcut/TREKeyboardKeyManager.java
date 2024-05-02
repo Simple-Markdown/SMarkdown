@@ -2,12 +2,14 @@ package indi.midreamsheep.app.tre.model.listener.shortcut;
 
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Comment
 @Data
+@Slf4j
 public class TREKeyboardKeyManager {
     private final Set<Long> pressedKeys = new HashSet<>();
     public void addPressedKey(long keyCode) {
