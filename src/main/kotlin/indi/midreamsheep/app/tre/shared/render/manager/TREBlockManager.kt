@@ -15,9 +15,17 @@ interface TREBlockManager {
      * */
     fun getTREBlock(index:Int): TREBlockState
     /**
+     * 获取指定Block位置
+     * */
+    fun indexOf(treBlockState: TREBlockState): Int
+    /**
      * 获取Block状态列表
      * */
     fun getTREBlockStateList(): SnapshotStateList<TREBlockState>
+    /**
+     * 获取当前焦点的Block位置
+     * */
+    fun getCurrentBlockIndex(): Int
     /**
      * 获取当前拥有焦点的Block
      * */

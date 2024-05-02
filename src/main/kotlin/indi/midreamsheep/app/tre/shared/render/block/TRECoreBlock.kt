@@ -47,12 +47,6 @@ class TRECoreBlock(
 
     override fun focus() {
         isFocus.value = true
-        lineState.markdownLineInter.getCurrentBlock()?.let {
-            if (it != lineState) {
-                it.line.releaseFocus()
-            }
-        } ?:
-        lineState.markdownLineInter.setCurrentBlockState(lineState)
     }
 
     fun focus(position: Int) {
@@ -68,11 +62,6 @@ class TRECoreBlock(
 
     override fun releaseFocus() {
         isFocus.value = false
-        lineState.markdownLineInter.getCurrentBlock()?.let {
-            if (it == lineState) {
-                lineState.markdownLineInter.setCurrentBlockState(null)
-            }
-        }
     }
 
     override fun getDisplay(context: TREEditorContext): Display {
@@ -223,7 +212,7 @@ class TRECoreBlock(
         render.value = parser.parse(textFieldValue.text, textFieldValue.selection.start, this, treStateManager)
     }
 
-    override fun getPreButton(): TRELinePreButton? {
+    override fun getPreButton(): TRELinePreButton {
         return render.value.trePreButton
     }
 

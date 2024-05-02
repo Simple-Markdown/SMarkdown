@@ -47,15 +47,11 @@ class EnterShortcut: TREEditorShortcutKeyHandler() {
         }
 
         stateManager.executeOperator(treOperatorGroup)
-
-        wrapper.line.releaseFocus()
-        newLine.line.focus()
+        stateManager.focusBlock(currentLineNumber+1)
     }
 
     override fun isEnable(context: TREEditorContext): Boolean {
-        val stateManager = context.editorFileManager.getStateManager()
-        stateManager.getCurrentBlock() ?: return false
-        return stateManager.getCurrentBlock()!!.line is TRETextBlock
+        return context.editorFileManager.getStateManager().getCurrentBlock()!!.line is TRETextBlock
     }
 
     override fun getKeys(): List<TREShortcutKeyChecker> {

@@ -1,6 +1,5 @@
 package indi.midreamsheep.app.tre.shared.render.listener.shortcut.inline.shortcuts
 
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
 import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
@@ -15,15 +14,19 @@ class DirectionLeftShortcut: TREEditorShortcutKeyHandler() {
         val stateManager = context!!.editorFileManager.getStateManager()
         val treTextLine = stateManager.getCurrentBlock()
         val index = stateManager.getTREBlockStateList().indexOf(treTextLine)
-        treTextLine!!.line.releaseFocus()
-        stateManager.getTREBlockStateList()[index-1].line.focusFromLast()
+        stateManager.focusBlock(index-1){
+            it.line.focusFromLast()
+        }
     }
 
     override fun isEnable(context: TREEditorContext): Boolean {
+        val stateManager = context.editorFileManager.getStateManager()
+        if(stateManager.getCurrentBlockIndex()==0){
+            return false
+        }
         return selectionInStart(context)
     }
 
-    @OptIn(ExperimentalComposeUiApi::class)
     override fun getKeys(): List<TREShortcutKeyStrongChecker> {
         return listOf(
             TREShortcutKeyStrongChecker(

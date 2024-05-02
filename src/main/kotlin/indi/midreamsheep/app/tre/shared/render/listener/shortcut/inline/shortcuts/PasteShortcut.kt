@@ -44,11 +44,9 @@ class PasteShortcut: TREEditorShortcutKeyHandler() {
     }
 
     override fun isEnable(context: TREEditorContext): Boolean {
-        if (!super.isEnable(context)) return false
         val currentMarkdownLine =
-            (context as TREEditorContext).editorFileManager.getStateManager().getCurrentBlock() ?: return false
-        if (currentMarkdownLine.line !is TRETextBlock) return false
-        return true
+            context.editorFileManager.getStateManager().getCurrentBlock() ?: return false
+        return currentMarkdownLine.line is TRETextBlock
     }
 
     /**

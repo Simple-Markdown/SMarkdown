@@ -5,7 +5,6 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
 import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
-import indi.midreamsheep.app.tre.model.editor.block.TREBlock
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockDelete
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
@@ -21,39 +20,48 @@ class BackspaceShortcut: TREEditorShortcutKeyHandler() {
     override fun action(context: TREEditorContext) {
         val stateManager = context.editorFileManager.getStateManager()
 
-        val currentState = stateManager.getCurrentBlock() ?: return
+        val currentState = stateManager.getCurrentBlock()!!
+
         val treTextLine = currentState.line as TRETextBlock
 
-        val currentLine = stateManager.getTREBlockStateList().indexOf(currentState)
-        val lastLine = stateManager.getTREBlockStateList()[currentLine-1].line as TRETextBlock
-        (lastLine as TREBlock).focusFromLast()
+        val currentLineIndex = stateManager.getTREBlockStateList().indexOf(currentState)
+
+        stateManager.focusBlock(currentLineIndex-1){
+            it.line.focusFromLast()
+        }
+
+        val lastLine = stateManager.getTREBlockStateList()[currentLineIndex-1].line as TRETextBlock
         val lastLineContent = lastLine.getTextFieldValue().text
 
-        val treOperatorGroup = TREOperatorGroup()
-
-        //提交删除当前行
-        treOperatorGroup.addOperator(
-            TREBlockDelete(
-                currentLine
+        val treOperatorGroup = TREOperatorGroup().apply {
+            addOperator(
+                TREBlockDelete(
+                    currentLineIndex
+                )
             )
-        )
-
-        treOperatorGroup.addOperator(
-            TREContentChange(
-                lastLine.getTextFieldValue(),
-                TextFieldValue(
-                    text = lastLineContent+treTextLine.getTextFieldValue().text,
-                    selection = TextRange(lastLineContent.length)
-                ),
-                stateManager.getTREBlockStateList().indexOf(lastLine.lineState)
-
+            addOperator(
+                TREContentChange(
+                    lastLine.getTextFieldValue(),
+                    TextFieldValue(
+                        text = lastLineContent+treTextLine.getTextFieldValue().text,
+                        selection = TextRange(lastLineContent.length)
+                    ),
+                    currentLineIndex - 1
+                )
             )
-        )
+        }
+
         stateManager.executeOperator(treOperatorGroup)
     }
 
     override fun isEnable(context: TREEditorContext): Boolean {
-        return selectionInStart(context)
+        val stateManager = context.editorFileManager.getStateManager()
+        val currentBlock = stateManager.getCurrentBlock()
+        val index = stateManager.getTREBlockStateList().indexOf(currentBlock)
+        if(index==0){
+            return false
+        }
+        return (stateManager.getTREBlock(index - 1).line is TRETextBlock)&& selectionInStart(context)
     }
 
     override fun getKeys(): List<TREShortcutKeyChecker> {

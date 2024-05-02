@@ -25,7 +25,10 @@ class TRECoreDisplay(val line: TRECoreBlock): Display {
                                 offset ->
                             layoutResult?.let {
                                 val position = it.getOffsetForPosition(offset)
-                                line.focusTransform(position)
+                                val stateManager = line.lineState.markdownLineInter
+                                stateManager.focusBlock(stateManager.indexOf(line.lineState)){ state ->
+                                    (state.line as TRECoreBlock).focusTransform(position)
+                                }
                             }
                         }
                     }

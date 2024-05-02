@@ -19,7 +19,7 @@ public abstract class TREEditorShortcutKeyHandler implements TREShortcutKeyHandl
     @Override
     public boolean isEnable(TREContext context){
         if (context instanceof TREEditorContext editorContext){
-            return isEnable(editorContext);
+            return (editorContext.getEditorFileManager().getStateManager().getCurrentBlock() != null)&&isEnable(editorContext);
         }
         return false;
     }

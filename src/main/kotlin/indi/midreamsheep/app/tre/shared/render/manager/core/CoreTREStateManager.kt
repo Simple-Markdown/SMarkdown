@@ -23,9 +23,19 @@ class CoreTREStateManager: TREBlockManager {
      * */
     override fun getTREBlock(index: Int) = markdownLineStateList[index]
 
+    /**
+     * 获取指定Block位置
+     * */
+    override fun indexOf(treBlockState: TREBlockState) = markdownLineStateList.indexOf(treBlockState)
+
     override fun getTREBlockStateList(): SnapshotStateList<TREBlockState> {
         return markdownLineStateList
     }
+
+    /**
+     * 获取当前焦点的Block位置
+     * */
+    override fun getCurrentBlockIndex() = if(currentMarkdownLineState.value==null){ -1 }else{markdownLineStateList.indexOf(getCurrentBlock())}
 
     override fun getCurrentBlockState(): MutableState<TREBlockState?> {
         return currentMarkdownLineState
