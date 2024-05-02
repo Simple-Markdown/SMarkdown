@@ -6,13 +6,13 @@ import indi.midreamsheep.app.tre.shared.render.render.listener.TRERenderListener
 import indi.midreamsheep.app.tre.shared.render.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.shared.render.render.prebutton.TREDefaultLinePreButton
 import indi.midreamsheep.app.tre.shared.render.render.prebutton.TRELinePreButton
-import indi.midreamsheep.app.tre.shared.render.render.style.TRETextStyle
+import indi.midreamsheep.app.tre.shared.render.render.style.TREStyleText
 
 class TRERender(
     private val line: TRECoreBlock,
 ) {
     // 渲染的样式文本树
-    var styleText = TRETextStyle(line)
+    var styleText = TREStyleText(line)
     // 快捷键监听
     var listener: TRERenderListener = TREDefaultRenderListener()
     // 用于限制光标的可达域

@@ -33,6 +33,11 @@ class CoreTREStateManager: TREBlockManager {
     }
 
     /**
+     * 新增Block状态
+     * */
+    override fun addTREBlockState(index:Int,treBlockState: TREBlockState) = markdownLineStateList.add(index,treBlockState)
+
+    /**
      * 获取当前焦点的Block位置
      * */
     override fun getCurrentBlockIndex() = if(currentMarkdownLineState.value==null){ -1 }else{markdownLineStateList.indexOf(getCurrentBlock())}

@@ -1,6 +1,7 @@
 package indi.midreamsheep.app.tre.shared.render.block
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -91,6 +92,9 @@ class TRECoreBlock(
             value = content.value,
             onValueChange = { newValue ->
                 if (content.value.text == newValue.text) {
+                    if(content.value.selection == newValue.selection){
+                        return@BasicTextField
+                    }
                     setTextFieldValue(newValue)
                     return@BasicTextField
                 }
@@ -118,32 +122,8 @@ class TRECoreBlock(
             },
             decorationBox = { innerTextField ->
                 Column(modifier = Modifier.fillMaxWidth()) {
-                    val textRender = render.value
-                    Column(
-                        Modifier.fillMaxWidth()
-                    ) {
-                        textRender.styleText.prefixLineDecorations.forEach {
-                            it.getComposable().invoke()
-                        }
-                        Box(Modifier.fillMaxWidth().height(IntrinsicSize.Max)) {
-                            textRender.styleText.backgroundDecorations.forEach {
-                                it.getComposable().invoke()
-                            }
-                            Row(
-                                Modifier.height(IntrinsicSize.Max)
-                            ) {
-                                textRender.styleText.prefixTextDecorations.forEach {
-                                    it.getComposable().invoke()
-                                }
-                                innerTextField.invoke()
-                                textRender.styleText.suffixTextDecorations.forEach {
-                                    it.getComposable().invoke()
-                                }
-                            }
-                        }
-                        textRender.styleText.suffixLineDecorations.forEach {
-                            it.getComposable().invoke()
-                        }
+                    treCoreDisplayStructure(render.value.styleText){
+                        innerTextField.invoke()
                     }
                     if (render.value.styleText.isPreView()) {
                         preview()
@@ -158,32 +138,10 @@ class TRECoreBlock(
 
     @Composable
     fun preview(){
-        val textRender = render.value
-        Column(
-            Modifier.fillMaxWidth()
-        ) {
-            textRender.styleText.prefixLineDecorations.forEach {
-                it.getComposable().invoke()
-            }
-            Box(Modifier.fillMaxWidth().height(IntrinsicSize.Max)) {
-                textRender.styleText.backgroundDecorations.forEach {
-                    it.getComposable().invoke()
-                }
-                Row(
-                    Modifier.height(IntrinsicSize.Max)
-                ) {
-                    textRender.styleText.prefixTextDecorations.forEach {
-                        it.getComposable().invoke()
-                    }
-                    render.value.styleText.previewDisplay.getComposable().invoke()
-                    textRender.styleText.suffixTextDecorations.forEach {
-                        it.getComposable().invoke()
-                    }
-                }
-            }
-            textRender.styleText.suffixLineDecorations.forEach {
-                it.getComposable().invoke()
-            }
+        treCoreDisplayStructure(
+            render.value.styleText,
+        ){
+            render.value.styleText.previewDisplay.getComposable().invoke()
         }
     }
 
