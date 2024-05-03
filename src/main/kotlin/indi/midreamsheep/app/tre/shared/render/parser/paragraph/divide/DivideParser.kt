@@ -35,17 +35,17 @@ class DivideParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
         return true
     }
 
-    override fun getAnnotatedString(
+    override fun buildRender(
         text: String,
         selection:Int,
-        stateList: TREBlockManager,
-        line: TRECoreBlock
+        blockManager: TREBlockManager,
+        block: TRECoreBlock
     ): TRERender {
         val apply = TRECoreLeaf(text)
         val tree = TRECoreStyleTextRoot()
         tree.addChildren(apply)
 
-        val render = TRERender(line)
+        val render = TRERender(block)
         render.styleText.styleTextTree = tree
         render.styleText.previewDisplay = Display {
             {
@@ -53,7 +53,7 @@ class DivideParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
                     modifier = Modifier
                         .height(20.dp)
                         .clickable {
-                            line.focus()
+                            block.focus()
                         },
                     verticalArrangement = Arrangement.Center
                 ) {

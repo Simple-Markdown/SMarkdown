@@ -10,14 +10,14 @@ import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 @MapKey("[0-9]+\\.")
 class OrderedListParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
 
-    override fun getAnnotatedString(
+    override fun buildRender(
         text: String,
         selection:Int,
-        stateList: TREBlockManager,
-        line: TRECoreBlock
+        blockManager: TREBlockManager,
+        block: TRECoreBlock
     ): TRERender {
         println("hello")
-        return TRERender(line)
+        return TRERender(block)
     }
     override fun getWeight(text: String): Int {
         return 1

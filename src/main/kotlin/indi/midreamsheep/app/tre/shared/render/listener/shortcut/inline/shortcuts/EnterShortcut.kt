@@ -20,7 +20,7 @@ class EnterShortcut: TREEditorShortcutKeyHandler() {
         val stateList = stateManager.getTREBlockStateList()
 
         val wrapper = stateManager.getCurrentBlock() ?: return
-        val currentLine = (wrapper.line as TRETextBlock)
+        val currentLine = (wrapper.block as TRETextBlock)
         val currentLineNumber = stateList.indexOf(wrapper)
 
         val newLine = TREBlockState(stateManager)
@@ -29,7 +29,7 @@ class EnterShortcut: TREEditorShortcutKeyHandler() {
         val newLineText = currentLine.getTextFieldValue().text.substring(start)
 
         val treOperatorGroup = TREOperatorGroup().apply {
-            addOperator(TREBlockInsert(currentLineNumber+1,newLine.line))
+            addOperator(TREBlockInsert(currentLineNumber+1,newLine.block))
             addOperator(TREContentChange(
                 TextFieldValue(),
                 TextFieldValue(newLineText),
@@ -51,7 +51,7 @@ class EnterShortcut: TREEditorShortcutKeyHandler() {
     }
 
     override fun isEnable(context: TREEditorContext): Boolean {
-        return context.editorFileManager.getStateManager().getCurrentBlock()!!.line is TRETextBlock
+        return context.editorFileManager.getStateManager().getCurrentBlock()!!.block is TRETextBlock
     }
 
     override fun getKeys(): List<TREShortcutKeyChecker> {

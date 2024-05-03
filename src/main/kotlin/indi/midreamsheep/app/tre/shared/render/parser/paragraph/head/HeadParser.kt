@@ -25,22 +25,22 @@ class HeadParser: LineParser {
         return getLevel(text) != -1
     }
 
-    override fun getAnnotatedString(
+    override fun buildRender(
         text: String,
         selection:Int,
-        stateList: TREBlockManager,
-        line: TRECoreBlock
+        blockManager: TREBlockManager,
+        block: TRECoreBlock
     ): TRERender {
         val level = getLevel(text)
         var subSequence = text.subSequence(level, text.length)
         if (subSequence.isNotEmpty()) subSequence = subSequence.subSequence(1, subSequence.length)
-        val render = TRERender(line)
+        val render = TRERender(block)
         var isDisplay = selection <= level+1
 
-        if (selection>level+1||stateList.getCurrentBlock()!=line.lineState){
-            line.propertySet.add(id)
+        if (selection>level+1||blockManager.getCurrentBlock()!=block.lineState){
+            block.propertySet.add(id)
         }
-        if (line.propertySet.contains(id)){
+        if (block.propertySet.contains(id)){
             render.offsetMap = object : TRERenderOffsetMap() {
                 override fun getStartOffset() = level+1
 
@@ -61,14 +61,14 @@ class HeadParser: LineParser {
         )
 
         render.listener = HeadListener(
-            line,id,
+            block,id,
             render.styleText.styleTextTree as StyleTextHeadRoot
         )
 
         render.trePreButton = TRELinePreButton{
             Display{
                 {
-                HeadButton(level,line, render.styleText.styleTextTree as StyleTextHeadRoot,stateList)
+                HeadButton(level,block, render.styleText.styleTextTree as StyleTextHeadRoot,blockManager)
                 }
             }
         }

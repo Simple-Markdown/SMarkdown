@@ -3,25 +3,26 @@ package indi.midreamsheep.app.tre.shared.render.parser.paragraph
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineRegParser
 import indi.midreamsheep.app.tre.api.inter.manager.TREListManager
+import indi.midreamsheep.app.tre.shared.render.parser.LineParser
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @Comment
-class TRELineParserManager : TREListManager<indi.midreamsheep.app.tre.shared.render.parser.LineParser>{
+class TRELineParserManager : TREListManager<LineParser>{
 
     @LineParserMap
-    private val paragraphParser = HashMap<Char,List<indi.midreamsheep.app.tre.shared.render.parser.LineParser>>()
+    private val paragraphParser = HashMap<Char,List<LineParser>>()
 
     @LineRegParser
-    private val paragraphRegParser = HashMap<String,List<indi.midreamsheep.app.tre.shared.render.parser.LineParser>>()
+    private val paragraphRegParser = HashMap<String,List<LineParser>>()
 
     @Injector
     private val defaultParser: DefaultParser? = null
 
-    override fun get(text: String): indi.midreamsheep.app.tre.shared.render.parser.LineParser {
+    override fun get(text: String): LineParser {
         val startChar = text[0]
-        var parser: indi.midreamsheep.app.tre.shared.render.parser.LineParser? = null;
-        val parserList:MutableList<indi.midreamsheep.app.tre.shared.render.parser.LineParser> = mutableListOf()
+        var parser: LineParser? = null;
+        val parserList:MutableList<LineParser> = mutableListOf()
         val paragraphParsers = paragraphParser[startChar]
         paragraphRegParser.forEach {
             if (it.key.toRegex().matches(text)){

@@ -38,7 +38,7 @@ class TRELocalFileRenderManager(private var file: TREFile) : TREFileManager {
         var result = ""
         val list = markdownStateManager.getTREBlockStateList()
         for ((index, treLineState) in list.withIndex()) {
-            result += treLineState.line.getContent()
+            result += treLineState.block.getContent()
             if (index != list.size-1 ) {
                 result += "\n"
             }

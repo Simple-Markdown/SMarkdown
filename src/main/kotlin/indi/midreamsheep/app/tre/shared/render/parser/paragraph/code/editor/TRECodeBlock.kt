@@ -18,12 +18,12 @@ class TRECodeBlock(lineState: TREBlockState, type:String): TREBlockAbstract(line
 
     override fun focus() {
         focus.value = true
-        lineState.markdownLineInter.setCurrentBlockState(lineState)
+        lineState.blockManager.setCurrentBlockState(lineState)
     }
 
     override fun releaseFocus() {
          focus.value = false
-        lineState.markdownLineInter.setCurrentBlockState(null)
+        lineState.blockManager.setCurrentBlockState(null)
     }
 
     override fun getDisplay(context: TREEditorContext): Display {

@@ -15,11 +15,11 @@ interface LineParser {
     /**
      * 获取渲染函数
      * */
-    fun getAnnotatedString(
+    fun buildRender(
         text: String,
         selection:Int,
-        stateList: TREBlockManager,
-        line: TRECoreBlock
+        blockManager: TREBlockManager,
+        block: TRECoreBlock
     ): TRERender
 
 
@@ -34,7 +34,7 @@ interface LineParser {
      * */
     fun analyse(texts:List<String>, lineNumber:Int, state: TREBlockManager):Int{
         val markdownLineState = TREBlockState(state)
-        val line = markdownLineState.line
+        val line = markdownLineState.block
         if (line is TRECoreBlock){
             line.content.value = TextFieldValue(texts[lineNumber])
         }

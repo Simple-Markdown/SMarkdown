@@ -36,13 +36,13 @@ class UnorderedListParser: LineParser {
         return text.startsWith("- ")
     }
 
-    override fun getAnnotatedString(
+    override fun buildRender(
         text: String,
         selection:Int,
-        stateList: TREBlockManager,
-        line: TRECoreBlock
+        blockManager: TREBlockManager,
+        block: TRECoreBlock
     ): TRERender {
-        val render = TRERender(line)
+        val render = TRERender(block)
 
         val isDisplay = selection<2
 
@@ -53,7 +53,7 @@ class UnorderedListParser: LineParser {
         val parse = parser!!.parse(
             text = text.substring(2),
             selection = selection - 2,
-            isFocus = line.isFocus.value,
+            isFocus = block.isFocus.value,
             render = render
         )
 
@@ -80,16 +80,16 @@ class UnorderedListParser: LineParser {
             }
         )
         render.listener = UnorderedListListener(
-            line = line,
+            line = block,
             id = ID,
             styleTextTree = render.styleText.styleTextTree as StyleTextUnorderedListRoot
         )
 
-        if(!isDisplay&&line.isFocus.value){
-            line.propertySet.add(ID)
+        if(!isDisplay&&block.isFocus.value){
+            block.propertySet.add(ID)
         }
 
-        if(line.propertySet.contains(ID)){
+        if(block.propertySet.contains(ID)){
             render.offsetMap = object : TRERenderOffsetMap() {
                 override fun getStartOffset() = 2
             }

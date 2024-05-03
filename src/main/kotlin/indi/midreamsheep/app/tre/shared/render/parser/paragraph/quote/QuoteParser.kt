@@ -30,20 +30,20 @@ class QuoteParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
         return getLevel(text) != -1
     }
 
-    override fun getAnnotatedString(
+    override fun buildRender(
         text: String,
         selection:Int,
-        stateList: TREBlockManager,
-        line: TRECoreBlock
+        blockManager: TREBlockManager,
+        block: TRECoreBlock
     ): TRERender {
-        val render = TRERender(line)
+        val render = TRERender(block)
         val level = getLevel(text)
 
         var isDisplay = selection<level*2
-        if (selection>=level*2||stateList.getCurrentBlock()!=line.lineState){
-            line.propertySet.add(id)
+        if (selection>=level*2||blockManager.getCurrentBlock()!=block.lineState){
+            block.propertySet.add(id)
         }
-        val isContain = line.propertySet.contains(id)
+        val isContain = block.propertySet.contains(id)
         if(isContain) isDisplay = false
         render.styleText.styleTextTree = StyleTextQuoteRoot(
             level,
@@ -52,8 +52,8 @@ class QuoteParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
         val parse = parser!!.parse(
             text.substring(level*2),
             selection-level*2,
-            line,
-            stateList
+            block,
+            blockManager
         )
 
         if (isContain){
@@ -86,13 +86,13 @@ class QuoteParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
         )
         render.styleText.append(parse.styleText)
         render.listener = QuoteListener(
-            line,
+            block,
             id,
             parse.listener,
             render.styleText.styleTextTree as StyleTextQuoteRoot
         )
-        if (selection>=level*2||stateList.getCurrentBlock()!=line.lineState){
-            line.propertySet.add(id)
+        if (selection>=level*2||blockManager.getCurrentBlock()!=block.lineState){
+            block.propertySet.add(id)
         }
         return render
     }

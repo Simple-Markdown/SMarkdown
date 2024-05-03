@@ -22,7 +22,7 @@ class UnorderedListListener(
         val stateManager = context.editorFileManager.getStateManager()
         val lineNumber = stateManager.getTREBlockStateList().indexOf(line.lineState)
         //Enter
-        val treCoreBlock = stateManager.getCurrentBlock()!!.line as TRECoreBlock
+        val treCoreBlock = stateManager.getCurrentBlock()!!.block as TRECoreBlock
         if (context.treTextFieldShortcutKeyManager.check(
                 TREShortcutKeyStrongChecker(
                     Key.Backspace.keyCode
@@ -60,7 +60,7 @@ class UnorderedListListener(
         stateManager: TREBlockManager,
         lineNumber: Int
     ){
-        val nextLine = stateManager.getTREBlockStateList()[lineNumber+1].line as TRECoreBlock
+        val nextLine = stateManager.getTREBlockStateList()[lineNumber+1].block as TRECoreBlock
         val treContentChange = TREContentChange(
             nextLine.content.value,
             nextLine.content.value.copy(

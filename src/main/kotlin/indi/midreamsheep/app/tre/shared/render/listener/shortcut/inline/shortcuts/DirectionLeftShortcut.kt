@@ -15,7 +15,7 @@ class DirectionLeftShortcut: TREEditorShortcutKeyHandler() {
         val treTextLine = stateManager.getCurrentBlock()
         val index = stateManager.getTREBlockStateList().indexOf(treTextLine)
         stateManager.focusBlock(index-1){
-            it.line.focusFromLast()
+            it.block.focusFromLast()
         }
     }
 

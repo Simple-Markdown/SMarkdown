@@ -32,7 +32,7 @@ class DownShortcut: TREEditorShortcutKeyHandler() {
     override fun isEnable(context: TREEditorContext): Boolean {
         val stateManager = context.editorFileManager.getStateManager()
         if(stateManager.getCurrentBlockIndex() == stateManager.getTREBlockStateList().size - 1){
-            val currentLine = stateManager.getCurrentBlock()!!.line
+            val currentLine = stateManager.getCurrentBlock()!!.block
             if(currentLine is TRETextBlock){
                 return currentLine.getTextFieldValue().text.isNotEmpty()
             }

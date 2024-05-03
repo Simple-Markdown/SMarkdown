@@ -4,8 +4,8 @@ import indi.midreamsheep.app.tre.model.editor.block.TREBlock
 import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager
 
 class TREBlockState(
-    val markdownLineInter: TREBlockManager,
+    val blockManager: TREBlockManager,
 ){
-    var line: TREBlock =
+    var block: TREBlock =
         TRECoreBlock(this)
 }

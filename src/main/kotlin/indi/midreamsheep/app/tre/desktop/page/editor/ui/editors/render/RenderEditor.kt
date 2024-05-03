@@ -31,7 +31,7 @@ fun renderList(
         state = listState,
         modifier = modifier.fillMaxSize().padding(top = 10.dp, start = 10.dp)
             .simpleClickable {
-                lineStateList[lineStateList.size - 1].line.focus()
+                lineStateList[lineStateList.size - 1].block.focus()
             }
             .onKeyEvent { keyEvent ->
                 return@onKeyEvent keyEvent.key == Enter
@@ -71,7 +71,7 @@ fun renderList(
                             ,
                             verticalAlignment = Alignment.CenterVertically
                         ){
-                            treBlockState.line.preButton.getPreButton().getComposable().invoke()
+                            treBlockState.block.preButton.getPreButton().getComposable().invoke()
                         }
                         Box(
                             Modifier.fillMaxWidth()
@@ -79,7 +79,7 @@ fun renderList(
                                     lineHeight = it.size.height.dp
                                 }
                         ){
-                            treBlockState.line.getDisplay(context).getComposable().invoke()
+                            treBlockState.block.getDisplay(context).getComposable().invoke()
                         }
                     }
                     Spacer(modifier = Modifier.width(leftPadding.value))

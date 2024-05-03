@@ -32,7 +32,7 @@ class HeadChangeCommand(
         stateManager: TREBlockManager
     ){
         val isDelete = toLevel==0
-        val treCoreBlock = stateManager.getTREBlockStateList()[lineNumber].line as TRECoreBlock
+        val treCoreBlock = stateManager.getTREBlockStateList()[lineNumber].block as TRECoreBlock
         val textFieldValue = treCoreBlock.getTextFieldValue()
         val originalStartOffset = styleText.getOriginalStartOffset()
         val newValue = textFieldValue.copy(

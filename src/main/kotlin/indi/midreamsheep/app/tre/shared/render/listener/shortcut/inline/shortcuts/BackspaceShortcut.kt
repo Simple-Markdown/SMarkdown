@@ -22,15 +22,15 @@ class BackspaceShortcut: TREEditorShortcutKeyHandler() {
 
         val currentState = stateManager.getCurrentBlock()!!
 
-        val treTextLine = currentState.line as TRETextBlock
+        val treTextLine = currentState.block as TRETextBlock
 
         val currentLineIndex = stateManager.getTREBlockStateList().indexOf(currentState)
 
         stateManager.focusBlock(currentLineIndex-1){
-            it.line.focusFromLast()
+            it.block.focusFromLast()
         }
 
-        val lastLine = stateManager.getTREBlockStateList()[currentLineIndex-1].line as TRETextBlock
+        val lastLine = stateManager.getTREBlockStateList()[currentLineIndex-1].block as TRETextBlock
         val lastLineContent = lastLine.getTextFieldValue().text
 
         val treOperatorGroup = TREOperatorGroup().apply {
@@ -61,7 +61,7 @@ class BackspaceShortcut: TREEditorShortcutKeyHandler() {
         if(index==0){
             return false
         }
-        return (stateManager.getTREBlock(index - 1).line is TRETextBlock)&& selectionInStart(context)
+        return (stateManager.getTREBlock(index - 1).block is TRETextBlock)&& selectionInStart(context)
     }
 
     override fun getKeys(): List<TREShortcutKeyChecker> {

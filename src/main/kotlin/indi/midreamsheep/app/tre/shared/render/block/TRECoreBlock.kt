@@ -152,16 +152,13 @@ class TRECoreBlock(
     }
 
     private fun buildContent(
-        treStateManager: TREBlockManager = lineState.markdownLineInter,
+        treStateManager: TREBlockManager = lineState.blockManager,
         textFieldValue: TextFieldValue = content.value
     ){
         if(oldValue == textFieldValue){
             return
         }
-        print("${lineState.markdownLineInter.indexOf(lineState)}\t")
-        print("before parse ${propertySet.size} \t")
         render.value = parser.parse(textFieldValue.text, textFieldValue.selection.start, this, treStateManager)
-        println("after parse ${propertySet.size}")
         oldValue = textFieldValue
     }
 

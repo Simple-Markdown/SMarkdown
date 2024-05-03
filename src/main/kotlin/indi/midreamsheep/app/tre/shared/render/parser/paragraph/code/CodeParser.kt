@@ -25,25 +25,25 @@ class CodeParser: LineParser {
     /**
      * 获取渲染函数
      * */
-    override fun getAnnotatedString(
+    override fun buildRender(
         text: String,
         selection:Int,
-        stateList: TREBlockManager,
-        line: TRECoreBlock
+        blockManager: TREBlockManager,
+        block: TRECoreBlock
     ): TRERender {
-        val render = TRERender(line)
+        val render = TRERender(block)
         render.styleText.styleTextTree = StyleTextCodeRoot(text)
         render.styleText.preview = false
         render.styleText.previewDisplay = Display {
             {
                 //对于代码块进行替换
-                val newLine = TREBlockState(stateList).apply {
-                    this.line = TRECodeBlock(this,text).apply {
+                val newLine = TREBlockState(blockManager).apply {
+                    this.block = TRECodeBlock(this,text).apply {
                         focus.value = true
                     }
                 }
-                val list = stateList.getTREBlockStateList()
-                list.indexOf(line.lineState).let {
+                val list = blockManager.getTREBlockStateList()
+                list.indexOf(block.lineState).let {
                     list[it] = newLine
                 }
             }
@@ -82,7 +82,7 @@ class CodeParser: LineParser {
                     code.delete(code.length-1,code.length)
                 }
                 val newLine = TREBlockState(state).apply {
-                    this.line = TRECodeBlock(this,type).apply {
+                    this.block = TRECodeBlock(this,type).apply {
                         content.value = TextFieldValue(code.toString())
                     }
                 }

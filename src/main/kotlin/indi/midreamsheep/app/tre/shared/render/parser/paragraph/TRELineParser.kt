@@ -17,17 +17,18 @@ class TRELineParser {
     fun parse(
         text: String,
         selection: Int,
-        state: TRECoreBlock,
-        stateList: TREBlockManager
+        block: TRECoreBlock,
+        blockManager: TREBlockManager
     ): TRERender {
         if(text.isEmpty()) {
-            val treCoreStyleTextRoot = TRECoreStyleTextRoot()
-            treCoreStyleTextRoot.addChildren(TRECoreLeaf(""))
-            val render = TRERender(state)
+            val treCoreStyleTextRoot = TRECoreStyleTextRoot().apply {
+                addChildren(TRECoreLeaf(""))
+            }
+            val render = TRERender(block)
             render.styleText.styleTextTree = treCoreStyleTextRoot
-            state.propertySet.clear()
+            block.propertySet.clear()
             return render
         }
-        return defaultParser!!.get(text).getAnnotatedString(text,selection,stateList,state)
+        return defaultParser!!.get(text).buildRender(text,selection,blockManager,block)
     }
 }

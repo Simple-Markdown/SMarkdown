@@ -26,7 +26,7 @@ class HeadListener(
                     Backspace.keyCode
                 )
             )) {
-            val treCoreBlock = context.editorFileManager.getStateManager().getCurrentBlock()!!.line as TRECoreBlock
+            val treCoreBlock = context.editorFileManager.getStateManager().getCurrentBlock()!!.block as TRECoreBlock
             if (treCoreBlock.render.value.offsetMap.getStartOffset()==treCoreBlock.content.value.selection.start){
                 val index = treCoreBlock.content.value.selection.start - (styleTextTree.level + 1)
                 val text = subString(treCoreBlock.content.value.text, getStartIndex(styleTextTree), getStartIndex(styleTextTree)+styleTextTree.level+1)

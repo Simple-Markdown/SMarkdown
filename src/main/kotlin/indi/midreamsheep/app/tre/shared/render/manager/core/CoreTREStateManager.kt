@@ -57,14 +57,14 @@ class CoreTREStateManager: TREBlockManager {
     /**
      * 获取指定位置的Block的焦点
      * */
-    override fun focusBlock(index: Int) = focusBlock(index) { blockState -> blockState.line.focus() }
+    override fun focusBlock(index: Int) = focusBlock(index) { blockState -> blockState.block.focus() }
 
     /**
      * 通过指定操作获取指定位置焦点
      * */
     override fun focusBlock(index: Int, focus: (TREBlockState) -> Unit) {
         val treBlockState = markdownLineStateList[index]
-        getCurrentBlock()?.line?.releaseFocus()
+        getCurrentBlock()?.block?.releaseFocus()
         setCurrentBlockState(treBlockState)
         focus(treBlockState)
     }

@@ -20,7 +20,7 @@ class PasteShortcut: TREEditorShortcutKeyHandler() {
         //获取当前行
         val stateList = context.editorFileManager.getStateManager().getTREBlockStateList()
 
-        val currentLine = context.editorFileManager.getStateManager().getCurrentBlock()!!.line as TRETextBlock
+        val currentLine = context.editorFileManager.getStateManager().getCurrentBlock()!!.block as TRETextBlock
         val clipboardContent = context.clipboardAction.getClipboardContent()
 
         val textFieldValue = currentLine.getTextFieldValue()
@@ -36,7 +36,7 @@ class PasteShortcut: TREEditorShortcutKeyHandler() {
             } else {
                 //在当前行的下面插入新的行
                 val newState = TREBlockState(context.editorFileManager.getStateManager())
-                (newState.line as TRECoreBlock).content.value = TextFieldValue(s)
+                (newState.block as TRECoreBlock).content.value = TextFieldValue(s)
                 stateList.add(currentLineNumber+ index, newState)
             }
         }
@@ -46,7 +46,7 @@ class PasteShortcut: TREEditorShortcutKeyHandler() {
     override fun isEnable(context: TREEditorContext): Boolean {
         val currentMarkdownLine =
             context.editorFileManager.getStateManager().getCurrentBlock() ?: return false
-        return currentMarkdownLine.line is TRETextBlock
+        return currentMarkdownLine.block is TRETextBlock
     }
 
     /**

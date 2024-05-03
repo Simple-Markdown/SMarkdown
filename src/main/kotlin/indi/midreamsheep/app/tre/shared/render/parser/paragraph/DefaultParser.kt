@@ -19,21 +19,21 @@ class DefaultParser: LineParser {
         return true
     }
 
-    override fun getAnnotatedString(
+    override fun buildRender(
         text: String,
         selection:Int,
-        stateList: TREBlockManager,
-        line: TRECoreBlock
+        blockManager: TREBlockManager,
+        block: TRECoreBlock
     ): TRERender {
-        val render = TRERender(line)
+        val render = TRERender(block)
         val treCoreStyleTextRoot = TRECoreStyleTextRoot()
         render.styleText.styleTextTree = treCoreStyleTextRoot
 
-        val list = spanParser!!.parse(text, selection,line.isFocus.value, render)
+        val list = spanParser!!.parse(text, selection,block.isFocus.value, render)
         for (styleTextLeaf in list) {
             treCoreStyleTextRoot.addChildren(styleTextLeaf)
         }
-        line.propertySet.clear()
+        block.propertySet.clear()
         return render
     }
 
