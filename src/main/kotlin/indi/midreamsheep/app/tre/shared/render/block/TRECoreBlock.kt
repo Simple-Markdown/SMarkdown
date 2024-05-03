@@ -28,12 +28,14 @@ import indi.midreamsheep.app.tre.shared.render.render.offsetmap.TRERenderOffsetM
 import indi.midreamsheep.app.tre.shared.render.render.prebutton.TRELinePreButton
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.tool.text.filter
 
 class TRECoreBlock(
     lineState: TREBlockState
 ) : TREBlockAbstract(lineState), TRETextBlock {
     val parser = getBean(TRELineParser::class.java)
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
+    private var oldValue: TextFieldValue = TextFieldValue("")
     var render: MutableState<TRERender> = mutableStateOf(
         TRERender(this).apply {
             styleText.styleTextTree = TRECoreStyleTextRoot().apply {
@@ -44,7 +46,7 @@ class TRECoreBlock(
     private var focusRequester: FocusRequester = FocusRequester()
     var isFocus = mutableStateOf(false)
     //维护一张属性表，用于存储属性
-    val propertySet = mutableSetOf<Long>()
+    val propertySet = HashSet<Long>()
 
     override fun focus() {
         isFocus.value = true
@@ -92,9 +94,6 @@ class TRECoreBlock(
             value = content.value,
             onValueChange = { newValue ->
                 if (content.value.text == newValue.text) {
-                    if(content.value.selection == newValue.selection){
-                        return@BasicTextField
-                    }
                     setTextFieldValue(newValue)
                     return@BasicTextField
                 }
@@ -148,18 +147,7 @@ class TRECoreBlock(
     override fun getTextFieldValue() = content.value
 
     override fun setTextFieldValue(value: TextFieldValue) {
-        val count = value.text.count { it == '\t' }
-        var selection = value.selection
-        if(count!=0){
-            selection = TextRange(
-                start = value.selection.start + 3*count,
-                end = value.selection.end + 3*count
-            )
-        }
-        content.value = value.copy(
-            text = value.text.replace("\t", "    "),
-            selection = selection
-        )
+        content.value = value.filter()
         buildContent()
     }
 
@@ -167,7 +155,14 @@ class TRECoreBlock(
         treStateManager: TREBlockManager = lineState.markdownLineInter,
         textFieldValue: TextFieldValue = content.value
     ){
+        if(oldValue == textFieldValue){
+            return
+        }
+        print("${lineState.markdownLineInter.indexOf(lineState)}\t")
+        print("before parse ${propertySet.size} \t")
         render.value = parser.parse(textFieldValue.text, textFieldValue.selection.start, this, treStateManager)
+        println("after parse ${propertySet.size}")
+        oldValue = textFieldValue
     }
 
     override fun getPreButton(): TRELinePreButton {

@@ -12,7 +12,7 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 class TRELineParser {
 
     @Injector
-    private val defaultParser: indi.midreamsheep.app.tre.shared.render.parser.paragraph.TRELineParserManager? = null
+    private val defaultParser: TRELineParserManager? = null
 
     fun parse(
         text: String,

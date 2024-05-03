@@ -4,9 +4,9 @@ import androidx.compose.ui.input.key.Key.Companion.Backspace
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.text.TextRange
 import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
-import indi.midreamsheep.app.tre.shared.render.block.TRECoreBlock
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
+import indi.midreamsheep.app.tre.shared.render.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.render.render.listener.TRERenderListener
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTree
 
@@ -40,7 +40,6 @@ class HeadListener(
                         context.editorFileManager.getStateManager().getTREBlockStateList().indexOf(treCoreBlock.lineState)
                     )
                 )
-                line.propertySet.add(id)
                 return true
             }
         }

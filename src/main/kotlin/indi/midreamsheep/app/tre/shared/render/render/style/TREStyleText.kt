@@ -25,8 +25,6 @@ class TREStyleText(line: TRECoreBlock) {
     val previewAnnotation:MutableMap<String,InlineTextContent> = mutableMapOf()
     // 是否启动
     var preview:Boolean = true
-    // 特殊预览
-    var previewSpecial:Boolean = false
 
     fun append(style: TREStyleText){
         styleTextTree?.addChildren(style.styleTextTree!!)
@@ -40,5 +38,5 @@ class TREStyleText(line: TRECoreBlock) {
         preview = style.preview||preview
     }
 
-    fun isPreView() = (previewDisplay !is TRECorePreview || previewAnnotation.isNotEmpty()) && preview &&!previewSpecial
+    fun isPreView() = (previewDisplay !is TRECorePreview || previewAnnotation.isNotEmpty()) && preview
 }

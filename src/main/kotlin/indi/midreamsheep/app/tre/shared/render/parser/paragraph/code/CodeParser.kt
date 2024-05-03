@@ -48,7 +48,6 @@ class CodeParser: LineParser {
                 }
             }
         }
-        render.styleText.previewSpecial = true
         return render
     }
 

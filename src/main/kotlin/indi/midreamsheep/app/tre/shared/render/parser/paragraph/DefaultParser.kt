@@ -33,9 +33,7 @@ class DefaultParser: LineParser {
         for (styleTextLeaf in list) {
             treCoreStyleTextRoot.addChildren(styleTextLeaf)
         }
-        if(text == line.content.value.text){
-            line.propertySet.clear()
-        }
+        line.propertySet.clear()
         return render
     }
 

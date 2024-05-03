@@ -27,7 +27,6 @@ fun renderList(
     val leftPadding = remember { mutableStateOf(0.dp) }
     val rightPadding = remember { mutableStateOf(0.dp) }
     val lastWidth = remember { mutableStateOf(0.dp) }
-
     LazyColumn(
         state = listState,
         modifier = modifier.fillMaxSize().padding(top = 10.dp, start = 10.dp)
@@ -93,12 +92,10 @@ fun renderList(
            return@LaunchedEffect
        }
        val currentIndex = lineStateList.indexOf(stateManager.getCurrentBlock()!!)
-       // 检查当前行是否在可视范围内
        if (currentIndex !in listState.firstVisibleItemIndex..<listState.firstVisibleItemIndex + listState.layoutInfo.visibleItemsInfo.size) {
            if (currentIndex==-1){
                 return@LaunchedEffect
            }
-           // 如果不在可视范围内，滚动到当前行
            listState.animateScrollToItem(currentIndex)
        }
     }

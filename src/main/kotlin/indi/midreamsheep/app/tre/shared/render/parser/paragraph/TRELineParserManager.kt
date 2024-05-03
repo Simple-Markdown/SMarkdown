@@ -16,7 +16,7 @@ class TRELineParserManager : TREListManager<indi.midreamsheep.app.tre.shared.ren
     private val paragraphRegParser = HashMap<String,List<indi.midreamsheep.app.tre.shared.render.parser.LineParser>>()
 
     @Injector
-    private val defaultParser: indi.midreamsheep.app.tre.shared.render.parser.paragraph.DefaultParser? = null
+    private val defaultParser: DefaultParser? = null
 
     override fun get(text: String): indi.midreamsheep.app.tre.shared.render.parser.LineParser {
         val startChar = text[0]
