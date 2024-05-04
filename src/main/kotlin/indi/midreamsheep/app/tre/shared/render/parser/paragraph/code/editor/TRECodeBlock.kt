@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.shared.render.parser.paragraph.code.editor
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.text.input.TextFieldValue
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindow
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.editors.render.code.codeInputTextField
 import indi.midreamsheep.app.tre.model.editor.block.TREBlockAbstract
 import indi.midreamsheep.app.tre.shared.api.display.Display
@@ -26,9 +26,10 @@ class TRECodeBlock(lineState: TREBlockState, type:String): TREBlockAbstract(line
         lineState.blockManager.setCurrentBlockState(null)
     }
 
-    override fun getDisplay(context: TREEditorContext): Display {
+    override fun getDisplay(): Display {
         return Display{
             {
+                val context = TRELocalEditorWindow.LocalContext.current
                 codeInputTextField(this, context)
             }
         }

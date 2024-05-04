@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindow
 import indi.midreamsheep.app.tre.desktop.page.editor.context.viewmodel.EditorStateViewModel
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.bottom.bottomBar
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.editors.render.renderList
@@ -19,9 +19,8 @@ import indi.midreamsheep.app.tre.desktop.page.editor.ui.editors.render.topbar.to
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.editors.source.sourceEditor
 
 @Composable
-fun editorPage(
-    context: TREEditorContext
-){
+fun editorPage(){
+    val context = TRELocalEditorWindow.LocalContext.current
     val treFileManager = context.editorFileManager
     if (!treFileManager.isRead()){
         val (result, errorMsg) = treFileManager.read()
@@ -35,13 +34,12 @@ fun editorPage(
         modifier = Modifier.padding(0.dp)
     ) {
         //上方的工具栏
-        topBar(context)
+        topBar()
         Row (Modifier.weight(1f)){
             //左间距
             editor(
                 Modifier.weight(10f),
                 listState,
-                context
             )
             VerticalScrollbar(
                 modifier = Modifier.fillMaxHeight(),
@@ -49,18 +47,18 @@ fun editorPage(
             )
         }
         //下方的工具栏
-        bottomBar(context)
+        bottomBar()
     }
 }
 
 @Composable
 fun editor(
     modifier: Modifier,
-    listState: LazyListState,
-    context: TREEditorContext
+    listState: LazyListState
 ){
+    val context = TRELocalEditorWindow.LocalContext.current
     when (context.editorStateViewModel.editorMode.value) {
-        EditorStateViewModel.EditorMode.RENDER -> renderList(context, modifier, listState)
+        EditorStateViewModel.EditorMode.RENDER -> renderList(modifier, listState)
         EditorStateViewModel.EditorMode.SOURCE -> sourceEditor(context, modifier, listState)
     }
 }

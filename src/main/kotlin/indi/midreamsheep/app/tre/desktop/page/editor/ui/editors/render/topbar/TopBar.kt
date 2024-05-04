@@ -10,15 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindow
 import indi.midreamsheep.app.tre.desktop.page.editor.model.toolbar.TopMenuManager
 import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 
 @Composable
-fun topBar(
-    context: TREEditorContext
-){
+fun topBar(){
     val list = getBean(TopMenuManager::class.java).topFloorBarList
+    val context = TRELocalEditorWindow.LocalContext.current
     Row(
         modifier = Modifier.fillMaxWidth().background(Color(0xfff2f2f2)).zIndex(5f)
     ) {

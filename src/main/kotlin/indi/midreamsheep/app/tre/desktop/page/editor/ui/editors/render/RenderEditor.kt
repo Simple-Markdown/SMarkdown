@@ -12,16 +12,15 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindow
 import indi.midreamsheep.app.tre.shared.ui.compnent.simpleclick.simpleClickable
 
 @Composable
 fun renderList(
-    context: TREEditorContext,
     modifier: Modifier,
     listState: LazyListState
 ) {
-    val stateManager = context.editorFileManager.getStateManager()
+    val stateManager = TRELocalEditorWindow.LocalContext.current.editorFileManager.getStateManager()
     val lineStateList = stateManager.getTREBlockStateList()
 
     val leftPadding = remember { mutableStateOf(0.dp) }
@@ -79,7 +78,7 @@ fun renderList(
                                     lineHeight = it.size.height.dp
                                 }
                         ){
-                            treBlockState.block.getDisplay(context).getComposable().invoke()
+                            treBlockState.block.getDisplay().getComposable().invoke()
                         }
                     }
                     Spacer(modifier = Modifier.width(leftPadding.value))

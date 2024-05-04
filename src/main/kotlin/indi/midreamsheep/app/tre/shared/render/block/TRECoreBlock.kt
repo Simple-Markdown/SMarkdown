@@ -15,7 +15,7 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindow
 import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.model.editor.block.TREBlockAbstract
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
@@ -31,8 +31,8 @@ import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECo
 import indi.midreamsheep.app.tre.shared.tool.text.filter
 
 class TRECoreBlock(
-    lineState: TREBlockState
-) : TREBlockAbstract(lineState), TRETextBlock {
+    state: TREBlockState
+) : TREBlockAbstract(state), TRETextBlock {
     val parser = getBean(TRELineParser::class.java)
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
     private var oldValue: TextFieldValue = TextFieldValue("")
@@ -67,7 +67,7 @@ class TRECoreBlock(
         isFocus.value = false
     }
 
-    override fun getDisplay(context: TREEditorContext): Display {
+    override fun getDisplay(): Display {
         buildContent()
         return Display{
             {
@@ -76,7 +76,7 @@ class TRECoreBlock(
                     buildContent()
                 }
                 if(isFocus.value){
-                    editorInput(context)
+                    editorInput()
                 }else{
                     preview()
                 }
@@ -87,9 +87,8 @@ class TRECoreBlock(
     override fun getContent() = content.value.text
 
     @Composable
-    fun editorInput(
-        context: TREEditorContext
-    ) {
+    fun editorInput() {
+        val context = TRELocalEditorWindow.LocalContext.current
         BasicTextField(
             value = content.value,
             onValueChange = { newValue ->

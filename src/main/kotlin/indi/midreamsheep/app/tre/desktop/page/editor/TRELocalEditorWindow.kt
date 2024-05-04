@@ -1,9 +1,6 @@
 package indi.midreamsheep.app.tre.desktop.page.editor
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.window.Window
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import indi.midreamsheep.app.tre.desktop.app.TREAppContext
@@ -19,7 +16,12 @@ import indi.midreamsheep.app.tre.shared.render.manager.core.render.TRELocalFileR
 import logger
 import java.io.File
 
+
 class TRELocalEditorWindow(private val treLocalFile:TRELocalFile): TREWindow(treLocalFile.name) {
+
+    companion object {
+        val LocalContext = compositionLocalOf<TREEditorContext> { error("context is null") }
+    }
 
     override fun getDisplay() = Display {
         {
@@ -36,7 +38,9 @@ class TRELocalEditorWindow(private val treLocalFile:TRELocalFile): TREWindow(tre
             ) {
                 context.window = this.window
                 logger.info("open file: ${treLocalFile.name}")
-                editorPage(context)
+                CompositionLocalProvider(LocalContext provides context){
+                    editorPage()
+                }
             }
         }
     }

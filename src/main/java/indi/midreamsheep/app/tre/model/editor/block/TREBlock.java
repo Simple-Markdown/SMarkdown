@@ -1,6 +1,5 @@
 package indi.midreamsheep.app.tre.model.editor.block;
 
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext;
 import indi.midreamsheep.app.tre.shared.api.display.Display;
 import indi.midreamsheep.app.tre.shared.render.block.TREBlockState;
 import indi.midreamsheep.app.tre.shared.render.render.prebutton.TRELinePreButton;
@@ -32,7 +31,7 @@ public interface TREBlock {
     /**
      * 获取当前的composable
      * */
-    Display getDisplay(TREEditorContext context);
+    Display getDisplay();
     /**
      * 获取前置按钮
      */
