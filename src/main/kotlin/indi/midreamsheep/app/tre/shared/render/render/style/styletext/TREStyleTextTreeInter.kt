@@ -71,15 +71,6 @@ interface TREStyleTextTreeInter {
      * */
     fun getTransformedRange(): TRERangeInter
     /**
-     * 获取子节点的原始起始偏移
-     * */
-    fun getChildrenOriginalStart(): Int
-
-    /**
-     * 获取子节点的转换后起始偏移
-     * */
-    fun getChildrenTransformedStart(): Int
-    /**
      * 获取子节点的原始文本偏移
      * */
     fun getChildOriginalRange(child: TREStyleTextTreeInter): TRERangeInter

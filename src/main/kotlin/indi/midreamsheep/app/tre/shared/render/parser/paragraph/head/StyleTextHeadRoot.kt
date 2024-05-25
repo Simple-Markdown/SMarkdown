@@ -7,6 +7,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
+import indi.midreamsheep.app.tre.shared.render.render.TRERender
+import indi.midreamsheep.app.tre.shared.render.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
 
 class StyleTextHeadRoot(
@@ -36,11 +38,11 @@ class StyleTextHeadRoot(
         return childrenTransformedSize()
     }
 
-
 }
 
 class StyleTextHeadPrefix(
     private val level: Int,
+    private val render: TRERender,
 ): TRECoreStyleTextRoot() {
 
     private var isHidden = false
@@ -64,6 +66,11 @@ class StyleTextHeadPrefix(
     private fun isDisplay(): Boolean {
         if (selection > level+1  || !isEdit) {
             isHidden = true
+            render.offsetMap = object : TRERenderOffsetMap() {
+                override fun getStartOffset(): Int {
+                    return level + 1
+                }
+            }
         }
         return isHidden
     }

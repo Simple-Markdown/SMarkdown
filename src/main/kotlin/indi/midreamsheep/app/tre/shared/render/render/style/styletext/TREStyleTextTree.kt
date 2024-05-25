@@ -17,7 +17,7 @@ abstract class TREStyleTextTree: TREStyleTextTreeInter {
     override fun setState(selection: Int, isEdit: Boolean) {
         this.selection = selection
         this.isEdit = isEdit
-        var select = selection - getChildrenTransformedStart()
+        var select = selection
         for (child in children) {
             child.setState(selection, isEdit)
             select -= child.transformedSize()
@@ -92,10 +92,6 @@ abstract class TREStyleTextTree: TREStyleTextTreeInter {
 
 
 
-    override fun getChildrenOriginalStart() = 0
-
-    override fun getChildrenTransformedStart() = 0
-
     override fun getChildTransformedRange(child: TREStyleTextTreeInter) = object : TRERangeInter {
         override fun getStart():Int{
             var offset = getTransformedRange().getStart()
@@ -106,16 +102,33 @@ abstract class TREStyleTextTree: TREStyleTextTreeInter {
             return offset
         }
         override fun getEnd():Int{
-            var offset = getChildrenOriginalStart()
+            var offset = getTransformedRange().getEnd()
+            for (c in children) {
+                offset += c.transformedSize()
+                if (c == child) return offset
+            }
+            return offset
+        }
+    }
+
+    override fun getChildOriginalRange(child: TREStyleTextTreeInter) = object : TRERangeInter {
+        override fun getStart():Int{
+            var offset = getOriginalRange().getStart()
             for (c in children) {
                 if (c == child) return offset
                 offset += c.originalSize()
             }
             return offset
         }
+        override fun getEnd():Int{
+            var offset = getOriginalRange().getEnd()
+            for (c in children) {
+                offset += c.originalSize()
+                if (c == child) return offset
+            }
+            return offset
+        }
     }
-
-    override fun getChildOriginalRange(child: TREStyleTextTreeInter) = TRERange(getChildrenOriginalStart(),getChildrenOriginalStart())
 
     override fun getTransformedRange()= object : TRERangeInter {
         override fun getStart():Int{
