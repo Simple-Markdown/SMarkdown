@@ -17,7 +17,7 @@ class StyleTextLinkLeaf(
     /**
      * 获取用于显示的AnnotatedString
      * */
-    override fun build(isFocus: Boolean): AnnotatedString {
+    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
             if (isDisplay){
                 withStyle(

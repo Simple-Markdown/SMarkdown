@@ -11,20 +11,9 @@ import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECo
 
 class StyleTextHeadRoot(
     val level: Int,
-    private val isDisplay: Boolean,
 ): TRECoreStyleTextRoot() {
 
-    override fun originalToTransformed(offset: Int): Int {
-        if (isDisplay) return offset
-        return offset - level - 1
-    }
-
-    override fun transformedToOriginal(offset: Int): Int {
-        if (isDisplay) return offset
-        return offset + level+1
-    }
-
-    override fun build(isFocus: Boolean): AnnotatedString {
+    override fun generateAnnotatedString(isFocus:Boolean): AnnotatedString {
         return buildAnnotatedString {
             withStyle(
                 SpanStyle(
@@ -32,27 +21,66 @@ class StyleTextHeadRoot(
                     fontSize = (15+(6-level+1)*5).sp,
                 )
             ) {
-                withStyle(
-                    SpanStyle(
-                        color = Color.Gray
-                    )
-                ){
-                    if (isDisplay&&isFocus){
-                        append("#".repeat(level) + " ")
-                    }
-                }
                 for (child in getChildren()) {
-                    append(child.build(isFocus))
+                    append(child.getAnnotatedString().value)
                 }
             }
         }
     }
 
     override fun originalSize(): Int {
-        return childrenOriginalSize() + level + 1
+        return childrenOriginalSize()
     }
 
     override fun transformedSize(): Int {
-        return childrenTransformedSize() + if (isDisplay) level + 1 else 0
+        return childrenTransformedSize()
+    }
+
+
+}
+
+class StyleTextHeadPrefix(
+    private val level: Int,
+): TRECoreStyleTextRoot() {
+
+    private var isHidden = false
+
+    override fun generateAnnotatedString(isFocus:Boolean): AnnotatedString {
+        return buildAnnotatedString {
+            withStyle(
+                SpanStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = (15+(6-level+1)*5).sp,
+                    color = Color.Gray
+                )
+            ) {
+                if (!isDisplay()) {
+                    append("#".repeat(level) + " ")
+                }
+            }
+        }
+    }
+
+    private fun isDisplay(): Boolean {
+        if (selection > level+1  || !isEdit) {
+            isHidden = true
+        }
+        return isHidden
+    }
+
+    override fun transformedSize(): Int {
+        return if (isHidden) 0 else level + 1
+    }
+
+    override fun originalSize(): Int {
+        return level + 1
+    }
+
+    override fun transformedToOriginal(offset: Int): Int {
+        return if (isHidden) 0 else offset
+    }
+
+    override fun originalToTransformed(offset: Int): Int {
+        return if (isHidden) 0 else offset
     }
 }

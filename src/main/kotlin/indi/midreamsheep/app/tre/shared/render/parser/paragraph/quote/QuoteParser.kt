@@ -11,7 +11,6 @@ import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.render.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
-import indi.midreamsheep.app.tre.shared.render.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.tool.id.IdUtil
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
@@ -39,28 +38,17 @@ class QuoteParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
         val render = TRERender(block)
         val level = getLevel(text)
 
-        var isDisplay = selection<level*2
-        if (selection>=level*2||blockManager.getCurrentBlock()!=block.lineState){
-            block.propertySet.add(id)
+        render.styleText.styleTextTree = StyleTextQuoteRoot(level).apply {
+            addChildren(
+                StyleTextQuotePrefix(level)
+            )
         }
-        val isContain = block.propertySet.contains(id)
-        if(isContain) isDisplay = false
-        render.styleText.styleTextTree = StyleTextQuoteRoot(
-            level,
-            isDisplay,
-        )
         val parse = parser!!.parse(
             text.substring(level*2),
             selection-level*2,
             block,
             blockManager
         )
-
-        if (isContain){
-            render.offsetMap = object : TRERenderOffsetMap() {
-                override fun getStartOffset() = level*2 + parse.offsetMap.getStartOffset()
-            }
-        }
 
         repeat(level) {
             render.styleText.prefixTextDecorations.add(

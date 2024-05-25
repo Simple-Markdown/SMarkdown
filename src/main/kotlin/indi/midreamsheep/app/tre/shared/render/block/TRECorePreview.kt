@@ -17,7 +17,7 @@ class TRECorePreview(val line: TRECoreBlock): Display {
             var layoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
             val value = line.render.value.styleText.styleTextTree!!
             Text(
-                text = value.build(false),
+                text = value.getAnnotatedString().value!!,
                 style = MaterialTheme.typography.bodyLarge,
                 inlineContent = line.render.value.styleText.previewAnnotation,
                 modifier = Modifier.fillMaxWidth()

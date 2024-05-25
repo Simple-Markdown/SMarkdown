@@ -8,7 +8,7 @@ import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.render.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.render.render.listener.TRERenderListener
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTreeInter
 
 class HeadListener(
     private val line: TRECoreBlock,
@@ -46,8 +46,8 @@ class HeadListener(
         return false
     }
 
-    private fun getStartIndex(styleTextTree: TREStyleTextTree):Int{
-        return styleTextTree.getOriginalStartOffset()
+    private fun getStartIndex(styleTextTree: TREStyleTextTreeInter):Int{
+        return styleTextTree.getOriginalRange().getStart()
     }
 
     private fun subString(text: String, start: Int,end: Int):String{

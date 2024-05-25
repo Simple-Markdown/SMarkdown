@@ -2,14 +2,14 @@ package indi.midreamsheep.app.tre.shared.render.render.style.styletext.root
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTree
 
-open class TRECoreStyleTextRoot: TREStyleTextRoot() {
+open class TRECoreStyleTextRoot: TREStyleTextTree() {
 
-    override fun build(isFocus: Boolean): AnnotatedString {
+    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
             children.forEach {
-                append(it.build(isFocus))
+                append(it.generateAnnotatedString(isFocus))
             }
         }
     }

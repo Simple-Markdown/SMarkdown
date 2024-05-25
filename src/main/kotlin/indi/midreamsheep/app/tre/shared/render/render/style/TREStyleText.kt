@@ -4,11 +4,11 @@ import androidx.compose.foundation.text.InlineTextContent
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.render.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.render.block.TRECorePreview
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTreeInter
 
 class TREStyleText(line: TRECoreBlock) {
     // 样式文本树
-    var styleTextTree: TREStyleTextTree? = null
+    var styleTextTree: TREStyleTextTreeInter? = null
     // 文本前缀修饰组,上一行修饰
     val prefixLineDecorations:MutableList<Display> = mutableListOf()
     // 文本前缀修饰组,文字前修饰

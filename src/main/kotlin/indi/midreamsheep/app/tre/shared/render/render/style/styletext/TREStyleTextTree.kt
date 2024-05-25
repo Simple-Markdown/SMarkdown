@@ -1,87 +1,139 @@
 package indi.midreamsheep.app.tre.shared.render.render.style.styletext
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.AnnotatedString
 
-/**
- * 构建文本样式树
- * */
-interface TREStyleTextTree {
+abstract class TREStyleTextTree: TREStyleTextTreeInter {
+
+    protected val children = mutableListOf<TREStyleTextTreeInter>()
+
+    protected var selection = 0
+    protected var isEdit = false
+    protected val styleTree:MutableState<AnnotatedString?> = mutableStateOf(null)
+
+    private var parent: TREStyleTextTreeInter? = null
+
+    override fun setState(selection: Int, isEdit: Boolean) {
+        this.selection = selection
+        this.isEdit = isEdit
+        var select = selection - getChildrenTransformedStart()
+        for (child in children) {
+            child.setState(selection, isEdit)
+            select -= child.transformedSize()
+        }
+        this.styleTree.value = generateAnnotatedString(isEdit)
+    }
+
     /**
      * 获取用于显示的AnnotatedString
      * */
-    fun build(isFocus: Boolean):AnnotatedString
-    /**
-     * 源文本到转换后文本的偏移
-     * */
-    fun originalToTransformed(offset: Int): Int
-    /**
-     * 转换后文本到源文本的偏移
-     * */
-    fun transformedToOriginal(offset: Int): Int
-    /**
-     * 获取源文本长度
-     * */
-    fun originalSize():Int
-    /**
-     * 获取转换后文本长度
-     * */
-    fun transformedSize():Int
-    /**
-     * 添加子节点
-     * */
-    fun addChildren(styleTextTree: TREStyleTextTree)
-    /**
-     * 获取子节点
-     * */
-    fun getChildren(): Array<TREStyleTextTree>
-    /**
-     * 通过源文本偏移获取子节点
-     * */
-    fun getChildrenByOriginalOffset(offset: Int): TREStyleTextTree?
-    /**
-     * 通过转换后文本偏移获取子节点
-     * */
-    fun getChildrenByTransformedOffset(offset: Int): TREStyleTextTree?
-    /**
-     * 当前节点的起始原文本偏移
-     * */
-    fun getOriginalStartOffset(): Int
-    /**
-     * 当前节点的结束原文本偏移
-     * */
-    fun getOriginalEndOffset(): Int
-    /**
-     * 当前节点的起始转换后文本偏移
-     * */
-    fun getTransformedStartOffset(): Int
-    /**
-     * 当前节点的结束转换后文本偏移
-     * */
-    fun getTransformedEndOffset(): Int
-    /**
-     * 获取父节点
-     * */
-    fun getParent(): TREStyleTextTree?
-    /**
-     * 设置父节点
-     * */
-    fun setParent(parent: TREStyleTextTree)
-    /**
-     * 获取字节点的起始原文本偏移
-     * */
-    fun getChildrenOriginalStartOffset(child: TREStyleTextTree): Int
-    /**
-     * 获取字节点的起始转换后文本偏移
-     * */
-    fun getChildrenTransformedStartOffset(child: TREStyleTextTree): Int
+    override fun getAnnotatedString() = styleTree
 
-    /**
-     * 获取子节点的原始起始偏移
-     * */
-    fun getChildrenOriginalStart(): Int
+    override fun addChildren(styleTextTree: TREStyleTextTreeInter) {
+        children.add(styleTextTree)
+        styleTextTree.setParent(this)
+    }
 
-    /**
-     * 获取子节点的转换后起始偏移
-     * */
-    fun getChildrenTransformedStart(): Int
+    override fun getChildren() = children.toTypedArray()
+
+    override fun originalToTransformed(offset: Int): Int {
+        var point = offset
+        var transformedOffset = 0
+        for (child in children) {
+            if (point <= child.originalSize()) {
+                return child.originalToTransformed(point)+transformedOffset
+            }
+            point -= child.originalSize()
+            transformedOffset += child.transformedSize()
+        }
+        return transformedOffset
+    }
+
+    override fun transformedToOriginal(offset: Int): Int {
+        var point = offset
+        var originalOffset = 0
+        for (child in children) {
+            if (point <= child.transformedSize()) {
+                return child.transformedToOriginal(point)+originalOffset
+            }
+            point -= child.transformedSize()
+            originalOffset += child.originalSize()
+        }
+        return offset
+    }
+
+    override fun getChildrenByOriginalOffset(offset: Int): TREStyleTextTreeInter? {
+        if (children.isEmpty()) return this
+        var point = offset
+        for (child in children) {
+            if (point <= child.originalSize()) {
+                return child.getChildrenByOriginalOffset(point)
+            }
+            point -= child.originalSize()
+        }
+        return this
+    }
+
+    override fun getChildrenByTransformedOffset(offset: Int): TREStyleTextTreeInter? {
+        if (children.isEmpty()) return this
+        var point = offset
+        for (child in children) {
+            if (point <= child.transformedSize()) {
+                return child.getChildrenByTransformedOffset(point)
+            }
+            point -= child.transformedSize()
+        }
+        return this
+    }
+    override fun getParent() = parent
+
+    override fun setParent(parent: TREStyleTextTreeInter) { this.parent = parent }
+
+
+
+    override fun getChildrenOriginalStart() = 0
+
+    override fun getChildrenTransformedStart() = 0
+
+    override fun getChildTransformedRange(child: TREStyleTextTreeInter) = object : TRERangeInter {
+        override fun getStart():Int{
+            var offset = getTransformedRange().getStart()
+            for (c in children) {
+                if (c == child) return offset
+                offset += c.transformedSize()
+            }
+            return offset
+        }
+        override fun getEnd():Int{
+            var offset = getChildrenOriginalStart()
+            for (c in children) {
+                if (c == child) return offset
+                offset += c.originalSize()
+            }
+            return offset
+        }
+    }
+
+    override fun getChildOriginalRange(child: TREStyleTextTreeInter) = TRERange(getChildrenOriginalStart(),getChildrenOriginalStart())
+
+    override fun getTransformedRange()= object : TRERangeInter {
+        override fun getStart():Int{
+            if (parent == null) return 0
+            return parent!!.getChildTransformedRange(this@TREStyleTextTree).getStart()
+        }
+        override fun getEnd():Int{
+            return getStart() + transformedSize()
+        }
+    }
+
+    override fun getOriginalRange() = object : TRERangeInter {
+        override fun getStart():Int{
+            if (parent == null) return 0
+            return parent!!.getChildOriginalRange(this@TREStyleTextTree).getStart()
+        }
+        override fun getEnd():Int{
+            return getStart() + originalSize()
+        }
+    }
 }

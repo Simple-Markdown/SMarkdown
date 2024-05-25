@@ -76,8 +76,10 @@ class TRECoreBlock(
                     buildContent()
                 }
                 if(isFocus.value){
+                    render.value.styleText.styleTextTree!!.setState(content.value.selection.start,true)
                     editorInput()
                 }else{
+                    render.value.styleText.styleTextTree!!.setState(content.value.selection.start,false)
                     preview()
                 }
             }
@@ -114,7 +116,7 @@ class TRECoreBlock(
                 },
             visualTransformation = { _ ->
                 TransformedText(
-                    text = render.value.styleText.styleTextTree!!.build(true),
+                    text = render.value.styleText.styleTextTree!!.getAnnotatedString().value!!,
                     offsetMapping = TREOffsetMappingAdapter(render.value.styleText.styleTextTree!!),
                 )
             },
@@ -146,7 +148,12 @@ class TRECoreBlock(
     override fun getTextFieldValue() = content.value
 
     override fun setTextFieldValue(value: TextFieldValue) {
-        content.value = value.filter()
+        val newValue = value.filter()
+        content.value = newValue
+        if(oldValue.text == value.text){
+            render.value.styleText.styleTextTree!!.setState(value.selection.start,isFocus.value)
+            return
+        }
         buildContent()
     }
 
@@ -154,10 +161,11 @@ class TRECoreBlock(
         treStateManager: TREBlockManager = lineState.blockManager,
         textFieldValue: TextFieldValue = content.value
     ){
-        if(oldValue == textFieldValue){
+        if(oldValue.text == textFieldValue.text){
             return
         }
         render.value = parser.parse(textFieldValue.text, textFieldValue.selection.start, this, treStateManager)
+        render.value.styleText.styleTextTree!!.setState(textFieldValue.selection.start,isFocus.value)
         oldValue = textFieldValue
     }
 

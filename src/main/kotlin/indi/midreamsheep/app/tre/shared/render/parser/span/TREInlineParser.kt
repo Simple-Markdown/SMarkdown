@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.shared.render.parser.span
 
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTreeInter
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreLeaf
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
@@ -25,7 +25,7 @@ class TREInlineParser {
         selection: Int,
         isFocus: Boolean,
         render: TRERender
-    ): List<TREStyleTextTree>
+    ): List<TREStyleTextTreeInter>
     {
 
         if (text.isEmpty()){
@@ -37,7 +37,7 @@ class TREInlineParser {
         var transformedPoint = 0
         var originalOffsetStart = 0
 
-        val resultList = mutableListOf<TREStyleTextTree>()
+        val resultList = mutableListOf<TREStyleTextTreeInter>()
 
         var normalString = ""
 

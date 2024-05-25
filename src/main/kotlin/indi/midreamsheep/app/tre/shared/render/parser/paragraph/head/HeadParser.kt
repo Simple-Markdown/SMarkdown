@@ -8,7 +8,6 @@ import indi.midreamsheep.app.tre.shared.render.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.render.parser.LineParser
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
-import indi.midreamsheep.app.tre.shared.render.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.shared.render.render.prebutton.TRELinePreButton
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.tool.id.IdUtil
@@ -35,19 +34,10 @@ class HeadParser: LineParser {
         var subSequence = text.subSequence(level, text.length)
         if (subSequence.isNotEmpty()) subSequence = subSequence.subSequence(1, subSequence.length)
         val render = TRERender(block)
-        var isDisplay = selection <= level+1
-
-        if (selection>level+1||blockManager.getCurrentBlock()!=block.lineState){
-            block.propertySet.add(id)
-        }
-        if (block.propertySet.contains(id)){
-            render.offsetMap = object : TRERenderOffsetMap() {
-                override fun getStartOffset() = level+1
-
-            }
-            isDisplay = false
-        }
-        render.styleText.styleTextTree = StyleTextHeadRoot(level, isDisplay).apply {
+        render.styleText.styleTextTree = StyleTextHeadRoot(level).apply {
+            addChildren(
+                StyleTextHeadPrefix(level)
+            )
             addChildren(
                 TRECoreLeaf(subSequence.toString())
             )

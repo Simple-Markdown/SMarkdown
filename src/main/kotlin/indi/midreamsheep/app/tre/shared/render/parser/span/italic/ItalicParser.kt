@@ -5,7 +5,7 @@ import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.render.parser.InlineParser
 import indi.midreamsheep.app.tre.shared.render.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTreeInter
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @InLineParserList
@@ -41,7 +41,7 @@ class ItalicParser: InlineParser {
         selection: Int,
         isFocus: Boolean,
         render: TRERender
-    ): TREStyleTextTree {
+    ): TREStyleTextTreeInter {
         var pointer = 1
         while (pointer<text.length-1) {
             if (text[pointer]=='*') break

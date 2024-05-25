@@ -9,47 +9,46 @@ import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECo
 
 class StyleTextQuoteRoot(
     val level: Int,
-    private val isDisplay: Boolean,
 ): TRECoreStyleTextRoot() {
 
-    override fun originalToTransformed(offset: Int): Int {
-        if (isDisplay){
-            return offset
-        }
-        return super.originalToTransformed(offset-level*2)
-    }
 
-    override fun transformedToOriginal(offset: Int): Int {
-        if (isDisplay) return offset
-        return super.transformedToOriginal(offset) + level*2
-    }
-
-    override fun build(isFocus: Boolean): AnnotatedString {
+    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
-            if (isFocus&&isDisplay){
-                withStyle(
-                    SpanStyle(
-                        color = Color.Gray
-                    )
-                ){
-                    append("> ".repeat(level))
-                }
-            }
             for (child in getChildren()) {
-                append(child.build(isFocus))
+                append(child.generateAnnotatedString(isFocus))
+            }
+        }
+    }
+}
+
+class StyleTextQuotePrefix(
+    val level: Int
+): TRECoreStyleTextRoot() {
+
+    private var isHidden = false
+
+    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
+        return buildAnnotatedString {
+            withStyle(
+                SpanStyle(
+                    color = Color.Gray
+                )
+            ){
+                append("> ".repeat(level))
             }
         }
     }
 
     override fun originalSize(): Int {
-        return super.originalSize() + level*2
+        return level*2
     }
 
-    override fun transformedSize(): Int {
-        return super.transformedSize()- if (isDisplay) level *2 else 0
+    override fun transformedSize() = if(isDisplay()) level else 0
+    private fun isDisplay(): Boolean {
+        if (selection > level){
+            isHidden = true
+        }
+        return (isHidden)||(!isEdit)
     }
 
-    override fun getChildrenOriginalStart() = level*2
-
-    override fun getChildrenTransformedStart() = if (isDisplay) level*2 else 0
 }

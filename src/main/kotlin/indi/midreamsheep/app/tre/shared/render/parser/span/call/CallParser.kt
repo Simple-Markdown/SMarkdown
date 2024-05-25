@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.sp
 import cn.hutool.core.lang.generator.SnowflakeGenerator
 import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParserList
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTreeInter
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import lombok.extern.slf4j.Slf4j
 
@@ -37,7 +37,7 @@ class CallParser: indi.midreamsheep.app.tre.shared.render.parser.InlineParser {
         selection: Int,
         isFocus: Boolean,
         render: TRERender
-    ): TREStyleTextTree {
+    ): TREStyleTextTreeInter {
         val id = SnowflakeGenerator().next()!!
         render.styleText.previewAnnotation[id.toString()] = InlineTextContent(
             Placeholder(20.sp, 20.sp, PlaceholderVerticalAlign.TextCenter)
