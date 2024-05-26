@@ -76,10 +76,10 @@ class TRECoreBlock(
                     buildContent()
                 }
                 if(isFocus.value){
-                    render.value.styleText.styleTextTree!!.setState(content.value.selection.start,true)
+                    render.value.styleText.styleTextTree!!.reset(content.value.selection.start,content.value.selection.start,true)
                     editorInput()
                 }else{
-                    render.value.styleText.styleTextTree!!.setState(content.value.selection.start,false)
+                    render.value.styleText.styleTextTree!!.reset(content.value.selection.start,content.value.selection.start,false)
                     preview()
                 }
             }
@@ -151,7 +151,7 @@ class TRECoreBlock(
         val newValue = value.filter()
         content.value = newValue
         if(oldValue.text == value.text){
-            render.value.styleText.styleTextTree!!.setState(value.selection.start,isFocus.value)
+            render.value.styleText.styleTextTree!!.reset(value.selection.start,content.value.selection.start,isFocus.value)
             return
         }
         buildContent()
@@ -165,7 +165,7 @@ class TRECoreBlock(
             return
         }
         render.value = parser.parse(textFieldValue.text, textFieldValue.selection.start, this, treStateManager)
-        render.value.styleText.styleTextTree!!.setState(textFieldValue.selection.start,isFocus.value)
+        render.value.styleText.styleTextTree!!.reset(textFieldValue.selection.start,content.value.selection.start,isFocus.value)
         oldValue = textFieldValue
     }
 

@@ -8,10 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
 
-class StyleTextBoldLeaf(
-    private val content:String,
-    private val isDisplay: Boolean
-): TRECoreStyleTextRoot() {
+class StyleTextBoldLeaf: TRECoreStyleTextRoot() {
 
     /**
      * 获取用于显示的AnnotatedString
@@ -23,63 +20,57 @@ class StyleTextBoldLeaf(
                     fontWeight = FontWeight.Bold
                 )
             ) {
-                if (isFocus&&isDisplay){
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color.Gray
-                        )
-                    ) {
-                        append("**")
-                    }
-                }
                 for (child in getChildren()) {
-                    append(child.generateAnnotatedString(isFocus))
+                    append(child.getAnnotatedString().value)
                 }
-                if (isFocus&&isDisplay){
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color.Gray
-                        )
-                    ) {
-                        append("**")
-                    }
+            }
+        }
+    }
+}
+
+class StyleTextBoldFix: TRECoreStyleTextRoot() {
+
+    private var isDisplay = false
+
+    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
+        return buildAnnotatedString {
+            if(isDisplay()){
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Gray
+                    )
+                ) {
+                    append("**")
                 }
             }
         }
     }
 
-    /**
-     * 源文本大小为原文本长度+4(四个*的长度)
-     * */
-    override fun originalSize() = content.length + 4
-
-    /**
-     * 转换后文本大小为转换后文本长度+4(四个*的长度，当显示时才加上4)
-     * */
-    override fun transformedSize() = childrenTransformedSize() + if (isDisplay) 4 else 0
-
-    /**
-     * 偏移表
-     * **content**
-     * 8
-     * **Ren**
-     * */
-    override fun originalToTransformed(offset: Int): Int {
-        if (offset <= 2){
-            return offset
+    fun isDisplay(): Boolean {
+        val originalRange = getParent()!!.getOriginalRange()
+        if(originalRange.getStart()<=absoluteSelection&&absoluteSelection<=originalRange.getEnd()){
+            if(!isDisplay){
+                isDisplay = true
+                refresh()
+            }
+        }else{
+            if(isDisplay){
+                isDisplay = false
+                refresh()
+            }
         }
-        if (offset >= childrenOriginalSize() + 2){
-            return offset + childrenTransformedSize() - childrenOriginalSize()
-        }
-        return super.originalToTransformed(offset-2) + 2
+        return isDisplay
     }
 
-    /**
-     * 转换后文本到源文本的偏移
-     * **content**
-     * content
-     * */
+    override fun transformedSize() = if(isDisplay) 2 else 0
+
+    override fun originalSize() = 2
+
     override fun transformedToOriginal(offset: Int): Int {
-        return super.transformedToOriginal(offset-2)+2
+        return if(isDisplay) offset else 0
+    }
+
+    override fun originalToTransformed(offset: Int): Int {
+        return if(isDisplay) offset else 0
     }
 }

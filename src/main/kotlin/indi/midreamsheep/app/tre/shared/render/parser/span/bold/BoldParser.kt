@@ -49,20 +49,20 @@ class BoldParser: InlineParser {
             if (text[pointer]!='*') break
             pointer++
         }
-        val isDisplay = selection in 0..pointer&&isFocus
 
-        val substring:String = text.substring(2, pointer - 2)
+        val value:String = text.substring(2, pointer - 2)
 
-        val boldLeaf = StyleTextBoldLeaf(
-            substring,
-            isDisplay
-        )
+        val boldLeaf = StyleTextBoldLeaf().apply {
+            addChildren(StyleTextBoldFix())
+        }
 
-        val list = spanParse!!.parse(substring,selection-2,isFocus, render)
+        val list = spanParse!!.parse(value,selection-2,isFocus, render)
 
         list.forEach {
             boldLeaf.addChildren(it)
         }
+
+        boldLeaf.addChildren(StyleTextBoldFix())
         return boldLeaf
     }
 }

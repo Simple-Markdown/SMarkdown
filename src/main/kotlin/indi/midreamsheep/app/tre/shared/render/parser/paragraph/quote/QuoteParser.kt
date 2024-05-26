@@ -11,6 +11,7 @@ import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.render.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreLeaf
 import indi.midreamsheep.app.tre.tool.id.IdUtil
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
@@ -39,9 +40,7 @@ class QuoteParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
         val level = getLevel(text)
 
         render.styleText.styleTextTree = StyleTextQuoteRoot(level).apply {
-            addChildren(
-                StyleTextQuotePrefix(level)
-            )
+            addChildren(StyleTextQuotePrefix(level,render))
         }
         val parse = parser!!.parse(
             text.substring(level*2),

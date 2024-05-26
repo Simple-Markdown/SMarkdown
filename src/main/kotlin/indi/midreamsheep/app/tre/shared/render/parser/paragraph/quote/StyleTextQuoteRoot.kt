@@ -5,12 +5,13 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
+import indi.midreamsheep.app.tre.shared.render.render.TRERender
+import indi.midreamsheep.app.tre.shared.render.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
 
 class StyleTextQuoteRoot(
     val level: Int,
 ): TRECoreStyleTextRoot() {
-
 
     override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
@@ -22,7 +23,8 @@ class StyleTextQuoteRoot(
 }
 
 class StyleTextQuotePrefix(
-    val level: Int
+    private val level: Int,
+    private val render: TRERender,
 ): TRECoreStyleTextRoot() {
 
     private var isHidden = false
@@ -34,7 +36,9 @@ class StyleTextQuotePrefix(
                     color = Color.Gray
                 )
             ){
-                append("> ".repeat(level))
+                if(isDisplay()){
+                    append("> ".repeat(level))
+                }
             }
         }
     }
@@ -45,10 +49,18 @@ class StyleTextQuotePrefix(
 
     override fun transformedSize() = if(isDisplay()) level else 0
     private fun isDisplay(): Boolean {
-        if (selection > level){
+        if (selection > level || !isEdit){
             isHidden = true
+            render.offsetMap = object : TRERenderOffsetMap() {
+                override fun getStartOffset(): Int {
+                    return level*2
+                }
+            }
         }
-        return (isHidden)||(!isEdit)
+        return !isHidden
     }
 
+    override fun transformedToOriginal(offset: Int) = if(!isHidden) offset else 0
+
+    override fun originalToTransformed(offset: Int) = if(!isHidden) offset else 0
 }

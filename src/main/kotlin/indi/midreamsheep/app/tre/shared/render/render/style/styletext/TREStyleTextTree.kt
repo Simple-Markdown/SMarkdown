@@ -10,24 +10,30 @@ abstract class TREStyleTextTree: TREStyleTextTreeInter {
 
     protected var selection = 0
     protected var isEdit = false
+    protected var absoluteSelection = 0
     protected val styleTree:MutableState<AnnotatedString?> = mutableStateOf(null)
 
     private var parent: TREStyleTextTreeInter? = null
 
-    override fun setState(selection: Int, isEdit: Boolean) {
+    override fun reset(selection: Int,absoluteSelection:Int, isEdit: Boolean) {
         this.selection = selection
+        this.absoluteSelection = absoluteSelection
         this.isEdit = isEdit
         var select = selection
         for (child in children) {
-            child.setState(selection, isEdit)
+            child.reset(selection,absoluteSelection, isEdit)
             select -= child.transformedSize()
         }
         this.styleTree.value = generateAnnotatedString(isEdit)
     }
 
-    /**
-     * 获取用于显示的AnnotatedString
-     * */
+    override fun refresh() {
+        this.styleTree.value = generateAnnotatedString(isEdit)
+        if(parent != null){
+            parent!!.refresh()
+        }
+    }
+
     override fun getAnnotatedString() = styleTree
 
     override fun addChildren(styleTextTree: TREStyleTextTreeInter) {

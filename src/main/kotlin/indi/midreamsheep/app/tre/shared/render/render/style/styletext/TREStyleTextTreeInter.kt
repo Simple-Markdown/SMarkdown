@@ -10,10 +10,15 @@ interface TREStyleTextTreeInter {
     /**
      * 设置状态,进行相关操作时需要设置状态用于刷新
      * 例如:文本焦点改变时,需要设置焦点状态
-     * @param selection 当前焦点位置
+     * @param selection 当前焦点位置(相对于当前标签的位置)
+     * @param absoluteSelection 当前焦点位置(绝对位置)
      * @param isEdit 是否是编辑状态，预览状态下会强制显示所有的样式
      * */
-    fun setState(selection: Int, isEdit: Boolean)
+    fun reset(selection: Int,absoluteSelection:Int, isEdit: Boolean)
+    /**
+     * 重新构建AnnotatedString
+     * */
+    fun refresh()
     /**
      * 用于构建AnnotatedString
      * */
