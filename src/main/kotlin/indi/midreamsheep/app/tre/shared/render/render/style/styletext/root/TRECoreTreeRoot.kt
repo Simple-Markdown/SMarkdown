@@ -4,7 +4,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTree
 
-open class TRECoreStyleTextRoot: TREStyleTextTree() {
+open class TRECoreTreeRoot: TREStyleTextTree() {
 
     override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {

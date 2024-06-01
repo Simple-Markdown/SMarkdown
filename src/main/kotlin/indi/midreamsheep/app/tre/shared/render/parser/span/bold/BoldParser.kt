@@ -33,11 +33,8 @@ class BoldParser: InlineParser {
 
     override fun generateLeaf(
         text: String,
-        selection: Int,
-        isFocus: Boolean,
         render: TRERender
     ): TREStyleTextTreeInter {
-
         var pointer = 2
         while (pointer<text.length-1) {
             if (text[pointer]=='*'&&text[pointer+1]=='*') break
@@ -56,7 +53,7 @@ class BoldParser: InlineParser {
             addChildren(StyleTextBoldFix())
         }
 
-        val list = spanParse!!.parse(value,selection-2,isFocus, render)
+        val list = spanParse!!.parse(value,render)
 
         list.forEach {
             boldLeaf.addChildren(it)

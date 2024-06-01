@@ -2,12 +2,12 @@ package indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 
 /**
  * 核心叶子节点，内部存储纯文本内容
  * */
-open class TRECoreLeaf(private val content:String): TRECoreStyleTextRoot() {
+open class TRECoreContentLeaf(private val content:String): TRECoreTreeRoot() {
     override fun originalSize() = content.length
     override fun transformedSize() = content.length
 

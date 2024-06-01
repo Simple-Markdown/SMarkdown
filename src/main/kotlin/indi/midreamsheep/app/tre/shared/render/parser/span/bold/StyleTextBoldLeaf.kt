@@ -6,9 +6,9 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 
-class StyleTextBoldLeaf: TRECoreStyleTextRoot() {
+class StyleTextBoldLeaf: TRECoreTreeRoot() {
 
     /**
      * 获取用于显示的AnnotatedString
@@ -28,7 +28,7 @@ class StyleTextBoldLeaf: TRECoreStyleTextRoot() {
     }
 }
 
-class StyleTextBoldFix: TRECoreStyleTextRoot() {
+class StyleTextBoldFix: TRECoreTreeRoot() {
 
     private var isDisplay = false
 

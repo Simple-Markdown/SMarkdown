@@ -36,6 +36,7 @@ class UnorderedListParser: LineParser {
         return text.startsWith("- ")
     }
 
+    //TODO rebuild the unordered list parser
     override fun buildRender(
         text: String,
         selection:Int,
@@ -52,8 +53,6 @@ class UnorderedListParser: LineParser {
 
         val parse = parser!!.parse(
             text = text.substring(2),
-            selection = selection - 2,
-            isFocus = block.isFocus.value,
             render = render
         )
 

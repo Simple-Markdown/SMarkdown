@@ -3,8 +3,8 @@ package indi.midreamsheep.app.tre.shared.render.parser.paragraph
 import indi.midreamsheep.app.tre.shared.render.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreLeaf
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreContentLeaf
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
@@ -21,8 +21,8 @@ class TRELineParser {
         blockManager: TREBlockManager
     ): TRERender {
         if(text.isEmpty()) {
-            val treCoreStyleTextRoot = TRECoreStyleTextRoot().apply {
-                addChildren(TRECoreLeaf(""))
+            val treCoreStyleTextRoot = TRECoreTreeRoot().apply {
+                addChildren(TRECoreContentLeaf(""))
             }
             val render = TRERender(block)
             render.styleText.styleTextTree = treCoreStyleTextRoot

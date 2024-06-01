@@ -9,11 +9,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
 import indi.midreamsheep.app.tre.shared.render.render.offsetmap.TRERenderOffsetMap
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 
 class StyleTextHeadRoot(
     val level: Int,
-): TRECoreStyleTextRoot() {
+): TRECoreTreeRoot() {
 
     override fun generateAnnotatedString(isFocus:Boolean): AnnotatedString {
         return buildAnnotatedString {
@@ -43,7 +43,7 @@ class StyleTextHeadRoot(
 class StyleTextHeadPrefix(
     private val level: Int,
     private val render: TRERender,
-): TRECoreStyleTextRoot() {
+): TRECoreTreeRoot() {
 
     private var isHidden = false
 
@@ -64,7 +64,7 @@ class StyleTextHeadPrefix(
     }
 
     private fun isDisplay(): Boolean {
-        if (selection > level+1  || !isEdit) {
+        if (selection > level  || !isEdit) {
             isHidden = true
             render.offsetMap = object : TRERenderOffsetMap() {
                 override fun getStartOffset(): Int {

@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key.Companion.Enter
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -77,6 +79,7 @@ fun renderList(
                                 .onGloballyPositioned {
                                     lineHeight = it.size.height.dp
                                 }
+                                .pointerHoverIcon(PointerIcon.Text)
                         ){
                             treBlockState.block.getDisplay().getComposable().invoke()
                         }

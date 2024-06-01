@@ -5,7 +5,7 @@ import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.render.parser.LineParser
 import indi.midreamsheep.app.tre.shared.render.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
@@ -26,10 +26,10 @@ class DefaultParser: LineParser {
         block: TRECoreBlock
     ): TRERender {
         val render = TRERender(block)
-        val treCoreStyleTextRoot = TRECoreStyleTextRoot()
+        val treCoreStyleTextRoot = TRECoreTreeRoot()
         render.styleText.styleTextTree = treCoreStyleTextRoot
 
-        val list = spanParser!!.parse(text, selection,block.isFocus.value, render)
+        val list = spanParser!!.parse(text, render)
         for (styleTextLeaf in list) {
             treCoreStyleTextRoot.addChildren(styleTextLeaf)
         }

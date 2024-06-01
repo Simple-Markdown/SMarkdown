@@ -7,11 +7,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
 import indi.midreamsheep.app.tre.shared.render.render.offsetmap.TRERenderOffsetMap
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 
 class StyleTextQuoteRoot(
     val level: Int,
-): TRECoreStyleTextRoot() {
+): TRECoreTreeRoot() {
 
     override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {
@@ -25,7 +25,7 @@ class StyleTextQuoteRoot(
 class StyleTextQuotePrefix(
     private val level: Int,
     private val render: TRERender,
-): TRECoreStyleTextRoot() {
+): TRECoreTreeRoot() {
 
     private var isHidden = false
 

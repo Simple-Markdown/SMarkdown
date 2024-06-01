@@ -2,11 +2,11 @@ package indi.midreamsheep.app.tre.shared.render.parser.paragraph.list.unordered
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 
 class StyleTextUnorderedListRoot(
     private val isDisplay: Boolean,
-): TRECoreStyleTextRoot() {
+): TRECoreTreeRoot() {
 
     override fun originalToTransformed(offset: Int): Int {
         if (isDisplay){

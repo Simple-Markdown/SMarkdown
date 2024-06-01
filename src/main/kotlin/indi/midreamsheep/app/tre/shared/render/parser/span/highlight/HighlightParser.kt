@@ -6,6 +6,8 @@ import indi.midreamsheep.app.tre.shared.render.parser.InlineParser
 import indi.midreamsheep.app.tre.shared.render.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTreeInter
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreContentLeaf
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 import lombok.extern.slf4j.Slf4j
 
@@ -32,8 +34,6 @@ class HighlightParser: InlineParser {
 
     override fun generateLeaf(
         text: String,
-        selection: Int,
-        isFocus: Boolean,
         render: TRERender
     ): TREStyleTextTreeInter {
 
@@ -42,20 +42,17 @@ class HighlightParser: InlineParser {
             if (text[pointer]==')') break
             pointer++
         }
-
-        val display = selection in 1..pointer&&isFocus
-
-        val substring:String = text.substring(1, pointer)
-
-        val highlightLeaf = StyleTextHighlightLeaf(substring,display)
-
-        val list = spanParse!!.parse(substring,selection-1,isFocus,
-            render
-        )
-
-        list.forEach {
-            highlightLeaf.addChildren(it)
+        val root = TRECoreTreeRoot().apply {
+            addChildren(TRECoreContentLeaf("("))
+            addChildren(
+                StyleTextHighlightLeaf().apply {
+                    for (treStyleTextTreeInter in spanParse!!.parse(text.substring(1, pointer), render)) {
+                        addChildren(treStyleTextTreeInter)
+                    }
+                }
+            )
+            addChildren(TRECoreContentLeaf(")"))
         }
-        return highlightLeaf
+        return root
     }
 }

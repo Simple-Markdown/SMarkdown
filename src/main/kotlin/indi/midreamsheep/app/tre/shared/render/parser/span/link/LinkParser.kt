@@ -39,8 +39,6 @@ class LinkParser: InlineParser {
 
     override fun generateLeaf(
         text: String,
-        selection: Int,
-        isFocus: Boolean,
         render: TRERender
     ): TREStyleTextTreeInter {
         var pointer = 1
@@ -61,11 +59,11 @@ class LinkParser: InlineParser {
 
         val linkName = text.substring(linkStart+1, pointer)
 
-        val isDisplay = selection in 0..pointer+1 && isFocus
+        //TODO rebuild link parser
         return StyleTextLinkLeaf(
             linkName = linkName,
             displayName = displayName,
-            isDisplay =  isDisplay
+            isDisplay =  true
         )
     }
 }

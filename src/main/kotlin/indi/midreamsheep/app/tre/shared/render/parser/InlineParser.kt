@@ -8,8 +8,6 @@ interface InlineParser {
     fun getWeight(text: String): Int
     fun generateLeaf(
         text: String,
-        selection: Int,
-        isFocus: Boolean,
         render: TRERender
     ): TREStyleTextTreeInter
 }

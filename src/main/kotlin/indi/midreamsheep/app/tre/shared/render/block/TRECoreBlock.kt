@@ -26,8 +26,8 @@ import indi.midreamsheep.app.tre.shared.render.render.TREOffsetMappingAdapter
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
 import indi.midreamsheep.app.tre.shared.render.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.shared.render.render.prebutton.TRELinePreButton
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreLeaf
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreContentLeaf
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 import indi.midreamsheep.app.tre.shared.tool.text.filter
 
 class TRECoreBlock(
@@ -38,8 +38,8 @@ class TRECoreBlock(
     private var oldValue: TextFieldValue = TextFieldValue("")
     var render: MutableState<TRERender> = mutableStateOf(
         TRERender(this).apply {
-            styleText.styleTextTree = TRECoreStyleTextRoot().apply {
-                addChildren(TRECoreLeaf(""))
+            styleText.styleTextTree = TRECoreTreeRoot().apply {
+                addChildren(TRECoreContentLeaf(""))
             }
         }
     )
@@ -113,7 +113,8 @@ class TRECoreBlock(
                 .focusRequester(focusRequester)
                 .onPreviewKeyEvent {
                     return@onPreviewKeyEvent render.value.listener.handleKeyEvent(it, context)
-                },
+                }
+            ,
             visualTransformation = { _ ->
                 TransformedText(
                     text = render.value.styleText.styleTextTree!!.getAnnotatedString().value!!,

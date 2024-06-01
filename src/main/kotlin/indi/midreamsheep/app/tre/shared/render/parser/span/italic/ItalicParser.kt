@@ -10,6 +10,7 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @InLineParserList
 @MapKey("*")
+//TODO 重写计算算法
 class ItalicParser: InlineParser {
 
     @Injector
@@ -38,8 +39,6 @@ class ItalicParser: InlineParser {
 
     override fun generateLeaf(
         text: String,
-        selection: Int,
-        isFocus: Boolean,
         render: TRERender
     ): TREStyleTextTreeInter {
         var pointer = 1
@@ -53,16 +52,18 @@ class ItalicParser: InlineParser {
             if (text[pointer]!='*') break
             pointer++
         }
-        val substring:String = text.substring(1, pointer - 1)
+        val substring = text.substring(1, pointer - 1)
 
-        val isDisplay = selection in 0..pointer&&isFocus
-
+        println("text: $text;subString: $substring")
         val (childrenList) = spanParse!!.parse(
-            substring,selection-1,isFocus,
+            substring,
             render
         )
-        val italicLeaf = StyleTextItalicLeaf(isDisplay)
-        italicLeaf.addChildren(childrenList)
+        val italicLeaf = StyleTextItalicLeaf().apply {
+            addChildren(ItalicAffix())
+            addChildren(childrenList)
+            addChildren(ItalicAffix())
+        }
         return italicLeaf
     }
 }

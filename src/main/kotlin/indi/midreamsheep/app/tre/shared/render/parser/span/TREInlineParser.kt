@@ -1,8 +1,9 @@
 package indi.midreamsheep.app.tre.shared.render.parser.span
 
+import indi.midreamsheep.app.tre.shared.render.parser.InlineParser
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTreeInter
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreLeaf
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreContentLeaf
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
@@ -16,21 +17,17 @@ class TREInlineParser {
     /**
      * 块解析器
      * 参数：text 将要解析的文本
-     *          selection 光标位置，光标位置为相对位置，即相对与text的位置
-     *          isFocus 是否拥有焦点
      *          offsetMapping 偏移量映射
      * */
     fun parse(
         text: String,
-        selection: Int,
-        isFocus: Boolean,
         render: TRERender
     ): List<TREStyleTextTreeInter>
     {
 
         if (text.isEmpty()){
             return listOf(
-                TRECoreLeaf("")
+                TRECoreContentLeaf("")
             )
         }
 
@@ -51,7 +48,7 @@ class TREInlineParser {
                 originalOffsetStart++
                 continue
             }
-            val spanList:MutableList<indi.midreamsheep.app.tre.shared.render.parser.InlineParser> = mutableListOf()
+            val spanList:MutableList<InlineParser> = mutableListOf()
             spanParsers.forEach {
                 if (it.formatCheck(text.substring(originalOffsetStart))){
                     spanList.add(it)
@@ -74,7 +71,7 @@ class TREInlineParser {
 
             // 处理普通文本
             if (normalString.isNotEmpty()) {
-                resultList.add(TRECoreLeaf(normalString))
+                resultList.add(TRECoreContentLeaf(normalString))
                 transformedPoint += normalString.length
                 normalString = ""
             }
@@ -82,8 +79,6 @@ class TREInlineParser {
             //进行解析
             val leaf = parser!!.generateLeaf(
                 text.substring(originalOffsetStart),
-                selection - originalOffsetStart,
-                isFocus,
                 render
             )
 
@@ -92,7 +87,7 @@ class TREInlineParser {
             resultList.add(leaf)
         }
         if (normalString.isNotEmpty()) {
-            resultList.add(TRECoreLeaf(normalString))
+            resultList.add(TRECoreContentLeaf(normalString))
         }
         return resultList
     }

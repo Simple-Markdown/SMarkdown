@@ -6,13 +6,13 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 
 class StyleTextLinkLeaf(
     private val displayName:String,
     private val linkName:String,
     private val isDisplay: Boolean
-): TRECoreStyleTextRoot() {
+): TRECoreTreeRoot() {
 
     /**
      * 获取用于显示的AnnotatedString

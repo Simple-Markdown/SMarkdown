@@ -9,7 +9,7 @@ import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.render.parser.LineParser
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
 import indi.midreamsheep.app.tre.shared.render.render.prebutton.TRELinePreButton
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreLeaf
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreContentLeaf
 import indi.midreamsheep.app.tre.tool.id.IdUtil
 
 @LineParserMap
@@ -39,7 +39,7 @@ class HeadParser: LineParser {
                 StyleTextHeadPrefix(level,render)
             )
             addChildren(
-                TRECoreLeaf(subSequence.toString())
+                TRECoreContentLeaf(subSequence.toString())
             )
         }
         render.styleText.suffixLineDecorations.add(

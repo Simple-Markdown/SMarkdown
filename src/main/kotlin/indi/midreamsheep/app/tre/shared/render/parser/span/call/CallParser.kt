@@ -11,9 +11,9 @@ import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.unit.sp
 import cn.hutool.core.lang.generator.SnowflakeGenerator
 import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParserList
+import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTreeInter
-import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import lombok.extern.slf4j.Slf4j
 
 /**
@@ -34,8 +34,6 @@ class CallParser: indi.midreamsheep.app.tre.shared.render.parser.InlineParser {
 
     override fun generateLeaf(
         text: String,
-        selection: Int,
-        isFocus: Boolean,
         render: TRERender
     ): TREStyleTextTreeInter {
         val id = SnowflakeGenerator().next()!!
@@ -49,8 +47,8 @@ class CallParser: indi.midreamsheep.app.tre.shared.render.parser.InlineParser {
             )
         }
         return StyleTextCallLeaf(
-            !isFocus,
-            id
+            true
+            ,id
         )
     }
 }

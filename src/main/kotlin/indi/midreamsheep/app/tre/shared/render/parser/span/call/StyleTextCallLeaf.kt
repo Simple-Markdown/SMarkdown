@@ -6,12 +6,12 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 
 class StyleTextCallLeaf(
     private val isDisplay: Boolean,
     private val id: Long
-): TRECoreStyleTextRoot() {
+): TRECoreTreeRoot() {
 
     override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
         return buildAnnotatedString {

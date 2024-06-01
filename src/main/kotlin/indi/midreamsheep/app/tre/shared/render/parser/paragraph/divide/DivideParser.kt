@@ -13,8 +13,8 @@ import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.render.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreLeaf
-import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreStyleTextRoot
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreContentLeaf
+import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 
 @LineParserMap
 @MapKey("-")
@@ -41,8 +41,8 @@ class DivideParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
         blockManager: TREBlockManager,
         block: TRECoreBlock
     ): TRERender {
-        val apply = TRECoreLeaf(text)
-        val tree = TRECoreStyleTextRoot()
+        val apply = TRECoreContentLeaf(text)
+        val tree = TRECoreTreeRoot()
         tree.addChildren(apply)
 
         val render = TRERender(block)
