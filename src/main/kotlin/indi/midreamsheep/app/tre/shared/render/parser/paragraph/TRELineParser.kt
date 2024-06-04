@@ -22,7 +22,7 @@ class TRELineParser {
     ): TRERender {
         if(text.isEmpty()) {
             val treCoreStyleTextRoot = TRECoreTreeRoot().apply {
-                addChildren(TRECoreContentLeaf(""))
+                addChild(TRECoreContentLeaf(""))
             }
             val render = TRERender(block)
             render.styleText.styleTextTree = treCoreStyleTextRoot

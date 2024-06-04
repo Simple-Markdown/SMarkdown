@@ -35,10 +35,10 @@ class HeadParser: LineParser {
         if (subSequence.isNotEmpty()) subSequence = subSequence.subSequence(1, subSequence.length)
         val render = TRERender(block)
         render.styleText.styleTextTree = StyleTextHeadRoot(level).apply {
-            addChildren(
+            addChild(
                 StyleTextHeadPrefix(level,render)
             )
-            addChildren(
+            addChild(
                 TRECoreContentLeaf(subSequence.toString())
             )
         }

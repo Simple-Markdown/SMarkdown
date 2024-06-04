@@ -36,9 +36,15 @@ abstract class TREStyleTextTree: TREStyleTextTreeInter {
 
     override fun getAnnotatedString() = styleTree
 
-    override fun addChildren(styleTextTree: TREStyleTextTreeInter) {
+    override fun addChild(styleTextTree: TREStyleTextTreeInter) {
         children.add(styleTextTree)
         styleTextTree.setParent(this)
+    }
+
+    override fun addChildren(styleTextTrees: Array<TREStyleTextTreeInter>) {
+        for (styleTextTree in styleTextTrees) {
+            addChild(styleTextTree)
+        }
     }
 
     override fun getChildren() = children.toTypedArray()

@@ -31,7 +31,7 @@ class DefaultParser: LineParser {
 
         val list = spanParser!!.parse(text, render)
         for (styleTextLeaf in list) {
-            treCoreStyleTextRoot.addChildren(styleTextLeaf)
+            treCoreStyleTextRoot.addChild(styleTextLeaf)
         }
         block.propertySet.clear()
         return render

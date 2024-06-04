@@ -28,7 +28,7 @@ class StyleTextBoldLeaf: TRECoreTreeRoot() {
     }
 }
 
-class StyleTextBoldFix: TRECoreTreeRoot() {
+class StyleTextBoldAffix: TRECoreTreeRoot() {
 
     private var isDisplay = false
 

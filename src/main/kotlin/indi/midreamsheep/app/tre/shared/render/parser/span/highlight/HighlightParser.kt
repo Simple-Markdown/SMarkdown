@@ -43,15 +43,15 @@ class HighlightParser: InlineParser {
             pointer++
         }
         val root = TRECoreTreeRoot().apply {
-            addChildren(TRECoreContentLeaf("("))
-            addChildren(
+            addChild(TRECoreContentLeaf("("))
+            addChild(
                 StyleTextHighlightLeaf().apply {
                     for (treStyleTextTreeInter in spanParse!!.parse(text.substring(1, pointer), render)) {
-                        addChildren(treStyleTextTreeInter)
+                        addChild(treStyleTextTreeInter)
                     }
                 }
             )
-            addChildren(TRECoreContentLeaf(")"))
+            addChild(TRECoreContentLeaf(")"))
         }
         return root
     }

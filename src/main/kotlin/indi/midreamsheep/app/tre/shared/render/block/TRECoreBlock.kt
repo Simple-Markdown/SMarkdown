@@ -39,7 +39,7 @@ class TRECoreBlock(
     var render: MutableState<TRERender> = mutableStateOf(
         TRERender(this).apply {
             styleText.styleTextTree = TRECoreTreeRoot().apply {
-                addChildren(TRECoreContentLeaf(""))
+                addChild(TRECoreContentLeaf(""))
             }
         }
     )

@@ -43,7 +43,7 @@ class DivideParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
     ): TRERender {
         val apply = TRECoreContentLeaf(text)
         val tree = TRECoreTreeRoot()
-        tree.addChildren(apply)
+        tree.addChild(apply)
 
         val render = TRERender(block)
         render.styleText.styleTextTree = tree

@@ -39,7 +39,7 @@ class QuoteParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
         val level = getLevel(text)
 
         render.styleText.styleTextTree = StyleTextQuoteRoot(level).apply {
-            addChildren(StyleTextQuotePrefix(level,render))
+            addChild(StyleTextQuotePrefix(level,render))
         }
         val parse = parser!!.parse(
             text.substring(level*2),

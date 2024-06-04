@@ -57,7 +57,7 @@ class UnorderedListParser: LineParser {
         )
 
         for (treStyleTextTree in parse) {
-            render.styleText.styleTextTree!!.addChildren(treStyleTextTree)
+            render.styleText.styleTextTree!!.addChild(treStyleTextTree)
         }
         render.styleText.prefixTextDecorations.add(
             Display {

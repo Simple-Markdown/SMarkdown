@@ -46,7 +46,11 @@ interface TREStyleTextTreeInter {
     /**
      * 添加子节点
      * */
-    fun addChildren(styleTextTree: TREStyleTextTreeInter)
+    fun addChild(styleTextTree: TREStyleTextTreeInter)
+    /**
+     * 添加子节点
+     * */
+    fun addChildren(styleTextTrees: Array<TREStyleTextTreeInter>)
     /**
      * 获取子节点
      * */

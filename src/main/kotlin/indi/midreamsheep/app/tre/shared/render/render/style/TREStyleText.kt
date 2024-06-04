@@ -27,7 +27,7 @@ class TREStyleText(line: TRECoreBlock) {
     var preview:Boolean = true
 
     fun append(style: TREStyleText){
-        styleTextTree?.addChildren(style.styleTextTree!!)
+        styleTextTree?.addChild(style.styleTextTree!!)
         prefixLineDecorations.addAll(style.prefixLineDecorations)
         prefixTextDecorations.addAll(style.prefixTextDecorations)
         suffixLineDecorations.addAll(style.suffixLineDecorations)
