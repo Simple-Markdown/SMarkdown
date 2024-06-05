@@ -11,16 +11,15 @@ interface LineParser {
      * 行格式检查
      * 通过检查才会调用getComposable进行渲染
      * */
-    fun formatCheck(text: String):Boolean = true
+    fun formatCheck(
+        text: String,
+        blockManager: TREBlockManager,
+        lineNumber: Int
+    ):Boolean = true
     /**
      * 获取渲染函数
      * */
-    fun buildRender(
-        text: String,
-        selection:Int,
-        blockManager: TREBlockManager,
-        block: TRECoreBlock
-    ): TRERender
+    fun buildRender(text: String, block: TRECoreBlock): TRERender
 
 
     /**

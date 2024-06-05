@@ -6,29 +6,23 @@ import indi.midreamsheep.app.tre.shared.render.parser.InlineParser
 import indi.midreamsheep.app.tre.shared.render.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTreeInter
+import indi.midreamsheep.app.tre.shared.tool.text.findAffixPoint
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @InLineParserList
 @MapKey("*")
-//TODO 重写计算算法
 class ItalicParser: InlineParser {
+
+    companion object{
+        const val ITALIC_AFFIX = "*"
+    }
 
     @Injector
     private val spanParse: TREInlineParser? = null
 
     override fun formatCheck(text: String): Boolean {
-        if (text.length<2) return false
-        //找到下一个不为*的位置
-        var pointer = 0
-        while (pointer<text.length) {
-            if (text[pointer]!='*') break
-            pointer++
-        }
-        if (pointer==text.length) return false
-        //找到下一个为*的位置
-        while (pointer<text.length) {
-            if (text[pointer]=='*') return true
-            pointer++
+        findAffixPoint(text, ITALIC_AFFIX).let {
+            if (it.first!=-1&&it.second!=-1) return true
         }
         return false
     }
@@ -41,28 +35,11 @@ class ItalicParser: InlineParser {
         text: String,
         render: TRERender
     ): TREStyleTextTreeInter {
-        var pointer = 1
-        while (pointer<text.length-1) {
-            if (text[pointer]=='*') break
-            pointer++
-        }
-        //找到下一个不为*的位置
-        pointer++
-        while (pointer<text.length) {
-            if (text[pointer]!='*') break
-            pointer++
-        }
-        val substring = text.substring(1, pointer - 1)
-
-        println("text: $text;subString: $substring")
-        val (childrenList) = spanParse!!.parse(
-            substring,
-            render
-        )
+        val substring = text.substring(1, findAffixPoint(text, ITALIC_AFFIX).second)
         val italicLeaf = StyleTextItalicLeaf().apply {
-            addChildren(ItalicAffix())
-            addChildren(childrenList)
-            addChildren(ItalicAffix())
+            addChild(ItalicAffix())
+            addChildren(spanParse!!.parse(substring, render).toTypedArray())
+            addChild(ItalicAffix())
         }
         return italicLeaf
     }

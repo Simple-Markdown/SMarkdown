@@ -13,9 +13,9 @@ class StyleTextCallLeaf(
     private val id: Long
 ): TRECoreTreeRoot() {
 
-    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
+    override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {
-            if (isDisplay||!isFocus){
+            if (isDisplay){
                 appendInlineContent(id.toString())
                 return@buildAnnotatedString
             }

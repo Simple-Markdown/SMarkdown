@@ -10,10 +10,7 @@ import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECo
 
 class StyleTextItalicLeaf: TRECoreTreeRoot() {
 
-    /**
-     * 获取用于显示的AnnotatedString
-     * */
-    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
+    override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {
             withStyle(
                 style = SpanStyle(
@@ -29,7 +26,10 @@ class StyleTextItalicLeaf: TRECoreTreeRoot() {
 }
 
 class ItalicAffix: TRECoreTreeRoot(){
-    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
+
+    private var isDisplay = false
+
+    override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {
             withStyle(
                 style = SpanStyle(
@@ -43,9 +43,32 @@ class ItalicAffix: TRECoreTreeRoot(){
         }
     }
 
-    private fun isDisplay(): Boolean {
+
+    fun isDisplay(): Boolean {
         val originalRange = getParent()!!.getOriginalRange()
-        return originalRange.getStart() <= absoluteSelection && absoluteSelection <= originalRange.getEnd()
+        if(originalRange.getStart()<=absoluteSelection&&absoluteSelection<=originalRange.getEnd()&&isEdit){
+            if(!isDisplay){
+                isDisplay = true
+                refresh()
+            }
+        }else{
+            if(isDisplay){
+                isDisplay = false
+                refresh()
+            }
+        }
+        return isDisplay
     }
 
+    override fun transformedSize() = if(isDisplay) 1 else 0
+
+    override fun originalSize() = 1
+
+    override fun transformedToOriginal(offset: Int): Int {
+        return if(isDisplay) offset else 0
+    }
+
+    override fun originalToTransformed(offset: Int): Int {
+        return if(isDisplay) offset else 0
+    }
 }

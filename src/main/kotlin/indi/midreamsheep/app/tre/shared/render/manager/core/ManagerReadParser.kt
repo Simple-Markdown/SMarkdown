@@ -30,7 +30,7 @@ class ManagerReadParser {
                 //获取解析器
                 val paragraphParsers = paragraphParser[start]
                 paragraphParsers?.forEach {
-                    if (it.formatCheck(split[lineNumber])){
+                    if (it.formatCheck(split[lineNumber],manager,lineNumber)){
                         parser = it
                     }
                 }

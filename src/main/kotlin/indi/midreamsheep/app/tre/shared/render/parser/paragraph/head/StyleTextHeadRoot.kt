@@ -15,7 +15,7 @@ class StyleTextHeadRoot(
     val level: Int,
 ): TRECoreTreeRoot() {
 
-    override fun generateAnnotatedString(isFocus:Boolean): AnnotatedString {
+    override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {
             withStyle(
                 SpanStyle(
@@ -47,7 +47,7 @@ class StyleTextHeadPrefix(
 
     private var isHidden = false
 
-    override fun generateAnnotatedString(isFocus:Boolean): AnnotatedString {
+    override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {
             withStyle(
                 SpanStyle(

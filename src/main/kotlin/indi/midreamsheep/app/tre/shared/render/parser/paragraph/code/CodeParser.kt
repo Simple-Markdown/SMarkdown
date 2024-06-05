@@ -18,7 +18,7 @@ class CodeParser: LineParser {
      * 行格式检查
      * 通过检查才会调用getComposable进行渲染
      * */
-    override fun formatCheck(text: String): Boolean {
+    override fun formatCheck(text: String, blockManager: TREBlockManager, lineNumber: Int): Boolean {
         return text.startsWith("```")
     }
 
@@ -27,11 +27,10 @@ class CodeParser: LineParser {
      * */
     override fun buildRender(
         text: String,
-        selection:Int,
-        blockManager: TREBlockManager,
         block: TRECoreBlock
     ): TRERender {
         val render = TRERender(block)
+        val blockManager = block.lineState.blockManager
         render.styleText.styleTextTree = StyleTextCodeRoot(text)
         render.styleText.preview = false
         render.styleText.previewDisplay = Display {

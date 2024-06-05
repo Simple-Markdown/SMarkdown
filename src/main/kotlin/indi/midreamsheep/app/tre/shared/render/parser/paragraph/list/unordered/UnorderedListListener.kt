@@ -41,7 +41,6 @@ class UnorderedListListener(
                         stateManager.getTREBlockStateList().indexOf(treCoreBlock.lineState)
                     )
                 )
-                line.propertySet.add(id)
                 return true
             }
         }

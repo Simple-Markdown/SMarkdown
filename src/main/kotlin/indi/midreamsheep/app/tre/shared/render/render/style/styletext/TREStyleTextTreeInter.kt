@@ -22,7 +22,7 @@ interface TREStyleTextTreeInter {
     /**
      * 用于构建AnnotatedString
      * */
-    fun generateAnnotatedString(isFocus: Boolean):AnnotatedString
+    fun generateAnnotatedString():AnnotatedString
     /**
      * 获取用于显示的AnnotatedString
      * */
@@ -87,4 +87,12 @@ interface TREStyleTextTreeInter {
      * 获取子节点的转换后文本偏移
      * */
     fun getChildTransformedRange(child: TREStyleTextTreeInter): TRERangeInter
+    /**
+     * 当解析出时调用
+     * */
+    fun insert()
+    /**
+     * 当解析出时调用
+     * */
+    fun remove()
 }

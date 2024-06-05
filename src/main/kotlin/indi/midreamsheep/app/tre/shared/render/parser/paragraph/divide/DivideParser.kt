@@ -11,34 +11,16 @@ import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.render.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreContentLeaf
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 
 @LineParserMap
-@MapKey("-")
+@MapKey("reg:^-{3,}\$|^\\*{3,}\$")
 class DivideParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
-
-    override fun formatCheck(text: String): Boolean {
-        val content = text.trim()
-        if (content.length<3) return false
-        if (content[1]!='-'||content[2]!='-'||content[0]!='-') return false
-        //如果之后是空格或者换行符，那么就是分割线
-        if (content.length==3) return true
-        val pointer = 3
-        for (i in pointer until content.length) {
-            if (content[i]!=' '&&content[i]!='\n'&&content[i]!='-'){
-                return false
-            }
-        }
-        return true
-    }
 
     override fun buildRender(
         text: String,
-        selection:Int,
-        blockManager: TREBlockManager,
         block: TRECoreBlock
     ): TRERender {
         val apply = TRECoreContentLeaf(text)

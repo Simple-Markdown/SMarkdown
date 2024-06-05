@@ -13,21 +13,19 @@ import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECo
 import indi.midreamsheep.app.tre.tool.id.IdUtil
 
 @LineParserMap
-@MapKey("#")
+@MapKey("start:#")
 class HeadParser: LineParser {
 
     companion object{
         val id = IdUtil.generateId()
     }
 
-    override fun formatCheck(text: String): Boolean {
+    override fun formatCheck(text: String, blockManager: TREBlockManager, lineNumber: Int): Boolean {
         return getLevel(text) != -1
     }
 
     override fun buildRender(
         text: String,
-        selection:Int,
-        blockManager: TREBlockManager,
         block: TRECoreBlock
     ): TRERender {
         val level = getLevel(text)
@@ -58,21 +56,16 @@ class HeadParser: LineParser {
         render.trePreButton = TRELinePreButton{
             Display{
                 {
-                HeadButton(level,block, render.styleText.styleTextTree as StyleTextHeadRoot,blockManager)
+                HeadButton(level,block, render.styleText.styleTextTree as StyleTextHeadRoot,block.lineState.blockManager)
                 }
             }
         }
         return render
     }
 
-    /**
-     * 当多个解析器都能解析时，通过权重来判断
-     * 权重为语法的复杂度，越复杂的语法权重越高，一般为特征字符的数量
-     * */
     override fun getWeight(text: String): Int {
         return getLevel(text)+1
     }
-
 
     private fun getLevel(text: String): Int {
         var level = 0
@@ -84,4 +77,17 @@ class HeadParser: LineParser {
         if (level > 6) return -1
         return level
     }
+}
+
+@LineParserMap
+@MapKey("reg:^[-=]+")
+class HeadCrossParser:LineParser{
+
+    override fun buildRender(text: String, block: TRECoreBlock): TRERender {
+        // TODO: 实现跨行解析
+        return TRERender(block)
+    }
+
+    override fun getWeight(text: String) = 1
+
 }

@@ -13,16 +13,14 @@ import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.render.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.render.parser.LineParser
 import indi.midreamsheep.app.tre.shared.render.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
-import indi.midreamsheep.app.tre.shared.render.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.tool.id.IdUtil
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @LineParserMap
-@MapKey("-")
+@MapKey("reg:- .*")
 class UnorderedListParser: LineParser {
 
     @Injector
@@ -32,20 +30,13 @@ class UnorderedListParser: LineParser {
         val ID = IdUtil.generateId()
     }
 
-    override fun formatCheck(text: String): Boolean {
-        return text.startsWith("- ")
-    }
-
-    //TODO rebuild the unordered list parser
     override fun buildRender(
         text: String,
-        selection:Int,
-        blockManager: TREBlockManager,
         block: TRECoreBlock
     ): TRERender {
         val render = TRERender(block)
 
-        val isDisplay = selection<2
+        val isDisplay = true
 
         render.styleText.styleTextTree = StyleTextUnorderedListRoot(
             isDisplay,
@@ -83,16 +74,6 @@ class UnorderedListParser: LineParser {
             id = ID,
             styleTextTree = render.styleText.styleTextTree as StyleTextUnorderedListRoot
         )
-
-        if(!isDisplay&&block.isFocus.value){
-            block.propertySet.add(ID)
-        }
-
-        if(block.propertySet.contains(ID)){
-            render.offsetMap = object : TRERenderOffsetMap() {
-                override fun getStartOffset() = 2
-            }
-        }
         return render
     }
     override fun getWeight(text: String): Int {

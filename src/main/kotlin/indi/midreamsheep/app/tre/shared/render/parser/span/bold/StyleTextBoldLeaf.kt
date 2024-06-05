@@ -13,7 +13,7 @@ class StyleTextBoldLeaf: TRECoreTreeRoot() {
     /**
      * 获取用于显示的AnnotatedString
      * */
-    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
+    override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {
             withStyle(
                 style = SpanStyle(
@@ -32,7 +32,7 @@ class StyleTextBoldAffix: TRECoreTreeRoot() {
 
     private var isDisplay = false
 
-    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
+    override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {
             if(isDisplay()){
                 withStyle(
@@ -48,7 +48,7 @@ class StyleTextBoldAffix: TRECoreTreeRoot() {
 
     fun isDisplay(): Boolean {
         val originalRange = getParent()!!.getOriginalRange()
-        if(originalRange.getStart()<=absoluteSelection&&absoluteSelection<=originalRange.getEnd()){
+        if(originalRange.getStart()<=absoluteSelection&&absoluteSelection<=originalRange.getEnd()&&isEdit){
             if(!isDisplay){
                 isDisplay = true
                 refresh()

@@ -19,20 +19,18 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 class QuoteParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
 
     @Injector
-    val parser: indi.midreamsheep.app.tre.shared.render.parser.paragraph.TRELineParser? = null
+    val parser: indi.midreamsheep.app.tre.shared.render.parser.paragraph.TRECoreLineParser? = null
 
     companion object{
         val id = IdUtil.generateId()
     }
 
-    override fun formatCheck(text: String): Boolean {
+    override fun formatCheck(text: String, blockManager: TREBlockManager, lineNumber: Int): Boolean {
         return getLevel(text) != -1
     }
 
     override fun buildRender(
         text: String,
-        selection:Int,
-        blockManager: TREBlockManager,
         block: TRECoreBlock
     ): TRERender {
         val render = TRERender(block)
@@ -43,9 +41,7 @@ class QuoteParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
         }
         val parse = parser!!.parse(
             text.substring(level*2),
-            selection-level*2,
             block,
-            blockManager
         )
 
         repeat(level) {
@@ -77,9 +73,6 @@ class QuoteParser: indi.midreamsheep.app.tre.shared.render.parser.LineParser {
             parse.listener,
             render.styleText.styleTextTree as StyleTextQuoteRoot
         )
-        if (selection>=level*2||blockManager.getCurrentBlock()!=block.lineState){
-            block.propertySet.add(id)
-        }
         return render
     }
 

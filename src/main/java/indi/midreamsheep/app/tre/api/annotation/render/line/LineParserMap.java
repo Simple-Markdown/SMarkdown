@@ -1,6 +1,5 @@
 package indi.midreamsheep.app.tre.api.annotation.render.line;
 
-import indi.midreamsheep.app.tre.desktop.page.editor.model.toolbar.TopBarItem;
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapInject;
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment;
 
@@ -11,7 +10,7 @@ import java.lang.annotation.Target;
 /**
  * 用于标记一个类是一个行解析器，用起始符号进行判断
  * @author midreamsheep
- * 标记类必须继承 {@link TopBarItem}
+ * 标记类的参数必须：start:{StartChar}或者reg:{RegularExpression}
  * */
 @Comment
 @Target({ElementType.TYPE, ElementType.FIELD})

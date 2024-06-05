@@ -8,6 +8,7 @@ import indi.midreamsheep.app.tre.shared.render.render.TRERender
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTreeInter
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreContentLeaf
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
+import indi.midreamsheep.app.tre.shared.tool.text.findAffixPoint
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 import lombok.extern.slf4j.Slf4j
 
@@ -20,12 +21,8 @@ class HighlightParser: InlineParser {
     private val spanParse: TREInlineParser? = null
 
     override fun formatCheck(text: String): Boolean {
-        if (text.length<2) return false
-        //找到下一个)
-        var pointer = 1
-        while (pointer<text.length) {
-            if (text[pointer]==')') return true
-            pointer++
+        findAffixPoint(text,"(",")",0).let {
+            if (it.first == 0 && it.second == text.length - 1) return true
         }
         return false
     }
@@ -36,17 +33,11 @@ class HighlightParser: InlineParser {
         text: String,
         render: TRERender
     ): TREStyleTextTreeInter {
-
-        var pointer = 1
-        while (pointer<text.length-1) {
-            if (text[pointer]==')') break
-            pointer++
-        }
         val root = TRECoreTreeRoot().apply {
             addChild(TRECoreContentLeaf("("))
             addChild(
                 StyleTextHighlightLeaf().apply {
-                    for (treStyleTextTreeInter in spanParse!!.parse(text.substring(1, pointer), render)) {
+                    for (treStyleTextTreeInter in spanParse!!.parse(text.substring(1, findAffixPoint(text,"(",")",0).second), render)) {
                         addChild(treStyleTextTreeInter)
                     }
                 }

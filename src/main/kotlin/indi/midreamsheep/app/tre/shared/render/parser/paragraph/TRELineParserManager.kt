@@ -1,25 +1,29 @@
 package indi.midreamsheep.app.tre.shared.render.parser.paragraph
 
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
-import indi.midreamsheep.app.tre.api.annotation.render.line.LineRegParser
-import indi.midreamsheep.app.tre.api.inter.manager.TREListManager
+import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.render.parser.LineParser
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @Comment
-class TRELineParserManager : TREListManager<LineParser>{
+class TRELineParserManager{
+
+    private var init = false
 
     @LineParserMap
-    private val paragraphParser = HashMap<Char,List<LineParser>>()
+    private val parser = HashMap<String,List<LineParser>>()
 
-    @LineRegParser
+    private val paragraphParser = HashMap<Char,MutableList<LineParser>>()
+
     private val paragraphRegParser = HashMap<String,List<LineParser>>()
 
     @Injector
     private val defaultParser: DefaultParser? = null
 
-    override fun get(text: String): LineParser {
+    fun get(text: String, blockManager: TREBlockManager,lineNumber: Int): LineParser {
+        if(!init) init()
+
         val startChar = text[0]
         var parser: LineParser? = null;
         val parserList:MutableList<LineParser> = mutableListOf()
@@ -32,7 +36,7 @@ class TRELineParserManager : TREListManager<LineParser>{
             }
         }
         paragraphParsers?.forEach {
-            if (it.formatCheck(text)){
+            if (it.formatCheck(text, blockManager,lineNumber)){
                 parserList.add(it)
             }
         }
@@ -51,4 +55,23 @@ class TRELineParserManager : TREListManager<LineParser>{
         return parser!!
     }
 
+
+    private fun init(){
+        for ((reg, line) in parser) {
+            if(reg.startsWith("reg:")){
+                paragraphRegParser[reg.substring(4)] = line
+                continue
+            }
+            var startChar = reg[0]
+            if(reg.startsWith("start:")){
+                startChar = reg[6]
+            }
+            if(paragraphParser.containsKey(startChar)){
+                paragraphParser[startChar]!!.addAll(line)
+            }else{
+                paragraphParser[startChar] = line.toMutableList()
+            }
+        }
+        init = true
+    }
 }

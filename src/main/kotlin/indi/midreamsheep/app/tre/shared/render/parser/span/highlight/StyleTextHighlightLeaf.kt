@@ -9,7 +9,7 @@ import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECo
 
 class StyleTextHighlightLeaf: TRECoreTreeRoot() {
 
-    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
+    override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {
             if (isHighlight()){
                 withStyle(
@@ -18,13 +18,13 @@ class StyleTextHighlightLeaf: TRECoreTreeRoot() {
                     )
                 ) {
                     for (child in getChildren()) {
-                        append(child.generateAnnotatedString(isFocus))
+                        append(child.generateAnnotatedString())
                     }
                 }
             }
             else {
                 for (child in getChildren()) {
-                    append(child.generateAnnotatedString(isFocus))
+                    append(child.generateAnnotatedString())
                 }
             }
         }

@@ -13,10 +13,10 @@ class StyleTextQuoteRoot(
     val level: Int,
 ): TRECoreTreeRoot() {
 
-    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
+    override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {
             for (child in getChildren()) {
-                append(child.generateAnnotatedString(isFocus))
+                append(child.generateAnnotatedString())
             }
         }
     }
@@ -29,7 +29,7 @@ class StyleTextQuotePrefix(
 
     private var isHidden = false
 
-    override fun generateAnnotatedString(isFocus: Boolean): AnnotatedString {
+    override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {
             withStyle(
                 SpanStyle(

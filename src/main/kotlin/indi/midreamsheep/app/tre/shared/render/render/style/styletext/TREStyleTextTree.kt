@@ -15,7 +15,7 @@ abstract class TREStyleTextTree: TREStyleTextTreeInter {
 
     private var parent: TREStyleTextTreeInter? = null
 
-    override fun reset(selection: Int,absoluteSelection:Int, isEdit: Boolean) {
+    override fun reset(selection: Int, absoluteSelection:Int, isEdit: Boolean) {
         this.selection = selection
         this.absoluteSelection = absoluteSelection
         this.isEdit = isEdit
@@ -24,11 +24,11 @@ abstract class TREStyleTextTree: TREStyleTextTreeInter {
             child.reset(selection,absoluteSelection, isEdit)
             select -= child.transformedSize()
         }
-        this.styleTree.value = generateAnnotatedString(isEdit)
+        this.styleTree.value = generateAnnotatedString()
     }
 
     override fun refresh() {
-        this.styleTree.value = generateAnnotatedString(isEdit)
+        this.styleTree.value = generateAnnotatedString()
         if(parent != null){
             parent!!.refresh()
         }
@@ -161,4 +161,8 @@ abstract class TREStyleTextTree: TREStyleTextTreeInter {
             return getStart() + originalSize()
         }
     }
+
+    override fun remove() {}
+
+    override fun insert() {}
 }

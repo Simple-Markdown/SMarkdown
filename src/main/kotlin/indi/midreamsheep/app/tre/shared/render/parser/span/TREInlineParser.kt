@@ -1,6 +1,7 @@
 package indi.midreamsheep.app.tre.shared.render.parser.span
 
 import indi.midreamsheep.app.tre.shared.render.parser.InlineParser
+import indi.midreamsheep.app.tre.shared.render.parser.RegPointTable
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.TREStyleTextTreeInter
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreContentLeaf
@@ -13,83 +14,69 @@ class TREInlineParser {
     @Injector
     private var treInlineParserManager: TREInlineParserManager? = null
 
+    fun parse(text: String, render: TRERender): List<TREStyleTextTreeInter> {
+        if (text.isEmpty()) return listOf(TRECoreContentLeaf(""))
 
-    /**
-     * 块解析器
-     * 参数：text 将要解析的文本
-     *          offsetMapping 偏移量映射
-     * */
-    fun parse(
-        text: String,
-        render: TRERender
-    ): List<TREStyleTextTreeInter>
-    {
-
-        if (text.isEmpty()){
-            return listOf(
-                TRECoreContentLeaf("")
-            )
-        }
-
-        var transformedPoint = 0
-        var originalOffsetStart = 0
-
+        val spanParserMap = treInlineParserManager!!.getSpanParserMap()
+        val preprocessReg = preprocessReg(text, treInlineParserManager!!.getRegParserMap())
+        var pointer = 0
+        var normalString = ""
         val resultList = mutableListOf<TREStyleTextTreeInter>()
 
-        var normalString = ""
-
         while(true) {
-            if (originalOffsetStart>=text.length) break
-            //获取处理器
-            val startChar = text[originalOffsetStart]
-            val spanParsers = treInlineParserManager!!.get(startChar)
-            if (spanParsers.isEmpty()) {
-                normalString += text[originalOffsetStart]
-                originalOffsetStart++
+            if (pointer>=text.length) break
+            val startChar = text[pointer]
+            val spanParsers = spanParserMap[startChar]
+            val regParsers = preprocessReg.get(pointer)
+            if (regParsers.isEmpty()&&(spanParsers==null||spanParsers.isEmpty())){
+                normalString += text[pointer]
+                pointer++
                 continue
             }
-            val spanList:MutableList<InlineParser> = mutableListOf()
-            spanParsers.forEach {
-                if (it.formatCheck(text.substring(originalOffsetStart))){
+            val spanList:MutableList<InlineParser> = mutableListOf<InlineParser>().apply {
+                addAll(regParsers)
+            }
+            spanParsers!!.forEach {
+                if (it.formatCheck(text.substring(pointer))){
                     spanList.add(it)
                 }
             }
             var weight = 0
-            var parser: indi.midreamsheep.app.tre.shared.render.parser.InlineParser? = null
+            var parser: InlineParser? = null
             spanList.forEach {
-                val w = it.getWeight(text.substring(originalOffsetStart))
+                val w = it.getWeight(text.substring(pointer))
                 if (w>weight){
                     weight = w
                     parser = it
                 }
             }
             if (parser==null){
-                normalString += text[originalOffsetStart]
-                originalOffsetStart++
+                normalString += text[pointer]
+                pointer++
                 continue
             }
-
             // 处理普通文本
             if (normalString.isNotEmpty()) {
                 resultList.add(TRECoreContentLeaf(normalString))
-                transformedPoint += normalString.length
                 normalString = ""
             }
-
-            //进行解析
-            val leaf = parser!!.generateLeaf(
-                text.substring(originalOffsetStart),
-                render
-            )
-
-            transformedPoint += leaf.transformedSize()
-            originalOffsetStart += leaf.originalSize()
+            val leaf = parser!!.generateLeaf(text.substring(pointer), render)
             resultList.add(leaf)
+            pointer += leaf.originalSize()
         }
         if (normalString.isNotEmpty()) {
             resultList.add(TRECoreContentLeaf(normalString))
         }
         return resultList
     }
+
+    private fun preprocessReg(text: String, regParserMap: HashMap<String, InlineParser>): RegPointTable {
+        return RegPointTable().apply {
+            for ((reg, parser) in regParserMap) {
+                add(text, reg, parser)
+            }
+        }
+    }
+
 
 }

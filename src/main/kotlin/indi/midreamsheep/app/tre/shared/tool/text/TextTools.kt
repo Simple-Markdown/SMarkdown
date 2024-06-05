@@ -20,24 +20,40 @@ fun findAffixPoint(
     var pointer = startPoint
     val prefixArray = prefix.toCharArray()
     val suffixArray = suffix.toCharArray()
+    var isThrough = false
     if(text.length<prefixArray.size+suffixArray.size){
         return Pair(-1,-1)
     }
+    //找到第一个满足前缀的位置
     while (pointer<text.length-prefixArray.size) {
         if (isStartWithInPoint(text,prefix,pointer)){
+            isThrough = true
             break
         }
         pointer++
     }
-    if (pointer==text.length-prefixArray.size) return Pair(-1,-1)
+    //若不存在前缀则返回-1
+    if (!isThrough) return Pair(-1,-1)
+    isThrough = false
+    //继续前进到前缀失效处
+    while (pointer<text.length-prefixArray.size) {
+        if (!isStartWithInPoint(text,prefix,pointer)){
+            pointer--
+            break
+        }
+        pointer++
+    }
     val start = pointer
+    //前进到开始识别后缀处
     pointer += prefixArray.size
-    while (pointer<text.length-suffixArray.size) {
+    while (pointer<=text.length-suffixArray.size) {
         if (isStartWithInPoint(text,suffix,pointer)){
+            isThrough = true
             break
         }
         pointer++
     }
+    if (!isThrough) return Pair(-1,-1)
     //继续向外扩展
     while (pointer<text.length-suffixArray.size) {
         if (!isStartWithInPoint(text,suffix,pointer)){

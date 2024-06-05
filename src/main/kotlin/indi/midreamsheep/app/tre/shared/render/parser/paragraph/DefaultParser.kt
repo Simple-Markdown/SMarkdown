@@ -15,14 +15,12 @@ class DefaultParser: LineParser {
     @Injector
     private val spanParser: TREInlineParser? = null
 
-    override fun formatCheck(text: String): Boolean {
+    override fun formatCheck(text: String, blockManager: TREBlockManager, lineNumber: Int): Boolean {
         return true
     }
 
     override fun buildRender(
         text: String,
-        selection:Int,
-        blockManager: TREBlockManager,
         block: TRECoreBlock
     ): TRERender {
         val render = TRERender(block)
@@ -33,7 +31,6 @@ class DefaultParser: LineParser {
         for (styleTextLeaf in list) {
             treCoreStyleTextRoot.addChild(styleTextLeaf)
         }
-        block.propertySet.clear()
         return render
     }
 

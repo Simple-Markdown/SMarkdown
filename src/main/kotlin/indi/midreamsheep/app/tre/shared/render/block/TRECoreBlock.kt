@@ -20,12 +20,9 @@ import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.model.editor.block.TREBlockAbstract
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager
-import indi.midreamsheep.app.tre.shared.render.parser.paragraph.TRELineParser
+import indi.midreamsheep.app.tre.shared.render.parser.paragraph.TRECoreLineParser
 import indi.midreamsheep.app.tre.shared.render.render.TREOffsetMappingAdapter
 import indi.midreamsheep.app.tre.shared.render.render.TRERender
-import indi.midreamsheep.app.tre.shared.render.render.offsetmap.TRERenderOffsetMap
-import indi.midreamsheep.app.tre.shared.render.render.prebutton.TRELinePreButton
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.leaf.TRECoreContentLeaf
 import indi.midreamsheep.app.tre.shared.render.render.style.styletext.root.TRECoreTreeRoot
 import indi.midreamsheep.app.tre.shared.tool.text.filter
@@ -33,47 +30,20 @@ import indi.midreamsheep.app.tre.shared.tool.text.filter
 class TRECoreBlock(
     state: TREBlockState
 ) : TREBlockAbstract(state), TRETextBlock {
-    val parser = getBean(TRELineParser::class.java)
+    val parser = getBean(TRECoreLineParser::class.java)
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
-    private var oldValue: TextFieldValue = TextFieldValue("")
     var render: MutableState<TRERender> = mutableStateOf(
-        TRERender(this).apply {
-            styleText.styleTextTree = TRECoreTreeRoot().apply {
-                addChild(TRECoreContentLeaf(""))
-            }
-        }
+        TRERender(this).apply { styleText.styleTextTree = TRECoreTreeRoot().apply { addChild(TRECoreContentLeaf("")) } }
     )
     private var focusRequester: FocusRequester = FocusRequester()
     var isFocus = mutableStateOf(false)
-    //维护一张属性表，用于存储属性
-    val propertySet = HashSet<Long>()
-
-    override fun focus() {
-        isFocus.value = true
-    }
-
-    fun focus(position: Int) {
-        focus()
-        content.value = content.value.copy(selection = TextRange(position))
-    }
-
-    fun focusTransform(position: Int) = focus(render.value.styleText.styleTextTree!!.transformedToOriginal(position))
-
-    override fun focusFromLast() = focus(content.value.text.length)
-
-    override fun focusFormStart() = focus(0)
-
-    override fun releaseFocus() {
-        isFocus.value = false
-    }
 
     override fun getDisplay(): Display {
         buildContent()
         return Display{
             {
                 if(render.value.offsetMap.check(content.value.selection.start)){
-                    content.value = content.value.copy(selection = TextRange(render.value.offsetMap.resetOffset(content.value.selection.start)))
-                    buildContent()
+                   refresh( content.value.copy(selection = TextRange(render.value.offsetMap.resetOffset(content.value.selection.start))))
                 }
                 if(isFocus.value){
                     render.value.styleText.styleTextTree!!.reset(content.value.selection.start,content.value.selection.start,true)
@@ -94,18 +64,15 @@ class TRECoreBlock(
         BasicTextField(
             value = content.value,
             onValueChange = { newValue ->
+                //如何内容没有改变则不执行操作
                 if (content.value.text == newValue.text) {
-                    setTextFieldValue(newValue)
+                    refresh(newValue)
                     return@BasicTextField
                 }
+                //设置内容
                 context.editorFileManager.getStateManager().executeOperator(
-                    TREContentChange(
-                        content.value,
-                        newValue,
-                        context.editorFileManager.getStateManager().getTREBlockStateList().indexOf(lineState),
-                    )
+                    TREContentChange(content.value, newValue, context.editorFileManager.getStateManager().getTREBlockStateList().indexOf(lineState))
                 )
-
             },
             textStyle = MaterialTheme.typography.bodyLarge,
             modifier = Modifier
@@ -137,6 +104,20 @@ class TRECoreBlock(
         }
     }
 
+    private fun refresh(newValue: TextFieldValue) {
+        //如何光标未改变就不执行操作
+        if(newValue.selection.start == content.value.selection.start&&newValue.selection.end == content.value.selection.end){
+            return
+        }
+        if(newValue.selection.end != content.value.selection.end){
+            render.value.styleText.styleTextTree!!.reset(newValue.selection.start,content.value.selection.start,isFocus.value)
+        }
+        content.value = newValue
+        if(render.value.offsetMap.check(content.value.selection.start)){
+            refresh( content.value.copy(selection = TextRange(render.value.offsetMap.resetOffset(content.value.selection.start))))
+        }
+    }
+
     @Composable
     fun preview(){
         treCoreDisplayStructure(
@@ -146,35 +127,36 @@ class TRECoreBlock(
         }
     }
 
-    override fun getTextFieldValue() = content.value
-
     override fun setTextFieldValue(value: TextFieldValue) {
-        val newValue = value.filter()
-        content.value = newValue
-        if(oldValue.text == value.text){
-            render.value.styleText.styleTextTree!!.reset(value.selection.start,content.value.selection.start,isFocus.value)
-            return
-        }
+        content.value = value.filter()
         buildContent()
     }
 
     private fun buildContent(
-        treStateManager: TREBlockManager = lineState.blockManager,
         textFieldValue: TextFieldValue = content.value
     ){
-        if(oldValue.text == textFieldValue.text){
-            return
-        }
-        render.value = parser.parse(textFieldValue.text, textFieldValue.selection.start, this, treStateManager)
-        render.value.styleText.styleTextTree!!.reset(textFieldValue.selection.start,content.value.selection.start,isFocus.value)
-        oldValue = textFieldValue
+        render.value = parser.parse(textFieldValue.text, this)
+        render.value.styleText.styleTextTree!!.reset(textFieldValue.selection.start,textFieldValue.selection.start,isFocus.value)
     }
 
-    override fun getPreButton(): TRELinePreButton {
-        return render.value.trePreButton
+    fun focus(position: Int) {
+        focus()
+        refresh(content.value.copy(selection = TextRange(position)))
     }
 
-    override fun getTextFieldRange(): TRERenderOffsetMap {
-        return render.value.offsetMap
-    }
+    override fun focus() { isFocus.value = true }
+
+    fun focusTransform(position: Int) = focus(render.value.styleText.styleTextTree!!.transformedToOriginal(position))
+
+    override fun focusFromLast() = focus(content.value.text.length)
+
+    override fun focusFormStart() = focus(0)
+
+    override fun releaseFocus() { isFocus.value = false }
+
+    override fun getTextFieldValue() = content.value
+
+    override fun getPreButton() = render.value.trePreButton
+
+    override fun getTextFieldRange() = render.value.offsetMap
 }
