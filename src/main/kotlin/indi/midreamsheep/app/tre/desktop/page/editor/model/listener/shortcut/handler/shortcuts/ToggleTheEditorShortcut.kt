@@ -7,7 +7,7 @@ import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
 import indi.midreamsheep.app.tre.desktop.page.editor.context.viewmodel.EditorStateViewModel
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
-import indi.midreamsheep.app.tre.shared.render.manager.core.source.TRESourceManager
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.core.source.TRESourceManager
 
 @EditorShortcutKey
 class ToggleTheEditorShortcut: TREEditorShortcutKeyHandler() {

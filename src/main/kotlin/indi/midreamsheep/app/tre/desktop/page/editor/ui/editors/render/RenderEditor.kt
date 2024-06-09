@@ -72,7 +72,7 @@ fun renderList(
                             ,
                             verticalAlignment = Alignment.CenterVertically
                         ){
-                            treBlockState.block.preButton.getPreButton().getComposable().invoke()
+                            treBlockState.block.getPreButton().getPreButton().getComposable().invoke()
                         }
                         Box(
                             Modifier.fillMaxWidth()

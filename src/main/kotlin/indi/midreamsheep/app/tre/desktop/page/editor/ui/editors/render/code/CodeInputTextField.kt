@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
-import indi.midreamsheep.app.tre.shared.render.parser.paragraph.code.editor.TRECodeBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.code.editor.TRECodeBlock
 
 @Composable
 fun codeInputTextField(

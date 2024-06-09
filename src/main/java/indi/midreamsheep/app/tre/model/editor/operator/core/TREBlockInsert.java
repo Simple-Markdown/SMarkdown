@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.editor.operator.core;
 
-import indi.midreamsheep.app.tre.model.editor.block.TREBlock;
-import indi.midreamsheep.app.tre.shared.render.manager.TREBlockManager;
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TREBlock;
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager;
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperatorAbstract;
 import lombok.AllArgsConstructor;
 import lombok.Data;

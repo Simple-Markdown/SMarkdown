@@ -19,7 +19,7 @@ abstract class ComposeStyleGroup:ComposeStyle{
 
 }
 
-class ComposeStyleConfig:ComposeStyleGroup(){
+open class ComposeStyleConfig:ComposeStyleGroup(){
 
     private val styles = mutableListOf<ComposeStyle>()
 
@@ -40,5 +40,4 @@ class ComposeStyleConfig:ComposeStyleGroup(){
         return styles
     }
 }
-
 

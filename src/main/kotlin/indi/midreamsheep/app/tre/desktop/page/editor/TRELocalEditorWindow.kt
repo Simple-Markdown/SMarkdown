@@ -12,7 +12,7 @@ import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.model.mainpage.file.core.TRELocalFile
 import indi.midreamsheep.app.tre.service.window.TREWindow
 import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.render.manager.core.render.TRELocalFileRenderManager
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.core.render.TRELocalFileRenderManager
 import logger
 import java.io.File
 

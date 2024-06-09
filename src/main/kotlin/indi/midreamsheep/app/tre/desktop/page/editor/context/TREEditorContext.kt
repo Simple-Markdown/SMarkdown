@@ -9,8 +9,8 @@ import indi.midreamsheep.app.tre.desktop.page.editor.context.action.FileAction
 import indi.midreamsheep.app.tre.desktop.page.editor.context.viewmodel.BottomBarViewModel
 import indi.midreamsheep.app.tre.desktop.page.editor.context.viewmodel.DialogViewModel
 import indi.midreamsheep.app.tre.desktop.page.editor.context.viewmodel.EditorStateViewModel
-import indi.midreamsheep.app.tre.shared.render.manager.TREFileManager
-import indi.midreamsheep.app.tre.shared.render.listener.shortcut.inline.TREInlineShortcutKeyManager
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREFileManager
+import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline.TREInlineShortcutKeyManager
 import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 
 /**
