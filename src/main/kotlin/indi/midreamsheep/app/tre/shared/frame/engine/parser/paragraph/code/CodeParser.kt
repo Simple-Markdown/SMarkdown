@@ -3,10 +3,8 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.code
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
-import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TREBlockState
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.code.editor.TRECodeBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
@@ -30,23 +28,7 @@ class CodeParser: LineParser {
         block: TRECoreBlock
     ): TRERender {
         val render = TRERender(block)
-        val blockManager = block.getLineState().blockManager
-        render.styleText.styleTextTree = StyleTextCodeRoot(text)
-        render.styleText.preview = false
-        render.styleText.previewDisplay = Display {
-            {
-                //对于代码块进行替换
-                val newLine = TREBlockState(blockManager).apply {
-                    this.block = TRECodeBlock(this,text).apply {
-                        focus.value = true
-                    }
-                }
-                val list = blockManager.getTREBlockStateList()
-                list.indexOf(block.getLineState()).let {
-                    list[it] = newLine
-                }
-            }
-        }
+        //TODO rebuild the code parser
         return render
     }
 
@@ -62,7 +44,7 @@ class CodeParser: LineParser {
      * text解析，用于对文本进行初始化解释时调用
      * @return下一次解析的起始位置
      * */
-    override fun analyse(texts: List<String>, lineNumber: Int, state: TREBlockManager): Int {
+    override fun analyse(texts: List<String>, lineNumber: Int, treBlockManager: TREBlockManager): Int {
         //找到下一个结束
         var index = lineNumber+1
         while (true){
@@ -80,16 +62,14 @@ class CodeParser: LineParser {
                 if (index-lineNumber-1>0){
                     code.delete(code.length-1,code.length)
                 }
-                val newLine = TREBlockState(state).apply {
-                    this.block = TRECodeBlock(this,type).apply {
+                val newLine = TRECodeBlock(treBlockManager,type).apply {
                         content.value = TextFieldValue(code.toString())
-                    }
                 }
-                state.getTREBlockStateList().add(newLine)
+                treBlockManager.addBlock(newLine)
                 return index+1
             }
             index++
         }
-        return super.analyse(texts, lineNumber, state)
+        return super.analyse(texts, lineNumber, treBlockManager)
     }
 }

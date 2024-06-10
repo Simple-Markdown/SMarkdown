@@ -26,9 +26,9 @@ class TRECorePreview(val line: TRECoreBlock): Display {
                                 offset ->
                             layoutResult?.let {
                                 val position = it.getOffsetForPosition(offset)
-                                val stateManager = line.getLineState().blockManager
-                                stateManager.focusBlock(stateManager.indexOf(line.getLineState())){ state ->
-                                    (state.block as TRECoreBlock).focusTransform(position)
+                                val stateManager = line.getBlockManager()
+                                stateManager.focusBlock(stateManager.indexOf(line)){ state ->
+                                    (state as TRECoreBlock).focusTransform(position)
                                 }
                             }
                         }

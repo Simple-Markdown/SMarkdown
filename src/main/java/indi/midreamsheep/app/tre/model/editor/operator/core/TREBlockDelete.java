@@ -15,12 +15,12 @@ public class TREBlockDelete extends TREOperatorAbstract {
 
     @Override
     public void execute(TREBlockManager stateManager) {
-        block = stateManager.getTREBlockStateList().get(lineIndex).getBlock();
-        stateManager.getTREBlockStateList().remove(lineIndex);
+        block = stateManager.getTREBlock(lineIndex);
+        stateManager.removeBlock(lineIndex);
     }
 
     @Override
     public void undo(TREBlockManager stateManager) {
-        stateManager.getTREBlockStateList().add(lineIndex, block.getLineState());
+        stateManager.addBlock(lineIndex, block);
     }
 }

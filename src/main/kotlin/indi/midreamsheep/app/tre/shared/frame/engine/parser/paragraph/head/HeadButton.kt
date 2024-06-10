@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.ui.compnent.simpleclick.simpleClickable
 
 @Composable
@@ -66,7 +66,7 @@ fun HeadButton(
                                 level,
                                 i,
                                 styleTextTree,
-                                stateList.getTREBlockStateList().indexOf(line.getLineState())
+                                stateList.indexOf(line)
                             )
                         )
                         expanded = false
@@ -83,7 +83,7 @@ fun HeadButton(
                             level,
                             0,
                             styleTextTree,
-                            stateList.getTREBlockStateList().indexOf(line.getLineState())
+                            stateList.indexOf(line)
                         )
                     )
                     expanded = false

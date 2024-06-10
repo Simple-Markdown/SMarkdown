@@ -7,52 +7,58 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
 import indi.midreamsheep.app.tre.model.editor.operator.TREInitOperator
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperator
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TREBlockState
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TREBlock
 
 class CoreTREStateManager: TREBlockManager {
 
     private lateinit var context: TREEditorContext
-    private val blockStateList = mutableStateListOf<TREBlockState>()
-    private var currentMarkdownLineState: MutableState<TREBlockState?> = mutableStateOf(null)
+    private val blockStateList = mutableStateListOf<TREBlock>()
+    private var currentMarkdownLineState: MutableState<TREBlock?> = mutableStateOf(null)
 
     private var currentTREOperator: TREOperator = TREInitOperator()
 
     override fun getTREBlock(index: Int) = blockStateList[index]
 
-    override fun indexOf(treBlockState: TREBlockState) = blockStateList.indexOf(treBlockState)
+    override fun indexOf(treBlockState: TREBlock) = blockStateList.indexOf(treBlockState)
 
-    override fun getTREBlockStateList(): SnapshotStateList<TREBlockState> {
+    override fun getTREBlockList(): SnapshotStateList<TREBlock> {
         return blockStateList
     }
 
-    override fun addTREBlockState(index:Int,treBlockState: TREBlockState) = blockStateList.add(index,treBlockState)
+    override fun addTREBlockState(index:Int,treBlockState: TREBlock) = blockStateList.add(index,treBlockState)
 
     override fun getCurrentBlockIndex() = if(currentMarkdownLineState.value==null){ -1 }else{blockStateList.indexOf(getCurrentBlock())}
 
-    override fun getCurrentBlockState(): MutableState<TREBlockState?> {
+    override fun getCurrentBlockState(): MutableState<TREBlock?> {
         return currentMarkdownLineState
     }
 
-    override fun getCurrentBlock(): TREBlockState? {
+    override fun getCurrentBlock(): TREBlock? {
         return currentMarkdownLineState.value
     }
 
-    override fun setCurrentBlockState(markdownLineState: TREBlockState?) {
+    override fun setCurrentBlockState(markdownLineState: TREBlock?) {
         currentMarkdownLineState.value = markdownLineState
     }
 
     override fun getSize() = blockStateList.size
 
-    override fun focusBlock(index: Int, focus: (TREBlockState) -> Unit) {
+    override fun focusBlock(index: Int, focus: (TREBlock) -> Unit) {
         val treBlockState = blockStateList[index]
-        getCurrentBlock()?.block?.releaseFocus()
+        getCurrentBlock()?.releaseFocus()
         setCurrentBlockState(treBlockState)
         focus(treBlockState)
     }
 
-    override fun addBlock(index: Int, block: TREBlockState) {
-        blockStateList.add(index,block)
+    override fun addBlock(index: Int, blockState: TREBlock) {
+        blockStateList.add(index,blockState)
+        blockState.whenInsert()
+    }
+
+    override fun removeBlock(index: Int) {
+        val removeAt = blockStateList.removeAt(index)
+        removeAt.whenRemove()
     }
 
     override fun getContext() = context

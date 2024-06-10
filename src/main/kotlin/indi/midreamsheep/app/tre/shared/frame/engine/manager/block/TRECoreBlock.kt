@@ -19,6 +19,7 @@ import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindow
 import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.shared.api.display.Display
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRECoreLineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRELineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TREOffsetMappingAdapter
@@ -28,8 +29,8 @@ import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root
 import indi.midreamsheep.app.tre.shared.tool.text.filter
 
 class TRECoreBlock(
-    state: TREBlockState
-) : TREBlockAbstract(state), TRETextBlock {
+    blockManager:TREBlockManager
+) : TREBlockAbstract(blockManager), TRETextBlock {
     val parser = getBean(TRECoreLineParser::class.java)
     private var decorateParser: TRELineParser? = null
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
@@ -40,7 +41,6 @@ class TRECoreBlock(
     var isFocus = mutableStateOf(false)
 
     override fun getDisplay(): Display {
-        buildContent()
         return Display{
             {
                 if(render.value.offsetMap.check(content.value.selection.start)){
@@ -59,6 +59,13 @@ class TRECoreBlock(
 
     override fun getContent() = content.value.text
 
+    override fun whenInsert() {
+        buildContent()
+    }
+    override fun whenRemove() {
+        //TODO when remove method
+    }
+
     @Composable
     fun editorInput() {
         val context = TRELocalEditorWindow.LocalContext.current
@@ -72,7 +79,7 @@ class TRECoreBlock(
                 }
                 //设置内容
                 context.editorFileManager.getStateManager().executeOperator(
-                    TREContentChange(content.value, newValue, context.editorFileManager.getStateManager().getTREBlockStateList().indexOf(getLineState()))
+                    TREContentChange(content.value, newValue, context.editorFileManager.getStateManager().indexOf(this))
                 )
             },
             textStyle = MaterialTheme.typography.bodyLarge,
@@ -172,4 +179,6 @@ class TRECoreBlock(
     }
 
     fun removeDecorateParser() = setDecorateParser(null)
+
+
 }

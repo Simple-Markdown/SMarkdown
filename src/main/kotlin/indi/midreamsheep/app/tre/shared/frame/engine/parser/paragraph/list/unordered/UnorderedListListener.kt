@@ -8,9 +8,9 @@ import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakChecker
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline.shortcuts.EnterShortcut
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.render.listener.TRERenderListener
 
 class UnorderedListListener(
@@ -19,9 +19,9 @@ class UnorderedListListener(
 ): TRERenderListener() {
     override fun keyEvent(key: KeyEvent, context: TREEditorContext): Boolean {
         val stateManager = context.editorFileManager.getStateManager()
-        val lineNumber = stateManager.getTREBlockStateList().indexOf(line.getLineState())
+        val lineNumber = stateManager.indexOf(line)
         //Enter
-        val treCoreBlock = stateManager.getCurrentBlock()!!.block as TRECoreBlock
+        val treCoreBlock = stateManager.getCurrentBlock()!! as TRECoreBlock
         if (context.treTextFieldShortcutKeyManager.check(
                 TREShortcutKeyStrongChecker(
                     Key.Backspace.keyCode
@@ -37,7 +37,7 @@ class UnorderedListListener(
                             text = treCoreBlock.content.value.text.removeRange(start,start+2),
                             selection = TextRange(index)
                         ),
-                        stateManager.getTREBlockStateList().indexOf(treCoreBlock.getLineState())
+                        stateManager.indexOf(treCoreBlock)
                     )
                 )
                 return true
@@ -59,7 +59,7 @@ class UnorderedListListener(
         stateManager: TREBlockManager,
         lineNumber: Int
     ){
-        val nextLine = stateManager.getTREBlockStateList()[lineNumber+1].block as TRECoreBlock
+        val nextLine = stateManager.getTREBlock(lineNumber+1) as TRECoreBlock
         val treContentChange = TREContentChange(
             nextLine.content.value,
             nextLine.content.value.copy(

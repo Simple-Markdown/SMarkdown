@@ -8,10 +8,10 @@ fun selectionInStart(
 ):Boolean{
     val stateManager = context.editorFileManager.getStateManager()
     stateManager.getCurrentBlock()?.let {
-        if (it.block !is TRETextBlock){
+        if (it !is TRETextBlock){
             return false
         }
-        val treTextBlock = it.block as TRETextBlock
+        val treTextBlock = it as TRETextBlock
         return treTextBlock.getTextFieldValue().selection.start == treTextBlock.getTextFieldRange().getStartOffset()
     }
     return false
@@ -22,10 +22,10 @@ fun selectionInEnd(
 ):Boolean{
     val stateManager = context.editorFileManager.getStateManager()
     stateManager.getCurrentBlock()?.let {
-        if (it.block !is TRETextBlock){
+        if (it !is TRETextBlock){
             return false
         }
-        val treTextBlock = it.block as TRETextBlock
+        val treTextBlock = it
         val textField = treTextBlock.getTextFieldValue()
         val end = if(treTextBlock.getTextFieldRange().getEndOffset() == -1) textField.text.length else treTextBlock.getTextFieldRange().getEndOffset()
         return textField.selection.start == end

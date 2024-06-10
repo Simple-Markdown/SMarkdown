@@ -23,7 +23,7 @@ fun renderList(
     listState: LazyListState
 ) {
     val stateManager = TRELocalEditorWindow.LocalContext.current.editorFileManager.getStateManager()
-    val lineStateList = stateManager.getTREBlockStateList()
+    val lineStateList = stateManager.getTREBlockList()
 
     val leftPadding = remember { mutableStateOf(0.dp) }
     val rightPadding = remember { mutableStateOf(0.dp) }
@@ -32,7 +32,7 @@ fun renderList(
         state = listState,
         modifier = modifier.fillMaxSize().padding(top = 10.dp, start = 10.dp)
             .simpleClickable {
-                lineStateList[lineStateList.size - 1].block.focus()
+                lineStateList[lineStateList.size - 1].focus()
             }
             .onKeyEvent { keyEvent ->
                 return@onKeyEvent keyEvent.key == Enter
@@ -46,7 +46,7 @@ fun renderList(
                 }
             }
     ) {
-        for(treBlockState in lineStateList){
+        for(treBlock in lineStateList){
             item {
                 var preButtonOffset by remember { mutableStateOf(0.dp) }
                 var lineHeight by remember { mutableStateOf(0.dp) }
@@ -72,7 +72,7 @@ fun renderList(
                             ,
                             verticalAlignment = Alignment.CenterVertically
                         ){
-                            treBlockState.block.getPreButton().getPreButton().getComposable().invoke()
+                            treBlock.getPreButton().getPreButton().getComposable().invoke()
                         }
                         Box(
                             Modifier.fillMaxWidth()
@@ -81,7 +81,7 @@ fun renderList(
                                 }
                                 .pointerHoverIcon(PointerIcon.Text)
                         ){
-                            treBlockState.block.getDisplay().getComposable().invoke()
+                            treBlock.getDisplay().getComposable().invoke()
                         }
                     }
                     Spacer(modifier = Modifier.width(leftPadding.value))

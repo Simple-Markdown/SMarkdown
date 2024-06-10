@@ -17,11 +17,11 @@ public class TREBlockInsert extends TREOperatorAbstract {
 
     @Override
     public void execute(TREBlockManager stateManager) {
-        stateManager.getTREBlockStateList().add(lineIndex, block.getLineState());
+        stateManager.addBlock(lineIndex, block);
     }
 
     @Override
     public void undo(TREBlockManager stateManager) {
-        stateManager.getTREBlockStateList().remove(lineIndex);
+        stateManager.removeBlock(lineIndex);
     }
 }

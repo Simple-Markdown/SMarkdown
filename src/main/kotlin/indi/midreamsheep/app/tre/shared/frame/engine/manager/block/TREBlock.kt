@@ -2,6 +2,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.manager.block;
 
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.api.tre.TREId
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TRELinePreButton
 
 interface TREBlock:TREId {
@@ -28,5 +29,14 @@ interface TREBlock:TREId {
      * 获取当前的内容
      * */
     fun getContent():String
-    fun getLineState(): TREBlockState
+    fun getBlockManager(): TREBlockManager
+
+    /**
+     * 当block被加入manager时调用
+     * */
+    fun whenInsert()
+    /**
+     * 当block被移除manager时调用
+     * */
+    fun whenRemove()
 }

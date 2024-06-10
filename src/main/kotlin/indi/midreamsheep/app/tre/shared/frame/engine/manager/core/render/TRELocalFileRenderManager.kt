@@ -1,11 +1,11 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.manager.core.render
 
+import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.model.mainpage.file.TREFile
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREFileManager
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREFileManager
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.core.CoreTREStateManager
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.core.ManagerReadParser
-import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 
 class TRELocalFileRenderManager(private var file: TREFile) : TREFileManager {
 
@@ -36,9 +36,9 @@ class TRELocalFileRenderManager(private var file: TREFile) : TREFileManager {
 
     override fun getContent(): String {
         var result = ""
-        val list = markdownStateManager.getTREBlockStateList()
+        val list = markdownStateManager.getTREBlockList()
         for ((index, treLineState) in list.withIndex()) {
-            result += treLineState.block.getContent()
+            result += treLineState.getContent()
             if (index != list.size-1 ) {
                 result += "\n"
             }
@@ -47,7 +47,7 @@ class TRELocalFileRenderManager(private var file: TREFile) : TREFileManager {
     }
 
     override fun setContent(content: String) {
-        markdownStateManager.getTREBlockStateList().clear()
+        markdownStateManager.getTREBlockList().clear()
         parser.parse(markdownStateManager,content)
     }
 }

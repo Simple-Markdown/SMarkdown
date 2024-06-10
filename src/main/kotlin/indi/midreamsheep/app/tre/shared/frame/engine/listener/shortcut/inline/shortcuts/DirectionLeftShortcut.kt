@@ -12,10 +12,9 @@ class DirectionLeftShortcut: TREEditorShortcutKeyHandler() {
 
     override fun action(context: TREEditorContext?) {
         val stateManager = context!!.editorFileManager.getStateManager()
-        val treTextLine = stateManager.getCurrentBlock()
-        val index = stateManager.getTREBlockStateList().indexOf(treTextLine)
+        val index = stateManager.getCurrentBlockIndex()
         stateManager.focusBlock(index-1){
-            it.block.focusFromLast()
+            it.focusFromLast()
         }
     }
 

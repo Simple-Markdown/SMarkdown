@@ -20,7 +20,7 @@ public class TREContentChange extends TREOperatorAbstract {
 
     @Override
     public void execute(TREBlockManager stateManager) {
-        TREBlock line = stateManager.getTREBlockStateList().get(lineIndex).getBlock();
+        TREBlock line = stateManager.getTREBlock(lineIndex);
         if (line instanceof TRETextBlock textBlock) {
             textBlock.setTextFieldValue(newContent);
         }
@@ -28,7 +28,7 @@ public class TREContentChange extends TREOperatorAbstract {
 
     @Override
     public void undo(TREBlockManager stateManager) {
-        TREBlock line = stateManager.getTREBlockStateList().get(lineIndex).getBlock();
+        TREBlock line = stateManager.getTREBlock(lineIndex);
         if (line instanceof TRETextBlock textBlock) {
             textBlock.setTextFieldValue(oldContent);
         }

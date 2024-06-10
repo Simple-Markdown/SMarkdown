@@ -11,8 +11,8 @@ import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline.shortcuts.tool.selectionInStart
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRETextBlock
 
 @TextFieldShortcutKey
 class BackspaceShortcut: TREEditorShortcutKeyHandler() {
@@ -22,15 +22,15 @@ class BackspaceShortcut: TREEditorShortcutKeyHandler() {
 
         val currentState = stateManager.getCurrentBlock()!!
 
-        val treTextLine = currentState.block as TRETextBlock
+        val treTextLine = currentState as TRETextBlock
 
-        val currentLineIndex = stateManager.getTREBlockStateList().indexOf(currentState)
+        val currentLineIndex = stateManager.indexOf(currentState)
 
         stateManager.focusBlock(currentLineIndex-1){
-            it.block.focusFromLast()
+            it.focusFromLast()
         }
 
-        val lastLine = stateManager.getTREBlockStateList()[currentLineIndex-1].block as TRETextBlock
+        val lastLine = stateManager.getTREBlock(currentLineIndex-1) as TRETextBlock
         val lastLineContent = lastLine.getTextFieldValue().text
 
         val treOperatorGroup = TREOperatorGroup().apply {
@@ -56,12 +56,11 @@ class BackspaceShortcut: TREEditorShortcutKeyHandler() {
 
     override fun isEnable(context: TREEditorContext): Boolean {
         val stateManager = context.editorFileManager.getStateManager()
-        val currentBlock = stateManager.getCurrentBlock()
-        val index = stateManager.getTREBlockStateList().indexOf(currentBlock)
+        val index = stateManager.getCurrentBlockIndex()
         if(index==0){
             return false
         }
-        return (stateManager.getTREBlock(index - 1).block is TRETextBlock)&& selectionInStart(context)
+        return (stateManager.getTREBlock(index - 1) is TRETextBlock)&& selectionInStart(context)
     }
 
     override fun getKeys(): List<TREShortcutKeyChecker> {

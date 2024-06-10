@@ -2,8 +2,8 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.head
 
 import androidx.compose.ui.text.TextRange
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperatorAbstract
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 
 private fun String.insertString(
     insert: String,
@@ -32,7 +32,7 @@ class HeadChangeCommand(
         stateManager: TREBlockManager
     ){
         val isDelete = toLevel==0
-        val treCoreBlock = stateManager.getTREBlockStateList()[lineNumber].block as TRECoreBlock
+        val treCoreBlock = stateManager.getTREBlock(lineNumber) as TRECoreBlock
         val textFieldValue = treCoreBlock.getTextFieldValue()
         val originalStartOffset = styleText.getOriginalRange().getStart()
         val newValue = textFieldValue.copy(

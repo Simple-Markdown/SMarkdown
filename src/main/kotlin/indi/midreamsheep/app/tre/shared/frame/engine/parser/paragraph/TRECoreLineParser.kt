@@ -27,8 +27,8 @@ class TRECoreLineParser:TRELineParser {
         }
         return defaultParser!!
             .get(
-                text,block.getLineState().blockManager,
-                block.getLineState().blockManager.indexOf(block.getLineState())
+                text,block.getBlockManager(),
+                block.getBlockManager().indexOf(block)
             )
             .buildRender(text,block)
     }

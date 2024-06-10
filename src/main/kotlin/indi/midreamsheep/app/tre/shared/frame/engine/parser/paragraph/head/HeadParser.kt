@@ -50,7 +50,7 @@ class HeadParser: LineParser {
         render.trePreButton = TRELinePreButton{
             Display{
                 {
-                HeadButton(level,block, render.styleText.styleTextTree as StyleTextHeadRoot,block.getLineState().blockManager)
+                HeadButton(level,block, render.styleText.styleTextTree as StyleTextHeadRoot,block.getBlockManager())
                 }
 
             }
@@ -76,13 +76,13 @@ class HeadParser: LineParser {
 
 @LineParserMap
 @MapKey("reg:^[-=]+")
-class HeadCrossParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser {
+class HeadCrossParser: LineParser {
 
     override fun buildRender(text: String, block: TRECoreBlock): TRERender {
         val treRender = TRERender(block)
-        val blockManager = block.getLineState().blockManager
-        val lastBlock = blockManager.getTREBlock(blockManager.indexOf(block.getLineState()) - 1)
-        treRender.styleText.styleTextTree = StyleTextCrossHeadRoot(lastBlock.block as TRECoreBlock).apply {
+        val blockManager = block.getBlockManager()
+        val lastBlock = blockManager.getTREBlock(blockManager.indexOf(block) - 1)
+        treRender.styleText.styleTextTree = StyleTextCrossHeadRoot(lastBlock as TRECoreBlock).apply {
             addChild(TRECoreContentLeaf(text))
         }
         return treRender

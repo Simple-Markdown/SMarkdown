@@ -12,16 +12,15 @@ class DirectionRightShortcut: TREEditorShortcutKeyHandler() {
 
     override fun action(context: TREEditorContext?) {
         val stateManager = context!!.editorFileManager.getStateManager()
-        val treTextLine = stateManager.getCurrentBlock()
-        val index = stateManager.getTREBlockStateList().indexOf(treTextLine)
+        val index = stateManager.getCurrentBlockIndex()
         stateManager.focusBlock(index+1){
-            it.block.focusFormStart()
+            it.focusFormStart()
         }
     }
 
     override fun isEnable(context: TREEditorContext): Boolean {
         val stateManager = context.editorFileManager.getStateManager()
-        if(stateManager.getCurrentBlockIndex()==stateManager.getTREBlockStateList().size-1){
+        if(stateManager.getCurrentBlockIndex()==stateManager.getSize()-1){
             return false
         }
         return selectionInEnd(context)
