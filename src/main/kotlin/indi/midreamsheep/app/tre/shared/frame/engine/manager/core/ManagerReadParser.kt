@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.manager.core
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.DefaultParser
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
@@ -12,7 +12,7 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 class ManagerReadParser {
 
     @LineParserMap
-    private val paragraphParser = HashMap<Char,List<LineParser>>()
+    private val paragraphParser = HashMap<Char,List<TRELineStyleParser>>()
 
     @Injector
     private val defaultParser: DefaultParser? = null
@@ -25,7 +25,7 @@ class ManagerReadParser {
             if (lineNumber==split.size){
                 break
             }
-            var parser: LineParser? = null
+            var parser: TRELineStyleParser? = null
             if(split[lineNumber].isNotEmpty()){
                 //获取首字母
                 val start = split[lineNumber][0]

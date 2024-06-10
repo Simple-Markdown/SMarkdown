@@ -5,16 +5,12 @@ import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 
-interface LineParser {
+interface TRELineStyleParser {
     /**
      * 行格式检查
      * 通过检查才会调用getComposable进行渲染
      * */
-    fun formatCheck(
-        text: String,
-        blockManager: TREBlockManager,
-        lineNumber: Int
-    ):Boolean = true
+    fun formatCheck(text: String, blockManager: TREBlockManager, lineNumber: Int):Boolean = true
     /**
      * 获取渲染函数
      * */

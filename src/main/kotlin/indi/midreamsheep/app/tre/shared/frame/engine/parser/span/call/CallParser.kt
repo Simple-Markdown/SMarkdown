@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j
 @InLineParserList
 @MapKey("C")
 @Slf4j
-class CallParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser {
+class CallParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInlineStyleParser {
 
     override fun formatCheck(text: String): Boolean {
         if (text.length<4) return false

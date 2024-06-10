@@ -2,7 +2,6 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.span.highlight
 
 import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParserList
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
@@ -15,7 +14,7 @@ import lombok.extern.slf4j.Slf4j
 @InLineParserList
 @MapKey("(")
 @Slf4j
-class HighlightParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser {
+class HighlightParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInlineStyleParser {
 
     @Injector
     private val spanParse: TREInlineParser? = null

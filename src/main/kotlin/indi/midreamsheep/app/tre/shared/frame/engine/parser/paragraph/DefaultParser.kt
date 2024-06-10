@@ -2,7 +2,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph
 
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root.TRECoreTreeRoot
@@ -10,7 +10,7 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @Comment
-class DefaultParser: LineParser {
+class DefaultParser: TRELineStyleParser {
 
     @Injector
     private val spanParser: TREInlineParser? = null

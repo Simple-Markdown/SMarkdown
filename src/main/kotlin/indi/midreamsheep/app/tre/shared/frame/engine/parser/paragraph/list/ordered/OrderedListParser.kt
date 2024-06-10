@@ -7,7 +7,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 
 @LineParserMap
 @MapKey("reg:[0-9]+\\. .*")
-class OrderedListParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser {
+class OrderedListParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser {
 
     override fun buildRender(
         text: String,

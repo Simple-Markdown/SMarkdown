@@ -10,14 +10,14 @@ import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRECoreLineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @LineParserMap
 @MapKey(">")
-class QuoteParser: LineParser {
+class QuoteParser: TRELineStyleParser {
 
     @Injector
     val parser: TRECoreLineParser? = null

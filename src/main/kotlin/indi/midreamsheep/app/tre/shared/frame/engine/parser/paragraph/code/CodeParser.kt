@@ -5,13 +5,13 @@ import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.code.editor.TRECodeBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 
 @LineParserMap
 @MapKey("`")
-class CodeParser: LineParser {
+class CodeParser: TRELineStyleParser {
     /**
      * 行格式检查
      * 通过检查才会调用getComposable进行渲染

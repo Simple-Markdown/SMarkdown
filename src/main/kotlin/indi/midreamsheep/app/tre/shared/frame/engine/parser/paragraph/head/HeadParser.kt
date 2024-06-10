@@ -6,14 +6,14 @@ import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TRELinePreButton
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
 
 @LineParserMap
 @MapKey("start:#")
-class HeadParser: LineParser {
+class HeadParser: TRELineStyleParser {
 
     override fun formatCheck(text: String, blockManager: TREBlockManager, lineNumber: Int): Boolean {
         return getLevel(text) != -1
@@ -72,7 +72,7 @@ class HeadParser: LineParser {
 
 @LineParserMap
 @MapKey("reg:^[-=]+")
-class HeadCrossParser: LineParser {
+class HeadCrossParser: TRELineStyleParser {
 
     override fun buildRender(text: String, block: TRECoreBlock): TRERender {
         val treRender = TRERender(block)

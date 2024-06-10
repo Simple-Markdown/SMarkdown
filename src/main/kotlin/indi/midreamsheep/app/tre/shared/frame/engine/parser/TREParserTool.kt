@@ -1,9 +1,9 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser
 
 class RegPointTable{
-    private val regPointTable = HashMap<Int,MutableList<indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser>>()
+    private val regPointTable = HashMap<Int,MutableList<TREInlineStyleParser>>()
 
-    fun add(text:String, reg:String, parser: indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser){
+    fun add(text:String, reg:String, parser: TREInlineStyleParser){
         reg.toRegex().findAll(text).map { it.range.first }.toList().forEach {
             if (regPointTable.containsKey(it)){
                 regPointTable[it]!!.add(parser)
@@ -13,7 +13,7 @@ class RegPointTable{
         }
     }
 
-    fun get(point:Int) : List<indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser> {
+    fun get(point:Int) : List<TREInlineStyleParser> {
         return if (regPointTable.containsKey(point)){
             regPointTable[point]!!
         }else{

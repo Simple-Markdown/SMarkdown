@@ -2,7 +2,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph
 
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
@@ -12,21 +12,21 @@ class TRELineParserManager{
     private var init = false
 
     @LineParserMap
-    private val parser = HashMap<String,List<indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser>>()
+    private val parser = HashMap<String,List<TRELineStyleParser>>()
 
-    private val paragraphParser = HashMap<Char,MutableList<indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser>>()
+    private val paragraphParser = HashMap<Char,MutableList<TRELineStyleParser>>()
 
-    private val paragraphRegParser = HashMap<String,List<indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser>>()
+    private val paragraphRegParser = HashMap<String,List<TRELineStyleParser>>()
 
     @Injector
     private val defaultParser: DefaultParser? = null
 
-    fun get(text: String, blockManager: TREBlockManager, lineNumber: Int): indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser {
+    fun get(text: String, blockManager: TREBlockManager, lineNumber: Int): TRELineStyleParser {
         if(!init) init()
 
         val startChar = text[0]
-        var parser: indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser? = null;
-        val parserList:MutableList<indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser> = mutableListOf()
+        var parser: TRELineStyleParser? = null;
+        val parserList:MutableList<TRELineStyleParser> = mutableListOf()
         val paragraphParsers = paragraphParser[startChar]
         paragraphRegParser.forEach {
             if (it.key.toRegex().matches(text)){

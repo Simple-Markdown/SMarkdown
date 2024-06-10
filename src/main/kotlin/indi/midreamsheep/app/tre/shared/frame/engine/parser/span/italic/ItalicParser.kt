@@ -2,7 +2,6 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.span.italic
 
 import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParserList
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
@@ -11,7 +10,7 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @InLineParserList
 @MapKey("*")
-class ItalicParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser {
+class ItalicParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInlineStyleParser {
 
     companion object{
         const val ITALIC_AFFIX = "*"

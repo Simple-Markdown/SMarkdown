@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.span
 
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.RegPointTable
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInlineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
@@ -28,12 +28,12 @@ class TREInlineParser {
             val startChar = text[pointer]
             val spanParsers = spanParserMap[startChar]
             val regParsers = preprocessReg.get(pointer)
-            if (regParsers.isEmpty()&&(spanParsers==null||spanParsers.isEmpty())){
+            if (regParsers.isEmpty()&& spanParsers.isNullOrEmpty()){
                 normalString += text[pointer]
                 pointer++
                 continue
             }
-            val spanList:MutableList<indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser> = mutableListOf<indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser>().apply {
+            val spanList:MutableList<TREInlineStyleParser> = mutableListOf<TREInlineStyleParser>().apply {
                 addAll(regParsers)
             }
             spanParsers!!.forEach {
@@ -42,7 +42,7 @@ class TREInlineParser {
                 }
             }
             var weight = 0
-            var parser: indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser? = null
+            var parser: TREInlineStyleParser? = null
             spanList.forEach {
                 val w = it.getWeight(text.substring(pointer))
                 if (w>weight){
@@ -70,13 +70,11 @@ class TREInlineParser {
         return resultList
     }
 
-    private fun preprocessReg(text: String, regParserMap: HashMap<String, indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser>): indi.midreamsheep.app.tre.shared.frame.engine.parser.RegPointTable {
-        return indi.midreamsheep.app.tre.shared.frame.engine.parser.RegPointTable().apply {
+    private fun preprocessReg(text: String, regParserMap: HashMap<String, TREInlineStyleParser>): RegPointTable {
+        return RegPointTable().apply {
             for ((reg, parser) in regParserMap) {
                 add(text, reg, parser)
             }
         }
     }
-
-
 }

@@ -1,19 +1,19 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.span
 
 import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParserList
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInlineStyleParser
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 
 @Comment
 class TREInlineParserManager {
 
     @InLineParserList
-    private val metaParserMap = HashMap<String, List<indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser>>()
+    private val metaParserMap = HashMap<String, List<TREInlineStyleParser>>()
 
     private var init = false
     
-    private val spanParser = HashMap<Char, MutableList<indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser>>()
-    private val regParser = HashMap<String, indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser>()
+    private val spanParser = HashMap<Char, MutableList<TREInlineStyleParser>>()
+    private val regParser = HashMap<String, TREInlineStyleParser>()
 
     private fun init(){
         println(metaParserMap.size)
@@ -41,12 +41,12 @@ class TREInlineParserManager {
         }
     }
 
-    fun getSpanParserMap(): HashMap<Char, MutableList<indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser>> {
+    fun getSpanParserMap(): HashMap<Char, MutableList<TREInlineStyleParser>> {
         check()
         return spanParser
     }
 
-    fun getRegParserMap():HashMap<String, indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser> {
+    fun getRegParserMap():HashMap<String, TREInlineStyleParser> {
         check()
         return regParser
     }

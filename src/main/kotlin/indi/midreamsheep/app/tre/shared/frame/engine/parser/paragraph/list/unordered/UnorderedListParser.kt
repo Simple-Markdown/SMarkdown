@@ -13,14 +13,14 @@ import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @LineParserMap
 @MapKey("reg:- .*")
-class UnorderedListParser: LineParser {
+class UnorderedListParser: TRELineStyleParser {
 
     @Injector
     val parser: TREInlineParser? = null

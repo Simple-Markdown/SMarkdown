@@ -17,7 +17,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root
 
 @LineParserMap
 @MapKey("reg:^-{3}\$|^\\*{3}\$|_{3}")
-class DivideParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser {
+class DivideParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser {
 
     override fun buildRender(
         text: String,

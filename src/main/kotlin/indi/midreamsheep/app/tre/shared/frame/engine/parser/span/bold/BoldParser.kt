@@ -2,7 +2,6 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.span.bold
 
 import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParserList
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
@@ -13,7 +12,7 @@ import lombok.extern.slf4j.Slf4j
 @InLineParserList
 @MapKey("*")
 @Slf4j
-class BoldParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.InlineParser {
+class BoldParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInlineStyleParser {
 
     companion object{
         const val BOLD_AFFIX = "**"
