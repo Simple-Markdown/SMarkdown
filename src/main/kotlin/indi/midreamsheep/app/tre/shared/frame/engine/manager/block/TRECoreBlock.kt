@@ -11,7 +11,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
@@ -20,10 +22,12 @@ import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.observer.update
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRECoreLineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRELineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TREOffsetMappingAdapter
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
+import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TRERangeInter
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root.TRECoreTreeRoot
 import indi.midreamsheep.app.tre.shared.tool.text.filter
@@ -31,26 +35,26 @@ import indi.midreamsheep.app.tre.shared.tool.text.filter
 class TRECoreBlock(
     blockManager:TREBlockManager
 ) : TREBlockAbstract(blockManager), TRETextBlock {
-    val parser = getBean(TRECoreLineParser::class.java)
+    private val parser = getBean(TRECoreLineParser::class.java)
     private var decorateParser: TRELineParser? = null
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
     var render: MutableState<TRERender> = mutableStateOf(
         TRERender(this).apply { styleText.styleTextTree = TRECoreTreeRoot().apply { addChild(TRECoreContentLeaf("")) } }
     )
     private var focusRequester: FocusRequester = FocusRequester()
-    var isFocus = mutableStateOf(false)
+    private var isFocus = mutableStateOf(false)
 
     override fun getDisplay(): Display {
         return Display{
             {
-                if(render.value.offsetMap.check(content.value.selection.start)){
-                   refresh( content.value.copy(selection = TextRange(render.value.offsetMap.resetOffset(content.value.selection.start))))
+                if(render.value.styleText.styleTextTree.check(content.value.selection.start)){
+                   refresh( content.value.copy(selection = TextRange(render.value.styleText.styleTextTree.resetPosition(content.value.selection.start))))
                 }
                 if(isFocus.value){
-                    render.value.styleText.styleTextTree!!.reset(content.value.selection.start,content.value.selection.start,true)
+                    render.value.styleText.styleTextTree.reset(content.value.selection.start,content.value.selection.start,true)
                     editorInput()
                 }else{
-                    render.value.styleText.styleTextTree!!.reset(content.value.selection.start,content.value.selection.start,false)
+                    render.value.styleText.styleTextTree.reset(content.value.selection.start,content.value.selection.start,false)
                     preview()
                 }
             }
@@ -62,9 +66,7 @@ class TRECoreBlock(
     override fun whenInsert() {
         buildContent()
     }
-    override fun whenRemove() {
-        //TODO when remove method
-    }
+    override fun whenRemove() {}
 
     @Composable
     fun editorInput() {
@@ -87,13 +89,16 @@ class TRECoreBlock(
                 .fillMaxWidth()
                 .focusRequester(focusRequester)
                 .onPreviewKeyEvent {
-                    return@onPreviewKeyEvent render.value.listener.handleKeyEvent(it, context)
+                    if (it.type!= KeyEventType.KeyDown){
+                        return@onPreviewKeyEvent false
+                    }
+                    return@onPreviewKeyEvent render.value.styleText.styleTextTree.keyEvent(it, context,content.value.selection.start)
                 }
             ,
             visualTransformation = { _ ->
                 TransformedText(
-                    text = render.value.styleText.styleTextTree!!.getAnnotatedString().value!!,
-                    offsetMapping = TREOffsetMappingAdapter(render.value.styleText.styleTextTree!!),
+                    text = render.value.styleText.styleTextTree.getAnnotatedString().value!!,
+                    offsetMapping = TREOffsetMappingAdapter(render.value.styleText.styleTextTree),
                 )
             },
             decorationBox = { innerTextField ->
@@ -118,11 +123,11 @@ class TRECoreBlock(
             return
         }
         if(newValue.selection.end != content.value.selection.end){
-            render.value.styleText.styleTextTree!!.reset(newValue.selection.start,content.value.selection.start,isFocus.value)
+            render.value.styleText.styleTextTree.reset(newValue.selection.start,content.value.selection.start,isFocus.value)
         }
         content.value = newValue
-        if(render.value.offsetMap.check(content.value.selection.start)){
-            refresh( content.value.copy(selection = TextRange(render.value.offsetMap.resetOffset(content.value.selection.start))))
+        if(render.value.styleText.styleTextTree.check(content.value.selection.start)){
+            refresh( content.value.copy(selection = TextRange(render.value.styleText.styleTextTree.resetPosition(content.value.selection.start))))
         }
     }
 
@@ -144,12 +149,11 @@ class TRECoreBlock(
         textFieldValue: TextFieldValue = content.value
     ){
         //去除上次的样式
-        if(render.value.styleText.styleTextTree!=null){
-            render.value.styleText.styleTextTree!!.remove()
-        }
+        render.value.styleText.styleTextTree.remove()
         render.value = if(decorateParser==null){parser.parse(textFieldValue.text, this)}else{decorateParser!!.parse(textFieldValue.text,this)}
-        render.value.styleText.styleTextTree!!.reset(textFieldValue.selection.start,textFieldValue.selection.start,isFocus.value)
-        render.value.styleText.styleTextTree!!.insert()
+        render.value.styleText.styleTextTree.reset(textFieldValue.selection.start,textFieldValue.selection.start,isFocus.value)
+        render.value.styleText.styleTextTree.insert()
+        updateAllObserver()
     }
 
     fun focus(position: Int) {
@@ -159,7 +163,7 @@ class TRECoreBlock(
 
     override fun focus() { isFocus.value = true }
 
-    fun focusTransform(position: Int) = focus(render.value.styleText.styleTextTree!!.transformedToOriginal(position))
+    override fun focusTransform(transformPosition: Int) = focus(render.value.styleText.styleTextTree.transformedToOriginal(transformPosition))
 
     override fun focusFromLast() = focus(content.value.text.length)
 
@@ -171,8 +175,6 @@ class TRECoreBlock(
 
     override fun getPreButton() = render.value.trePreButton
 
-    override fun getTextFieldRange() = render.value.offsetMap
-
     fun setDecorateParser(parser: TRELineParser?){
         this.decorateParser = parser
         buildContent()
@@ -180,5 +182,26 @@ class TRECoreBlock(
 
     fun removeDecorateParser() = setDecorateParser(null)
 
+    /**
+     * 每次当前文本修改时触发对所有观察者通知变化
+     * */
+    private fun updateAllObserver(){
+        val blockManager = getBlockManager()
+        update(
+            blockManager.indexOf(this),
+            blockManager,
+            render.value.styleText.styleTextTree.getTypeId()
+        )
+    }
 
+    override fun getTextFieldRange() = object : TRERangeInter {
+        override fun getStart(): Int {
+            return render.value.styleText.styleTextTree.transformedToOriginal(0)
+        }
+
+        override fun getEnd(): Int {
+            val styleTextTree = render.value.styleText.styleTextTree
+            return styleTextTree.transformedToOriginal(styleTextTree.transformedSize())
+        }
+    }
 }

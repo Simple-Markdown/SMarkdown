@@ -43,7 +43,7 @@ class UnorderedListParser: LineParser {
         )
 
         for (treStyleTextTree in parse) {
-            render.styleText.styleTextTree!!.addChild(treStyleTextTree)
+            render.styleText.styleTextTree.addChild(treStyleTextTree)
         }
         render.styleText.prefixTextDecorations.add(
             Display {
@@ -63,10 +63,6 @@ class UnorderedListParser: LineParser {
                     }
                 }
             }
-        )
-        render.listener = UnorderedListListener(
-            line = block,
-            styleTextTree = render.styleText.styleTextTree as StyleTextUnorderedListRoot
         )
         return render
     }

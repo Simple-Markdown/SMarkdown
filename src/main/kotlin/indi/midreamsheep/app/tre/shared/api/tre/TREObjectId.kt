@@ -3,9 +3,9 @@ package indi.midreamsheep.app.tre.shared.api.tre
 import indi.midreamsheep.app.tre.shared.tool.id.getIdFromPool
 import indi.midreamsheep.app.tre.shared.tool.id.removeIdFromPool
 
-interface TREId {
+interface TREObjectId {
 
     fun getId() = getIdFromPool(this)
 
-    fun remove() = removeIdFromPool(this)
+    fun removeId() = removeIdFromPool(this)
 }

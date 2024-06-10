@@ -2,7 +2,9 @@ package indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.text.AnnotatedString
+import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
 
 abstract class TREStyleTextTree: TREStyleTextTreeInter {
 
@@ -12,6 +14,7 @@ abstract class TREStyleTextTree: TREStyleTextTreeInter {
     protected var isEdit = false
     protected var absoluteSelection = 0
     protected val styleTree:MutableState<AnnotatedString?> = mutableStateOf(null)
+
 
     private var parent: TREStyleTextTreeInter? = null
 
@@ -165,4 +168,44 @@ abstract class TREStyleTextTree: TREStyleTextTreeInter {
     override fun remove() {}
 
     override fun insert() {}
+
+    override fun resetPosition(position: Int): Int {
+        var selection = position
+        for (child in children) {
+            if (selection>child.originalSize()){
+                selection-=child.originalSize()
+                continue
+            }
+            return child.resetPosition(selection)
+        }
+        return position
+    }
+
+    override fun check(position: Int):Boolean{
+        var selection = position
+        for (child in children) {
+            if (selection>child.originalSize()){
+                selection-=child.originalSize()
+                continue
+            }
+            return child.check(selection)
+        }
+        return false
+    }
+
+    override fun keyEvent(key: KeyEvent, context: TREEditorContext, position: Int):Boolean {
+        //先托管给子类进行处理
+        var selection = position
+        for (child in children) {
+            if (selection>child.originalSize()){
+                selection-=child.originalSize()
+                continue
+            }
+            val keyEvent = child.keyEvent(key, context, selection)
+            if (keyEvent){
+                return true
+            }
+        }
+        return context.treTextFieldShortcutKeyManager.keyEvent(key,context)
+    }
 }

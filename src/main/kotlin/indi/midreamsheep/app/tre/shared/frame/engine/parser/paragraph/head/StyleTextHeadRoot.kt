@@ -1,21 +1,23 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.head
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.input.key.Key.Companion.Backspace
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
+import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
+import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRELineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
-import indi.midreamsheep.app.tre.shared.frame.engine.render.offsetmap.TRERenderOffsetMap
+import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root.TRECoreTreeRoot
 
 class StyleTextHeadRoot(
-    val level: Int,
+    private val level: Int,
 ): TRECoreTreeRoot() {
 
     override fun generateAnnotatedString(): AnnotatedString {
@@ -57,14 +59,9 @@ class StyleTextHeadPrefix(
         }
     }
 
-    private fun isDisplay(): Boolean {
+    fun isDisplay(): Boolean {
         if (selection > level  || !isEdit) {
             isHidden = true
-            render.offsetMap = object : TRERenderOffsetMap() {
-                override fun getStartOffset(): Int {
-                    return level + 1
-                }
-            }
         }
         return isHidden
     }
@@ -78,11 +75,52 @@ class StyleTextHeadPrefix(
     }
 
     override fun transformedToOriginal(offset: Int): Int {
-        return if (isHidden) 0 else offset
+        return if (isHidden) level + 1  else offset
     }
 
     override fun originalToTransformed(offset: Int): Int {
         return if (isHidden) 0 else offset
+    }
+
+    override fun check(position: Int): Boolean {
+        if(isHidden){
+            return position < level+1
+        }
+        return true
+    }
+
+    override fun resetPosition(position: Int) = level+1
+
+    override fun keyEvent(key: KeyEvent, context: TREEditorContext, position: Int): Boolean {
+        if (context.treTextFieldShortcutKeyManager.check(TREShortcutKeyStrongChecker(Backspace.keyCode))){
+            val treCoreBlock = context.editorFileManager.getStateManager().getCurrentBlock()!! as TRECoreBlock
+            val textFieldRange = treCoreBlock.getTextFieldRange()
+            if (textFieldRange.getStart()==treCoreBlock.content.value.selection.start){
+                val index = treCoreBlock.content.value.selection.start - (level + 1)
+                val text = subString(treCoreBlock.content.value.text, getStartIndex(getParent()!!), getStartIndex(getParent()!!)+level+1)
+                context.editorFileManager.getStateManager().executeOperator(
+                    TREContentChange(
+                        treCoreBlock.content.value,
+                        treCoreBlock.content.value.copy(
+                            text = text,
+                            selection = TextRange(index)
+                        ),
+                        context.editorFileManager.getStateManager().indexOf(treCoreBlock)
+                    )
+                )
+                return true
+            }
+        }
+        return false
+    }
+    private fun getStartIndex(styleTextTree: TREStyleTextTreeInter):Int{
+        return styleTextTree.getOriginalRange().getStart()
+    }
+
+    private fun subString(text: String, start: Int,end: Int):String{
+        val startStr = text.substring(0,start)
+        val endStr = text.substring(end)
+        return startStr+endStr
     }
 }
 

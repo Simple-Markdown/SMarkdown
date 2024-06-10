@@ -8,8 +8,8 @@ import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.LineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRECoreLineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
@@ -65,11 +65,6 @@ class QuoteParser: LineParser {
             }
         )
         render.styleText.append(parse.styleText)
-        render.listener = QuoteListener(
-            block,
-            parse.listener,
-            render.styleText.styleTextTree as StyleTextQuoteRoot
-        )
         return render
     }
 

@@ -5,7 +5,7 @@ interface TRERangeInter{
     fun getEnd():Int
 }
 
-class TRERange(private val start: Int, private val end: Int): TRERangeInter {
+open class TRERange(private val start: Int, private val end: Int): TRERangeInter {
 
     override fun getStart(): Int {
         return start

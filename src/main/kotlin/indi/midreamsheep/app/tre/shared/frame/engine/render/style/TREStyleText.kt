@@ -8,7 +8,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TRES
 
 class TREStyleText(line: TRECoreBlock) {
     // 样式文本树
-    var styleTextTree: TREStyleTextTreeInter? = null
+    lateinit var styleTextTree: TREStyleTextTreeInter
     // 文本前缀修饰组,上一行修饰
     val prefixLineDecorations:MutableList<Display> = mutableListOf()
     // 文本前缀修饰组,文字前修饰
@@ -27,7 +27,7 @@ class TREStyleText(line: TRECoreBlock) {
     var preview:Boolean = true
 
     fun append(style: TREStyleText){
-        styleTextTree?.addChild(style.styleTextTree!!)
+        styleTextTree.addChild(style.styleTextTree)
         prefixLineDecorations.addAll(style.prefixLineDecorations)
         prefixTextDecorations.addAll(style.prefixTextDecorations)
         suffixLineDecorations.addAll(style.suffixLineDecorations)

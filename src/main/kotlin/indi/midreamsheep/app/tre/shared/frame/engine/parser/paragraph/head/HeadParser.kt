@@ -43,10 +43,6 @@ class HeadParser: LineParser {
             }
         )
 
-        render.listener = HeadListener(
-            render.styleText.styleTextTree as StyleTextHeadRoot
-        )
-
         render.trePreButton = TRELinePreButton{
             Display{
                 {

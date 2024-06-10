@@ -6,7 +6,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
-import indi.midreamsheep.app.tre.shared.frame.engine.render.offsetmap.TRERenderOffsetMap
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root.TRECoreTreeRoot
 
 class StyleTextQuoteRoot(
@@ -51,11 +50,6 @@ class StyleTextQuotePrefix(
     private fun isDisplay(): Boolean {
         if (selection > level || !isEdit){
             isHidden = true
-            render.offsetMap = object : TRERenderOffsetMap() {
-                override fun getStartOffset(): Int {
-                    return level*2
-                }
-            }
         }
         return !isHidden
     }

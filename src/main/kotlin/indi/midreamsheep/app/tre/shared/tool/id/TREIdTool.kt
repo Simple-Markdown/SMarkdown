@@ -1,22 +1,31 @@
 package indi.midreamsheep.app.tre.shared.tool.id
 
 import cn.hutool.core.util.IdUtil
-import indi.midreamsheep.app.tre.shared.api.tre.TREId
+import indi.midreamsheep.app.tre.shared.api.tre.TREClassId
+import indi.midreamsheep.app.tre.shared.api.tre.TREObjectId
 
-val idMap = mutableMapOf<TREId, Long>()
+val objectIdMap = mutableMapOf<TREObjectId, Long>()
+val classIdMap = mutableMapOf<Class<out TREClassId>, Long>()
 
-fun getIdFromPool(treId: TREId): Long {
-    if(!idMap.containsKey(treId)){
-        idMap[treId] = generateId()
+fun getIdFromPool(treId: TREObjectId): Long {
+    if(!objectIdMap.containsKey(treId)){
+        objectIdMap[treId] = generateId()
     }
-    return idMap[treId]!!
+    return objectIdMap[treId]!!
 }
 
-fun removeIdFromPool(treId: TREId): Boolean {
-    if(!idMap.containsKey(treId)){
+fun removeIdFromPool(treId: TREObjectId): Boolean {
+    if(!objectIdMap.containsKey(treId)){
         return false
     }
-    return idMap.remove(treId) != null
+    return objectIdMap.remove(treId) != null
+}
+
+fun getIdFromPool(targetClass: Class<out TREClassId>): Long {
+    if(!classIdMap.containsKey(targetClass)){
+        classIdMap[targetClass] = generateId()
+    }
+    return classIdMap[targetClass]!!
 }
 
 fun generateId() = IdUtil.getSnowflake().nextId()

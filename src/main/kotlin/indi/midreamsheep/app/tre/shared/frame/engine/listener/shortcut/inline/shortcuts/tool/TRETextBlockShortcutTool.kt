@@ -11,8 +11,7 @@ fun selectionInStart(
         if (it !is TRETextBlock){
             return false
         }
-        val treTextBlock = it as TRETextBlock
-        return treTextBlock.getTextFieldValue().selection.start == treTextBlock.getTextFieldRange().getStartOffset()
+        return it.getTextFieldValue().selection.start == it.getTextFieldRange().getStart()
     }
     return false
 }
@@ -27,7 +26,7 @@ fun selectionInEnd(
         }
         val treTextBlock = it
         val textField = treTextBlock.getTextFieldValue()
-        val end = if(treTextBlock.getTextFieldRange().getEndOffset() == -1) textField.text.length else treTextBlock.getTextFieldRange().getEndOffset()
+        val end = if(treTextBlock.getTextFieldRange().getEnd() == -1) textField.text.length else treTextBlock.getTextFieldRange().getEnd()
         return textField.selection.start == end
     }
     return false

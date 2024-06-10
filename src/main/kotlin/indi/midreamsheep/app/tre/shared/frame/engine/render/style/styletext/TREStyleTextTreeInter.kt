@@ -1,12 +1,17 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.text.AnnotatedString
+import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.shared.api.tre.TREClassId
 
 /**
  * 构建文本样式树
  * */
-interface TREStyleTextTreeInter {
+interface TREStyleTextTreeInter:TREClassId {
+
+    fun getTypeId() = getId()
     /**
      * 设置状态,进行相关操作时需要设置状态用于刷新
      * 例如:文本焦点改变时,需要设置焦点状态
@@ -95,4 +100,12 @@ interface TREStyleTextTreeInter {
      * 当解析出时调用
      * */
     fun remove()
+    /**
+     * 对光标的相关约束
+     * */
+    fun check(position: Int):Boolean
+    fun resetPosition(position: Int):Int
+
+    //将特定快捷键监听交由styleTree处理
+    fun keyEvent(key: KeyEvent, context: TREEditorContext, position: Int): Boolean
 }

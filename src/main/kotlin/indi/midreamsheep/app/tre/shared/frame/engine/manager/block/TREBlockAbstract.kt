@@ -14,8 +14,4 @@ abstract class TREBlockAbstract(private var blockManager:TREBlockManager) : TREB
     }
 
     override fun getBlockManager() = blockManager
-
-    override fun focusFormStart() = focus()
-
-    override fun focusFromLast() = focus()
 }

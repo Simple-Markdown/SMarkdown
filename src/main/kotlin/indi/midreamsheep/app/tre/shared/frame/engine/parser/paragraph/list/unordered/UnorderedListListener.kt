@@ -27,7 +27,7 @@ class UnorderedListListener(
                     Key.Backspace.keyCode
                 )
             )) {
-            if (treCoreBlock.render.value.offsetMap.getStartOffset()==treCoreBlock.content.value.selection.start){
+/*            if (treCoreBlock.render.value.offsetMap.getStartOffset()==treCoreBlock.content.value.selection.start){
                 val index = treCoreBlock.content.value.selection.start - 2
                 val start = styleTextTree.getOriginalRange().getStart()
                 stateManager.executeOperator(
@@ -41,7 +41,7 @@ class UnorderedListListener(
                     )
                 )
                 return true
-            }
+            }*/
         }
         if(context.treTextFieldShortcutKeyManager.check(
                 TREShortcutKeyWeakChecker(

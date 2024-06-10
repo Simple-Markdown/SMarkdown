@@ -6,6 +6,7 @@ import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline.shortcuts.tool.selectionInStart
+import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRETextBlock
 
 @TextFieldShortcutKey
 class DirectionLeftShortcut: TREEditorShortcutKeyHandler() {
@@ -14,7 +15,7 @@ class DirectionLeftShortcut: TREEditorShortcutKeyHandler() {
         val stateManager = context!!.editorFileManager.getStateManager()
         val index = stateManager.getCurrentBlockIndex()
         stateManager.focusBlock(index-1){
-            it.focusFromLast()
+            (it as TRETextBlock).focusFromLast()
         }
     }
 

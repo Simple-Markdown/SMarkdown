@@ -27,7 +27,7 @@ class BackspaceShortcut: TREEditorShortcutKeyHandler() {
         val currentLineIndex = stateManager.indexOf(currentState)
 
         stateManager.focusBlock(currentLineIndex-1){
-            it.focusFromLast()
+            (it as TRETextBlock).focusFromLast()
         }
 
         val lastLine = stateManager.getTREBlock(currentLineIndex-1) as TRETextBlock
