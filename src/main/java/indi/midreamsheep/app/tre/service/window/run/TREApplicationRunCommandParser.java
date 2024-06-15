@@ -1,8 +1,9 @@
 package indi.midreamsheep.app.tre.service.window.run;
 
+import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindowContext;
+import indi.midreamsheep.app.tre.desktop.page.main.MainPageWindowContext;
 import indi.midreamsheep.app.tre.model.mainpage.file.core.TRELocalFile;
-import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindow;
-import indi.midreamsheep.app.tre.desktop.page.main.MainPageWindow;
+import indi.midreamsheep.app.tre.service.window.TREWindow;
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,11 +19,7 @@ public class TREApplicationRunCommandParser {
     public void parse(String[] args) {
         if (args.length == 0) {
             //注册主窗口
-            new MainPageWindow().register();
-            return;
-        }
-        for (String arg : args) {
-            parse(arg);
+            new TREWindow(new MainPageWindowContext()).register();
         }
     }
 
@@ -46,6 +43,6 @@ public class TREApplicationRunCommandParser {
             log.error("file not found or is a directory:{}",filePath);
             return;
         }
-        new TRELocalEditorWindow(new TRELocalFile(file)).register();
+        new TRELocalEditorWindowContext(new TRELocalFile(file)).register();
     }
 }

@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindow
+import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindowContext
 import indi.midreamsheep.app.tre.desktop.page.editor.context.viewmodel.EditorStateViewModel
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.bottom.bottomBar
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.editors.render.renderList
@@ -20,7 +20,7 @@ import indi.midreamsheep.app.tre.desktop.page.editor.ui.editors.source.sourceEdi
 
 @Composable
 fun editorPage(){
-    val context = TRELocalEditorWindow.LocalContext.current
+    //val context = TRELocalEditorWindowContext.LocalContext.current
     val treFileManager = context.editorFileManager
     if (!treFileManager.isRead()){
         val (result, errorMsg) = treFileManager.read()
@@ -56,7 +56,7 @@ fun editor(
     modifier: Modifier,
     listState: LazyListState
 ){
-    val context = TRELocalEditorWindow.LocalContext.current
+    val context = TRELocalEditorWindowContext.LocalContext.current
     when (context.editorStateViewModel.editorMode.value) {
         EditorStateViewModel.EditorMode.RENDER -> renderList(modifier, listState)
         EditorStateViewModel.EditorMode.SOURCE -> sourceEditor(context, modifier, listState)

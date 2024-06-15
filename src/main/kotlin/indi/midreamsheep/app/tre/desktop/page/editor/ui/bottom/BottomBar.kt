@@ -9,11 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindow
+import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindowContext
 
 @Composable
 fun bottomBar() {
-    val context = TRELocalEditorWindow.LocalContext.current
+    val context = TRELocalEditorWindowContext.LocalContext.current
     Divider()
     Box(
         Modifier.fillMaxWidth()

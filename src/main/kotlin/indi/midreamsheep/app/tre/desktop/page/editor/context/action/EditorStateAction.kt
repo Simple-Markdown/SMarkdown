@@ -1,10 +1,10 @@
 package indi.midreamsheep.app.tre.desktop.page.editor.context.action
 
-import indi.midreamsheep.app.tre.shared.api.context.TREAction
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.desktop.context.TREAction
+import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
 import indi.midreamsheep.app.tre.desktop.page.editor.context.viewmodel.EditorStateViewModel
 
-class EditorStateAction(context: TREEditorContext): TREAction<TREEditorContext>(context) {
+class EditorStateAction(context: TREEditorWindowContext): TREAction<TREEditorWindowContext>(context) {
     fun sourceMode() {
         context.editorStateViewModel.editorMode.value = EditorStateViewModel.EditorMode.SOURCE
     }

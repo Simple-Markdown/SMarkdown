@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph
 
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root.TRECoreTreeRoot

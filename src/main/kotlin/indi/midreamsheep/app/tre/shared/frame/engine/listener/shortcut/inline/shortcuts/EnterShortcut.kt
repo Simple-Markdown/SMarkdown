@@ -3,19 +3,19 @@ package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline.s
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRETextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETextBlock
 
 @TextFieldShortcutKey
 class EnterShortcut: TREEditorShortcutKeyHandler() {
-    override fun action(context: TREEditorContext) {
+    override fun action(context: TREEditorWindowContext) {
         val stateManager = context.editorFileManager.getStateManager()
 
         val wrapper = stateManager.getCurrentBlock() ?: return
@@ -49,7 +49,7 @@ class EnterShortcut: TREEditorShortcutKeyHandler() {
         stateManager.focusBlock(currentLineNumber+1)
     }
 
-    override fun isEnable(context: TREEditorContext): Boolean {
+    override fun isEnable(context: TREEditorWindowContext): Boolean {
         return context.editorFileManager.getStateManager().getCurrentBlock()!! is TRETextBlock
     }
 

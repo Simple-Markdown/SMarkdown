@@ -6,10 +6,10 @@ import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRELineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
@@ -91,7 +91,7 @@ class StyleTextHeadPrefix(
 
     override fun resetPosition(position: Int) = level+1
 
-    override fun keyEvent(key: KeyEvent, context: TREEditorContext, position: Int): Boolean {
+    override fun keyEvent(key: KeyEvent, context: TREEditorWindowContext, position: Int): Boolean {
         if (context.treTextFieldShortcutKeyManager.check(TREShortcutKeyStrongChecker(Backspace.keyCode))){
             val treCoreBlock = context.editorFileManager.getStateManager().getCurrentBlock()!! as TRECoreBlock
             val textFieldRange = treCoreBlock.getTextFieldRange()

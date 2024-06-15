@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.listener.shortcut.handler;
 
-import indi.midreamsheep.app.tre.shared.api.context.TREContext;
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext;
+import indi.midreamsheep.app.tre.desktop.context.TREWindowContext;
+import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext;
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyHandler;
 
 /**
@@ -10,20 +10,20 @@ import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyHandler;
  * */
 public abstract class TREEditorShortcutKeyHandler implements TREShortcutKeyHandler {
     @Override
-    public void handle(TREContext context) {
-        if (context instanceof TREEditorContext editorContext){
+    public void handle(TREWindowContext context) {
+        if (context instanceof TREEditorWindowContext editorContext){
             action(editorContext);
         }
     }
 
     @Override
-    public boolean isEnable(TREContext context){
-        if (context instanceof TREEditorContext editorContext){
+    public boolean isEnable(TREWindowContext context){
+        if (context instanceof TREEditorWindowContext editorContext){
             return (editorContext.getEditorFileManager().getStateManager().getCurrentBlock() != null)&&isEnable(editorContext);
         }
         return false;
     }
 
-    protected abstract void action(TREEditorContext context);
-    protected abstract boolean isEnable(TREEditorContext context);
+    protected abstract void action(TREEditorWindowContext context);
+    protected abstract boolean isEnable(TREEditorWindowContext context);
 }

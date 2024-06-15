@@ -2,13 +2,13 @@ package indi.midreamsheep.app.tre.desktop.page.editor.model.listener.shortcut.ha
 
 import androidx.compose.ui.input.key.Key
 import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorShortcutKey
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
 
 @EditorShortcutKey
 class DoShortcut: TREEditorShortcutKeyHandler() {
-    override fun isEnable(context: TREEditorContext?): Boolean {
+    override fun isEnable(context: TREEditorWindowContext?): Boolean {
         return true
     }
 
@@ -23,7 +23,7 @@ class DoShortcut: TREEditorShortcutKeyHandler() {
         )
     )
 
-    override fun action(context: TREEditorContext) {
+    override fun action(context: TREEditorWindowContext) {
         context.editorFileManager.getStateManager().doOperator()
     }
 }

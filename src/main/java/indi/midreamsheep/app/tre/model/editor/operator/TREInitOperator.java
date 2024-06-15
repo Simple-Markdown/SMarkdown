@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.model.editor.operator;
 
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager;
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager;
 
 public class TREInitOperator extends TREOperatorAbstract{
     @Override

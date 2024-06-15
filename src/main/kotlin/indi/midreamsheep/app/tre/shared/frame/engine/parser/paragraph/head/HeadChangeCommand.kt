@@ -2,8 +2,8 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.head
 
 import androidx.compose.ui.text.TextRange
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperatorAbstract
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRECoreBlock
 
 private fun String.insertString(
     insert: String,

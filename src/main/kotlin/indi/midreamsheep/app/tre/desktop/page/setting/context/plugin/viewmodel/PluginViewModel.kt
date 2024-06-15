@@ -2,7 +2,7 @@ package indi.midreamsheep.app.tre.desktop.page.setting.context.plugin.viewmodel
 
 import cn.hutool.json.JSONUtil
 import indi.midreamsheep.app.tre.constant.AppPathConstant
-import indi.midreamsheep.app.tre.shared.api.context.TREViewModel
+import indi.midreamsheep.app.tre.desktop.context.TREViewModel
 import indi.midreamsheep.app.tre.desktop.page.setting.context.plugin.TREPluginContext
 import indi.midreamsheep.app.tre.desktop.page.setting.context.plugin.viewmodel.pojo.Plugin
 import indi.midreamsheep.app.tre.service.ioc.di.scan.PluginScannerTool

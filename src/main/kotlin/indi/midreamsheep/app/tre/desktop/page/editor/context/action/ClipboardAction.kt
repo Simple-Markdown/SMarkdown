@@ -1,11 +1,11 @@
 package indi.midreamsheep.app.tre.desktop.page.editor.context.action
 
-import indi.midreamsheep.app.tre.shared.api.context.TREAction
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.desktop.context.TREAction
+import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
 import java.awt.Toolkit
 import java.awt.datatransfer.DataFlavor
 
-class ClipboardAction(context: TREEditorContext) : TREAction<TREEditorContext>(context) {
+class ClipboardAction(context: TREEditorWindowContext) : TREAction<TREEditorWindowContext>(context) {
     fun getClipboardContentType(): String {
         val clipboard = Toolkit.getDefaultToolkit().systemClipboard
         val transferable = clipboard.getContents(null)

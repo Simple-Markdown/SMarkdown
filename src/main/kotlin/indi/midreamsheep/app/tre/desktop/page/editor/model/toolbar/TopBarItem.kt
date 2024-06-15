@@ -15,12 +15,12 @@ import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
 import indi.midreamsheep.app.tre.shared.ui.compnent.flomenu.floatingMenu
 
 abstract class TopBarItem {
 
-    fun getComposable(context: TREEditorContext): @Composable () -> Unit {
+    fun getComposable(context: TREEditorWindowContext): @Composable () -> Unit {
         return {
             var expanded by remember { mutableStateOf(false) }
             var boxHeight by remember { mutableStateOf(0.dp) }
@@ -59,7 +59,7 @@ abstract class TopBarItem {
 
     @Composable
     fun subMenu(
-        context: TREEditorContext,
+        context: TREEditorWindowContext,
         subFloorBar: SubBarItem
     ) {
         Box(

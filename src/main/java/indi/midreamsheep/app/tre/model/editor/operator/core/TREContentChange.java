@@ -1,9 +1,9 @@
 package indi.midreamsheep.app.tre.model.editor.operator.core;
 
 import androidx.compose.ui.text.input.TextFieldValue;
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TREBlock;
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRETextBlock;
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager;
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TREBlock;
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETextBlock;
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager;
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperatorAbstract;
 import lombok.AllArgsConstructor;
 import lombok.Data;

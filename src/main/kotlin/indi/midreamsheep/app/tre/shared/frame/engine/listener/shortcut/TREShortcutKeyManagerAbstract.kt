@@ -8,13 +8,13 @@ import androidx.compose.ui.input.key.type
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREKeyboardKeyManager
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyHandler
-import indi.midreamsheep.app.tre.shared.api.context.TREContext
+import indi.midreamsheep.app.tre.desktop.context.TREWindowContext
 
 abstract class TREShortcutKeyManagerAbstract {
 
     abstract fun manager(): TREKeyboardKeyManager
 
-    fun keyEvent(keyEvent: KeyEvent, context: TREContext): Boolean {
+    fun keyEvent(keyEvent: KeyEvent, context: TREWindowContext): Boolean {
         if(!update(keyEvent)) return false
         val (hasShortKey, shortcut) = execute(context)
         if (hasShortKey){
@@ -24,7 +24,7 @@ abstract class TREShortcutKeyManagerAbstract {
         return false
     }
 
-    private fun execute(context: TREContext): Pair<Boolean, TREShortcutKeyHandler?> {
+    private fun execute(context: TREWindowContext): Pair<Boolean, TREShortcutKeyHandler?> {
         for (keyAction in getActions()) {
             for (key in keyAction.getKeys()) {
                 if(!(check(key)&&keyAction.isEnable(context))){

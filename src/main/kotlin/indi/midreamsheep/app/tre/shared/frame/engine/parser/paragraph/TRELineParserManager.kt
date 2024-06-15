@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph
 
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector

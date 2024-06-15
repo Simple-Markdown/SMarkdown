@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.service.window;
 
-import indi.midreamsheep.app.tre.shared.api.display.Display;
+import indi.midreamsheep.app.tre.desktop.context.TREWindowContext;
 import indi.midreamsheep.app.tre.service.ioc.tre.TREIocWithCatch;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -10,26 +10,26 @@ import lombok.extern.slf4j.Slf4j;
  * */
 @Data
 @Slf4j
-public abstract class TREWindow {
+public class TREWindow {
 
-    protected String name;
-    protected TREDesktopWindowService treDesktopWindowService = TREIocWithCatch.getBean(TREDesktopWindowService.class);
+    private static TREDesktopWindowService treDesktopWindowService = TREIocWithCatch.getBean(TREDesktopWindowService.class);
 
-    public abstract Display getDisplay();
+    private TREWindowContext treWindowContext;
+
+    public TREWindow(TREWindowContext treWindowContext) {
+        this.treWindowContext = treWindowContext;
+    }
+
     /**
      * 关闭窗口
      * */
     public void close(){
-        treDesktopWindowService.removeWindow(name);
-        log.info("closeWindow:{}",getName());
-    }
-
-    public TREWindow(String name) {
-        this.name = name;
+        treDesktopWindowService.removeWindow(this);
+        log.info("closeWindow:{}",treWindowContext.getWindowTitle());
     }
 
     public void register(){
         treDesktopWindowService.registerWindow(this);
-        log.info("registerWindow:{}",getName());
+        log.info("registerWindow:{}",treWindowContext.getWindowTitle());
     }
 }

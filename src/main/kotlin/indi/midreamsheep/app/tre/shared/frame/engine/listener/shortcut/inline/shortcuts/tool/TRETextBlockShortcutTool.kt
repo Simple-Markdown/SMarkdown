@@ -1,10 +1,10 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline.shortcuts.tool
 
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
-import indi.midreamsheep.app.tre.shared.frame.engine.manager.block.TRETextBlock
+import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETextBlock
 
 fun selectionInStart(
-    context: TREEditorContext,
+    context: TREEditorWindowContext,
 ):Boolean{
     val stateManager = context.editorFileManager.getStateManager()
     stateManager.getCurrentBlock()?.let {
@@ -17,7 +17,7 @@ fun selectionInStart(
 }
 
 fun selectionInEnd(
-    context: TREEditorContext,
+    context: TREEditorWindowContext,
 ):Boolean{
     val stateManager = context.editorFileManager.getStateManager()
     stateManager.getCurrentBlock()?.let {

@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorContext
+import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
 
 abstract class SubBarItem {
     fun getComposable():@Composable ()->Unit {
@@ -35,7 +35,7 @@ abstract class SubBarItem {
         }
     }
 
-    abstract fun call(context: TREEditorContext)
+    abstract fun call(context: TREEditorWindowContext)
 
     protected abstract fun getName():String
     protected open fun getShortcutKey():String {
