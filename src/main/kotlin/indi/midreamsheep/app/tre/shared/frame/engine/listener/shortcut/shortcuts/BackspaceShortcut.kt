@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcut
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
+import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorShortcut
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockDelete
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
@@ -14,7 +14,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETe
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.tool.selectionInStart
 
-@TextFieldShortcutKey
+@EditorShortcut
 class BackspaceShortcut: TREEditorShortcutHandler {
 
     override fun action(context: TREEditorContext) {

@@ -1,12 +1,12 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts
 
 import androidx.compose.ui.input.key.Key
-import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
+import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorShortcut
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakChecker
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
 
-@TextFieldShortcutKey
+@EditorShortcut
 class UpShortcut: TREEditorShortcutHandler {
     override fun action(context: TREEditorContext) {
         val stateManager = context.blockManager

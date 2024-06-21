@@ -89,15 +89,10 @@ class TRECoreBlock(
                 .fillMaxWidth()
                 .focusRequester(focusRequester)
                 .onPreviewKeyEvent {
-                    println("editor key")
                     if (it.type != KeyEventType.KeyDown) {
                         return@onPreviewKeyEvent false
                     }
-                    return@onPreviewKeyEvent render.value.styleText.styleTextTree.keyEvent(
-                        it,
-                        context,
-                        content.value.selection.start
-                    )
+                    return@onPreviewKeyEvent context.listenerManager.keyEvent()
                 },
             visualTransformation = { _ ->
                 TransformedText(

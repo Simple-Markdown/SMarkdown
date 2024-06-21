@@ -2,7 +2,6 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.head
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key.Companion.Backspace
-import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -91,7 +90,7 @@ class StyleTextHeadPrefix(
 
     override fun resetPosition(position: Int) = level+1
 
-    override fun keyEvent(key: KeyEvent, context: TREEditorContext, position: Int): Boolean {
+    override fun keyEvent(context: TREEditorContext, position: Int): Boolean {
         if (context.keyManager.match(TREShortcutKeyStrongChecker(Backspace.keyCode))){
             val treCoreBlock = context.blockManager.getCurrentBlock()!! as TRECoreBlock
             val textFieldRange = treCoreBlock.getTextFieldRange()

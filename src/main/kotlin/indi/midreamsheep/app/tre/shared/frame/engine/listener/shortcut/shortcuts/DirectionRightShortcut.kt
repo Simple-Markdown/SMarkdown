@@ -1,14 +1,14 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts
 
 import androidx.compose.ui.input.key.Key
-import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
+import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorShortcut
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.tool.selectionInEnd
 
-@TextFieldShortcutKey
+@EditorShortcut
 class DirectionRightShortcut: TREEditorShortcutHandler {
 
     override fun action(context: TREEditorContext) {

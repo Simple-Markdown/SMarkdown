@@ -2,7 +2,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.context
 
 import indi.midreamsheep.app.tre.shared.frame.core.shortcut.TREShortcutKeyManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREListenerManager
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREShortcutEvent
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREObserverManager
 
 class TREEditorContext(
@@ -13,7 +13,7 @@ class TREEditorContext(
     /**快捷键当前按键管理器*/
     val keyManager: TREShortcutKeyManager,
     /**监听器管理器*/
-    val listenerManager: TREListenerManager,
+    val listenerManager: TREShortcutEvent,
     /**观察者上下文*/
     val treObserverManager: TREObserverManager
 ){

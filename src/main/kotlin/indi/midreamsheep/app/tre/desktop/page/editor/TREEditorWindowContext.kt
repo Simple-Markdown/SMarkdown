@@ -23,7 +23,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREFileMana
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREObserverManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.file.render.TRELocalFileRenderManager
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContextComposition
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.editor.TRECoreEditorListenerManager
+import indi.midreamsheep.app.tre.shared.frame.engine.listener.editor.TRECoreEditorShortcutEvent
 
 /**
  * 编辑器窗口上下文
@@ -57,7 +57,7 @@ class TREEditorWindowContext(): TREWindowContext(){
             parentContext = null,
             blockManager = treFileManager.getStateManager(),
             keyManager = keyManager,
-            listenerManager = TRECoreEditorListenerManager(),
+            listenerManager = TRECoreEditorShortcutEvent(),
             treObserverManager = TREEditorWindowObserverManager(),
         )
     }

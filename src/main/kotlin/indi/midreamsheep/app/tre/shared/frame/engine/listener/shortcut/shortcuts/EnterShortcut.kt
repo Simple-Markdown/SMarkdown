@@ -2,7 +2,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcut
 
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.input.TextFieldValue
-import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
+import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorShortcut
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
@@ -13,7 +13,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRECo
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
 
-@TextFieldShortcutKey
+@EditorShortcut
 class EnterShortcut: TREEditorShortcutHandler {
     override fun action(context: TREEditorContext) {
         val stateManager = context.blockManager
