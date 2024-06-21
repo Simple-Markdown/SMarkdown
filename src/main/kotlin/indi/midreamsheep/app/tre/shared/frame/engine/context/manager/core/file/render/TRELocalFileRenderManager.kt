@@ -50,4 +50,6 @@ class TRELocalFileRenderManager(private var file: TREFile) : TREFileManager {
         blockManager.getTREBlockList().clear()
         parser.parse(blockManager,content)
     }
+
+    override fun getTREFile() = file
 }

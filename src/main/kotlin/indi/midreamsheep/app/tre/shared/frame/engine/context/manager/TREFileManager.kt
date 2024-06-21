@@ -1,5 +1,7 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.context.manager
 
+import indi.midreamsheep.app.tre.model.mainpage.file.TREFile
+
 /**
  * 文件管理器，用于管理文件的读写
  * */
@@ -28,4 +30,6 @@ interface TREFileManager {
      * 重设文本内容
      * */
     fun setContent(content:String)
+
+    fun getTREFile():TREFile
 }

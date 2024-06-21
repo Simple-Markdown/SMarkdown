@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.file.source.TRESourceManager
 
 @Composable
@@ -21,7 +21,7 @@ fun sourceEditor(
     modifier: Modifier,
     listState: LazyListState
 ){
-    val editorFileManager = context.editorFileManager as TRESourceManager
+    val editorFileManager = context.treFileManager as TRESourceManager
     val focusRequester = remember { FocusRequester() }
     LazyColumn(
         state = listState,

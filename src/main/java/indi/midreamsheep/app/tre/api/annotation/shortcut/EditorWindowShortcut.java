@@ -14,8 +14,8 @@ import java.lang.annotation.Target;
  * 标记类必须继承 {@link TREShortcutKeyHandler}
  * */
 @Comment
-@ListInjector(target = "EditorShortcutKeys")
+@ListInjector(target = "EditorWindowShortcut")
 @Target({ElementType.TYPE})
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
-public @interface EditorShortcutKey {
+public @interface EditorWindowShortcut {
 }

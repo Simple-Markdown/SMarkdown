@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.listener.shortcut.handler;
 
 import indi.midreamsheep.app.tre.desktop.context.TREWindowContext;
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext;
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext;
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyHandler;
 
 /**

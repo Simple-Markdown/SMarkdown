@@ -5,7 +5,6 @@ import androidx.compose.ui.input.key.KeyEventType.Companion.KeyDown
 import androidx.compose.ui.input.key.KeyEventType.Companion.KeyUp
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.type
-import indi.midreamsheep.app.tre.model.listener.shortcut.TREKeyboardKeyManager
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyHandler
 import indi.midreamsheep.app.tre.desktop.context.TREWindowContext

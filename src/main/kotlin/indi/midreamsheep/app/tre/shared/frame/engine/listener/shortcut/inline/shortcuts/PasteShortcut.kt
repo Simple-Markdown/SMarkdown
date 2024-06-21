@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline.s
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
@@ -17,9 +17,9 @@ class PasteShortcut: TREEditorShortcutKeyHandler() {
             return
         }
         //获取当前行
-        val stateList = context.editorFileManager.getStateManager()
+        val stateList = context.treFileManager.getStateManager()
 
-        val currentLine = context.editorFileManager.getStateManager().getCurrentBlock()!! as TRETextBlock
+        val currentLine = context.treFileManager.getStateManager().getCurrentBlock()!! as TRETextBlock
         val clipboardContent = context.clipboardAction.getClipboardContent()
 
         val textFieldValue = currentLine.getTextFieldValue()
@@ -34,7 +34,7 @@ class PasteShortcut: TREEditorShortcutKeyHandler() {
                 currentLine.setTextFieldValue(TextFieldValue(s))
             } else {
                 //在当前行的下面插入新的行
-                val newState = TRECoreBlock(context.editorFileManager.getStateManager())
+                val newState = TRECoreBlock(context.treFileManager.getStateManager())
                 newState.content.value = TextFieldValue(s)
                 stateList.addBlock(currentLineNumber+ index, newState)
             }
@@ -44,7 +44,7 @@ class PasteShortcut: TREEditorShortcutKeyHandler() {
 
     override fun isEnable(context: TREEditorWindowContext): Boolean {
         val currentMarkdownLine =
-            context.editorFileManager.getStateManager().getCurrentBlock() ?: return false
+            context.treFileManager.getStateManager().getCurrentBlock() ?: return false
         return currentMarkdownLine is TRETextBlock
     }
 

@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.desktop.page.editor.context.action
 
 import indi.midreamsheep.app.tre.desktop.context.TREAction
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -11,7 +11,7 @@ class FileAction(context: TREEditorWindowContext): TREAction<TREEditorWindowCont
     fun store() {
         GlobalScope.launch {
             context.bottomBarAction.setStateString("Saving")
-            context.editorFileManager.store()
+            //TODO context.editorFileManager.store()
             context.bottomBarAction.setStateString("Save success")
         }
     }

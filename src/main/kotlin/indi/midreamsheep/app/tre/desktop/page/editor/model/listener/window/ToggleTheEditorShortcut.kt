@@ -1,26 +1,26 @@
-package indi.midreamsheep.app.tre.desktop.page.editor.model.listener.shortcut.handler.shortcuts
+package indi.midreamsheep.app.tre.desktop.page.editor.model.listener.window
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
-import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorShortcutKey
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
+import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorWindowShortcut
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.desktop.page.editor.context.viewmodel.EditorStateViewModel
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.file.source.TRESourceManager
 
-@EditorShortcutKey
+@EditorWindowShortcut
 class ToggleTheEditorShortcut: TREEditorShortcutKeyHandler() {
 
     override fun action(context: TREEditorWindowContext) {
         when (context.editorStateViewModel.editorMode.value) {
             EditorStateViewModel.EditorMode.RENDER -> {
-                context.editorFileManager.getStateManager().setCurrentBlockState(null)
-                context.editorFileManager = TRESourceManager(context.editorFileManager)
+                context.treFileManager.getStateManager().setCurrentBlockState(null)
+                context.treFileManager = TRESourceManager(context.treFileManager)
                 context.editorStateAction.sourceMode()
             }
             EditorStateViewModel.EditorMode.SOURCE -> {
-                context.editorFileManager = (context.editorFileManager as TRESourceManager).getFileManager()
+                context.treFileManager = (context.treFileManager as TRESourceManager).getFileManager()
                 context.editorStateAction.renderMode()
             }
         }

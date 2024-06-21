@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.text.AnnotatedString
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.shared.api.tre.TREClassId
 
 /**

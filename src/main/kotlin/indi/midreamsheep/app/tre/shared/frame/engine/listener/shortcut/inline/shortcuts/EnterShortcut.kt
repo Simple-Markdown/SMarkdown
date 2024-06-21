@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline.s
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
@@ -16,7 +16,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETe
 @TextFieldShortcutKey
 class EnterShortcut: TREEditorShortcutKeyHandler() {
     override fun action(context: TREEditorWindowContext) {
-        val stateManager = context.editorFileManager.getStateManager()
+        val stateManager = context.treFileManager.getStateManager()
 
         val wrapper = stateManager.getCurrentBlock() ?: return
         val currentLine = (wrapper as TRETextBlock)
@@ -50,7 +50,7 @@ class EnterShortcut: TREEditorShortcutKeyHandler() {
     }
 
     override fun isEnable(context: TREEditorWindowContext): Boolean {
-        return context.editorFileManager.getStateManager().getCurrentBlock()!! is TRETextBlock
+        return context.treFileManager.getStateManager().getCurrentBlock()!! is TRETextBlock
     }
 
     override fun getKeys(): List<TREShortcutKeyChecker> {

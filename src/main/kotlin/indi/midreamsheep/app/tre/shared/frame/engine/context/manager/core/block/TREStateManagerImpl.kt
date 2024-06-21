@@ -4,7 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.model.editor.operator.TREInitOperator
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperator
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager

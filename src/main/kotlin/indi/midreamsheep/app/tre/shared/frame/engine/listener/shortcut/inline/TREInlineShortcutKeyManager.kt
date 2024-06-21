@@ -1,6 +1,5 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline
 
-import indi.midreamsheep.app.tre.model.listener.shortcut.TREKeyboardKeyManager
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyHandler
 import indi.midreamsheep.app.tre.service.ioc.di.inject.listdi.annotation.ListInjector
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREShortcutKeyManagerAbstract
@@ -12,9 +11,6 @@ class TREInlineShortcutKeyManager: TREShortcutKeyManagerAbstract() {
 
     @ListInjector(target = "TextFieldShortcutKeys")
     private val keyActions: MutableList<TREShortcutKeyHandler> = mutableListOf()
-
-    @Injector
-    private val keyManager: TREKeyboardKeyManager? = null
 
     override fun manager() = keyManager!!
 

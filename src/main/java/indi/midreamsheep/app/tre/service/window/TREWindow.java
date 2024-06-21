@@ -18,6 +18,7 @@ public class TREWindow {
 
     public TREWindow(TREWindowContext treWindowContext) {
         this.treWindowContext = treWindowContext;
+        this.treWindowContext.setTREWindow(this);
     }
 
     /**

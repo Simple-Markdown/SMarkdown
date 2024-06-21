@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.desktop.page.editor.model.toolbar.file.tools
 
 import indi.midreamsheep.app.tre.api.annotation.toolbar.toolbars.FileToolBar
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.desktop.page.editor.model.toolbar.SubBarItem
 
 @FileToolBar

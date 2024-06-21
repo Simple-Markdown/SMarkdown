@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindowContext
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.desktop.page.editor.context.viewmodel.EditorStateViewModel
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.bottom.bottomBar
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.editors.render.renderList
@@ -19,17 +19,10 @@ import indi.midreamsheep.app.tre.desktop.page.editor.ui.editors.render.topbar.to
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.editors.source.sourceEditor
 
 @Composable
-fun editorPage(){
-    //val context = TRELocalEditorWindowContext.LocalContext.current
-    val treFileManager = context.editorFileManager
-    if (!treFileManager.isRead()){
-        val (result, errorMsg) = treFileManager.read()
-        if (!result){
-            error(errorMsg)
-        }
-    }
+fun editorPage(
+    editorWindowContext: TREEditorWindowContext
+){
     val listState = rememberLazyListState()
-    context.dialogVewModel.displayDialog()
     Column(
         modifier = Modifier.padding(0.dp)
     ) {
@@ -40,6 +33,7 @@ fun editorPage(){
             editor(
                 Modifier.weight(10f),
                 listState,
+                editorWindowContext
             )
             VerticalScrollbar(
                 modifier = Modifier.fillMaxHeight(),
@@ -47,18 +41,18 @@ fun editorPage(){
             )
         }
         //下方的工具栏
-        bottomBar()
+        bottomBar(editorWindowContext)
     }
 }
 
 @Composable
 fun editor(
     modifier: Modifier,
-    listState: LazyListState
+    listState: LazyListState,
+    editorWindowContext: TREEditorWindowContext
 ){
-    val context = TRELocalEditorWindowContext.LocalContext.current
-    when (context.editorStateViewModel.editorMode.value) {
+    when (editorWindowContext.editorStateViewModel.editorMode.value) {
         EditorStateViewModel.EditorMode.RENDER -> renderList(modifier, listState)
-        EditorStateViewModel.EditorMode.SOURCE -> sourceEditor(context, modifier, listState)
+        EditorStateViewModel.EditorMode.SOURCE -> sourceEditor(editorWindowContext,modifier, listState)
     }
 }

@@ -2,8 +2,8 @@ package indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.file.
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREFileManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREFileManager
 import logger
 
 class TRESourceManager(private val manager: TREFileManager): TREFileManager {
@@ -36,6 +36,8 @@ class TRESourceManager(private val manager: TREFileManager): TREFileManager {
     override fun setContent(content: String) {
         this.content.value = content
     }
+
+    override fun getTREFile() = manager.getTREFile()
 
     fun getState() = content
 

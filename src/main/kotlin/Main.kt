@@ -1,5 +1,8 @@
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import indi.midreamsheep.app.tre.desktop.context.TREWindowContext
@@ -33,7 +36,14 @@ fun displayWindow(
     Window(
         onCloseRequest = { windowContext.close() },
         title = windowContext.getWindowTitle(),
-        onPreviewKeyEvent = { return@Window windowContext.previewKeyEvent(it) }
+        onPreviewKeyEvent = {
+            val keyManager = windowContext.keyManager
+            when(it.type){
+                KeyEventType.KeyDown-> keyManager.add(it.key.keyCode)
+                KeyEventType.KeyUp-> keyManager.remove(it.key.keyCode)
+            }
+            return@Window windowContext.previewKeyEvent(it)
+        }
     ) {
         windowContext.getDisplay().getComposable().invoke()
     }

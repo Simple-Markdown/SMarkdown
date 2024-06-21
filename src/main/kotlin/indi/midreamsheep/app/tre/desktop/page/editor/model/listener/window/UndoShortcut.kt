@@ -1,12 +1,12 @@
-package indi.midreamsheep.app.tre.desktop.page.editor.model.listener.shortcut.handler.shortcuts
+package indi.midreamsheep.app.tre.desktop.page.editor.model.listener.window
 
 import androidx.compose.ui.input.key.Key
-import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorShortcutKey
-import indi.midreamsheep.app.tre.desktop.page.editor.context.TREEditorWindowContext
+import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorWindowShortcut
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
 
-@EditorShortcutKey
+@EditorWindowShortcut
 class UndoShortcut: TREEditorShortcutKeyHandler() {
     override fun isEnable(context: TREEditorWindowContext?) = true
 
@@ -21,6 +21,6 @@ class UndoShortcut: TREEditorShortcutKeyHandler() {
     )
 
     override fun action(context: TREEditorWindowContext?) {
-        context!!.editorFileManager.getStateManager().undoOperator()
+        context!!.treFileManager.getStateManager().undoOperator()
     }
 }
