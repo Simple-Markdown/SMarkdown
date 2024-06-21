@@ -1,24 +1,24 @@
-package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline.shortcuts
+package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts
 
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
-import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockDelete
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakChecker
-import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
+import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETextBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline.shortcuts.tool.selectionInStart
+import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
+import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.tool.selectionInStart
 
 @TextFieldShortcutKey
-class BackspaceShortcut: TREEditorShortcutKeyHandler() {
+class BackspaceShortcut: TREEditorShortcutHandler {
 
-    override fun action(context: TREEditorWindowContext) {
-        val stateManager = context.treFileManager.getStateManager()
+    override fun action(context: TREEditorContext) {
+        val stateManager = context.blockManager
 
         val currentState = stateManager.getCurrentBlock()!!
 
@@ -54,8 +54,8 @@ class BackspaceShortcut: TREEditorShortcutKeyHandler() {
         stateManager.executeOperator(treOperatorGroup)
     }
 
-    override fun isEnable(context: TREEditorWindowContext): Boolean {
-        val stateManager = context.treFileManager.getStateManager()
+    override fun isEnable(context: TREEditorContext): Boolean {
+        val stateManager = context.blockManager
         val index = stateManager.getCurrentBlockIndex()
         if(index==0){
             return false

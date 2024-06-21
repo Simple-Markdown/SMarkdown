@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.model.mainpage.sidebar.button;
 
 import androidx.compose.ui.graphics.ImageBitmap;
-import indi.midreamsheep.app.tre.desktop.page.main.context.TREMainPageContext;
+import indi.midreamsheep.app.tre.desktop.page.home.TREHomePageWindowContext;
 
 
 /**
@@ -26,5 +26,5 @@ public interface TREMainPageButton {
      * 当按钮被点击时触发
      * @param context 开始界面的上下文
      * */
-    void onClick(TREMainPageContext context);
+    void onClick(TREHomePageWindowContext context);
 }

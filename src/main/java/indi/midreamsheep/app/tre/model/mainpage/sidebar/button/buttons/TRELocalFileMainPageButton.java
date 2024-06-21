@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.model.mainpage.sidebar.button.buttons;
 import androidx.compose.ui.graphics.ImageBitmap;
 import indi.midreamsheep.app.tre.api.annotation.mainpage.MainPageButton;
 import indi.midreamsheep.app.tre.desktop.page.editor.TREOpenFileWindowContext;
-import indi.midreamsheep.app.tre.desktop.page.main.context.TREMainPageContext;
+import indi.midreamsheep.app.tre.desktop.page.home.TREHomePageWindowContext;
 import indi.midreamsheep.app.tre.model.mainpage.sidebar.button.TREMainPageButton;
 import indi.midreamsheep.app.tre.model.setting.settings.store.StoreSettingGroup;
 import indi.midreamsheep.app.tre.service.image.TREImageTool;
@@ -34,7 +34,7 @@ public class TRELocalFileMainPageButton implements TREMainPageButton {
     }
 
     @Override
-    public void onClick(TREMainPageContext context) {
+    public void onClick(TREHomePageWindowContext context) {
         new TREWindow(new TREOpenFileWindowContext()).register();
     }
 }

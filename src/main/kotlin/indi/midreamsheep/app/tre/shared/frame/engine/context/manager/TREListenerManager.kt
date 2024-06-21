@@ -7,9 +7,6 @@ abstract class TREListenerManager(
 
 ) {
     lateinit var context: TREEditorContext
-    fun setContext(editorContext:TREEditorContext){
-        context = editorContext
-    }
 
     abstract fun keyEvent(event: KeyEvent):Boolean
 }

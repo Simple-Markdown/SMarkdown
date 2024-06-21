@@ -9,18 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
+import indi.midreamsheep.app.tre.desktop.page.editor.getEditorWindowContext
 
 @Composable
-fun bottomBar(
-    treEditorWindowContext: TREEditorWindowContext
-) {
+fun bottomBar() {
     Divider()
     Box(
         Modifier.fillMaxWidth()
     ) {
         Text(
-            text = treEditorWindowContext.bottomBarViewModel.stateString.value,
+            text = getEditorWindowContext().bottomBarViewModel.stateString.value,
             modifier = Modifier.align(Alignment.CenterEnd),
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray

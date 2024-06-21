@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TREWindow {
 
-    private static TREDesktopWindowService treDesktopWindowService = TREIocWithCatch.getBean(TREDesktopWindowService.class);
+    private TREDesktopWindowService treDesktopWindowService = TREIocWithCatch.getBean(TREDesktopWindowService.class);
 
     private TREWindowContext treWindowContext;
 

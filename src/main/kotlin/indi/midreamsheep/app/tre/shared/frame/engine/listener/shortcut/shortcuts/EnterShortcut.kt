@@ -1,22 +1,22 @@
-package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline.shortcuts
+package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts
 
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
-import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakChecker
-import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
+import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
 
 @TextFieldShortcutKey
-class EnterShortcut: TREEditorShortcutKeyHandler() {
-    override fun action(context: TREEditorWindowContext) {
-        val stateManager = context.treFileManager.getStateManager()
+class EnterShortcut: TREEditorShortcutHandler {
+    override fun action(context: TREEditorContext) {
+        val stateManager = context.blockManager
 
         val wrapper = stateManager.getCurrentBlock() ?: return
         val currentLine = (wrapper as TRETextBlock)
@@ -49,8 +49,8 @@ class EnterShortcut: TREEditorShortcutKeyHandler() {
         stateManager.focusBlock(currentLineNumber+1)
     }
 
-    override fun isEnable(context: TREEditorWindowContext): Boolean {
-        return context.treFileManager.getStateManager().getCurrentBlock()!! is TRETextBlock
+    override fun isEnable(context: TREEditorContext): Boolean {
+        return context.blockManager.getCurrentBlock()!! is TRETextBlock
     }
 
     override fun getKeys(): List<TREShortcutKeyChecker> {

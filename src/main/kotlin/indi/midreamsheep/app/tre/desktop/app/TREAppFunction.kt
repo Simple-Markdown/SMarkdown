@@ -3,8 +3,8 @@ package indi.midreamsheep.app.tre.desktop.app
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import indi.midreamsheep.app.tre.constant.AppPathConstant
-import indi.midreamsheep.app.tre.desktop.page.main.context.recentused.pojo.RecentUsed
-import indi.midreamsheep.app.tre.desktop.page.main.context.recentused.pojo.readRecentUsed
+import indi.midreamsheep.app.tre.desktop.page.home.context.recentused.pojo.RecentUsed
+import indi.midreamsheep.app.tre.desktop.page.home.context.recentused.pojo.readRecentUsed
 import java.io.File
 
 val recentFileList: SnapshotStateList<RecentUsed> = mutableStateListOf<RecentUsed>().apply {

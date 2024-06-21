@@ -3,8 +3,8 @@ package indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.text.AnnotatedString
-import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.shared.api.tre.TREClassId
+import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 
 /**
  * 构建文本样式树
@@ -107,5 +107,5 @@ interface TREStyleTextTreeInter:TREClassId {
     fun resetPosition(position: Int):Int
 
     //将特定快捷键监听交由styleTree处理
-    fun keyEvent(key: KeyEvent, context: TREEditorWindowContext, position: Int): Boolean
+    fun keyEvent(key: KeyEvent, context: TREEditorContext, position: Int): Boolean
 }

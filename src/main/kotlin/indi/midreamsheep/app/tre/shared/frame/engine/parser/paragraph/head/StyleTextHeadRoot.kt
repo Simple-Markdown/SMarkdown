@@ -8,6 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
+import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRELineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
@@ -90,21 +91,21 @@ class StyleTextHeadPrefix(
 
     override fun resetPosition(position: Int) = level+1
 
-    override fun keyEvent(key: KeyEvent, context: TREE, position: Int): Boolean {
-        if (context.treTextFieldShortcutKeyManager.check(TREShortcutKeyStrongChecker(Backspace.keyCode))){
-            val treCoreBlock = context.editorFileManager.getStateManager().getCurrentBlock()!! as TRECoreBlock
+    override fun keyEvent(key: KeyEvent, context: TREEditorContext, position: Int): Boolean {
+        if (context.keyManager.match(TREShortcutKeyStrongChecker(Backspace.keyCode))){
+            val treCoreBlock = context.blockManager.getCurrentBlock()!! as TRECoreBlock
             val textFieldRange = treCoreBlock.getTextFieldRange()
             if (textFieldRange.getStart()==treCoreBlock.content.value.selection.start){
                 val index = treCoreBlock.content.value.selection.start - (level + 1)
                 val text = subString(treCoreBlock.content.value.text, getStartIndex(getParent()!!), getStartIndex(getParent()!!)+level+1)
-                context.editorFileManager.getStateManager().executeOperator(
+                context.blockManager.executeOperator(
                     TREContentChange(
                         treCoreBlock.content.value,
                         treCoreBlock.content.value.copy(
                             text = text,
                             selection = TextRange(index)
                         ),
-                        context.editorFileManager.getStateManager().indexOf(treCoreBlock)
+                        context.blockManager.indexOf(treCoreBlock)
                     )
                 )
                 return true

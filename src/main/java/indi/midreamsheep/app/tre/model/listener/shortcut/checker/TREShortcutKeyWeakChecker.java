@@ -26,4 +26,9 @@ public class TREShortcutKeyWeakChecker implements TREShortcutKeyChecker {
     public boolean check(Set<Long> pressedKeys) {
         return pressedKeys.containsAll(Set.of(keys));
     }
+
+    @Override
+    public int getWeight() {
+        return keys.length;
+    }
 }

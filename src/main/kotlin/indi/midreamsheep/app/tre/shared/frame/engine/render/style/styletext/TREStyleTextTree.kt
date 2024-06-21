@@ -4,7 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.text.AnnotatedString
-import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
+import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 
 abstract class TREStyleTextTree: TREStyleTextTreeInter {
 
@@ -193,7 +193,7 @@ abstract class TREStyleTextTree: TREStyleTextTreeInter {
         return false
     }
 
-    override fun keyEvent(key: KeyEvent, context: TREEditorWindowContext, position: Int):Boolean {
+    override fun keyEvent(key: KeyEvent, context: TREEditorContext, position: Int):Boolean {
         //先托管给子类进行处理
         var selection = position
         for (child in children) {
@@ -206,6 +206,6 @@ abstract class TREStyleTextTree: TREStyleTextTreeInter {
                 return true
             }
         }
-        return context.treTextFieldShortcutKeyManager.keyEvent(key,context)
+        return context.listenerManager.keyEvent(key)
     }
 }

@@ -13,15 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.desktop.page.editor.context.viewmodel.EditorStateViewModel
+import indi.midreamsheep.app.tre.desktop.page.editor.getEditorWindowContext
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.bottom.bottomBar
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.editors.render.renderList
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.editors.render.topbar.topBar
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.editors.source.sourceEditor
 
 @Composable
-fun editorPage(
-    editorWindowContext: TREEditorWindowContext
-){
+fun editorPage(){
     val listState = rememberLazyListState()
     Column(
         modifier = Modifier.padding(0.dp)
@@ -32,8 +31,7 @@ fun editorPage(
             //左间距
             editor(
                 Modifier.weight(10f),
-                listState,
-                editorWindowContext
+                listState
             )
             VerticalScrollbar(
                 modifier = Modifier.fillMaxHeight(),
@@ -41,7 +39,7 @@ fun editorPage(
             )
         }
         //下方的工具栏
-        bottomBar(editorWindowContext)
+        bottomBar()
     }
 }
 
@@ -49,8 +47,8 @@ fun editorPage(
 fun editor(
     modifier: Modifier,
     listState: LazyListState,
-    editorWindowContext: TREEditorWindowContext
 ){
+    val editorWindowContext = getEditorWindowContext()
     when (editorWindowContext.editorStateViewModel.editorMode.value) {
         EditorStateViewModel.EditorMode.RENDER -> renderList(modifier, listState)
         EditorStateViewModel.EditorMode.SOURCE -> sourceEditor(editorWindowContext,modifier, listState)

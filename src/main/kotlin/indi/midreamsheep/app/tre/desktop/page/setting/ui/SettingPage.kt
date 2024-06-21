@@ -19,14 +19,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.constant.page.SettingPageConstant
-import indi.midreamsheep.app.tre.desktop.page.setting.context.SettingPageContext
+import indi.midreamsheep.app.tre.desktop.page.setting.TRESettingWindowContext
 import indi.midreamsheep.app.tre.desktop.page.setting.ui.plugin.pluginPage
 import indi.midreamsheep.app.tre.service.language.TRELanguageResource
 
 @Composable
 fun settingPage() {
     var showExtension by remember { mutableStateOf(false) }
-    val settingPageContext = SettingPageContext()
+    val settingPageContext = TRESettingWindowContext()
     Row(
         Modifier.fillMaxSize()
     ) {
@@ -50,7 +50,7 @@ fun settingPage() {
 @Composable
 fun settingSideBar(
     modifier: Modifier,
-    settingPageContext: SettingPageContext,
+    settingPageContext: TRESettingWindowContext,
     showExtension: (Boolean) ->Unit,
 ) {
     Column(
@@ -125,7 +125,7 @@ fun settingButton(
 @Composable
 fun setting(
     modifier: Modifier,
-    context: SettingPageContext
+    context: TRESettingWindowContext
 ) {
     val rememberLazyListState = rememberLazyListState()
     Column(

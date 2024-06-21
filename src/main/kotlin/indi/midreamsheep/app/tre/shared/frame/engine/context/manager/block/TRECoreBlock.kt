@@ -17,12 +17,12 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
-import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindowContext
 import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.observer.update
+import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRECoreLineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRELineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TREOffsetMappingAdapter
@@ -70,7 +70,7 @@ class TRECoreBlock(
 
     @Composable
     fun editorInput() {
-        val context = TRELocalEditorWindowContext.LocalContext.current
+        val context = getEditorContext()
         BasicTextField(
             value = content.value,
             onValueChange = { newValue ->
@@ -80,8 +80,8 @@ class TRECoreBlock(
                     return@BasicTextField
                 }
                 //设置内容
-                context.editorFileManager.getStateManager().executeOperator(
-                    TREContentChange(content.value, newValue, context.editorFileManager.getStateManager().indexOf(this))
+                context.blockManager.executeOperator(
+                    TREContentChange(content.value, newValue, context.blockManager.indexOf(this))
                 )
             },
             textStyle = MaterialTheme.typography.bodyLarge,

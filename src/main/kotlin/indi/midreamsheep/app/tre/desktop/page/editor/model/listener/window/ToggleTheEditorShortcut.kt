@@ -5,14 +5,14 @@ import androidx.compose.ui.input.key.Key
 import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorWindowShortcut
 import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.desktop.page.editor.context.viewmodel.EditorStateViewModel
+import indi.midreamsheep.app.tre.desktop.page.editor.model.listener.TREEditorWindowShortcutListener
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
-import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.file.source.TRESourceManager
 
 @EditorWindowShortcut
-class ToggleTheEditorShortcut: TREEditorShortcutKeyHandler() {
+class ToggleTheEditorShortcut: TREEditorWindowShortcutListener {
 
-    override fun action(context: TREEditorWindowContext) {
+    override fun handle(context: TREEditorWindowContext) {
         when (context.editorStateViewModel.editorMode.value) {
             EditorStateViewModel.EditorMode.RENDER -> {
                 context.treFileManager.getStateManager().setCurrentBlockState(null)
@@ -26,7 +26,7 @@ class ToggleTheEditorShortcut: TREEditorShortcutKeyHandler() {
         }
     }
 
-    override fun isEnable(context: TREEditorWindowContext?) = true
+    override fun isEnable(context: TREEditorWindowContext) = true
 
     @OptIn(ExperimentalComposeUiApi::class)
     override fun getKeys(): List<TREShortcutKeyStrongChecker> {

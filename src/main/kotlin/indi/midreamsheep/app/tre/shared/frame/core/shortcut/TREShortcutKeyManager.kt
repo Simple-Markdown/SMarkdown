@@ -1,5 +1,7 @@
 package indi.midreamsheep.app.tre.shared.frame.core.shortcut
 
+import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
+
 class TREShortcutKeyManager {
 
     private val keys = mutableSetOf<Long>()
@@ -8,5 +10,5 @@ class TREShortcutKeyManager {
 
     fun remove(key: Long) = keys.remove(key)
 
-    fun match()=false
+    fun match(checker: TREShortcutKeyChecker) = checker.check(keys)
 }

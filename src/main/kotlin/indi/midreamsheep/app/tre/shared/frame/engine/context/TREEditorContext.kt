@@ -18,6 +18,6 @@ class TREEditorContext(
     val treObserverManager: TREObserverManager
 ){
     init {
-        listenerManager.setContext(this)
+        listenerManager.context = this
     }
 }

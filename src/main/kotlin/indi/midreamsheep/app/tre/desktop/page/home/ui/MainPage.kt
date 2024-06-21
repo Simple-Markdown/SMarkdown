@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.desktop.page.main.ui
+package indi.midreamsheep.app.tre.desktop.page.home.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,14 +18,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.desktop.page.main.context.TREMainPageContext
-import indi.midreamsheep.app.tre.desktop.page.main.ui.history.recentUsed
-import indi.midreamsheep.app.tre.desktop.page.setting.SettingWindow
+import indi.midreamsheep.app.tre.desktop.page.home.TREHomePageWindowContext
+import indi.midreamsheep.app.tre.desktop.page.home.ui.history.recentUsed
+import indi.midreamsheep.app.tre.desktop.page.setting.TRESettingWindowContext
 import indi.midreamsheep.app.tre.service.language.TRELanguageResource
+import indi.midreamsheep.app.tre.service.window.TREWindow
 
 @Composable
 fun mainPage() {
-    val context = TREMainPageContext()
+    val context = TREHomePageWindowContext()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,7 +65,7 @@ fun mainPage() {
 @Composable
 fun leftScreen(
     modifier: Modifier,
-    context: TREMainPageContext
+    context: TREHomePageWindowContext
 ) {
     Column(
         modifier
@@ -87,7 +88,7 @@ fun leftScreen(
 @Composable
 fun rightScreen(
     modifier: Modifier,
-    context: TREMainPageContext
+    context: TREHomePageWindowContext
 ) {
     Column(
         modifier
@@ -144,7 +145,7 @@ fun rightScreen(
         ) {
             IconButton(
                 onClick = {
-                    SettingWindow().register()
+                    TREWindow(TRESettingWindowContext()).register()
                 },
                 modifier = Modifier.size(30.dp)
             ) {

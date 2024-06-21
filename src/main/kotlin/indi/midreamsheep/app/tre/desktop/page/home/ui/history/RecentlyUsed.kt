@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.desktop.page.main.ui.history
+package indi.midreamsheep.app.tre.desktop.page.home.ui.history
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -10,21 +10,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.desktop.app.TREAppContext
-import indi.midreamsheep.app.tre.desktop.page.main.context.recentused.pojo.RecentUsed
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
+import indi.midreamsheep.app.tre.desktop.page.home.context.recentused.pojo.RecentUsed
 import indi.midreamsheep.app.tre.model.mainpage.file.core.TRELocalFile
-import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindowContext
+import indi.midreamsheep.app.tre.service.window.TREWindow
 import java.io.File
 
 @Composable
 fun recentUsed(){
     LazyColumn {
-        TREAppContext.context.recentFileViewModel.recentFileList.forEach {
-            recentUsed ->
                 item {
-                    recentUsedItem(recentUsed)
+                    recentUsedItem(RecentUsed(
+                        name = "text",
+                        path = "/home/midreamsheep/Documents/test.md",
+                        time = 1111111L
+                    ))
                 }
-        }
     }
 }
 
@@ -37,7 +38,7 @@ fun recentUsedItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                TRELocalEditorWindowContext(TRELocalFile(File(recentUsed.path))).register()
+                TREWindow(TREEditorWindowContext(TRELocalFile(File(recentUsed.path)))).register()
             }
             .padding(bottom =  5.dp,start = 3.dp,end =3.dp)
     ) {

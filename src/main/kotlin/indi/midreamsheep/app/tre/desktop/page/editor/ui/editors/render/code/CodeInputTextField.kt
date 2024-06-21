@@ -33,7 +33,6 @@ import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.code.edito
 @Composable
 fun codeInputTextField(
     codeLine: TRECodeBlock,
-    context: TREEditorWindowContext
 ) {
     Column {
         BasicTextField(

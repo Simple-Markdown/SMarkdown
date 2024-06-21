@@ -14,7 +14,7 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import indi.midreamsheep.app.tre.desktop.page.editor.TRELocalEditorWindowContext
+import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContext
 import indi.midreamsheep.app.tre.shared.ui.compnent.simpleclick.simpleClickable
 
 @Composable
@@ -22,7 +22,7 @@ fun renderList(
     modifier: Modifier,
     listState: LazyListState
 ) {
-    val stateManager = TRELocalEditorWindowContext.LocalContext.current.editorFileManager.getStateManager()
+    val stateManager = getEditorContext().blockManager
     val lineStateList = stateManager.getTREBlockList()
 
     val leftPadding = remember { mutableStateOf(0.dp) }

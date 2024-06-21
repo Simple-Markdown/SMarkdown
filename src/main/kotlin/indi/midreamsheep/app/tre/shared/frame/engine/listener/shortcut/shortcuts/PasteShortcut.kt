@@ -1,19 +1,17 @@
-package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.inline.shortcuts
+package indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts
 
 import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.annotation.shortcut.TextFieldShortcutKey
-import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
-import indi.midreamsheep.app.tre.model.listener.shortcut.handler.TREEditorShortcutKeyHandler
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
 
 @TextFieldShortcutKey
-class PasteShortcut: TREEditorShortcutKeyHandler() {
-    override fun action(context: TREEditorWindowContext?) {
-        if (context!!.clipboardAction.getClipboardContentType() != "Text") {
+class PasteShortcut: TREEditorShortcutHandler {
+    override fun action(context: TREEditorContext) {
+        /*if (context!!.clipboardAction.getClipboardContentType() != "Text") {
             return
         }
         //获取当前行
@@ -39,12 +37,13 @@ class PasteShortcut: TREEditorShortcutKeyHandler() {
                 stateList.addBlock(currentLineNumber+ index, newState)
             }
         }
-        currentLine.focusFromLast()
+        currentLine.focusFromLast()*/
+        //TODO rebuild the paste shortcut
     }
 
-    override fun isEnable(context: TREEditorWindowContext): Boolean {
+    override fun isEnable(context: TREEditorContext): Boolean {
         val currentMarkdownLine =
-            context.treFileManager.getStateManager().getCurrentBlock() ?: return false
+            context.blockManager.getCurrentBlock() ?: return false
         return currentMarkdownLine is TRETextBlock
     }
 
