@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.desktop.page.editor.context.viewmodel.EditorStateViewModel
 import indi.midreamsheep.app.tre.desktop.page.editor.getEditorWindowContext
 import indi.midreamsheep.app.tre.desktop.page.editor.ui.bottom.bottomBar
@@ -30,7 +29,7 @@ fun editorPage(){
         Row (Modifier.weight(1f)){
             //左间距
             editor(
-                Modifier.weight(10f),
+                Modifier.weight(1f),
                 listState
             )
             VerticalScrollbar(

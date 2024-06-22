@@ -11,7 +11,7 @@ import indi.midreamsheep.app.tre.shared.frame.core.shortcut.TREShortcutKeyManage
  * */
 abstract class TREWindowContext{
     private lateinit var window: TREWindow
-    lateinit var keyManager: TREShortcutKeyManager
+    var keyManager: TREShortcutKeyManager = TREShortcutKeyManager()
     abstract fun getWindowTitle():String
     abstract fun getDisplay(): Display
     open fun previewKeyEvent(key:KeyEvent) = false

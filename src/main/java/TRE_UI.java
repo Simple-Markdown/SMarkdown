@@ -6,7 +6,7 @@ import org.slf4j.Logger;
  * 用于日志输出
  * */
 @Slf4j
-public class TRE {
+public class TRE_UI {
     public static Logger getLogger(){
         return log;
     }

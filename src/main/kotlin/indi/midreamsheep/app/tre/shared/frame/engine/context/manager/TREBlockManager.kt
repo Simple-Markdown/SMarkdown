@@ -2,8 +2,8 @@ package indi.midreamsheep.app.tre.shared.frame.engine.context.manager
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperator
+import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TREBlock
 
 /**
@@ -44,6 +44,14 @@ interface TREBlockManager {
      * */
     fun setCurrentBlockState(markdownLineState: TREBlock?)
     /**
+     * 获取指定块的下一个块
+     * */
+    fun getNextBlock(treBlock: TREBlock):TREBlock?
+    /**
+     * 获取指定块的上一个块
+     * */
+    fun getPreviousBlock(treBlock: TREBlock):TREBlock?
+    /**
      * 获取存储block数量
      * */
     fun getSize():Int
@@ -71,11 +79,11 @@ interface TREBlockManager {
     /**
      * 获取编辑器上下文
      * */
-    fun getContext(): TREEditorWindowContext
+    fun getContext(): TREEditorContext
     /**
      * 设置编辑器上下文
      * */
-    fun setContext(context: TREEditorWindowContext)
+    fun setContext(context: TREEditorContext)
     /**
      * 提交命令
      * */

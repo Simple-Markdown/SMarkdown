@@ -5,11 +5,11 @@ import indi.midreamsheep.app.tre.model.mainpage.file.TREFile
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREFileManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.ManagerReadParser
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.block.TREStateManagerImpl
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.block.TREBlockManagerImpl
 
 class TRELocalFileRenderManager(private var file: TREFile) : TREFileManager {
 
-    private val blockManager = TREStateManagerImpl()
+    private val blockManager = TREBlockManagerImpl()
     private var isRead = false
     private val parser = getBean(ManagerReadParser::class.java)
 

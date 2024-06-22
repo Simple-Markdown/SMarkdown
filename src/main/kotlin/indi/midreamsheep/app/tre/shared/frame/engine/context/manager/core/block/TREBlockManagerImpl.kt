@@ -4,15 +4,15 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowContext
 import indi.midreamsheep.app.tre.model.editor.operator.TREInitOperator
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperator
+import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TREBlock
 
-class TREStateManagerImpl: TREBlockManager {
+class TREBlockManagerImpl: TREBlockManager {
 
-    private lateinit var context: TREEditorWindowContext
+    private lateinit var context: TREEditorContext
     private val blockStateList = mutableStateListOf<TREBlock>()
     private var currentMarkdownLineState: MutableState<TREBlock?> = mutableStateOf(null)
 
@@ -42,6 +42,22 @@ class TREStateManagerImpl: TREBlockManager {
         currentMarkdownLineState.value = markdownLineState
     }
 
+    override fun getNextBlock(treBlock: TREBlock): TREBlock? {
+        val index = indexOf(treBlock)
+        if (index<getSize()) return getTREBlock(index+1)
+        if (context.parentContext==null) return null
+        val parentBlockManager = context.parentContext!!.blockManager
+        return parentBlockManager.getNextBlock(parentBlockManager.getCurrentBlock()!!)
+    }
+
+    override fun getPreviousBlock(treBlock: TREBlock): TREBlock? {
+        val index = indexOf(treBlock)
+        if (index>0) return getTREBlock(index-1)
+        if (context.parentContext==null) return null
+        val parentBlockManager = context.parentContext!!.blockManager
+        return parentBlockManager.getPreviousBlock(parentBlockManager.getCurrentBlock()!!)
+    }
+
     override fun getSize() = blockStateList.size
 
     override fun focusBlock(index: Int, focus: (TREBlock) -> Unit) {
@@ -62,7 +78,7 @@ class TREStateManagerImpl: TREBlockManager {
     }
 
     override fun getContext() = context
-    override fun setContext(context: TREEditorWindowContext) {
+    override fun setContext(context: TREEditorContext) {
         this.context = context
     }
 

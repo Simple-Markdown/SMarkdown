@@ -92,7 +92,7 @@ class TRECoreBlock(
                     if (it.type != KeyEventType.KeyDown) {
                         return@onPreviewKeyEvent false
                     }
-                    return@onPreviewKeyEvent context.listenerManager.keyEvent()
+                    return@onPreviewKeyEvent context.treShortcutEvent.keyEvent()
                 },
             visualTransformation = { _ ->
                 TransformedText(

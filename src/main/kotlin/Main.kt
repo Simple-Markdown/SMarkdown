@@ -10,7 +10,7 @@ import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.service.window.TREDesktopWindowService
 import indi.midreamsheep.app.tre.service.window.run.TREApplicationRunCommandParser
 
-val logger: org.slf4j.Logger = TRE.getLogger()!!
+val logger: org.slf4j.Logger = TRE_UI.getLogger()!!
 
 fun main(args: Array<String>) = application {
     logger.info("args:{}",args)

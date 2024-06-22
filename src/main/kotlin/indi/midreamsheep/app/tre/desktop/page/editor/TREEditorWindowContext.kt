@@ -57,7 +57,7 @@ class TREEditorWindowContext(): TREWindowContext(){
             parentContext = null,
             blockManager = treFileManager.getStateManager(),
             keyManager = keyManager,
-            listenerManager = TRECoreEditorShortcutEvent(),
+            treShortcutEvent = TRECoreEditorShortcutEvent(),
             treObserverManager = TREEditorWindowObserverManager(),
         )
     }
