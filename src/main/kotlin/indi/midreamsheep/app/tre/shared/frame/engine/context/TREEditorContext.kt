@@ -4,6 +4,7 @@ import indi.midreamsheep.app.tre.shared.frame.core.shortcut.TREShortcutKeyManage
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREObserverManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREShortcutEvent
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TREBlock
 
 class TREEditorContext(
     /**父上下文，为空则为最高上下文*/
@@ -15,7 +16,9 @@ class TREEditorContext(
     /**监听器管理器*/
     val treShortcutEvent: TREShortcutEvent,
     /**观察者上下文*/
-    val treObserverManager: TREObserverManager
+    val treObserverManager: TREObserverManager,
+    /**当前上下文的块*/
+    var block: TREBlock? = null
 ){
     init {
         treShortcutEvent.context = this

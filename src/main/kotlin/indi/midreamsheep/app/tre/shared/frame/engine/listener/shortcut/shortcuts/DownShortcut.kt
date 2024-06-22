@@ -14,6 +14,12 @@ class DownShortcut: TREEditorShortcutHandler {
         val stateManager = context.blockManager
         val index = stateManager.getCurrentBlockIndex()
         if(index != stateManager.getSize() - 1){
+            if(stateManager.getCurrentBlock() is TRETextBlock){
+                stateManager.focusBlock(stateManager.getCurrentBlockIndex()+1){
+                    (it as TRETextBlock).focusFromStart()
+                }
+                return
+            }
             stateManager.focusBlock(stateManager.getCurrentBlockIndex()+1)
             return
         }

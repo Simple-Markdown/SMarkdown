@@ -6,7 +6,6 @@ import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyS
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.tool.selectionInStart
 
 @EditorShortcut
 class DirectionLeftShortcut: TREEditorShortcutHandler {
@@ -24,7 +23,11 @@ class DirectionLeftShortcut: TREEditorShortcutHandler {
         if(stateManager.getCurrentBlockIndex()==0){
             return false
         }
-        return selectionInStart(context)
+        val currentBlock = stateManager.getCurrentBlock()!!
+        if (currentBlock is TRETextBlock) {
+            return currentBlock.isStart()
+        }
+        return false
     }
 
     override fun getKeys(): List<TREShortcutKeyStrongChecker> {

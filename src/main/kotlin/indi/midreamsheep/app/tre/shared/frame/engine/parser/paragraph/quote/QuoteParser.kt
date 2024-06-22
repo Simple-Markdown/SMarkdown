@@ -45,6 +45,7 @@ class QuoteParser: TRELineStyleParser {
             treShortcutEvent = QuoteListenerManager()
         )
         val quoteBlock = QuoteBlock(editorContext.blockManager)
+        editorContext.block = quoteBlock
         context.blockManager.executeOperator(
             TREOperatorGroup().apply {
                 addOperator(TREBlockDelete(context.blockManager.getCurrentBlockIndex()))
@@ -53,7 +54,7 @@ class QuoteParser: TRELineStyleParser {
         )
         editorContext.blockManager.addBlock(TRECoreBlock(editorContext.blockManager))
         editorContext.blockManager.focusBlock(0)
-        (editorContext.blockManager.getCurrentBlock()!! as TRECoreBlock).setTextFieldValue(TextFieldValue(text.substring(2)))
+        (editorContext.blockManager.getTREBlock(0) as TRECoreBlock).setTextFieldValue(TextFieldValue(text.substring(2)))
         return render
     }
 

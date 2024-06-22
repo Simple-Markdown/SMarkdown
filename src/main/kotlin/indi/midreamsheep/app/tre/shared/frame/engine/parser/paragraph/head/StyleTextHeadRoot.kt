@@ -1,12 +1,12 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.head
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key.Companion.Backspace
-import androidx.compose.ui.text.*
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
-import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
-import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRELineParser
@@ -91,7 +91,7 @@ class StyleTextHeadPrefix(
     override fun resetPosition(position: Int) = level+1
 
     override fun keyEvent(context: TREEditorContext, position: Int): Boolean {
-        if (context.keyManager.match(TREShortcutKeyStrongChecker(Backspace.keyCode))){
+/*        if (context.keyManager.match(TREShortcutKeyStrongChecker(Backspace.keyCode))){
             val treCoreBlock = context.blockManager.getCurrentBlock()!! as TRECoreBlock
             val textFieldRange = treCoreBlock.getTextFieldRange()
             if (textFieldRange.getStart()==treCoreBlock.content.value.selection.start){
@@ -109,7 +109,7 @@ class StyleTextHeadPrefix(
                 )
                 return true
             }
-        }
+        }*/
         return false
     }
     private fun getStartIndex(styleTextTree: TREStyleTextTreeInter):Int{

@@ -27,7 +27,6 @@ import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRECoreLin
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRELineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TREOffsetMappingAdapter
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
-import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TRERangeInter
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root.TRECoreTreeRoot
 import indi.midreamsheep.app.tre.shared.tool.text.filter
@@ -144,6 +143,10 @@ class TRECoreBlock(
         buildContent()
     }
 
+    override fun isStart() = render.value.styleText.styleTextTree.transformedToOriginal(0)==content.value.selection.start
+
+    override fun isEnd() = render.value.styleText.styleTextTree.transformedToOriginal(render.value.styleText.styleTextTree.transformedSize()) == content.value.selection.start
+
     private fun buildContent(
         textFieldValue: TextFieldValue = content.value
     ){
@@ -166,7 +169,7 @@ class TRECoreBlock(
 
     override fun focusFromLast() = focus(content.value.text.length)
 
-    override fun focusFormStart() = focus(0)
+    override fun focusFromStart() = focus(0)
 
     override fun releaseFocus() { isFocus.value = false }
 
@@ -191,16 +194,5 @@ class TRECoreBlock(
             blockManager,
             render.value.styleText.styleTextTree.getTypeId()
         )
-    }
-
-    override fun getTextFieldRange() = object : TRERangeInter {
-        override fun getStart(): Int {
-            return render.value.styleText.styleTextTree.transformedToOriginal(0)
-        }
-
-        override fun getEnd(): Int {
-            val styleTextTree = render.value.styleText.styleTextTree
-            return styleTextTree.transformedToOriginal(styleTextTree.transformedSize())
-        }
     }
 }

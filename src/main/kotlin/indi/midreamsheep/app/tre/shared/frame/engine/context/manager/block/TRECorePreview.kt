@@ -15,7 +15,7 @@ class TRECorePreview(val line: TRECoreBlock): Display {
     override fun getComposable():@Composable ()->Unit {
         return{
             var layoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
-            val value = line.render.value.styleText.styleTextTree!!
+            val value = line.render.value.styleText.styleTextTree
             Text(
                 text = value.getAnnotatedString().value!!,
                 style = MaterialTheme.typography.bodyLarge,

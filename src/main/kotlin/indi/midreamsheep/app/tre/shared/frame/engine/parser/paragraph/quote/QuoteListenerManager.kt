@@ -1,58 +1,31 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.quote
 
-import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
+import androidx.compose.ui.input.key.Key
+import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREShortcutEvent
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.editor.TREEditorShortcutHandlerManager
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
 
 class QuoteListenerManager: TREShortcutEvent() {
-    val manager = getBean(TREEditorShortcutHandlerManager::class.java)
 
     override fun keyEvent(): Boolean {
-        //TODO 处理自定义事件
-        //处理编辑器级事件
-        val handler = getHandler()
-        if (handler != null) {
-            handler.action(context)
-            return true
-        }
-        val treCoreBlock = context.blockManager.getCurrentBlock()
-        if (treCoreBlock == null||treCoreBlock !is TRECoreBlock) {
-            return false
-        }
-
-        return treCoreBlock.render.value.styleText.styleTextTree.keyEvent(
-            context,
-            treCoreBlock.content.value.selection.start
-        )
+        if (quoteKeyEvent()) return true
+        return super.keyEvent()
     }
 
-    private fun getHandler(): TREEditorShortcutHandler? {
-        var targetListener: TREEditorShortcutHandler? = null
-        var lastWeight = -1
-        for (listener in manager.handlers) {
-            for (checker in listener.getKeys()) {
-                if (!context.keyManager.match(checker)) {
+    private fun quoteKeyEvent():Boolean{
+        if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.DirectionUp.keyCode))){
+            var currentContext = context
+            while (true){
+                if (currentContext.blockManager.getCurrentBlockIndex()==0){
+                    if(currentContext.parentContext==null) return false
+                    currentContext = currentContext.parentContext!!
                     continue
                 }
-                if (checker.weight==Int.MAX_VALUE){
-                    if (!listener.isEnable(context)){
-                        break
-                    }
-                    targetListener = listener
-                    lastWeight = Int.MAX_VALUE
-                    break
-                }
-                if (checker.weight>lastWeight){
-                    if (!listener.isEnable(context)){
-                        break
-                    }
-                    targetListener = listener
-                    lastWeight = checker.weight
-                }
+                break
             }
+            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1)
+            return true
         }
-        return targetListener
+        return false
     }
 }
+

@@ -14,7 +14,7 @@ class TREBlockManagerImpl: TREBlockManager {
 
     private lateinit var context: TREEditorContext
     private val blockStateList = mutableStateListOf<TREBlock>()
-    private var currentMarkdownLineState: MutableState<TREBlock?> = mutableStateOf(null)
+    private var currentBlock: MutableState<TREBlock?> = mutableStateOf(null)
 
     private var currentTREOperator: TREOperator = TREInitOperator()
 
@@ -28,18 +28,18 @@ class TREBlockManagerImpl: TREBlockManager {
 
     override fun addTREBlockState(index:Int,treBlockState: TREBlock) = blockStateList.add(index,treBlockState)
 
-    override fun getCurrentBlockIndex() = if(currentMarkdownLineState.value==null){ -1 }else{blockStateList.indexOf(getCurrentBlock())}
+    override fun getCurrentBlockIndex() = if(currentBlock.value==null){ -1 }else{blockStateList.indexOf(getCurrentBlock())}
 
     override fun getCurrentBlockState(): MutableState<TREBlock?> {
-        return currentMarkdownLineState
+        return currentBlock
     }
 
     override fun getCurrentBlock(): TREBlock? {
-        return currentMarkdownLineState.value
+        return currentBlock.value
     }
 
     override fun setCurrentBlockState(markdownLineState: TREBlock?) {
-        currentMarkdownLineState.value = markdownLineState
+        currentBlock.value = markdownLineState
     }
 
     override fun getNextBlock(treBlock: TREBlock): TREBlock? {
@@ -65,6 +65,16 @@ class TREBlockManagerImpl: TREBlockManager {
         getCurrentBlock()?.releaseFocus()
         setCurrentBlockState(treBlockState)
         focus(treBlockState)
+        //对所有上一级都设置
+        var currentContext = context
+        while (currentContext.parentContext!=null){
+            if (currentContext.parentContext!!.blockManager.getCurrentBlock()==currentContext.block){
+                currentContext = currentContext.parentContext!!
+                continue
+            }
+            currentContext.parentContext!!.blockManager.focusBlock(currentContext.parentContext!!.blockManager.indexOf(currentContext.block!!))
+            currentContext = currentContext.parentContext!!
+        }
     }
 
     override fun addBlock(index: Int, blockState: TREBlock) {

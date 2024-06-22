@@ -12,7 +12,6 @@ import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyW
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.tool.selectionInStart
 
 @EditorShortcut
 class BackspaceShortcut: TREEditorShortcutHandler {
@@ -56,11 +55,11 @@ class BackspaceShortcut: TREEditorShortcutHandler {
 
     override fun isEnable(context: TREEditorContext): Boolean {
         val stateManager = context.blockManager
-        val index = stateManager.getCurrentBlockIndex()
-        if(index==0){
+        val currentBlock = stateManager.getCurrentBlock()
+        if (currentBlock==null||currentBlock !is TRETextBlock||stateManager.getCurrentBlockIndex()==0){
             return false
         }
-        return (stateManager.getTREBlock(index - 1) is TRETextBlock)&& selectionInStart(context)
+        return currentBlock.isStart()
     }
 
     override fun getKeys(): List<TREShortcutKeyChecker> {
