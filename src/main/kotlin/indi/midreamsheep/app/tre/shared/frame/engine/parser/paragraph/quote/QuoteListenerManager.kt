@@ -22,7 +22,7 @@ class QuoteListenerManager: TREShortcutEvent() {
                 }
                 break
             }
-            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1)
+            //currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1)
             return true
         }
         return false

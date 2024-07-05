@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.observer
+package indi.midreamsheep.app.tre.shared.frame.engine.context.block.observer
 
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 

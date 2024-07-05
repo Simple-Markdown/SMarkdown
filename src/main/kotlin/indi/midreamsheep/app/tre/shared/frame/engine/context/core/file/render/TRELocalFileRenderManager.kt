@@ -1,11 +1,11 @@
-package indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.file.render
+package indi.midreamsheep.app.tre.shared.frame.engine.context.core.file.render
 
 import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.model.mainpage.file.TREFile
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREFileManager
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.ManagerReadParser
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.block.TREBlockManagerImpl
+import indi.midreamsheep.app.tre.shared.frame.engine.context.core.ManagerReadParser
+import indi.midreamsheep.app.tre.shared.frame.engine.context.core.blockmanager.TREBlockManagerImpl
 
 class TRELocalFileRenderManager(private var file: TREFile) : TREFileManager {
 

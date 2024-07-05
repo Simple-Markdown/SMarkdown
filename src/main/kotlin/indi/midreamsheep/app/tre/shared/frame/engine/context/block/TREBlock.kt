@@ -1,27 +1,26 @@
-package indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block;
+package indi.midreamsheep.app.tre.shared.frame.engine.context.block;
 
-import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.api.tre.TREObjectId
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
-import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TRELinePreButton
 
+/**
+ * tre编辑器块的基本接口
+ * */
 interface TREBlock:TREObjectId {
     /**
      * 从上次获取焦点的位置获取焦点
+     * @param typeId 用于标记调用者
+     * @param data 用于特殊形式的数据传递
      * */
-    fun focus()
+    fun focus(typeId:Long,data: CustomData = CustomData.NONE)
     /**
      * 释放焦点
      * */
-    fun releaseFocus();
+    fun releaseFocus()
     /**
-     * 获取当前的composable
+     * 获取用于显示实体类
      * */
-    fun getDisplay():Display
-    /**
-     * 获取前置按钮
-     */
-    fun getPreButton(): TRELinePreButton
+    fun getTREBlockDisplay(): TREBlockDisplay
 
     /**
      * 获取当前的内容
@@ -37,4 +36,13 @@ interface TREBlock:TREObjectId {
      * 当block被移除manager时调用
      * */
     fun whenRemove()
+}
+
+/**
+ * 数据传递标记类，仅用于标记
+ * */
+interface CustomData {
+    companion object {
+        val NONE = object : CustomData {}
+    }
 }

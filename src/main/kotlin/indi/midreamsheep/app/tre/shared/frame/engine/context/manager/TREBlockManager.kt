@@ -4,7 +4,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperator
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TREBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.CustomData
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREBlock
 
 /**
  * Block状态管理器
@@ -42,15 +43,15 @@ interface TREBlockManager {
     /**
      * 设置当前Block状态
      * */
-    fun setCurrentBlockState(markdownLineState: TREBlock?)
+    fun setCurrentBlock(markdownLineState: TREBlock?)
     /**
      * 获取指定块的下一个块
      * */
-    fun getNextBlock(treBlock: TREBlock):TREBlock?
+    fun getNextBlock(treBlock: TREBlock): TREBlock?
     /**
      * 获取指定块的上一个块
      * */
-    fun getPreviousBlock(treBlock: TREBlock):TREBlock?
+    fun getPreviousBlock(treBlock: TREBlock): TREBlock?
     /**
      * 获取存储block数量
      * */
@@ -58,11 +59,13 @@ interface TREBlockManager {
     /**
      * 获取指定位置的Block的焦点
      * */
-    fun focusBlock(index:Int) = focusBlock(index){it.focus()}
+    fun focusBlock(index:Int,typeId:Long,data: CustomData = CustomData.NONE) = focusBlock(index,typeId){
+        it.focus(typeId,data)
+    }
     /**
      * 通过指定操作获取指定位置焦点
      * */
-    fun focusBlock(index:Int,focus: (TREBlock)->Unit)
+    fun focusBlock(index:Int,typeId: Long,focus: (TREBlock)->Unit)
     /**
      * 新增block块，会触发block的回调操作
      * */

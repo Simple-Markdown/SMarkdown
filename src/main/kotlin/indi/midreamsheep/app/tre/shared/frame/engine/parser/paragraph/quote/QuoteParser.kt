@@ -1,16 +1,9 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.quote
 
-import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
-import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowObserverManager
-import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockDelete
-import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
-import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
-import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.block.TREBlockManagerImpl
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRECoreLineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
@@ -36,7 +29,7 @@ class QuoteParser: TRELineStyleParser {
         val render = TRERender(block).apply {
             styleText.styleTextTree = TRECoreContentLeaf("quote init")
         }
-        val context = block.getBlockManager().getContext()
+/*        val context = block.getBlockManager().getContext()
         val editorContext = TREEditorContext(
             parentContext =  context,
             keyManager = context.keyManager,
@@ -54,7 +47,7 @@ class QuoteParser: TRELineStyleParser {
         )
         editorContext.blockManager.addBlock(TRECoreBlock(editorContext.blockManager))
         editorContext.blockManager.focusBlock(0)
-        (editorContext.blockManager.getTREBlock(0) as TRECoreBlock).setTextFieldValue(TextFieldValue(text.substring(2)))
+        (editorContext.blockManager.getTREBlock(0) as TRECoreBlock).setTextFieldValue(TextFieldValue(text.substring(2)))*/
         return render
     }
 

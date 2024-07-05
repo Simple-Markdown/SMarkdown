@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block
+package indi.midreamsheep.app.tre.shared.frame.engine.context.core.block
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,17 +11,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.shared.api.display.Display
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.ShortcutState
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREBlockDisplay
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TRETextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.observer.update
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.observer.update
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRECoreLineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRELineParser
@@ -33,7 +38,7 @@ import indi.midreamsheep.app.tre.shared.tool.text.filter
 
 class TRECoreBlock(
     blockManager: TREBlockManager
-) : TREBlockAbstract(blockManager), TRETextBlock {
+) : TRETextBlock(blockManager) {
     private val parser = getBean(TRECoreLineParser::class.java)
     private var decorateParser: TRELineParser? = null
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
@@ -42,12 +47,14 @@ class TRECoreBlock(
     )
     private var focusRequester: FocusRequester = FocusRequester()
     private var isFocus = mutableStateOf(false)
+    private val shortcutState = ShortcutState()
+    var textLayoutResult: TextLayoutResult? = null
 
-    override fun getDisplay(): Display {
-        return Display{
+    private val treBlockDisplay = object : TREBlockDisplay{
+        override fun getDisplay() = Display{
             {
                 if(render.value.styleText.styleTextTree.check(content.value.selection.start)){
-                   refresh( content.value.copy(selection = TextRange(render.value.styleText.styleTextTree.resetPosition(content.value.selection.start))))
+                    refresh( content.value.copy(selection = TextRange(render.value.styleText.styleTextTree.resetPosition(content.value.selection.start))))
                 }
                 if(isFocus.value){
                     render.value.styleText.styleTextTree.reset(content.value.selection.start,content.value.selection.start,true)
@@ -58,7 +65,15 @@ class TRECoreBlock(
                 }
             }
         }
+
+        override fun getPreButton() = render.value.trePreButton
     }
+
+    /**
+     * 获取用于显示实体类
+     * */
+    override fun getTREBlockDisplay() = treBlockDisplay
+
 
     override fun getContent() = content.value.text
 
@@ -99,6 +114,15 @@ class TRECoreBlock(
                     offsetMapping = TREOffsetMappingAdapter(render.value.styleText.styleTextTree),
                 )
             },
+            onTextLayout = {
+                textLayoutResult = it
+                //对shortcutState
+                shortcutState.isLeftAvailable = isStart()
+                shortcutState.isRightAvailable = isEnd()
+                shortcutState.isUpAvailable = it.getLineForOffset(content.value.selection.start) == 0
+                shortcutState.isDownAvailable = it.getLineForOffset(content.value.selection.start) == it.lineCount - 1
+                shortcutState.left =  it.getCursorRect(render.value.styleText.styleTextTree.originalToTransformed(content.value.selection.start)).left
+                           },
             decorationBox = { innerTextField ->
                 Column(modifier = Modifier.fillMaxWidth()) {
                     treCoreDisplayStructure(render.value.styleText) {
@@ -164,18 +188,28 @@ class TRECoreBlock(
     }
 
     override fun focus() { isFocus.value = true }
+    override fun getShortcutState() = shortcutState
 
     override fun focusTransform(transformPosition: Int) = focus(render.value.styleText.styleTextTree.transformedToOriginal(transformPosition))
+    override fun focusX(x: Float) {
+        if (textLayoutResult==null){
+            return
+        }
+        val offsetForPosition = textLayoutResult?.getOffsetForPosition(
+            Offset(x, 0f)
+        )
+        focusTransform(offsetForPosition!!)
+    }
 
     override fun focusFromLast() = focus(content.value.text.length)
 
     override fun focusFromStart() = focus(0)
 
-    override fun releaseFocus() { isFocus.value = false }
+    override fun releaseFocus() {
+        isFocus.value = false
+    }
 
     override fun getTextFieldValue() = content.value
-
-    override fun getPreButton() = render.value.trePreButton
 
     fun setDecorateParser(parser: TRELineParser?){
         this.decorateParser = parser

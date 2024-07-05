@@ -21,7 +21,7 @@ import indi.midreamsheep.app.tre.shared.frame.core.shortcut.TREShortcutKeyManage
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREFileManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREObserverManager
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.file.render.TRELocalFileRenderManager
+import indi.midreamsheep.app.tre.shared.frame.engine.context.core.file.render.TRELocalFileRenderManager
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContextComposition
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.editor.TRECoreEditorShortcutEvent
 

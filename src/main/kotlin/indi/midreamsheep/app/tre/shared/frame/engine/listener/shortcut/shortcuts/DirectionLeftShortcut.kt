@@ -4,7 +4,7 @@ import androidx.compose.ui.input.key.Key
 import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorShortcut
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TRETextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
 
 @EditorShortcut
@@ -12,10 +12,7 @@ class DirectionLeftShortcut: TREEditorShortcutHandler {
 
     override fun action(context: TREEditorContext) {
         val stateManager = context.blockManager
-        val index = stateManager.getCurrentBlockIndex()
-        stateManager.focusBlock(index-1){
-            (it as TRETextBlock).focusFromLast()
-        }
+        stateManager.focusBlock(stateManager.getCurrentBlockIndex()-1,getId())
     }
 
     override fun isEnable(context: TREEditorContext): Boolean {
@@ -25,7 +22,7 @@ class DirectionLeftShortcut: TREEditorShortcutHandler {
         }
         val currentBlock = stateManager.getCurrentBlock()!!
         if (currentBlock is TRETextBlock) {
-            return currentBlock.isStart()
+            return currentBlock.getShortcutState().isLeftAvailable
         }
         return false
     }

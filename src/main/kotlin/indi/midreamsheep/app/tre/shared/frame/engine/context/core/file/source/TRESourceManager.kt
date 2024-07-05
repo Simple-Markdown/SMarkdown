@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.file.source
+package indi.midreamsheep.app.tre.shared.frame.engine.context.core.file.source
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

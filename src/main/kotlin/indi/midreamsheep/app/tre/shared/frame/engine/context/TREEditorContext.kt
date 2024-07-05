@@ -4,7 +4,7 @@ import indi.midreamsheep.app.tre.shared.frame.core.shortcut.TREShortcutKeyManage
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREObserverManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREShortcutEvent
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TREBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREBlock
 
 class TREEditorContext(
     /**父上下文，为空则为最高上下文*/

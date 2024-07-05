@@ -33,7 +33,7 @@ fun treEditor(
     LazyColumn(
         state = state,
         modifier = modifier.fillMaxSize()
-            .simpleClickable { stateManager.focusBlock(stateManager.getSize()-1) }
+            .simpleClickable { stateManager.focusBlock(stateManager.getSize()-1,-1) }
             .onKeyEvent { keyEvent ->
                 return@onKeyEvent keyEvent.key == Enter
             }
@@ -62,7 +62,7 @@ fun treEditor(
                                 ,
                                 verticalAlignment = Alignment.CenterVertically
                             ){
-                                treBlock.getPreButton().getPreButton().getComposable().invoke()
+                                treBlock.getTREBlockDisplay().getPreButton().getPreButton().getComposable().invoke()
                             }
                         }
                         Box(
@@ -72,7 +72,7 @@ fun treEditor(
                                 }
                                 .pointerHoverIcon(PointerIcon.Text)
                         ){
-                            treBlock.getDisplay().getComposable().invoke()
+                            treBlock.getTREBlockDisplay().getDisplay().getComposable().invoke()
                         }
                     }
                     Spacer(Modifier.width(endPadding.value))
@@ -111,7 +111,7 @@ fun treEditorWithoutScroll(
             Box(
                 Modifier.fillMaxWidth().pointerHoverIcon(PointerIcon.Text)
             ) {
-                treBlock.getDisplay().getComposable().invoke()
+                treBlock.getTREBlockDisplay().getDisplay().getComposable().invoke()
             }
         }
     }

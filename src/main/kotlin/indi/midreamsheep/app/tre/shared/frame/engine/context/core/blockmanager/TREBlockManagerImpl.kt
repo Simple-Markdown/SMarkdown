@@ -1,4 +1,4 @@
-package indi.midreamsheep.app.tre.shared.frame.engine.context.manager.core.block
+package indi.midreamsheep.app.tre.shared.frame.engine.context.core.blockmanager
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
@@ -7,8 +7,8 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import indi.midreamsheep.app.tre.model.editor.operator.TREInitOperator
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperator
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.block.TREBlock
 
 class TREBlockManagerImpl: TREBlockManager {
 
@@ -38,7 +38,7 @@ class TREBlockManagerImpl: TREBlockManager {
         return currentBlock.value
     }
 
-    override fun setCurrentBlockState(markdownLineState: TREBlock?) {
+    override fun setCurrentBlock(markdownLineState: TREBlock?) {
         currentBlock.value = markdownLineState
     }
 
@@ -60,19 +60,23 @@ class TREBlockManagerImpl: TREBlockManager {
 
     override fun getSize() = blockStateList.size
 
-    override fun focusBlock(index: Int, focus: (TREBlock) -> Unit) {
-        val treBlockState = blockStateList[index]
+    override fun focusBlock(index: Int,typeId:Long, focus: (TREBlock) -> Unit) {
+        // 获取目标block
+        val treBlock = blockStateList[index]
+        // 调用当前block的释放焦点方法
         getCurrentBlock()?.releaseFocus()
-        setCurrentBlockState(treBlockState)
-        focus(treBlockState)
-        //对所有上一级都设置
+        // 将当前block设置为目标block
+        setCurrentBlock(treBlock)
+        // 对其进行执行
+        focus(treBlock)
+        //对所有上一级block设置为当前block
         var currentContext = context
         while (currentContext.parentContext!=null){
             if (currentContext.parentContext!!.blockManager.getCurrentBlock()==currentContext.block){
                 currentContext = currentContext.parentContext!!
                 continue
             }
-            currentContext.parentContext!!.blockManager.focusBlock(currentContext.parentContext!!.blockManager.indexOf(currentContext.block!!))
+            currentContext.parentContext!!.blockManager.focusBlock(currentContext.parentContext!!.blockManager.indexOf(currentContext.block!!),typeId)
             currentContext = currentContext.parentContext!!
         }
     }
