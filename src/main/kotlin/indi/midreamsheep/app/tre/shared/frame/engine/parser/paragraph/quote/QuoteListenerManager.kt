@@ -7,6 +7,8 @@ import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.XPositionData
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREShortcutEvent
+import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.DownShortcut
+import indi.midreamsheep.app.tre.shared.tool.id.getIdFromPool
 
 class QuoteListenerManager: TREShortcutEvent() {
 
@@ -18,13 +20,12 @@ class QuoteListenerManager: TREShortcutEvent() {
     private fun quoteKeyEvent():Boolean{
         // 处理上键的快捷键
         if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.DirectionUp.keyCode))){
-            var currentBlock = context.blockManager.getCurrentBlock()!!
+            val currentBlock = context.blockManager.getCurrentBlock()!!
             var currentContext = context
             while (true){
                 if (currentContext.blockManager.getCurrentBlockIndex()==0){
                     if(currentContext.parentContext==null) return false
                     currentContext = currentContext.parentContext!!
-                    currentBlock = context.blockManager.getCurrentBlock()!!
                     continue
                 }
                 break
@@ -36,9 +37,13 @@ class QuoteListenerManager: TREShortcutEvent() {
             currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1)
             return true
         }
+        if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.Backspace.keyCode))){
+
+            return true
+        }
         if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.DirectionDown.keyCode))) {
             // 获取当前的block块
-            var currentBlock = context.blockManager.getCurrentBlock()!!
+            val block = context.blockManager.getCurrentBlock()!!
             // 定义一个可变的currentContext，找到上一级能够向下进行传递焦点的上下文
             var currentContext = context
             while (true){
@@ -48,7 +53,6 @@ class QuoteListenerManager: TREShortcutEvent() {
                     if(currentContext.parentContext==null) break
                     // 设置为上一级上下文
                     currentContext = currentContext.parentContext!!
-                    currentBlock = context.blockManager.getCurrentBlock()!!
                     continue
                 }
                 break
@@ -57,15 +61,18 @@ class QuoteListenerManager: TREShortcutEvent() {
             if (currentContext.blockManager.getCurrentBlockIndex()==currentContext.blockManager.getSize()-1){
                 // 提交命令
                 currentContext.blockManager.executeOperator(
-                    TREBlockInsert(currentContext.blockManager.getSize(),TRECoreBlock(currentBlock.getBlockManager()))
+                    TREBlockInsert(currentContext.blockManager.getSize(),TRECoreBlock(currentContext.blockManager))
                 )
                 // 聚焦到新块
                 currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1)
                 return true
             }
             // 若不是最后一层，则直接聚焦到下一焦点
-            if (currentBlock is TRETextBlock){
-                currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1,XPositionData(currentBlock.getShortcutState().left))
+            if (block is TRETextBlock){
+                currentContext.blockManager.focusBlock(
+                    currentContext.blockManager.getCurrentBlockIndex()+1,
+                    getIdFromPool(DownShortcut::class.java),
+                    XPositionData(block.getShortcutState().left))
                 return true
             }
             currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1)

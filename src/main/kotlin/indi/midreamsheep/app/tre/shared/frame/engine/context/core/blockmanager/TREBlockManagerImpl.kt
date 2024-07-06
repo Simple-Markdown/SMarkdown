@@ -96,6 +96,8 @@ class TREBlockManagerImpl: TREBlockManager {
 
     override fun addBlock(index: Int, block: TREBlock) {
         blockStateList.add(index,block)
+        block.setBlockManager(this)
+        block.getBlockManager().setContext(getContext())
         block.whenInsert()
     }
 

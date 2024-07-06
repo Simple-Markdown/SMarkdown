@@ -13,17 +13,14 @@ import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREContextBlo
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.XPositionData
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContextComposition
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.BackspaceShortcut
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.DirectionLeftShortcut
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.DirectionRightShortcut
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.DownShortcut
+import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.*
 import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TREDefaultLinePreButton
 import indi.midreamsheep.app.tre.shared.tool.id.getIdFromPool
 import indi.midreamsheep.app.tre.shared.ui.engine.editor.treEditorWithoutScroll
 
 class ListBlock(
     blockManager: TREBlockManager,
-    listType: ListType,
+    val listType: ListType,
     val listContext: TREEditorContext
 ): TREContextBlock(blockManager) {
 
@@ -48,6 +45,10 @@ class ListBlock(
     override fun focus(typeId: Long, data: CustomData) {
         when(typeId){
             getIdFromPool(XPositionData::class.java) -> {
+                listContext.blockManager.getTREBlock(listContext.blockManager.getSize()-1).focus(typeId, data)
+                setCurrentBlock(listContext.blockManager.getSize()-1)
+            }
+            getIdFromPool(UpShortcut::class.java) -> {
                 listContext.blockManager.getTREBlock(listContext.blockManager.getSize()-1).focus(typeId, data)
                 setCurrentBlock(listContext.blockManager.getSize()-1)
             }

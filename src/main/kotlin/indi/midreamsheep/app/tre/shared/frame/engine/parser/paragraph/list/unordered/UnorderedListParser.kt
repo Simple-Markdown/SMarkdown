@@ -95,4 +95,25 @@ class UnorderedListType:ListType{
      * */
     override fun getPrefixText() = "- "
 
+    /**
+     * 根据文本构建新的list
+     * */
+    override fun build(text: String, context: TREEditorContext): ListBlock {
+        val editorContext = TREEditorContext(
+            parentContext =  context,
+            keyManager = context.keyManager,
+            blockManager = TREBlockManagerImpl(),
+            treObserverManager = TREEditorWindowObserverManager(),
+            treShortcutEvent = ListShortcutEvent(),
+            metaData = context.metaData,
+        )
+
+        val listBlock = ListBlock(context.blockManager,UnorderedListType(),editorContext)
+        editorContext.block = listBlock
+        editorContext.blockManager.addBlock(TRECoreBlock(editorContext.blockManager))
+        (editorContext.blockManager.getTREBlock(0) as TRECoreBlock).setTextFieldValue(TextFieldValue(text))
+        return listBlock
+    }
+
+
 }
