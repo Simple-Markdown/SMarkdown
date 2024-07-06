@@ -8,14 +8,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
+import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowObserverManager
+import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockDelete
+import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
+import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.api.display.Display
+import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.core.blockmanager.TREBlockManagerImpl
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.list.ListBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.list.ListShortcutEvent
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.list.ListType
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
+import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @LineParserMap
@@ -29,44 +40,59 @@ class UnorderedListParser: TRELineStyleParser {
         text: String,
         block: TRECoreBlock
     ): TRERender {
-        val render = TRERender(block)
-
-        val isDisplay = true
-
-        render.styleText.styleTextTree = StyleTextUnorderedListRoot(
-            isDisplay,
-        )
-
-        val parse = parser!!.parse(
-            text = text.substring(2),
-            render = render
-        )
-
-        for (treStyleTextTree in parse) {
-            render.styleText.styleTextTree.addChild(treStyleTextTree)
+        val render = TRERender(block).apply {
+            styleText.styleTextTree = TRECoreContentLeaf("quote init")
         }
-        render.styleText.prefixTextDecorations.add(
-            Display {
-                {
-                    Box(
-                        Modifier
-                            .size(25.dp)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .size(6.dp)
-                                .clip(RoundedCornerShape(100))
-                                .background(Color.Black)
-                        ) {
-                        }
-                    }
-                }
+        val context = block.getBlockManager().getContext()
+        val editorContext = TREEditorContext(
+            parentContext =  context,
+            keyManager = context.keyManager,
+            blockManager = TREBlockManagerImpl(),
+            treObserverManager = TREEditorWindowObserverManager(),
+            treShortcutEvent = ListShortcutEvent(),
+            metaData = context.metaData,
+        )
+
+        val listBlock = ListBlock(block.getBlockManager(),UnorderedListType(),editorContext)
+        editorContext.block = listBlock
+        context.blockManager.executeOperator(
+            TREOperatorGroup().apply {
+                addOperator(TREBlockDelete(context.blockManager.getCurrentBlockIndex()))
+                addOperator(TREBlockInsert(context.blockManager.getCurrentBlockIndex(),listBlock))
             }
         )
+        editorContext.blockManager.addBlock(TRECoreBlock(editorContext.blockManager))
+        editorContext.blockManager.focusBlock(0,-1)
+        (editorContext.blockManager.getTREBlock(0) as TRECoreBlock).setTextFieldValue(TextFieldValue(text.substring(2)))
         return render
     }
     override fun getWeight(text: String): Int {
         return 1
     }
+}
+
+class UnorderedListType:ListType{
+    override fun getPrefix() = Display {
+        {
+            Box(
+                Modifier
+                    .size(25.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .size(6.dp)
+                        .clip(RoundedCornerShape(100))
+                        .background(Color.Black)
+                ) {
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取前缀输出节点，用于输出文本时使用
+     * */
+    override fun getPrefixText() = "- "
+
 }

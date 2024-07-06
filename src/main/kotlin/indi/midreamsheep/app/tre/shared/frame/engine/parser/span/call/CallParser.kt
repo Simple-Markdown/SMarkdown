@@ -46,9 +46,6 @@ class CallParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInline
                 contentDescription = ""
             )
         }
-        return StyleTextCallLeaf(
-            true
-            ,id
-        )
+        return StyleTextCallLeaf(id)
     }
 }

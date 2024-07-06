@@ -1,17 +1,16 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.head
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.input.key.Key.Companion.Backspace
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
+import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
+import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRELineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
-import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root.TRECoreTreeRoot
 
@@ -37,7 +36,7 @@ class StyleTextHeadRoot(
 
 class StyleTextHeadPrefix(
     private val level: Int,
-    private val render: TRERender,
+    private val empty: Boolean,
 ): TRECoreTreeRoot() {
 
     private var isHidden = false
@@ -58,9 +57,9 @@ class StyleTextHeadPrefix(
         }
     }
 
-    fun isDisplay(): Boolean {
+    private fun isDisplay(): Boolean {
         if (selection > level  || !isEdit) {
-            isHidden = true
+            isHidden = true&&empty
         }
         return isHidden
     }
@@ -85,18 +84,17 @@ class StyleTextHeadPrefix(
         if(isHidden){
             return position < level+1
         }
-        return true
+        return false
     }
 
     override fun resetPosition(position: Int) = level+1
 
     override fun keyEvent(context: TREEditorContext, position: Int): Boolean {
-/*        if (context.keyManager.match(TREShortcutKeyStrongChecker(Backspace.keyCode))){
+        if (context.keyManager.match(TREShortcutKeyStrongChecker(Backspace.keyCode))){
             val treCoreBlock = context.blockManager.getCurrentBlock()!! as TRECoreBlock
-            val textFieldRange = treCoreBlock.getTextFieldRange()
-            if (textFieldRange.getStart()==treCoreBlock.content.value.selection.start){
+            if (treCoreBlock.isStart()){
                 val index = treCoreBlock.content.value.selection.start - (level + 1)
-                val text = subString(treCoreBlock.content.value.text, getStartIndex(getParent()!!), getStartIndex(getParent()!!)+level+1)
+                val text = treCoreBlock.content.value.text.substring(level+1)
                 context.blockManager.executeOperator(
                     TREContentChange(
                         treCoreBlock.content.value,
@@ -104,22 +102,13 @@ class StyleTextHeadPrefix(
                             text = text,
                             selection = TextRange(index)
                         ),
-                        context.blockManager.indexOf(treCoreBlock)
+                        treCoreBlock
                     )
                 )
                 return true
             }
-        }*/
+        }
         return false
-    }
-    private fun getStartIndex(styleTextTree: TREStyleTextTreeInter):Int{
-        return styleTextTree.getOriginalRange().getStart()
-    }
-
-    private fun subString(text: String, start: Int,end: Int):String{
-        val startStr = text.substring(0,start)
-        val endStr = text.substring(end)
-        return startStr+endStr
     }
 }
 

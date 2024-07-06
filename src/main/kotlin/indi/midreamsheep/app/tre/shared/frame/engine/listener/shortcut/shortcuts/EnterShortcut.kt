@@ -35,7 +35,7 @@ class EnterShortcut: TREEditorShortcutHandler {
             addOperator(TREContentChange(
                 TextFieldValue(),
                 TextFieldValue(newLineText),
-                currentLineIndex+1
+                newBlock
             ))
             addOperator(
                 TREContentChange(
@@ -43,7 +43,7 @@ class EnterShortcut: TREEditorShortcutHandler {
                     currentTextBlock.getTextFieldValue().copy(
                         text = currentTextBlock.getTextFieldValue().text.substring(0,start),
                     ),
-                    currentLineIndex
+                    currentTextBlock
                 )
             )
         }

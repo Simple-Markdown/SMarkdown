@@ -1,12 +1,10 @@
-package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.quote
+package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.list
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.CustomData
@@ -23,20 +21,19 @@ import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TREDefault
 import indi.midreamsheep.app.tre.shared.tool.id.getIdFromPool
 import indi.midreamsheep.app.tre.shared.ui.engine.editor.treEditorWithoutScroll
 
-class QuoteBlock(
+class ListBlock(
     blockManager: TREBlockManager,
-    val quoteContext: TREEditorContext
+    listType: ListType,
+    val listContext: TREEditorContext
 ): TREContextBlock(blockManager) {
 
     private val quoteBlockDisplay = object : TREBlockDisplay{
-        override fun getDisplay()=Display {
+        override fun getDisplay()= Display {
             {
-                Row(Modifier.fillMaxWidth().background(Color(0xFF2D2D2))) {
-                    var height by remember { mutableStateOf(20.dp) }
-                    Box(Modifier.height(height).width(5.dp).background(Color.Green))
-                    Spacer(Modifier.width(3.dp))
-                    Box(Modifier.weight(1f).onGloballyPositioned { height = it.size.height.dp } ){
-                        CompositionLocalProvider(getEditorContextComposition() provides quoteContext){
+                Row(Modifier.fillMaxWidth()) {
+                    listType.getPrefix().getComposable().invoke()
+                    Box(Modifier.weight(1f)){
+                        CompositionLocalProvider(getEditorContextComposition() provides listContext){
                             treEditorWithoutScroll()
                         }
                     }
@@ -51,39 +48,39 @@ class QuoteBlock(
     override fun focus(typeId: Long, data: CustomData) {
         when(typeId){
             getIdFromPool(XPositionData::class.java) -> {
-                quoteContext.blockManager.getTREBlock(quoteContext.blockManager.getSize()-1).focus(typeId, data)
-                setCurrentBlock(quoteContext.blockManager.getSize()-1)
+                listContext.blockManager.getTREBlock(listContext.blockManager.getSize()-1).focus(typeId, data)
+                setCurrentBlock(listContext.blockManager.getSize()-1)
             }
             getIdFromPool(DownShortcut::class.java) -> {
-                quoteContext.blockManager.getTREBlock(0).focus(typeId,data)
+                listContext.blockManager.getTREBlock(0).focus(typeId,data)
                 setCurrentBlock(0)
             }
             getIdFromPool(BackspaceShortcut::class.java) -> {
-                quoteContext.blockManager.getTREBlock(quoteContext.blockManager.getSize()-1).focus(typeId, data)
-                setCurrentBlock(quoteContext.blockManager.getSize()-1)
+                listContext.blockManager.getTREBlock(listContext.blockManager.getSize()-1).focus(typeId, data)
+                setCurrentBlock(listContext.blockManager.getSize()-1)
             }
             getIdFromPool(DirectionRightShortcut::class.java) -> {
-                quoteContext.blockManager.getTREBlock(0).focus(typeId,data)
+                listContext.blockManager.getTREBlock(0).focus(typeId,data)
                 setCurrentBlock(0)
             }
             getIdFromPool(DirectionLeftShortcut::class.java) -> {
-                quoteContext.blockManager.getTREBlock(quoteContext.blockManager.getSize()-1).focus(typeId, data)
-                setCurrentBlock(quoteContext.blockManager.getSize()-1)
+                listContext.blockManager.getTREBlock(listContext.blockManager.getSize()-1).focus(typeId, data)
+                setCurrentBlock(listContext.blockManager.getSize()-1)
             }
             else->{
-                quoteContext.blockManager.getTREBlock(0).focus(typeId,data)
-                setCurrentBlock(quoteContext.blockManager.getSize()-1)
+                listContext.blockManager.getTREBlock(0).focus(typeId,data)
+                setCurrentBlock(listContext.blockManager.getSize()-1)
             }
         }
     }
 
     private fun setCurrentBlock(index:Int){
-        quoteContext.blockManager.setCurrentBlock(quoteContext.blockManager.getTREBlock(index))
+        listContext.blockManager.setCurrentBlock(listContext.blockManager.getTREBlock(index))
     }
 
     override fun releaseFocus() {
-        quoteContext.blockManager.getCurrentBlock()?.releaseFocus()
-        quoteContext.blockManager.setCurrentBlock(null)
+        listContext.blockManager.getCurrentBlock()?.releaseFocus()
+        listContext.blockManager.setCurrentBlock(null)
     }
 
     override fun getTREBlockDisplay() = quoteBlockDisplay

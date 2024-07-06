@@ -9,13 +9,12 @@ import androidx.compose.ui.text.withStyle
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root.TRECoreTreeRoot
 
 class StyleTextCallLeaf(
-    private val isDisplay: Boolean,
     private val id: Long
 ): TRECoreTreeRoot() {
 
     override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {
-            if (isDisplay){
+            if (!isEdit){
                 appendInlineContent(id.toString())
                 return@buildAnnotatedString
             }
@@ -37,7 +36,7 @@ class StyleTextCallLeaf(
     /**
      * 转换后文本大小为转换后文本长度+4(四个*的长度，当显示时才加上4)
      * */
-    override fun transformedSize() = 4 + if (isDisplay) 1 else 0
+    override fun transformedSize() = 4 + if (!isEdit) 1 else 0
 
     override fun originalToTransformed(offset: Int): Int {
         return offset

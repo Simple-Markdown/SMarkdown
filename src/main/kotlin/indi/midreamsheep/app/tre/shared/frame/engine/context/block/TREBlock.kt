@@ -27,7 +27,7 @@ interface TREBlock:TREObjectId {
      * */
     fun getContent():String
     fun getBlockManager(): TREBlockManager
-
+    fun setBlockManager(blockManager: TREBlockManager)
     /**
      * 当block被加入manager时调用
      * */
@@ -36,13 +36,4 @@ interface TREBlock:TREObjectId {
      * 当block被移除manager时调用
      * */
     fun whenRemove()
-}
-
-/**
- * 数据传递标记类，仅用于标记
- * */
-interface CustomData {
-    companion object {
-        val NONE = object : CustomData {}
-    }
 }

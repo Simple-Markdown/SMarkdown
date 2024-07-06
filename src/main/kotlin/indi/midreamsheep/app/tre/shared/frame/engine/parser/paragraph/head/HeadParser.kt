@@ -4,8 +4,8 @@ import androidx.compose.material3.Divider
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TRELinePreButton
@@ -29,7 +29,7 @@ class HeadParser: TRELineStyleParser {
         val render = TRERender(block)
         render.styleText.styleTextTree = StyleTextHeadRoot(level).apply {
             addChild(
-                StyleTextHeadPrefix(level,render)
+                StyleTextHeadPrefix(level,subSequence.isNotEmpty())
             )
             addChild(
                 TRECoreContentLeaf(subSequence.toString())
@@ -70,6 +70,7 @@ class HeadParser: TRELineStyleParser {
     }
 }
 
+/*
 @LineParserMap
 @MapKey("reg:^[-=]+")
 class HeadCrossParser: TRELineStyleParser {
@@ -86,4 +87,4 @@ class HeadCrossParser: TRELineStyleParser {
 
     override fun getWeight(text: String) = 1
 
-}
+}*/

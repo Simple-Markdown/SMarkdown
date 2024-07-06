@@ -61,14 +61,23 @@ class TREBlockManagerImpl: TREBlockManager {
     override fun getSize() = blockStateList.size
 
     override fun focusBlock(index: Int,typeId:Long, focus: (TREBlock) -> Unit) {
-        // 获取目标block
-        val treBlock = blockStateList[index]
-        // 调用当前block的释放焦点方法
-        getCurrentBlock()?.releaseFocus()
-        // 将当前block设置为目标block
-        setCurrentBlock(treBlock)
-        // 对其进行执行
-        focus(treBlock)
+        // 释放焦点
+        releaseCurrentBlock()
+        // 获取焦点
+        focusBlock(blockStateList[index],focus)
+    }
+
+    private fun releaseCurrentBlock(){
+        if(currentBlock.value == null) return
+        var contextPointer:TREEditorContext? = context
+        while (contextPointer!=null) {
+            contextPointer.blockManager.getCurrentBlock()?.releaseFocus()
+            contextPointer.blockManager.setCurrentBlock(null)
+            contextPointer = contextPointer.parentContext
+        }
+    }
+
+    private fun focusBlock(treBlock: TREBlock, focus: (TREBlock) -> Unit){
         //对所有上一级block设置为当前block
         var currentContext = context
         while (currentContext.parentContext!=null){
@@ -76,14 +85,18 @@ class TREBlockManagerImpl: TREBlockManager {
                 currentContext = currentContext.parentContext!!
                 continue
             }
-            currentContext.parentContext!!.blockManager.focusBlock(currentContext.parentContext!!.blockManager.indexOf(currentContext.block!!),typeId)
+            currentContext.parentContext!!.blockManager.setCurrentBlock(currentContext.block)
             currentContext = currentContext.parentContext!!
         }
+        // 将当前block设置为目标block
+        setCurrentBlock(treBlock)
+        // 对其进行执行
+        focus(treBlock)
     }
 
-    override fun addBlock(index: Int, blockState: TREBlock) {
-        blockStateList.add(index,blockState)
-        blockState.whenInsert()
+    override fun addBlock(index: Int, block: TREBlock) {
+        blockStateList.add(index,block)
+        block.whenInsert()
     }
 
     override fun removeBlock(index: Int) {

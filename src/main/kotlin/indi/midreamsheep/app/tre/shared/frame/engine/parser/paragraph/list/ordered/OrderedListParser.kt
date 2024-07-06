@@ -13,7 +13,9 @@ class OrderedListParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TR
         text: String,
         block: TRECoreBlock
     ): TRERender {
-        println("hello")
+        //通过正则表达式获取
+        val int = text.substring(0, text.indexOf(".")).toInt()
+        println(int)
         return TRERender(block)
     }
     override fun getWeight(text: String): Int {

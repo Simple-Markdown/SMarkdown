@@ -6,27 +6,23 @@ import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreB
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.editor.TREEditorShortcutHandlerManager
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
 
-abstract class TREShortcutEvent(
-
-) {
+abstract class TREShortcutEvent{
     lateinit var context: TREEditorContext
     protected val manager = getBean(TREEditorShortcutHandlerManager::class.java)
 
     open fun keyEvent(): Boolean {
+        val treCoreBlock = context.blockManager.getCurrentBlock()
+        if (treCoreBlock != null&&treCoreBlock is TRECoreBlock) {
+            if(treCoreBlock.render.value.styleText.styleTextTree.keyEvent(context, treCoreBlock.content.value.selection.start)){
+                return true
+            }
+        }
         val handler = getHandler()
         if (handler != null) {
             handler.action(context)
             return true
         }
-        val treCoreBlock = context.blockManager.getCurrentBlock()
-        if (treCoreBlock == null||treCoreBlock !is TRECoreBlock) {
-            return false
-        }
-
-        return treCoreBlock.render.value.styleText.styleTextTree.keyEvent(
-            context,
-            treCoreBlock.content.value.selection.start
-        )
+        return false
     }
 
     protected fun getHandler(): TREEditorShortcutHandler? {

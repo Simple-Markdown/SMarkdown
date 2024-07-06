@@ -1,10 +1,13 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.context.block
 
 import androidx.compose.ui.text.input.TextFieldValue
-import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.OffsetCustomData
-import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECorePreview
+import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.OffsetCustomData
+import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.XPositionData
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.*
+import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.BackspaceShortcut
+import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.DirectionLeftShortcut
+import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.DirectionRightShortcut
+import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.DownShortcut
 import indi.midreamsheep.app.tre.shared.tool.id.getIdFromPool
 
 /**
@@ -14,17 +17,17 @@ import indi.midreamsheep.app.tre.shared.tool.id.getIdFromPool
 abstract class TRETextBlock(blockManager: TREBlockManager): TREBlockAbstract(blockManager) {
     override fun focus(typeId: Long, data: CustomData) {
         when(typeId){
-            getIdFromPool(UpShortcut::class.java) -> {
-                focusX((data as XPositionData).x)
+            getIdFromPool(XPositionData::class.java) -> {
+                focusX((data as XPositionData).x,false)
             }
             getIdFromPool(DownShortcut::class.java) -> {
                 if (data==CustomData.NONE){
                     focus()
                     return
                 }
-                focusX((data as XPositionData).x)
+                focusX((data as XPositionData).x,true)
             }
-            getIdFromPool(TRECorePreview::class.java) -> {
+            getIdFromPool(OffsetCustomData::class.java) -> {
                 focusTransform((data as OffsetCustomData).offset)
             }
             getIdFromPool(BackspaceShortcut::class.java) -> {
@@ -50,7 +53,7 @@ abstract class TRETextBlock(blockManager: TREBlockManager): TREBlockAbstract(blo
     abstract fun focusFromLast()
     abstract fun focusFromStart()
     abstract fun focusTransform(transformPosition: Int)
-    abstract fun focusX(x:Float)
+    abstract fun focusX(x: Float, isStart: Boolean)
 }
 
 
@@ -60,8 +63,9 @@ class ShortcutState{
     var isLeftAvailable = false
     var isRightAvailable = false
     var left = 0.0f
-}
+    override fun toString(): String {
+        return "ShortcutState(isUpAvailable=$isUpAvailable, isDownAvailable=$isDownAvailable, isLeftAvailable=$isLeftAvailable, isRightAvailable=$isRightAvailable, left=$left)"
+    }
 
-class XPositionData(
-    val x:Float
-):CustomData
+
+}

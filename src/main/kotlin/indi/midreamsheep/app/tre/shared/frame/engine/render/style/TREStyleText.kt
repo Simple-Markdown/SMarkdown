@@ -23,8 +23,6 @@ class TREStyleText(line: TRECoreBlock) {
     var previewDisplay: Display = TRECorePreview(line)
     // 预览时对富文本的注解处理
     val previewAnnotation:MutableMap<String,InlineTextContent> = mutableMapOf()
-    // 是否启动
-    var preview:Boolean = true
 
     fun append(style: TREStyleText){
         styleTextTree.addChild(style.styleTextTree)
@@ -35,8 +33,7 @@ class TREStyleText(line: TRECoreBlock) {
         backgroundDecorations.addAll(style.backgroundDecorations)
         previewDisplay = style.previewDisplay
         previewAnnotation.putAll(style.previewAnnotation)
-        preview = style.preview||preview
     }
 
-    fun isPreView() = (previewDisplay !is TRECorePreview || previewAnnotation.isNotEmpty()) && preview
+    fun isPreView() = previewDisplay !is TRECorePreview
 }

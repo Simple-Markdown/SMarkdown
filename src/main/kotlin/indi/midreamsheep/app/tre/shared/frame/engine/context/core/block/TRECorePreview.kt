@@ -6,13 +6,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
 import indi.midreamsheep.app.tre.shared.api.display.DisplayFunction
-import indi.midreamsheep.app.tre.shared.api.tre.TREClassId
-import indi.midreamsheep.app.tre.shared.frame.engine.context.block.CustomData
+import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.OffsetCustomData
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.TREStyleText
 
-class TRECorePreview(val line: TRECoreBlock): DisplayFunction,TREClassId {
+class TRECorePreview(val line: TRECoreBlock): DisplayFunction {
 
     @Composable
     override fun show() {
@@ -22,13 +23,16 @@ class TRECorePreview(val line: TRECoreBlock): DisplayFunction,TREClassId {
             style = MaterialTheme.typography.bodyLarge,
             inlineContent = line.render.value.styleText.previewAnnotation,
             modifier = Modifier.fillMaxWidth()
+                .onGloballyPositioned {
+                    line.xWindowStartPosition = it.localToWindow(Offset.Zero).x
+                }
                 .pointerInput(Unit) {
                     detectTapGestures {
                             offset ->
                         line.textLayoutResult?.let {
                             val position = it.getOffsetForPosition(offset)
                             val stateManager = line.getBlockManager()
-                            stateManager.focusBlock(stateManager.indexOf(line),getId(),OffsetCustomData(position))
+                            stateManager.focusBlock(stateManager.indexOf(line), OffsetCustomData(position))
                         }
                     }
                 }
@@ -39,10 +43,6 @@ class TRECorePreview(val line: TRECoreBlock): DisplayFunction,TREClassId {
         )
     }
 }
-
-class OffsetCustomData(
-    val offset:Int
-):CustomData
 
 @Composable
 fun treCoreDisplayStructure(

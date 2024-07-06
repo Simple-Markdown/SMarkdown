@@ -15,6 +15,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -49,6 +50,7 @@ class TRECoreBlock(
     private var isFocus = mutableStateOf(false)
     private val shortcutState = ShortcutState()
     var textLayoutResult: TextLayoutResult? = null
+    var xWindowStartPosition = 0f
 
     private val treBlockDisplay = object : TREBlockDisplay{
         override fun getDisplay() = Display{
@@ -95,7 +97,7 @@ class TRECoreBlock(
                 }
                 //设置内容
                 context.blockManager.executeOperator(
-                    TREContentChange(content.value, newValue, context.blockManager.indexOf(this))
+                    TREContentChange(content.value, newValue, this)
                 )
             },
             textStyle = MaterialTheme.typography.bodyLarge,
@@ -107,6 +109,9 @@ class TRECoreBlock(
                         return@onPreviewKeyEvent false
                     }
                     return@onPreviewKeyEvent context.treShortcutEvent.keyEvent()
+                }
+                .onGloballyPositioned {
+                    xWindowStartPosition = it.localToWindow(Offset(0f, 0f)).x
                 },
             visualTransformation = { _ ->
                 TransformedText(
@@ -121,8 +126,11 @@ class TRECoreBlock(
                 shortcutState.isRightAvailable = isEnd()
                 shortcutState.isUpAvailable = it.getLineForOffset(content.value.selection.start) == 0
                 shortcutState.isDownAvailable = it.getLineForOffset(content.value.selection.start) == it.lineCount - 1
-                shortcutState.left =  it.getCursorRect(render.value.styleText.styleTextTree.originalToTransformed(content.value.selection.start)).left
-                           },
+                var offset =
+                    render.value.styleText.styleTextTree.originalToTransformed(content.value.selection.start)
+                if (offset > it.layoutInput.text.length) offset = it.layoutInput.text.length
+                shortcutState.left = it.getCursorRect(offset).left + xWindowStartPosition
+            },
             decorationBox = { innerTextField ->
                 Column(modifier = Modifier.fillMaxWidth()) {
                     treCoreDisplayStructure(render.value.styleText) {
@@ -191,14 +199,15 @@ class TRECoreBlock(
     override fun getShortcutState() = shortcutState
 
     override fun focusTransform(transformPosition: Int) = focus(render.value.styleText.styleTextTree.transformedToOriginal(transformPosition))
-    override fun focusX(x: Float) {
+    override fun focusX(x: Float, isStart: Boolean) {
         if (textLayoutResult==null){
             return
         }
-        val offsetForPosition = textLayoutResult?.getOffsetForPosition(
-            Offset(x, 0f)
+        val height = textLayoutResult!!.size.height
+        val offsetForPosition = textLayoutResult!!.getOffsetForPosition(
+            Offset(x - xWindowStartPosition, if(isStart) 0f else height.toFloat())
         )
-        focusTransform(offsetForPosition!!)
+        focusTransform(offsetForPosition)
     }
 
     override fun focusFromLast() = focus(content.value.text.length)

@@ -6,6 +6,7 @@ import indi.midreamsheep.app.tre.model.editor.operator.TREOperator
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.CustomData
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREBlock
+import indi.midreamsheep.app.tre.shared.tool.id.getIdFromPool
 
 /**
  * Block状态管理器
@@ -63,6 +64,13 @@ interface TREBlockManager {
         it.focus(typeId,data)
     }
     /**
+     * 获取指定位置的Block的焦点
+     * */
+    fun focusBlock(index:Int,data: CustomData = CustomData.NONE) = focusBlock(index, getIdFromPool(data.javaClass)){
+        it.focus(getIdFromPool(data.javaClass),data)
+
+    }
+    /**
      * 通过指定操作获取指定位置焦点
      * */
     fun focusBlock(index:Int,typeId: Long,focus: (TREBlock)->Unit)
@@ -73,7 +81,7 @@ interface TREBlockManager {
     /**
      * 在指定位置新增block
      * */
-    fun addBlock(index:Int, blockState: TREBlock)
+    fun addBlock(index:Int, block: TREBlock)
     /**
      * 删除指定block
      * */

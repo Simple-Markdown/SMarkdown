@@ -19,9 +19,10 @@ import indi.midreamsheep.app.tre.model.mainpage.file.TREFile
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.core.shortcut.TREShortcutKeyManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContextMetaData
+import indi.midreamsheep.app.tre.shared.frame.engine.context.core.file.render.TRELocalFileRenderManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREFileManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREObserverManager
-import indi.midreamsheep.app.tre.shared.frame.engine.context.core.file.render.TRELocalFileRenderManager
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContextComposition
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.editor.TRECoreEditorShortcutEvent
 
@@ -59,6 +60,7 @@ class TREEditorWindowContext(): TREWindowContext(){
             keyManager = keyManager,
             treShortcutEvent = TRECoreEditorShortcutEvent(),
             treObserverManager = TREEditorWindowObserverManager(),
+            metaData = TREEditorContextMetaData()
         )
     }
 
