@@ -4,5 +4,5 @@ import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreB
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 
 interface TRELineParser {
-    fun parse(text: String, block: TRECoreBlock, ): TRERender
+    fun parse(text: String, block: TRECoreBlock): TRERender
 }

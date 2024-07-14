@@ -17,15 +17,18 @@ fun findAffixPoint(
     suffix: String = prefix,
     startPoint: Int = 0
 ):Pair<Int,Int>{
+    // 指针
     var pointer = startPoint
+    // 前缀数组
     val prefixArray = prefix.toCharArray()
+    // 后缀数组
     val suffixArray = suffix.toCharArray()
+    // 是否查询到第一个
     var isThrough = false
-    if(text.length<prefixArray.size+suffixArray.size){
-        return Pair(-1,-1)
-    }
+    // 若整个数组少于前后缀长度则返回-1，-1
+    if(text.length - startPoint<prefixArray.size+suffixArray.size) return Pair(-1,-1)
     //找到第一个满足前缀的位置
-    while (pointer<text.length-prefixArray.size) {
+    while (pointer<text.length-suffixArray.size) {
         if (isStartWithInPoint(text,prefix,pointer)){
             isThrough = true
             break
@@ -34,9 +37,10 @@ fun findAffixPoint(
     }
     //若不存在前缀则返回-1
     if (!isThrough) return Pair(-1,-1)
+
     isThrough = false
     //继续前进到前缀失效处
-    while (pointer<text.length-prefixArray.size) {
+    while (pointer<text.length-suffixArray.size) {
         if (!isStartWithInPoint(text,prefix,pointer)){
             pointer--
             break

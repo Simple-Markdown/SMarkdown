@@ -69,6 +69,8 @@ class UnorderedListParser: TRELineStyleParser {
     override fun getWeight(text: String): Int {
         return 1
     }
+
+
 }
 
 class UnorderedListType:ListType{

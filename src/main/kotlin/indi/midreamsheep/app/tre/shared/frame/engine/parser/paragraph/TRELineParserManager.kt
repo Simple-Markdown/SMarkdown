@@ -22,12 +22,15 @@ class TRELineParserManager{
     private val defaultParser: DefaultParser? = null
 
     fun get(text: String, blockManager: TREBlockManager, lineNumber: Int): TRELineStyleParser {
+        // 初始化
         if(!init) init()
-
+        // 获取起始符
         val startChar = text[0]
-        var parser: TRELineStyleParser? = null;
+        // 临时变量
+        var parser: TRELineStyleParser? = null
+        // 将满足条件的parser放入数组中用于筛选
         val parserList:MutableList<TRELineStyleParser> = mutableListOf()
-        val paragraphParsers = paragraphParser[startChar]
+        // 通过正则表达式筛选parser
         paragraphRegParser.forEach {
             if (it.key.toRegex().matches(text)){
                 it.value.forEach { parser ->
@@ -35,12 +38,15 @@ class TRELineParserManager{
                 }
             }
         }
+        // 从起始符中筛选满足条件的解析器
+        val paragraphParsers = paragraphParser[startChar]
         paragraphParsers?.forEach {
-            if (it.formatCheck(text, blockManager,lineNumber)){
+            // 模式满足
+            if (it.formatCheck(text,blockManager,lineNumber)){
                 parserList.add(it)
             }
         }
-        //找到权重最高的解析器
+        // 找到权重最高的解析器
         var weight = 0
         parserList.forEach {
             val w = it.getWeight(text)
@@ -49,6 +55,7 @@ class TRELineParserManager{
                 parser = it
             }
         }
+        // 如果为空就采取默认处理器
         if (parser==null){
             parser = defaultParser
         }

@@ -2,6 +2,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.span.bold
 
 import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParserList
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInlineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
@@ -12,7 +13,7 @@ import lombok.extern.slf4j.Slf4j
 @InLineParserList
 @MapKey("*")
 @Slf4j
-class BoldParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInlineStyleParser {
+class BoldParser: TREInlineStyleParser {
 
     companion object{
         const val BOLD_AFFIX = "**"
@@ -22,9 +23,7 @@ class BoldParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInline
     private val spanParse: TREInlineParser? = null
 
     override fun formatCheck(text: String): Boolean {
-        findAffixPoint(text, BOLD_AFFIX).let {
-            if (it.first!=-1&&it.second!=-1) return true
-        }
+        findAffixPoint(text, BOLD_AFFIX).let { if (it.first!=-1&&it.second!=-1) return true }
         return false
     }
 

@@ -37,8 +37,19 @@ class QuoteListenerManager: TREShortcutEvent() {
             currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1)
             return true
         }
-        if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.Backspace.keyCode))){
-
+        if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.Enter.keyCode))){
+            if(context.blockManager.getCurrentBlockIndex()!=context.blockManager.getSize()-1){
+                return false
+            }
+            val currentBlock = context.blockManager.getCurrentBlock()!!
+            if(currentBlock !is TRETextBlock||currentBlock.getTextFieldValue().text.isNotEmpty()) {
+                return false
+            }
+            // 删除当前行
+            context.blockManager.removeBlock(context.blockManager.getSize()-1)
+            context.parentContext!!.blockManager.addBlock(context.parentContext!!.blockManager.getCurrentBlockIndex()+1,TRECoreBlock(context.parentContext!!.blockManager))
+            // 聚焦到最新行
+            context.parentContext!!.blockManager.focusBlock(context.parentContext!!.blockManager.getCurrentBlockIndex()+1)
             return true
         }
         if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.DirectionDown.keyCode))) {

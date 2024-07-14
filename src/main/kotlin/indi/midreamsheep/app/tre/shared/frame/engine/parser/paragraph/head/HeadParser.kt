@@ -69,22 +69,3 @@ class HeadParser: TRELineStyleParser {
         return level
     }
 }
-
-/*
-@LineParserMap
-@MapKey("reg:^[-=]+")
-class HeadCrossParser: TRELineStyleParser {
-
-    override fun buildRender(text: String, block: TRECoreBlock): TRERender {
-        val treRender = TRERender(block)
-        val blockManager = block.getBlockManager()
-        val lastBlock = blockManager.getTREBlock(blockManager.indexOf(block) - 1)
-        treRender.styleText.styleTextTree = StyleTextCrossHeadRoot(lastBlock as TRECoreBlock).apply {
-            addChild(TRECoreContentLeaf(text))
-        }
-        return treRender
-    }
-
-    override fun getWeight(text: String) = 1
-
-}*/
