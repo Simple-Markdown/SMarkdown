@@ -28,12 +28,12 @@ fun treEditor(
     endPadding:MutableState<Dp> = mutableStateOf(Dp.Unspecified),
 ){
     val editorContext = getEditorContext()
-    val stateManager = editorContext.blockManager
-    val lineStateList = stateManager.getTREBlockList()
+    val blockManager = editorContext.blockManager
+    val lineStateList = blockManager.getTREBlockList()
     LazyColumn(
         state = state,
         modifier = modifier.fillMaxSize()
-            .simpleClickable { stateManager.focusBlock(stateManager.getSize()-1,-1) }
+            .simpleClickable { blockManager.focusBlock(blockManager.getSize()-1,-1) }
             .onKeyEvent { keyEvent ->
                 return@onKeyEvent keyEvent.key == Enter
             }
@@ -80,11 +80,11 @@ fun treEditor(
             }
         }
     }
-    LaunchedEffect(key1 = stateManager.getCurrentBlockState().value) {
-        if (stateManager.getCurrentBlockState().value == null){
+    LaunchedEffect(key1 = blockManager.getCurrentBlockState().value) {
+        if (blockManager.getCurrentBlockState().value == null){
             return@LaunchedEffect
         }
-        val currentIndex = lineStateList.indexOf(stateManager.getCurrentBlock()!!)
+        val currentIndex = lineStateList.indexOf(blockManager.getCurrentBlock()!!)
         if (currentIndex !in state.firstVisibleItemIndex..<state.firstVisibleItemIndex + state.layoutInfo.visibleItemsInfo.size) {
             if (currentIndex==-1){
                 return@LaunchedEffect

@@ -41,7 +41,7 @@ class ManagerReadParser {
                 parser = defaultParser
             }
             //解析
-            lineNumber = parser!!.analyse(split, lineNumber, manager)
+            lineNumber += parser!!.analyse(split, lineNumber, manager)
         }
         if (manager.getSize()==0){
             manager.addBlock(TRECoreBlock(manager))

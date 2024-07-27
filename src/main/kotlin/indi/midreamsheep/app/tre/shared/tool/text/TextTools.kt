@@ -83,8 +83,8 @@ fun isStartWithInPoint(
 ):Boolean{
     if (text.length-startPoint<prefix.length) return false
     val prefixArray = prefix.toCharArray()
-    for (i in prefixArray.indices) {
-        if (text[startPoint+i]!=prefixArray[i]) return false
+    for ((index, c) in prefixArray.withIndex()) {
+        if (text[startPoint+index]!=c) return false
     }
     return true
 }

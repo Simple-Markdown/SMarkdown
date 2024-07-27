@@ -20,7 +20,6 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
-import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.ShortcutState
@@ -29,8 +28,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.observer.update
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContext
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRECoreLineParser
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRELineParser
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.treLineParse
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TREOffsetMappingAdapter
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
@@ -40,8 +38,6 @@ import indi.midreamsheep.app.tre.shared.tool.text.filter
 class TRECoreBlock(
     blockManager: TREBlockManager
 ) : TRETextBlock(blockManager) {
-    private val parser = getBean(TRECoreLineParser::class.java)
-    private var decorateParser: TRELineParser? = null
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
     var render: MutableState<TRERender> = mutableStateOf(
         TRERender(this).apply { styleText.styleTextTree = TRECoreTreeRoot().apply { addChild(TRECoreContentLeaf("")) } }
@@ -184,7 +180,7 @@ class TRECoreBlock(
     ){
         //去除上次的样式
         render.value.styleText.styleTextTree.remove()
-        render.value = if(decorateParser==null){parser.parse(textFieldValue.text, this)}else{decorateParser!!.parse(textFieldValue.text,this)}
+        render.value = treLineParse(textFieldValue.text,this)
         render.value.styleText.styleTextTree.reset(textFieldValue.selection.start,textFieldValue.selection.start,isFocus.value)
         render.value.styleText.styleTextTree.insert()
         updateAllObserver()
@@ -219,13 +215,6 @@ class TRECoreBlock(
     }
 
     override fun getTextFieldValue() = content.value
-
-    fun setDecorateParser(parser: TRELineParser?){
-        this.decorateParser = parser
-        buildContent()
-    }
-
-    fun removeDecorateParser() = setDecorateParser(null)
 
     /**
      * 每次当前文本修改时触发对所有观察者通知变化

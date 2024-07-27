@@ -8,11 +8,11 @@ import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.engine.context.core.ManagerReadParser
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.blockmanager.TREBlockManagerImpl
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRECoreLineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
@@ -22,8 +22,7 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 class QuoteParser: TRELineStyleParser {
 
     @Injector
-    val parser: TRECoreLineParser? = null
-
+    var parser: ManagerReadParser? = null
 
     override fun formatCheck(text: String, blockManager: TREBlockManager, lineNumber: Int): Boolean {
         return text.startsWith("> ")
@@ -60,4 +59,29 @@ class QuoteParser: TRELineStyleParser {
     }
 
     override fun getWeight(text: String) = 2
+
+    override fun analyse(texts: List<String>, lineNumber: Int, treBlockManager: TREBlockManager): Int {
+        // 获取接下来的所有的> 开头的行，并拼接
+        val stringBuilder = StringBuilder(texts[lineNumber].substring(2))
+        var count = 1
+        while (lineNumber+count <= texts.size-1&&texts[lineNumber+count].startsWith("> ")) {
+            stringBuilder.append("\n"+texts[lineNumber+count].substring(2))
+            count++
+        }
+        // 根据 stringBuilder构建quote block
+        val context = treBlockManager.getContext()
+        val editorContext = TREEditorContext(
+            parentContext =  context,
+            keyManager = context.keyManager,
+            blockManager = TREBlockManagerImpl(),
+            treObserverManager = TREEditorWindowObserverManager(),
+            treShortcutEvent = QuoteListenerManager(),
+            metaData = context.metaData,
+        )
+        val quoteBlock = QuoteBlock(treBlockManager,editorContext)
+        editorContext.block = quoteBlock
+        treBlockManager.addBlock(quoteBlock)
+        parser!!.parse(editorContext.blockManager,stringBuilder.toString())
+        return count
+    }
 }

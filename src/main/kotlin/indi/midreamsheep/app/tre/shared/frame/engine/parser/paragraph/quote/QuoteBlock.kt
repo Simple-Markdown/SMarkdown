@@ -72,7 +72,7 @@ class QuoteBlock(
                 setCurrentBlock(quoteContext.blockManager.getSize()-1)
             }
             else->{
-                quoteContext.blockManager.getTREBlock(0).focus(typeId,data)
+                quoteContext.blockManager.getTREBlock(quoteContext.blockManager.getSize()-1).focus(typeId,data)
                 setCurrentBlock(quoteContext.blockManager.getSize()-1)
             }
         }

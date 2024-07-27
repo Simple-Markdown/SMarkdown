@@ -2,11 +2,10 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.span.italic
 
 import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParserList
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.span.TREInlineParser
+import indi.midreamsheep.app.tre.shared.frame.engine.parser.treInlineParse
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
 import indi.midreamsheep.app.tre.shared.tool.text.findAffixPoint
-import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 
 @InLineParserList
 @MapKey("*")
@@ -15,9 +14,6 @@ class ItalicParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInli
     companion object{
         const val ITALIC_AFFIX = "*"
     }
-
-    @Injector
-    private val spanParse: TREInlineParser? = null
 
     override fun formatCheck(text: String): Boolean {
         findAffixPoint(text, ITALIC_AFFIX).let {
@@ -37,7 +33,7 @@ class ItalicParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInli
         val substring = text.substring(1, findAffixPoint(text, ITALIC_AFFIX).second)
         val italicLeaf = StyleTextItalicLeaf().apply {
             addChild(ItalicAffix())
-            addChildren(spanParse!!.parse(substring, render).toTypedArray())
+            addChildren(treInlineParse(substring, render).toTypedArray())
             addChild(ItalicAffix())
         }
         return italicLeaf

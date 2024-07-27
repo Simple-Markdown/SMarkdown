@@ -9,6 +9,8 @@ import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root
 
 class StyleTextHighlightLeaf: TRECoreTreeRoot() {
 
+    private var isDisplay = true
+
     override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {
             if (isHighlight()){
@@ -21,8 +23,7 @@ class StyleTextHighlightLeaf: TRECoreTreeRoot() {
                         append(child.generateAnnotatedString())
                     }
                 }
-            }
-            else {
+            } else {
                 for (child in getChildren()) {
                     append(child.generateAnnotatedString())
                 }
@@ -32,6 +33,11 @@ class StyleTextHighlightLeaf: TRECoreTreeRoot() {
 
     private fun isHighlight(): Boolean {
         val originalRange = getOriginalRange()
-        return absoluteSelection<=originalRange.getEnd()&&absoluteSelection>=originalRange.getStart()
+        val display:Boolean = absoluteSelection<=originalRange.getEnd()&&absoluteSelection>=originalRange.getStart()
+        if (isDisplay != display){
+            isDisplay = display
+            refresh()
+        }
+        return display
     }
 }

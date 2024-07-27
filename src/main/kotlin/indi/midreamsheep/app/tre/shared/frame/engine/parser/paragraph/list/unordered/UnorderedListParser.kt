@@ -24,7 +24,6 @@ import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.list.ListBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.list.ListShortcutEvent
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.list.ListType
-import indi.midreamsheep.app.tre.shared.frame.engine.parser.span.TREInlineParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
@@ -32,9 +31,6 @@ import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
 @LineParserMap
 @MapKey("reg:- .*")
 class UnorderedListParser: TRELineStyleParser {
-
-    @Injector
-    val parser: TREInlineParser? = null
 
     override fun buildRender(
         text: String,

@@ -47,9 +47,15 @@ class QuoteListenerManager: TREShortcutEvent() {
             }
             // 删除当前行
             context.blockManager.removeBlock(context.blockManager.getSize()-1)
-            context.parentContext!!.blockManager.addBlock(context.parentContext!!.blockManager.getCurrentBlockIndex()+1,TRECoreBlock(context.parentContext!!.blockManager))
+            // 如果quote块中为空，则设置删除当quote
+            var targetIndex = context.parentContext!!.blockManager.getCurrentBlockIndex()+1
+            if(context.blockManager.getSize()==0){
+                targetIndex--
+                context.parentContext!!.blockManager.removeBlock(targetIndex)
+            }
+            context.parentContext!!.blockManager.addBlock(targetIndex,TRECoreBlock(context.parentContext!!.blockManager))
             // 聚焦到最新行
-            context.parentContext!!.blockManager.focusBlock(context.parentContext!!.blockManager.getCurrentBlockIndex()+1)
+            context.parentContext!!.blockManager.focusBlock(targetIndex)
             return true
         }
         if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.DirectionDown.keyCode))) {

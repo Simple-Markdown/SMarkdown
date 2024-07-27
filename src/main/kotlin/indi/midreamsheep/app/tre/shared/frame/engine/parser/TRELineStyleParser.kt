@@ -1,8 +1,8 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser
 
 import androidx.compose.ui.text.input.TextFieldValue
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 
 interface TRELineStyleParser {
@@ -24,12 +24,12 @@ interface TRELineStyleParser {
     fun getWeight(text: String):Int
     /**
      * text解析，用于对文本进行初始化解释时调用
-     * @return下一次解析的起始位置
+     * @return 单次解析所处理的行数
      * */
     fun analyse(texts:List<String>, lineNumber:Int, treBlockManager: TREBlockManager):Int{
         val markdownLineState = TRECoreBlock(treBlockManager)
         markdownLineState.content.value = TextFieldValue(texts[lineNumber])
         treBlockManager.addBlock(markdownLineState)
-        return lineNumber+1
+        return 1
     }
 }
