@@ -10,6 +10,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import indi.midreamsheep.app.tre.shared.api.display.DisplayFunction
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.offsetFocus
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.OffsetCustomData
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.TREStyleText
 
@@ -32,7 +33,7 @@ class TRECorePreview(val line: TRECoreBlock): DisplayFunction {
                         line.textLayoutResult?.let {
                             val position = it.getOffsetForPosition(offset)
                             val stateManager = line.getBlockManager()
-                            stateManager.focusBlock(stateManager.indexOf(line), OffsetCustomData(position))
+                            stateManager.focusBlock(stateManager.indexOf(line), offsetFocus, OffsetCustomData(position))
                         }
                     }
                 }

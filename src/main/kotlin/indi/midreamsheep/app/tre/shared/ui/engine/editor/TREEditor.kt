@@ -16,6 +16,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREFocusEnum
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContext
 import indi.midreamsheep.app.tre.shared.ui.compnent.simpleclick.simpleClickable
 
@@ -33,7 +34,7 @@ fun treEditor(
     LazyColumn(
         state = state,
         modifier = modifier.fillMaxSize()
-            .simpleClickable { blockManager.focusBlock(blockManager.getSize()-1,-1) }
+            .simpleClickable { blockManager.focusBlock(blockManager.getSize()-1,TREFocusEnum.IN_END) }
             .onKeyEvent { keyEvent ->
                 return@onKeyEvent keyEvent.key == Enter
             }

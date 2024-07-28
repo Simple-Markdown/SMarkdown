@@ -4,6 +4,7 @@ import androidx.compose.ui.input.key.Key
 import indi.midreamsheep.app.tre.api.annotation.shortcut.EditorShortcut
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREFocusEnum
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.XPositionData
@@ -16,10 +17,10 @@ class DownShortcut: TREEditorShortcutHandler {
         val xPositionData = XPositionData((stateManager.getCurrentBlock() as TRETextBlock).getShortcutState().left)
         val index = stateManager.getCurrentBlockIndex()
         if(index != stateManager.getSize() - 1){
-            stateManager.focusBlock(stateManager.getCurrentBlockIndex()+1,getId(),xPositionData)
+            stateManager.focusBlock(stateManager.getCurrentBlockIndex()+1,TREFocusEnum.IN_TARGET_POSITION_DOWN,xPositionData)
         }else{
             stateManager.addTREBlockState(index+1, TRECoreBlock(stateManager))
-            stateManager.focusBlock(index+1,getId())
+            stateManager.focusBlock(index+1,TREFocusEnum.STANDARD)
         }
     }
 

@@ -22,10 +22,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.frame.engine.context.block.ShortcutState
-import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREBlockDisplay
-import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TRETextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.*
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.observer.update
+import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.OffsetCustomData
+import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.XPositionData
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.treLineParse
@@ -187,15 +187,24 @@ class TRECoreBlock(
     }
 
     fun focus(position: Int) {
-        focus()
+        focusStandard()
         refresh(content.value.copy(selection = TextRange(position)))
     }
 
-    override fun focus() { isFocus.value = true }
-    override fun getShortcutState() = shortcutState
+    override fun focusEvent(typeId: Long, data: CustomData?) {
+        when(typeId){
+            offsetFocus -> {
+                focusTransform((data as OffsetCustomData).offset)
+            }
+            else -> {focusStandard()}
+        }
+    }
 
+    override fun getShortcutState() = shortcutState
     override fun focusTransform(transformPosition: Int) = focus(render.value.styleText.styleTextTree.transformedToOriginal(transformPosition))
-    override fun focusX(x: Float, isStart: Boolean) {
+    override fun inTargetPositionUp(xPositionData: XPositionData) = focusX(xPositionData.x,true)
+    override fun inTargetPositionDown(xPositionData: XPositionData) = focusX(xPositionData.x,false)
+    private fun focusX(x: Float, isStart: Boolean) {
         if (textLayoutResult==null){
             return
         }
@@ -206,9 +215,17 @@ class TRECoreBlock(
         focusTransform(offsetForPosition)
     }
 
-    override fun focusFromLast() = focus(content.value.text.length)
+    override fun focusInEnd() {
+        focus(content.value.text.length)
+    }
 
-    override fun focusFromStart() = focus(0)
+    override fun focusInStart() {
+        focus(0)
+    }
+
+    override fun focusStandard() {
+        isFocus.value = true
+    }
 
     override fun releaseFocus() {
         isFocus.value = false

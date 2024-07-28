@@ -11,6 +11,7 @@ import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREContextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREFocusEnum
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
 
@@ -24,7 +25,7 @@ class BackspaceShortcut: TREEditorShortcutHandler {
         val currentBlock = blockManager.getCurrentBlock()!! as TRETextBlock
         val currentLineIndex = blockManager.indexOf(currentBlock)
         //获取上一格块的焦点
-        blockManager.focusBlock(currentLineIndex-1,getId())
+        blockManager.focusBlock(currentLineIndex-1,TREFocusEnum.IN_END)
         //对上一块进行数据处理
         var lastLine = blockManager.getTREBlock(currentLineIndex-1)
         while(lastLine is TREContextBlock){

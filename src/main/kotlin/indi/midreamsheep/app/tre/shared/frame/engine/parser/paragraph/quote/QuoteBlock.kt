@@ -9,15 +9,13 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
-import indi.midreamsheep.app.tre.shared.frame.engine.context.block.CustomData
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREBlockDisplay
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREContextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREFocusEnum
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.XPositionData
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContextComposition
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.*
 import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TREDefaultLinePreButton
-import indi.midreamsheep.app.tre.shared.tool.id.getIdFromPool
 import indi.midreamsheep.app.tre.shared.ui.engine.editor.treEditorWithoutScroll
 
 class QuoteBlock(
@@ -44,39 +42,31 @@ class QuoteBlock(
         override fun getPreButton() = TREDefaultLinePreButton()
 
     }
-
-    override fun focus(typeId: Long, data: CustomData) {
-        when(typeId){
-            getIdFromPool(XPositionData::class.java) -> {
-                quoteContext.blockManager.getTREBlock(quoteContext.blockManager.getSize()-1).focus(typeId, data)
-                setCurrentBlock(quoteContext.blockManager.getSize()-1)
-            }
-            getIdFromPool(UpShortcut::class.java) -> {
-                quoteContext.blockManager.getTREBlock(quoteContext.blockManager.getSize()-1).focus(typeId, data)
-                setCurrentBlock(quoteContext.blockManager.getSize()-1)
-            }
-            getIdFromPool(DownShortcut::class.java) -> {
-                quoteContext.blockManager.getTREBlock(0).focus(typeId,data)
-                setCurrentBlock(0)
-            }
-            getIdFromPool(BackspaceShortcut::class.java) -> {
-                quoteContext.blockManager.getTREBlock(quoteContext.blockManager.getSize()-1).focus(typeId, data)
-                setCurrentBlock(quoteContext.blockManager.getSize()-1)
-            }
-            getIdFromPool(DirectionRightShortcut::class.java) -> {
-                quoteContext.blockManager.getTREBlock(0).focus(typeId,data)
-                setCurrentBlock(0)
-            }
-            getIdFromPool(DirectionLeftShortcut::class.java) -> {
-                quoteContext.blockManager.getTREBlock(quoteContext.blockManager.getSize()-1).focus(typeId, data)
-                setCurrentBlock(quoteContext.blockManager.getSize()-1)
-            }
-            else->{
-                quoteContext.blockManager.getTREBlock(quoteContext.blockManager.getSize()-1).focus(typeId,data)
-                setCurrentBlock(quoteContext.blockManager.getSize()-1)
-            }
-        }
+    override fun focusInStart() {
+        quoteContext.blockManager.getTREBlock(0).focus(TREFocusEnum.IN_START.id)
+        setCurrentBlock(0)
     }
+
+    override fun focusInEnd() {
+        quoteContext.blockManager.getTREBlock(quoteContext.blockManager.getSize()-1).focus(TREFocusEnum.IN_END.id)
+        setCurrentBlock(quoteContext.blockManager.getSize()-1)
+    }
+
+    override fun focusStandard() {
+        quoteContext.blockManager.getTREBlock(0).focus(TREFocusEnum.STANDARD.id)
+        setCurrentBlock(0)
+    }
+
+    override fun inTargetPositionDown(xPositionData: XPositionData) {
+        quoteContext.blockManager.getTREBlock(0).focus(TREFocusEnum.IN_TARGET_POSITION_UP.id,xPositionData)
+        setCurrentBlock(0)
+    }
+
+    override fun inTargetPositionUp(xPositionData: XPositionData) {
+        quoteContext.blockManager.getTREBlock(quoteContext.blockManager.getSize()-1).focus(TREFocusEnum.IN_TARGET_POSITION_DOWN.id,xPositionData)
+        setCurrentBlock(quoteContext.blockManager.getSize()-1)
+    }
+
 
     private fun setCurrentBlock(index:Int){
         quoteContext.blockManager.setCurrentBlock(quoteContext.blockManager.getTREBlock(index))

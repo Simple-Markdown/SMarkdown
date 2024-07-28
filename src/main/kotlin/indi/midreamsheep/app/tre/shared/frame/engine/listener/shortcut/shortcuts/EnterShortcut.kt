@@ -9,6 +9,7 @@ import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyWeakChecker
 import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREFocusEnum
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.TREEditorShortcutHandler
@@ -49,7 +50,7 @@ class EnterShortcut: TREEditorShortcutHandler {
         }
         //提交命令
         blockManager.executeOperator(treOperatorGroup)
-        blockManager.focusBlock(currentLineIndex+1,getId())
+        blockManager.focusBlock(currentLineIndex+1,TREFocusEnum.IN_START)
     }
 
     override fun isEnable(context: TREEditorContext): Boolean {

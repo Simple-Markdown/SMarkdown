@@ -3,12 +3,11 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.quote
 import androidx.compose.ui.input.key.Key
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
+import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREFocusEnum
 import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.XPositionData
 import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREShortcutEvent
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.shortcut.shortcuts.DownShortcut
-import indi.midreamsheep.app.tre.shared.tool.id.getIdFromPool
 
 class QuoteListenerManager: TREShortcutEvent() {
 
@@ -31,10 +30,10 @@ class QuoteListenerManager: TREShortcutEvent() {
                 break
             }
             if (currentBlock is TRETextBlock){
-                currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1,XPositionData(currentBlock.getShortcutState().left))
+                currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1,TREFocusEnum.IN_TARGET_POSITION_UP,XPositionData(currentBlock.getShortcutState().left))
                 return true
             }
-            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1)
+            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1,TREFocusEnum.STANDARD)
             return true
         }
         if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.Enter.keyCode))){
@@ -55,7 +54,7 @@ class QuoteListenerManager: TREShortcutEvent() {
             }
             context.parentContext!!.blockManager.addBlock(targetIndex,TRECoreBlock(context.parentContext!!.blockManager))
             // 聚焦到最新行
-            context.parentContext!!.blockManager.focusBlock(targetIndex)
+            context.parentContext!!.blockManager.focusBlock(targetIndex,TREFocusEnum.IN_START)
             return true
         }
         if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.DirectionDown.keyCode))) {
@@ -81,18 +80,18 @@ class QuoteListenerManager: TREShortcutEvent() {
                     TREBlockInsert(currentContext.blockManager.getSize(),TRECoreBlock(currentContext.blockManager))
                 )
                 // 聚焦到新块
-                currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1)
+                currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1,TREFocusEnum.STANDARD)
                 return true
             }
             // 若不是最后一层，则直接聚焦到下一焦点
             if (block is TRETextBlock){
                 currentContext.blockManager.focusBlock(
                     currentContext.blockManager.getCurrentBlockIndex()+1,
-                    getIdFromPool(DownShortcut::class.java),
+                    TREFocusEnum.IN_TARGET_POSITION_DOWN,
                     XPositionData(block.getShortcutState().left))
                 return true
             }
-            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1)
+            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1,TREFocusEnum.STANDARD)
             return true
         }
         return false

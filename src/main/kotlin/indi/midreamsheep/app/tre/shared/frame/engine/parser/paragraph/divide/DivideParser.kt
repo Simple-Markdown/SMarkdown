@@ -35,7 +35,8 @@ class DivideParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELine
                     modifier = Modifier
                         .height(20.dp)
                         .clickable {
-                            block.focus()
+                            // 获取当前点击的位置
+
                         },
                     verticalArrangement = Arrangement.Center
                 ) {

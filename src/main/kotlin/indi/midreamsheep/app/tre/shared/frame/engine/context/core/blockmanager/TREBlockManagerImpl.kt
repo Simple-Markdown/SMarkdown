@@ -20,7 +20,7 @@ class TREBlockManagerImpl: TREBlockManager {
 
     override fun getTREBlock(index: Int) = blockStateList[index]
 
-    override fun indexOf(treBlockState: TREBlock) = blockStateList.indexOf(treBlockState)
+    override fun indexOf(treBlock: TREBlock) = blockStateList.indexOf(treBlock)
 
     override fun getTREBlockList(): SnapshotStateList<TREBlock> {
         return blockStateList
