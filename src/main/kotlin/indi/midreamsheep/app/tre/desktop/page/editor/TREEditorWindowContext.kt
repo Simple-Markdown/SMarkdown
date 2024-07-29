@@ -17,14 +17,14 @@ import indi.midreamsheep.app.tre.desktop.page.editor.ui.editorPage
 import indi.midreamsheep.app.tre.desktop.service.ioc.getBean
 import indi.midreamsheep.app.tre.model.mainpage.file.TREFile
 import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.frame.core.shortcut.TREShortcutKeyManager
-import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
-import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContextMetaData
-import indi.midreamsheep.app.tre.shared.frame.engine.context.core.file.render.TRELocalFileRenderManager
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREFileManager
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREObserverManager
+import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.TREEditorContextMetaData
+import indi.midreamsheep.app.tre.shared.frame.manager.shortcut.keymanager.TREShortcutKeyManager
+import indi.midreamsheep.app.tre.shared.frame.manager.file.render.TRELocalFileRenderManager
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContextComposition
-import indi.midreamsheep.app.tre.shared.frame.engine.listener.editor.TRECoreEditorShortcutEvent
+import indi.midreamsheep.app.tre.shared.frame.manager.TREFileManager
+import indi.midreamsheep.app.tre.shared.frame.manager.TREObserverManager
+import indi.midreamsheep.app.tre.shared.frame.manager.shortcut.TREEditorShortcutEvent
 
 /**
  * 编辑器窗口上下文
@@ -58,7 +58,7 @@ class TREEditorWindowContext(): TREWindowContext(){
             parentContext = null,
             blockManager = treFileManager.getStateManager(),
             keyManager = keyManager,
-            treShortcutEvent = TRECoreEditorShortcutEvent(),
+            treShortcutEvent = TREEditorShortcutEvent(),
             treObserverManager = TREEditorWindowObserverManager(),
             metaData = TREEditorContextMetaData()
         )

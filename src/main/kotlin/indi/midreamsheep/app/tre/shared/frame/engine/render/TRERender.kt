@@ -1,6 +1,6 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.render
 
-import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TREDefaultLinePreButton
 import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TRELinePreButton
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.TREStyleText

@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.AnnotatedString
-import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 
 abstract class TREStyleTextTree: TREStyleTextTreeInter {
 

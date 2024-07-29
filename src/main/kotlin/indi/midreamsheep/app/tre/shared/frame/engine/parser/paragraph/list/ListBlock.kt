@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
-import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREBlockDisplay
-import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREContextBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREFocusEnum
-import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.XPositionData
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.engine.block.TREBlockDisplay
+import indi.midreamsheep.app.tre.shared.frame.engine.block.context.TREContextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.block.TREFocusEnum
+import indi.midreamsheep.app.tre.shared.frame.engine.block.XPositionData
+import indi.midreamsheep.app.tre.shared.frame.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContextComposition
 import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TREDefaultLinePreButton
 import indi.midreamsheep.app.tre.shared.ui.engine.editor.treEditorWithoutScroll
@@ -22,7 +22,7 @@ class ListBlock(
     val listContext: TREEditorContext
 ): TREContextBlock(blockManager) {
 
-    private val quoteBlockDisplay = object : TREBlockDisplay{
+    private val quoteBlockDisplay = object : TREBlockDisplay {
         override fun getDisplay()= Display {
             {
                 Row(Modifier.fillMaxWidth()) {

@@ -2,8 +2,8 @@ package indi.midreamsheep.app.tre.shared.frame.engine.render.style
 
 import androidx.compose.foundation.text.InlineTextContent
 import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECorePreview
+import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECorePreview
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
 
 class TREStyleText(line: TRECoreBlock) {

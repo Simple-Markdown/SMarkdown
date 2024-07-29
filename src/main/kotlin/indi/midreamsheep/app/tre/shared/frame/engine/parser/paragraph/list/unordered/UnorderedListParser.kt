@@ -17,16 +17,15 @@ import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
-import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.context.core.blockmanager.TREBlockManagerImpl
+import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.list.ListBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.list.ListShortcutEvent
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.list.ListType
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
-import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Injector
+import indi.midreamsheep.app.tre.shared.frame.manager.blockmanager.TREBlockManagerImpl
 
 @LineParserMap
 @MapKey("reg:- .*")
@@ -58,7 +57,7 @@ class UnorderedListParser: TRELineStyleParser {
             }
         )
         editorContext.blockManager.addBlock(TRECoreBlock(editorContext.blockManager))
-        editorContext.blockManager.focusBlock(0,-1)
+        editorContext.blockManager.focusBlock(0)
         (editorContext.blockManager.getTREBlock(0) as TRECoreBlock).setTextFieldValue(TextFieldValue(text.substring(2)))
         return render
     }

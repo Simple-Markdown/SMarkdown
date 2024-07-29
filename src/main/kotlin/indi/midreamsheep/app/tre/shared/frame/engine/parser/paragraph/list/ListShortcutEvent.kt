@@ -7,17 +7,28 @@ import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockDelete
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
-import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREContextBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TREFocusEnum
-import indi.midreamsheep.app.tre.shared.frame.engine.context.block.TRETextBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.context.core.block.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.context.core.customdata.XPositionData
-import indi.midreamsheep.app.tre.shared.frame.engine.context.manager.TREShortcutEvent
+import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.engine.block.context.TREContextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.block.TREFocusEnum
+import indi.midreamsheep.app.tre.shared.frame.engine.block.text.TRETextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.block.XPositionData
+import indi.midreamsheep.app.tre.shared.frame.manager.TREShortcutEvent
+import indi.midreamsheep.app.tre.shared.frame.manager.shortcut.TREEditorShortcutEvent
 
-class ListShortcutEvent: TREShortcutEvent() {
+class ListShortcutEvent: TREShortcutEvent {
+
+    private lateinit var context: TREEditorContext
+    private var standardShortcutEvent:TREEditorShortcutEvent = TREEditorShortcutEvent()
+
+    override fun initContext(context: TREEditorContext) {
+        this.context = context
+        standardShortcutEvent.initContext(context)
+    }
+
     override fun keyEvent(): Boolean {
         if (listKeyEvent()) return true
-        return super.keyEvent()
+        return standardShortcutEvent.keyEvent()
     }
 
     private fun listKeyEvent():Boolean{
@@ -41,7 +52,7 @@ class ListShortcutEvent: TREShortcutEvent() {
                 )
                 return true
             }
-            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1,TREFocusEnum.STANDARD)
+            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1, TREFocusEnum.STANDARD)
             return true
         }
         // 处理下键
@@ -60,7 +71,8 @@ class ListShortcutEvent: TREShortcutEvent() {
                 currentContext.blockManager.executeOperator(
                     TREBlockInsert(currentContext.blockManager.getSize(), TRECoreBlock(currentContext.blockManager))
                 )
-                currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1,TREFocusEnum.STANDARD)
+                currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1,
+                    TREFocusEnum.STANDARD)
                 return true
             }
             if (currentBlock is TRETextBlock){
@@ -70,7 +82,7 @@ class ListShortcutEvent: TREShortcutEvent() {
                 )
                 return true
             }
-            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1,TREFocusEnum.STANDARD)
+            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1, TREFocusEnum.STANDARD)
             return true
         }
         // 处理enter键
@@ -105,7 +117,7 @@ class ListShortcutEvent: TREShortcutEvent() {
                         startIndex++
                     }
                     //设置焦点到第一行
-                    parentBlockManager.focusBlock(startIndex-context.blockManager.getSize(),TREFocusEnum.IN_END)
+                    parentBlockManager.focusBlock(startIndex-context.blockManager.getSize(), TREFocusEnum.IN_END)
                     return true
                 }
                 //将当前块的内容送进上一级块中
@@ -113,7 +125,7 @@ class ListShortcutEvent: TREShortcutEvent() {
                 for (treBlock in context.blockManager.getTREBlockList()) {
                     blockManager.addBlock(blockManager.getSize(), treBlock)
                 }
-                blockManager.focusBlock(blockManager.getSize()-context.blockManager.getSize(),TREFocusEnum.IN_END)
+                blockManager.focusBlock(blockManager.getSize()-context.blockManager.getSize(), TREFocusEnum.IN_END)
                 return true
             }
         }
@@ -137,7 +149,7 @@ class ListShortcutEvent: TREShortcutEvent() {
                         addOperator(TREBlockInsert(currentBlockIndex,treCoreBlock))
                     }
                 )
-                context.parentContext!!.blockManager.focusBlock(currentBlockIndex,TREFocusEnum.STANDARD)
+                context.parentContext!!.blockManager.focusBlock(currentBlockIndex, TREFocusEnum.STANDARD)
                 return true
             }
             // 对文本进行切割
@@ -152,7 +164,8 @@ class ListShortcutEvent: TREShortcutEvent() {
             // 设置原来的block
             currentBlock.setTextFieldValue(TextFieldValue(str1, TextRange(0)))
             // 聚焦到下一个block
-            context.parentContext!!.blockManager.focusBlock(context.parentContext!!.blockManager.getCurrentBlockIndex()+1,TREFocusEnum.IN_START)
+            context.parentContext!!.blockManager.focusBlock(context.parentContext!!.blockManager.getCurrentBlockIndex()+1,
+                TREFocusEnum.IN_START)
             return true
         }
         return false

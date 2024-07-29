@@ -1,7 +1,7 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.list
 
 import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 
 interface ListType {
     /**
@@ -15,5 +15,5 @@ interface ListType {
     /**
      * 根据文本构建新的list
      * */
-    fun build(text:String,context:TREEditorContext):ListBlock
+    fun build(text:String,context: TREEditorContext):ListBlock
 }

@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.desktop.context
 import androidx.compose.ui.input.key.KeyEvent
 import indi.midreamsheep.app.tre.service.window.TREWindow
 import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.frame.core.shortcut.TREShortcutKeyManager
+import indi.midreamsheep.app.tre.shared.frame.manager.shortcut.keymanager.TREShortcutKeyManager
 
 /**
  * 保存上下文信息

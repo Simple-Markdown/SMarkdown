@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.text.AnnotatedString
 import indi.midreamsheep.app.tre.shared.api.tre.TREClassId
-import indi.midreamsheep.app.tre.shared.frame.engine.context.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 
 /**
  * 构建文本样式树
