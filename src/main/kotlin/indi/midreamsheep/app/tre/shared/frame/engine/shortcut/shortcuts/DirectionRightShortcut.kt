@@ -23,7 +23,7 @@ class DirectionRightShortcut: TRELineShortcutHandler {
         }
         val currentBlock = stateManager.getCurrentBlock()!!
         if (currentBlock is TRETextBlock) {
-            return currentBlock.getShortcutState().isRightAvailable
+            return currentBlock.getEditorShortcutState().isRightAvailable
         }
         return false
     }

@@ -10,8 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key.Companion.Enter
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -71,7 +69,7 @@ fun treEditor(
                                 .onGloballyPositioned {
                                     lineHeight = it.size.height.dp
                                 }
-                                .pointerHoverIcon(PointerIcon.Text)
+                                //TODO .pointerHoverIcon(PointerIcon.Text)
                         ){
                             treBlock.getTREBlockDisplay().getDisplay().getComposable().invoke()
                         }
@@ -110,7 +108,7 @@ fun treEditorWithoutScroll(
     ) {
         for(treBlock in lineStateList){
             Box(
-                Modifier.fillMaxWidth().pointerHoverIcon(PointerIcon.Text)
+                Modifier.fillMaxWidth()//TODO .pointerHoverIcon(PointerIcon.Text)
             ) {
                 treBlock.getTREBlockDisplay().getDisplay().getComposable().invoke()
             }

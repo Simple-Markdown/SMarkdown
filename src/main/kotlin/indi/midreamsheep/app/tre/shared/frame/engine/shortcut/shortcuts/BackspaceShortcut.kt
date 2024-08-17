@@ -10,8 +10,8 @@ import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.model.listener.shortcut.TREShortcutKeyChecker
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
-import indi.midreamsheep.app.tre.shared.frame.engine.block.context.TREContextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREFocusEnum
+import indi.midreamsheep.app.tre.shared.frame.engine.block.context.TREContextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.block.text.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.shortcut.TRELineShortcutHandler
 
@@ -60,7 +60,7 @@ class BackspaceShortcut: TRELineShortcutHandler {
         if (currentBlock==null||currentBlock !is TRETextBlock ||stateManager.getCurrentBlockIndex()==0){
             return false
         }
-        return currentBlock.getShortcutState().isLeftAvailable
+        return currentBlock.getEditorShortcutState().isLeftAvailable
     }
 
     override fun getKeys(): List<TREShortcutKeyChecker> {

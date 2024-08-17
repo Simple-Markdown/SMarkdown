@@ -61,33 +61,32 @@ class TREBlockManagerImpl: TREBlockManager {
     override fun getSize() = blockStateList.size
 
     override fun focusBlock(index: Int,focus: (TREBlock) -> Unit) {
+        // 焦点事件向上传播
+        getFocus()
         // 释放焦点
         releaseCurrentBlock()
         // 获取焦点
         focusBlock(blockStateList[index],focus)
     }
 
+    /**
+     * 获取当前父context中manager的当前上下文
+     * */
+    override fun getFocus() {
+        if (context.parentContext==null||context.block==null) return
+        val parentManager = context.parentContext!!.blockManager
+        if (parentManager.getCurrentBlock()==context.block) return
+        parentManager.focusBlock(parentManager.indexOf(context.block!!))
+        parentManager.getFocus()
+    }
+
     private fun releaseCurrentBlock(){
         if(currentBlock.value == null) return
-        var contextPointer: TREEditorContext? = context
-        while (contextPointer!=null) {
-            contextPointer.blockManager.getCurrentBlock()?.releaseFocus()
-            contextPointer.blockManager.setCurrentBlock(null)
-            contextPointer = contextPointer.parentContext
-        }
+        context.blockManager.getCurrentBlock()?.releaseFocus()
+        context.blockManager.setCurrentBlock(null)
     }
 
     private fun focusBlock(treBlock: TREBlock, focus: (TREBlock) -> Unit){
-        //对所有上一级block设置为当前block
-        var currentContext = context
-        while (currentContext.parentContext!=null){
-            if (currentContext.parentContext!!.blockManager.getCurrentBlock()==currentContext.block){
-                currentContext = currentContext.parentContext!!
-                continue
-            }
-            currentContext.parentContext!!.blockManager.setCurrentBlock(currentContext.block)
-            currentContext = currentContext.parentContext!!
-        }
         // 将当前block设置为目标block
         setCurrentBlock(treBlock)
         // 对其进行执行
@@ -96,7 +95,7 @@ class TREBlockManagerImpl: TREBlockManager {
 
     override fun addBlock(index: Int, block: TREBlock) {
         blockStateList.add(index,block)
-        block.setBlockManager(this)
+        block.resetEditorContext(this.getContext())
         block.getBlockManager().setContext(getContext())
         block.whenInsert()
     }

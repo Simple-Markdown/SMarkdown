@@ -22,13 +22,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
 import indi.midreamsheep.app.tre.shared.api.display.Display
-import indi.midreamsheep.app.tre.shared.frame.engine.block.CustomData
+import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREBlockDisplay
-import indi.midreamsheep.app.tre.shared.frame.engine.block.text.OffsetCustomData
-import indi.midreamsheep.app.tre.shared.frame.engine.block.text.ShortcutState
-import indi.midreamsheep.app.tre.shared.frame.engine.block.text.TRETextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.block.TREBlockFocusData
 import indi.midreamsheep.app.tre.shared.frame.engine.block.XPositionData
-import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContext
+import indi.midreamsheep.app.tre.shared.frame.engine.block.text.OffsetCustomData
+import indi.midreamsheep.app.tre.shared.frame.engine.block.text.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.treLineParse
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TREOffsetMappingAdapter
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
@@ -39,15 +38,17 @@ import indi.midreamsheep.app.tre.shared.tool.id.getIdFromPool
 import indi.midreamsheep.app.tre.shared.tool.text.filter
 
 class TRECoreBlock(
-    blockManager: TREBlockManager
-) : TRETextBlock(blockManager) {
+    context: TREEditorContext
+) : TRETextBlock(context) {
+
+    constructor(manager: TREBlockManager):this(manager.getContext())
+
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
     var render: MutableState<TRERender> = mutableStateOf(
         TRERender(this).apply { styleText.styleTextTree = TRECoreTreeRoot().apply { addChild(TRECoreContentLeaf("")) } }
     )
     private var focusRequester: FocusRequester = FocusRequester()
     private var isFocus = mutableStateOf(false)
-    private val shortcutState = ShortcutState()
     lateinit var textLayoutResult: TextLayoutResult
     var xWindowStartPosition = 0f
 
@@ -76,7 +77,7 @@ class TRECoreBlock(
     override fun getTREBlockDisplay() = treBlockDisplay
 
 
-    override fun getContent() = content.value.text
+    override fun getOutputContent() = content.value.text
 
     override fun whenInsert() {
         buildContent()
@@ -128,7 +129,7 @@ class TRECoreBlock(
                 var offset =
                     render.value.styleText.styleTextTree.originalToTransformed(content.value.selection.start)
                 if (offset > it.layoutInput.text.length) offset = it.layoutInput.text.length
-                shortcutState.left = it.getCursorRect(offset).left + xWindowStartPosition
+                left = it.getCursorRect(offset).left + xWindowStartPosition
             },
             decorationBox = { innerTextField ->
                 Column(modifier = Modifier.fillMaxWidth()) {
@@ -194,7 +195,7 @@ class TRECoreBlock(
         refresh(content.value.copy(selection = TextRange(position)))
     }
 
-    override fun focusEvent(typeId: Long, data: CustomData?) {
+    override fun focusEvent(typeId: Long, data: TREBlockFocusData?) {
         when(typeId){
             getIdFromPool(OffsetCustomData::class.java) -> {
                 focusTransform((data as OffsetCustomData).offset)
@@ -203,7 +204,7 @@ class TRECoreBlock(
         }
     }
 
-    override fun getShortcutState() = shortcutState
+    override fun getEditorShortcutState() = shortcutState
     override fun focusTransform(transformPosition: Int) = focus(render.value.styleText.styleTextTree.transformedToOriginal(transformPosition))
     override fun inTargetPositionUp(xPositionData: XPositionData) = focusX(xPositionData.x,false)
     override fun inTargetPositionDown(xPositionData: XPositionData) = focusX(xPositionData.x,true)

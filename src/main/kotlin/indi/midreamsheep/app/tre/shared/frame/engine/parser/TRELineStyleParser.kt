@@ -2,8 +2,8 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser
 
 import androidx.compose.ui.text.input.TextFieldValue
 import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
+import indi.midreamsheep.app.tre.shared.frame.manager.TREBlockManager
 
 interface TRELineStyleParser {
     /**
@@ -27,7 +27,7 @@ interface TRELineStyleParser {
      * @return 单次解析所处理的行数
      * */
     fun analyse(texts:List<String>, lineNumber:Int, treBlockManager: TREBlockManager):Int{
-        val markdownLineState = TRECoreBlock(treBlockManager)
+        val markdownLineState = TRECoreBlock(treBlockManager.getContext())
         markdownLineState.content.value = TextFieldValue(texts[lineNumber])
         treBlockManager.addBlock(markdownLineState)
         return 1

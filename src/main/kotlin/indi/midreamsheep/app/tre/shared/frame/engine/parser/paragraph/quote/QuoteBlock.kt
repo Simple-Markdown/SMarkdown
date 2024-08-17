@@ -9,19 +9,20 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
+import indi.midreamsheep.app.tre.shared.frame.engine.block.TREBlockComposeState
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREBlockDisplay
-import indi.midreamsheep.app.tre.shared.frame.engine.block.context.TREContextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREFocusEnum
 import indi.midreamsheep.app.tre.shared.frame.engine.block.XPositionData
-import indi.midreamsheep.app.tre.shared.frame.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.engine.block.context.TREContextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContextComposition
 import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TREDefaultLinePreButton
+import indi.midreamsheep.app.tre.shared.frame.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.ui.engine.editor.treEditorWithoutScroll
 
 class QuoteBlock(
     blockManager: TREBlockManager,
     val quoteContext: TREEditorContext
-): TREContextBlock(blockManager) {
+): TREContextBlock(blockManager.getContext()) {
 
     private val quoteBlockDisplay = object : TREBlockDisplay {
         override fun getDisplay()=Display {
@@ -77,10 +78,17 @@ class QuoteBlock(
         quoteContext.blockManager.setCurrentBlock(null)
     }
 
+    /**
+     * 获取block组件状态，包含内部的矩阵信息
+     **/
+    override fun getComposeState(): TREBlockComposeState {
+        TODO("Not yet implemented")
+    }
+
     override fun getTREBlockDisplay() = quoteBlockDisplay
 
 
-    override fun getContent(): String {
+    override fun getOutputContent(): String {
         TODO("Not yet implemented")
     }
 

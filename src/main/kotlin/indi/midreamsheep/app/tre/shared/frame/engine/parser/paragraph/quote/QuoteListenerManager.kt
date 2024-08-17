@@ -5,9 +5,9 @@ import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREFocusEnum
-import indi.midreamsheep.app.tre.shared.frame.engine.block.text.TRETextBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.block.XPositionData
+import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.block.text.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.manager.TREShortcutEvent
 import indi.midreamsheep.app.tre.shared.frame.manager.shortcut.TREEditorShortcutEvent
 
@@ -39,13 +39,11 @@ class QuoteListenerManager: TREShortcutEvent {
                 }
                 break
             }
-            if (currentBlock is TRETextBlock){
-                currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1,
-                    TREFocusEnum.IN_TARGET_POSITION_UP, XPositionData(currentBlock.getShortcutState().left)
+            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1,
+                TREFocusEnum.IN_TARGET_POSITION_UP,
+                XPositionData(currentBlock.getComposeState().getPointerAbsolutePosition().first
                 )
-                return true
-            }
-            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1, TREFocusEnum.STANDARD)
+            )
             return true
         }
         if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.Enter.keyCode))){
@@ -103,7 +101,7 @@ class QuoteListenerManager: TREShortcutEvent {
                 currentContext.blockManager.focusBlock(
                     currentContext.blockManager.getCurrentBlockIndex()+1,
                     TREFocusEnum.IN_TARGET_POSITION_DOWN,
-                    XPositionData(block.getShortcutState().left)
+                    XPositionData(block.getComposeState().getPointerAbsolutePosition().first)
                 )
                 return true
             }

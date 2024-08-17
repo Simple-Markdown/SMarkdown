@@ -8,11 +8,11 @@ import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
-import indi.midreamsheep.app.tre.shared.frame.engine.block.context.TREContextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREFocusEnum
-import indi.midreamsheep.app.tre.shared.frame.engine.block.text.TRETextBlock
-import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.block.XPositionData
+import indi.midreamsheep.app.tre.shared.frame.engine.block.context.TREContextBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.block.text.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.manager.TREShortcutEvent
 import indi.midreamsheep.app.tre.shared.frame.manager.shortcut.TREEditorShortcutEvent
 
@@ -48,7 +48,7 @@ class ListShortcutEvent: TREShortcutEvent {
             if (currentBlock is TRETextBlock){
                 currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1,
                     TREFocusEnum.IN_TARGET_POSITION_UP,
-                    XPositionData(currentBlock.getShortcutState().left)
+                    XPositionData(currentBlock.getComposeState().getPointerAbsolutePosition().first)
                 )
                 return true
             }
@@ -78,7 +78,7 @@ class ListShortcutEvent: TREShortcutEvent {
             if (currentBlock is TRETextBlock){
                 currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1,
                     TREFocusEnum.IN_TARGET_POSITION_UP,
-                    XPositionData(currentBlock.getShortcutState().left)
+                    XPositionData(currentBlock.getComposeState().getPointerAbsolutePosition().first)
                 )
                 return true
             }

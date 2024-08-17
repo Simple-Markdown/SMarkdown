@@ -1,11 +1,20 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.block;
 
-import indi.midreamsheep.app.tre.shared.frame.manager.TREBlockManager
+import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 
-abstract class TREBlockAbstract(private var blockManager: TREBlockManager) : TREBlock {
-    override fun getBlockManager() = blockManager
-    override fun setBlockManager(blockManager: TREBlockManager) {this.blockManager = blockManager}
-    override fun focus(typeId: Long, data: CustomData) {
+abstract class TREBlockAbstract(protected var context: TREEditorContext) : TREBlock {
+
+    protected val shortcutState = TREBlockShortcutState()
+
+    override fun getEditorShortcutState() = shortcutState
+
+    override fun getEditorContext() = context
+
+    override fun resetEditorContext(treEditorContext: TREEditorContext) {
+        context = treEditorContext
+    }
+
+    override fun focus(typeId: Long, data: TREBlockFocusData) {
         when(typeId){
             TREFocusEnum.IN_END.id -> {
                 focusInEnd()
@@ -27,7 +36,7 @@ abstract class TREBlockAbstract(private var blockManager: TREBlockManager) : TRE
             }
         }
     }
-    open fun focusEvent(typeId: Long, data: CustomData?) = focusStandard()
+    open fun focusEvent(typeId: Long, data: TREBlockFocusData?) = focusStandard()
     abstract fun focusInStart()
     abstract fun focusInEnd()
     abstract fun focusStandard()

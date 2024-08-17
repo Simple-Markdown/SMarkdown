@@ -29,13 +29,14 @@ class TRECorePreview(val line: TRECoreBlock): DisplayFunction {
                 }
                 .pointerInput(Unit) {
                     detectTapGestures {
-                            offset ->
-                            val position = line.textLayoutResult.getOffsetForPosition(offset)
-                            val stateManager = line.getBlockManager()
-                            stateManager.focusBlock(
-                                stateManager.indexOf(line),
-                                OffsetCustomData(position), getIdFromPool(OffsetCustomData::class.java)
-                            )
+                        offset ->
+                        val position = line.textLayoutResult.getOffsetForPosition(offset)
+                        val stateManager = line.getBlockManager()
+                        // 上下文的焦点事件传播，获取若有父上下文，则向上传递
+                        stateManager.focusBlock(
+                            stateManager.indexOf(line),
+                            OffsetCustomData(position), getIdFromPool(OffsetCustomData::class.java)
+                        )
                         }
                 }
             ,

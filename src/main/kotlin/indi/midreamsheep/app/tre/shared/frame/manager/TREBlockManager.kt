@@ -4,8 +4,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import indi.midreamsheep.app.tre.model.editor.operator.TREOperator
 import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
-import indi.midreamsheep.app.tre.shared.frame.engine.block.CustomData
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.block.TREBlockFocusData
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREFocusEnum
 
 /**
@@ -68,11 +68,15 @@ interface TREBlockManager {
     /**
      * 获取指定位置的Block的焦点
      * */
-    fun focusBlock(index: Int, data: CustomData = CustomData.NONE, typeId: Long = data.getId()) = focusBlock(index){ it.focus(typeId,data) }
+    fun focusBlock(index: Int, data: TREBlockFocusData = TREBlockFocusData.NONE, typeId: Long = data.getId()) = focusBlock(index){ it.focus(typeId,data) }
     /**
      * 获取指定位置的Block的焦点
      * */
-    fun focusBlock(index:Int, type: TREFocusEnum, data: CustomData = CustomData.NONE) = focusBlock(index){ it.focus(type.id,data) }
+    fun focusBlock(index:Int, type: TREFocusEnum, data: TREBlockFocusData = TREBlockFocusData.NONE) = focusBlock(index){ it.focus(type.id,data) }
+    /**
+     * 获取当前父context中manager的当前上下文
+     * */
+    fun getFocus()
     /**
      * 新增block块，会触发block的回调操作
      * */
@@ -85,7 +89,6 @@ interface TREBlockManager {
      * 删除指定block
      * */
     fun removeBlock(index:Int)
-
     /**
      * 获取编辑器上下文
      * */

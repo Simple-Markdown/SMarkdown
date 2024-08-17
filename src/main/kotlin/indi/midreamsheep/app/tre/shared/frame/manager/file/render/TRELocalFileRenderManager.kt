@@ -38,7 +38,7 @@ class TRELocalFileRenderManager(private var file: TREFile) : TREFileManager {
         var result = ""
         val list = blockManager.getTREBlockList()
         for ((index, treLineState) in list.withIndex()) {
-            result += treLineState.getContent()
+            result += treLineState.getOutputContent()
             if (index != list.size-1 ) {
                 result += "\n"
             }

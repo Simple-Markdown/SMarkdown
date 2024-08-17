@@ -14,7 +14,6 @@ enum class TREFocusEnum {
     IN_TARGET_POSITION_DOWN,
     /**从下到上通过绝对坐标获取焦点*/
     IN_TARGET_POSITION_UP,
-    STANDARD
-    ;
+    STANDARD;
     val id:Long = IdUtil.getSnowflakeNextId()
 }

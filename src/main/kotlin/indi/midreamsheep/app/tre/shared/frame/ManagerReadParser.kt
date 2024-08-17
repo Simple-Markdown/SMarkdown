@@ -44,7 +44,7 @@ class ManagerReadParser {
             lineNumber += parser!!.analyse(split, lineNumber, manager)
         }
         if (manager.getSize()==0){
-            manager.addBlock(TRECoreBlock(manager))
+            manager.addBlock(TRECoreBlock(manager.getContext()))
         }
     }
 }
