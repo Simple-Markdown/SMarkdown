@@ -1,6 +1,7 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.table
 
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,8 +23,9 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREContentChange
-import indi.midreamsheep.app.tre.shared.api.display.Display
+import indi.midreamsheep.app.tre.shared.api.display.DisplayFunction
 import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREBlockDisplay
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREBlockFocusData
@@ -46,29 +48,33 @@ class TableItemBlock(
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(initContent))
     var treStyleTextTreeInter: MutableState<TREStyleTextTreeInter> = mutableStateOf(buildContent())
     private var focusRequester: FocusRequester = FocusRequester()
-    lateinit var textLayoutResult: TextLayoutResult
-    var xWindowStartPosition = 0f
-
+    private lateinit var textLayoutResult: TextLayoutResult
+    private var xWindowStartPosition = 0f
     private val treBlockDisplay = object : TREBlockDisplay {
-        override fun getDisplay() = Display{
-            {
-                val styleTree = treStyleTextTreeInter.value
-                if(isFocus.value){
-                    styleTree.reset(content.value.selection.start,content.value.selection.start,true)
-                    editorInput()
-                }else{
-                    styleTree.reset(content.value.selection.start,content.value.selection.start,false)
-                    preview()
-                }
-            }
-        }
+        override fun getDisplay() = DisplayFunction{}
     }
 
     override fun getTREBlockDisplay() = treBlockDisplay
     override fun getOutputContent() = content.value.text
 
     @Composable
-    fun editorInput() {
+    fun getComposable(
+        modifier: Modifier
+    ):@Composable ()->Unit{
+        return{
+            val styleTree = treStyleTextTreeInter.value
+            if(isFocus.value){
+                styleTree.reset(content.value.selection.start,content.value.selection.start,true)
+                editorInput(modifier)
+            }else{
+                styleTree.reset(content.value.selection.start,content.value.selection.start,false)
+                preview(modifier)
+            }
+        }
+    }
+
+    @Composable
+    fun editorInput(modifier: Modifier) {
         val context = getEditorContext()
         BasicTextField(
             value = content.value,
@@ -83,8 +89,11 @@ class TableItemBlock(
                     TREContentChange(content.value, newValue, this)
                 )
             },
-            textStyle = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier
+            textStyle = MaterialTheme.typography.bodyLarge.copy(
+                fontWeight = if(isHeader){FontWeight.Bold}else{FontWeight.Normal}
+            ),
+            modifier = modifier
+                .padding(5.dp)
                 .focusRequester(focusRequester)
                 .onPreviewKeyEvent {
                     if (it.type != KeyEventType.KeyDown) {
@@ -134,13 +143,14 @@ class TableItemBlock(
     }
 
     @Composable
-    fun preview(){
+    fun preview(modifier: Modifier) {
         val value = treStyleTextTreeInter.value
         Text(
             text = value.getAnnotatedString().value!!,
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = if (isHeader){ FontWeight.Bold }else{ FontWeight.Normal },
-            modifier = Modifier
+            modifier = modifier
+                .padding(5.dp)
                 .onGloballyPositioned {
                     xWindowStartPosition = it.localToWindow(Offset.Zero).x
                 }

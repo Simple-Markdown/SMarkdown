@@ -9,4 +9,5 @@ import androidx.compose.ui.unit.dp
 class TREEditorContextMetaData {
     val startPadding = mutableStateOf(0.dp)
     val endPadding = mutableStateOf(0.dp)
+    var editorWith = mutableStateOf(0.dp)
 }

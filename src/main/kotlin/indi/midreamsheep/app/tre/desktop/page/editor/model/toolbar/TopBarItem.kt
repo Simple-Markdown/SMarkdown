@@ -41,8 +41,7 @@ abstract class TopBarItem {
                         }
                         .clickable {}
                         .padding(8.dp)
-                        .layoutId("button")
-                    ,
+                        .layoutId("button"),
                 )
                 floatingMenu(
                     expanded,

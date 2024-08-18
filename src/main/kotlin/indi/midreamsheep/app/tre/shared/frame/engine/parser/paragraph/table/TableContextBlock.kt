@@ -2,9 +2,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.table
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
@@ -59,7 +57,7 @@ class TableContextBlock(
             tableBlockContext.blockManager.addBlock(
                 TableItemBlock(
                     context = tableBlockContext,
-                    isHeader = true,
+                    isHeader = false,
                     initContent = ""
                 )
             )
@@ -78,16 +76,34 @@ class TableContextBlock(
                     Row {
                         for(i in 0..<rowSize){
                             Box(
-                                Modifier.background(Color.Gray.copy(alpha = 0.1f)).border(1.dp,Color.Black)
+                                Modifier.background(Color.Gray.copy(alpha = 0.05f))
+                                    .border(1.dp,Color.Black)
                             ){
-                                tableBlockContext.blockManager.getTREBlock(i).getTREBlockDisplay().getDisplay().getComposable().invoke()
+                                (tableBlockContext.blockManager.getTREBlock(i) as TableItemBlock)
+                                    .getComposable(
+                                        modifier = Modifier
+                                            .fillMaxHeight()
+                                            .width(tableBlockContext.metaData.editorWith.value/rowSize)
+
+                                    ).invoke()
                             }
                         }
                     }
                     // 构建表格数据
-                    for(i in 0..<columnSize){
-                        Row {
-
+                    for(i in 1..<columnSize){
+                        Row(Modifier.height(IntrinsicSize.Max)) {
+                            for(j in 0..<rowSize){
+                                Box(
+                                    Modifier.border(1.dp,Color.Black)
+                                ){
+                                    (tableBlockContext.blockManager.getTREBlock(i*rowSize+j) as TableItemBlock)
+                                        .getComposable(
+                                            modifier = Modifier
+                                                .fillMaxHeight()
+                                                .width(tableBlockContext.metaData.editorWith.value/rowSize)
+                                        ).invoke()
+                                }
+                            }
                         }
                     }
                 }

@@ -17,10 +17,12 @@ fun renderList(
     val context = getEditorContext()
     val startPadding = context.metaData.startPadding
     val endPadding = context.metaData.endPadding
+    val editorWith = context.metaData.editorWith
     Row(
         modifier.onGloballyPositioned {
             startPadding.value = it.size.width.dp/10
             endPadding.value = it.size.width.dp/10
+            editorWith.value = it.size.width.dp - startPadding.value - endPadding.value
         }
     ) {
         treEditor(
