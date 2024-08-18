@@ -11,7 +11,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.block.text.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.manager.TREShortcutEvent
 import indi.midreamsheep.app.tre.shared.frame.manager.shortcut.TREEditorShortcutEvent
 
-class QuoteListenerManager: TREShortcutEvent {
+class QuoteShortcutEvent: TREShortcutEvent {
 
     private lateinit var context: TREEditorContext
     private var standardShortcutEvent: TREEditorShortcutEvent = TREEditorShortcutEvent()
@@ -97,15 +97,11 @@ class QuoteListenerManager: TREShortcutEvent {
                 return true
             }
             // 若不是最后一层，则直接聚焦到下一焦点
-            if (block is TRETextBlock){
-                currentContext.blockManager.focusBlock(
-                    currentContext.blockManager.getCurrentBlockIndex()+1,
-                    TREFocusEnum.IN_TARGET_POSITION_DOWN,
-                    XPositionData(block.getComposeState().getPointerAbsolutePosition().first)
-                )
-                return true
-            }
-            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1, TREFocusEnum.STANDARD)
+            currentContext.blockManager.focusBlock(
+                currentContext.blockManager.getCurrentBlockIndex()+1,
+                TREFocusEnum.IN_TARGET_POSITION_DOWN,
+                XPositionData(block.getComposeState().getPointerAbsolutePosition().first)
+            )
             return true
         }
         return false

@@ -51,11 +51,11 @@ interface TREBlock:TREObjectId {
     /**
      * 当block被加入manager时调用
      * */
-    fun whenInsert()
+    fun whenInsert(){}
     /**
      * 当block被移除manager时调用
      * */
-    fun whenRemove()
+    fun whenRemove(){}
 }
 
 /**

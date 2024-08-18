@@ -30,7 +30,7 @@ fun treLineParse(
 }
 
 
-fun treInlineParse(text: String, render: TRERender): List<TREStyleTextTreeInter> {
+fun treInlineParse(text: String): List<TREStyleTextTreeInter> {
     // 如果文本为空的话返回默认节点
     if (text.isEmpty()) return listOf(TRECoreContentLeaf(""))
     // 获取起始符解析器
@@ -91,7 +91,7 @@ fun treInlineParse(text: String, render: TRERender): List<TREStyleTextTreeInter>
             resultList.add(TRECoreContentLeaf(normalString))
             normalString = ""
         }
-        val leaf = parser!!.generateLeaf(text.substring(pointer), render)
+        val leaf = parser!!.generateLeaf(text.substring(pointer))
         resultList.add(leaf)
         pointer += leaf.originalSize()
     }

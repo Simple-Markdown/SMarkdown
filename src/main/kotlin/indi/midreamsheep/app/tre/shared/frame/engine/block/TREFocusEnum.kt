@@ -17,3 +17,7 @@ enum class TREFocusEnum {
     STANDARD;
     val id:Long = IdUtil.getSnowflakeNextId()
 }
+
+class XPositionData(
+    val x:Float
+): TREBlockFocusData

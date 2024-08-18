@@ -4,7 +4,6 @@ import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParserList
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInlineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.treInlineParse
-import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
 import indi.midreamsheep.app.tre.shared.tool.text.findAffixPoint
 import lombok.extern.slf4j.Slf4j
@@ -24,13 +23,12 @@ class BoldParser: TREInlineStyleParser {
     }
 
     override fun generateLeaf(
-        text: String,
-        render: TRERender
+        text: String
     ): TREStyleTextTreeInter {
         val value:String = text.substring(2, findAffixPoint(text, BOLD_AFFIX).second)
         val boldLeaf = StyleTextBoldLeaf().apply {
             addChild(StyleTextBoldAffix())
-            addChildren(treInlineParse(value,render).toTypedArray())
+            addChildren(treInlineParse(value).toTypedArray())
             addChild(StyleTextBoldAffix())
         }
         return boldLeaf

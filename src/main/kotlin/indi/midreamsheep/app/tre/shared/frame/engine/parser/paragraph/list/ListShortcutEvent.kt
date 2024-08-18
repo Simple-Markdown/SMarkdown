@@ -45,14 +45,10 @@ class ListShortcutEvent: TREShortcutEvent {
                 }
                 break
             }
-            if (currentBlock is TRETextBlock){
-                currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1,
-                    TREFocusEnum.IN_TARGET_POSITION_UP,
-                    XPositionData(currentBlock.getComposeState().getPointerAbsolutePosition().first)
-                )
-                return true
-            }
-            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1, TREFocusEnum.STANDARD)
+            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1,
+                TREFocusEnum.IN_TARGET_POSITION_UP,
+                XPositionData(currentBlock.getComposeState().getPointerAbsolutePosition().first)
+            )
             return true
         }
         // 处理下键
@@ -75,14 +71,10 @@ class ListShortcutEvent: TREShortcutEvent {
                     TREFocusEnum.STANDARD)
                 return true
             }
-            if (currentBlock is TRETextBlock){
-                currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1,
-                    TREFocusEnum.IN_TARGET_POSITION_UP,
-                    XPositionData(currentBlock.getComposeState().getPointerAbsolutePosition().first)
-                )
-                return true
-            }
-            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1, TREFocusEnum.STANDARD)
+            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1,
+                TREFocusEnum.IN_TARGET_POSITION_UP,
+                XPositionData(currentBlock.getComposeState().getPointerAbsolutePosition().first)
+            )
             return true
         }
         // 处理enter键

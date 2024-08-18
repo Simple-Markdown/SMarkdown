@@ -1,6 +1,7 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.block
 
 import indi.midreamsheep.app.tre.shared.api.display.Display
+import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TREDefaultLinePreButton
 import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TRELinePreButton
 
 
@@ -9,5 +10,5 @@ import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TRELinePre
  * */
 interface TREBlockDisplay {
     fun getDisplay(): Display
-    fun getPreButton(): TRELinePreButton
+    fun getPreButton(): TRELinePreButton = TREDefaultLinePreButton()
 }

@@ -41,7 +41,7 @@ class QuoteParser: TRELineStyleParser {
             keyManager = context.keyManager,
             blockManager = TREBlockManagerImpl(),
             treObserverManager = TREEditorWindowObserverManager(),
-            treShortcutEvent = QuoteListenerManager(),
+            treShortcutEvent = QuoteShortcutEvent(),
             metaData = context.metaData,
         )
         val quoteBlock = QuoteBlock(block.getBlockManager(),editorContext)
@@ -53,7 +53,7 @@ class QuoteParser: TRELineStyleParser {
             }
         )
         editorContext.blockManager.addBlock(TRECoreBlock(editorContext.blockManager))
-        editorContext.blockManager.focusBlock(0)
+        quoteBlock.focusInStart()
         (editorContext.blockManager.getTREBlock(0) as TRECoreBlock).setTextFieldValue(TextFieldValue(text.substring(2)))
         return render
     }
@@ -75,7 +75,7 @@ class QuoteParser: TRELineStyleParser {
             keyManager = context.keyManager,
             blockManager = TREBlockManagerImpl(),
             treObserverManager = TREEditorWindowObserverManager(),
-            treShortcutEvent = QuoteListenerManager(),
+            treShortcutEvent = QuoteShortcutEvent(),
             metaData = context.metaData,
         )
         val quoteBlock = QuoteBlock(treBlockManager,editorContext)

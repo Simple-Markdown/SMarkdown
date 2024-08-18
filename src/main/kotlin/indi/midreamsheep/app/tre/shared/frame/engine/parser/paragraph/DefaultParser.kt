@@ -1,11 +1,11 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph
 
 import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.treInlineParse
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root.TRECoreTreeRoot
+import indi.midreamsheep.app.tre.shared.frame.manager.TREBlockManager
 import live.midreamsheep.frame.sioc.di.annotation.basic.comment.Comment
 
 @Comment
@@ -23,7 +23,7 @@ class DefaultParser: TRELineStyleParser {
         val treCoreStyleTextRoot = TRECoreTreeRoot()
         render.styleText.styleTextTree = treCoreStyleTextRoot
 
-        val list = treInlineParse(text, render)
+        val list = treInlineParse(text)
         for (styleTextLeaf in list) {
             treCoreStyleTextRoot.addChild(styleTextLeaf)
         }
