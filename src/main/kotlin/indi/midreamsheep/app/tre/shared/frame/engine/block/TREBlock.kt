@@ -79,5 +79,5 @@ interface TREBlockComposeState{
     /**
      * 获取光标的绝对位置
      * */
-    fun getPointerAbsolutePosition():Pair<Float,Float>
+    fun getPointerAbsoluteXPosition():Float
 }

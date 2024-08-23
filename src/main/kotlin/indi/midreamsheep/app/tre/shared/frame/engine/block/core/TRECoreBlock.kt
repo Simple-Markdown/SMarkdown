@@ -121,11 +121,6 @@ class TRECoreBlock(
             },
             onTextLayout = {
                 textLayoutResult = it
-                //对shortcutState
-                shortcutState.isLeftAvailable = isStart()
-                shortcutState.isRightAvailable = isEnd()
-                shortcutState.isUpAvailable = it.getLineForOffset(content.value.selection.start) == 0
-                shortcutState.isDownAvailable = it.getLineForOffset(content.value.selection.start) == it.lineCount - 1
                 var offset =
                     render.value.styleText.styleTextTree.originalToTransformed(content.value.selection.start)
                 if (offset > it.layoutInput.text.length) offset = it.layoutInput.text.length
@@ -141,6 +136,13 @@ class TRECoreBlock(
         )
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
+        }
+        LaunchedEffect(content.value){
+            //对shortcutState
+            shortcutState.isLeftAvailable = isStart()
+            shortcutState.isRightAvailable = isEnd()
+            shortcutState.isUpAvailable = textLayoutResult.getLineForOffset(content.value.selection.start) == 0
+            shortcutState.isDownAvailable = textLayoutResult.getLineForOffset(content.value.selection.start) == textLayoutResult.lineCount - 1
         }
     }
 
@@ -230,10 +232,7 @@ class TRECoreBlock(
     }
 
     override fun getTextFieldValue() = content.value
-
-    /**
-     * 每次当前文本修改时触发对所有观察者通知变化
-     * */
+    
     private fun updateAllObserver(){
         TODO()
     }

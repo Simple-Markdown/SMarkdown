@@ -112,11 +112,6 @@ class TableItemBlock(
             },
             onTextLayout = {
                 textLayoutResult = it
-                //对shortcutState
-                shortcutState.isLeftAvailable = isStart()
-                shortcutState.isRightAvailable = isEnd()
-                shortcutState.isUpAvailable = it.getLineForOffset(content.value.selection.start) == 0
-                shortcutState.isDownAvailable = it.getLineForOffset(content.value.selection.start) == it.lineCount - 1
                 var offset =
                     treStyleTextTreeInter.value.originalToTransformed(content.value.selection.start)
                 if (offset > it.layoutInput.text.length) offset = it.layoutInput.text.length
@@ -125,6 +120,13 @@ class TableItemBlock(
         )
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
+        }
+        LaunchedEffect(content.value){
+            //对shortcutState
+            shortcutState.isLeftAvailable = isStart()
+            shortcutState.isRightAvailable = isEnd()
+            shortcutState.isUpAvailable = textLayoutResult.getLineForOffset(content.value.selection.start) == 0
+            shortcutState.isDownAvailable = textLayoutResult.getLineForOffset(content.value.selection.start) == textLayoutResult.lineCount - 1
         }
     }
 
@@ -178,7 +180,7 @@ class TableItemBlock(
          treStyleTextTreeInter.value = buildContent()
     }
 
-    override fun isStart() =treStyleTextTreeInter.value.transformedToOriginal(0)==content.value.selection.start
+    override fun isStart() = treStyleTextTreeInter.value.transformedToOriginal(0)==content.value.selection.start
 
     override fun isEnd() = treStyleTextTreeInter.value.transformedToOriginal(treStyleTextTreeInter.value.transformedSize()) == content.value.selection.start
 

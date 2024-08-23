@@ -1,7 +1,6 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.quote
 
 import androidx.compose.ui.input.key.Key
-import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.listener.shortcut.checker.TREShortcutKeyStrongChecker
 import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREFocusEnum
@@ -27,22 +26,18 @@ class QuoteShortcutEvent: TREShortcutEvent {
     }
 
     private fun quoteKeyEvent():Boolean{
+
         // 处理上键的快捷键
         if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.DirectionUp.keyCode))){
             val currentBlock = context.blockManager.getCurrentBlock()!!
-            var currentContext = context
-            while (true){
-                if (currentContext.blockManager.getCurrentBlockIndex()==0){
-                    if(currentContext.parentContext==null) return false
-                    currentContext = currentContext.parentContext!!
-                    continue
+            if (context.blockManager.getCurrentBlockIndex()==0){
+                if(context.parentContext!=null&&context.parentContext!!.treShortcutEvent.keyEvent()){
+                    return true
                 }
-                break
             }
-            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1,
+            context.blockManager.focusBlock(context.blockManager.getCurrentBlockIndex()-1,
                 TREFocusEnum.IN_TARGET_POSITION_UP,
-                XPositionData(currentBlock.getComposeState().getPointerAbsolutePosition().first
-                )
+                XPositionData(currentBlock.getComposeState().getPointerAbsoluteXPosition())
             )
             return true
         }
@@ -70,37 +65,17 @@ class QuoteShortcutEvent: TREShortcutEvent {
             return true
         }
         if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.DirectionDown.keyCode))) {
-            // 获取当前的block块
             val block = context.blockManager.getCurrentBlock()!!
-            // 定义一个可变的currentContext，找到上一级能够向下进行传递焦点的上下文
-            var currentContext = context
-            while (true){
-                //如果处于最后一个块即不能传递焦点就继续循环
-                if (currentContext.blockManager.getCurrentBlockIndex()==currentContext.blockManager.getSize()-1){
-                    // 若已经递归到最上层则
-                    if(currentContext.parentContext==null) break
-                    // 设置为上一级上下文
-                    currentContext = currentContext.parentContext!!
-                    continue
-                }
-                break
+            if (context.blockManager.getCurrentBlockIndex()==context.blockManager.getSize()-1
+                &&context.parentContext!=null
+                &&context.parentContext!!.treShortcutEvent.keyEvent()
+                ){
+                       return true
             }
-            // 若是最后一层，则向下新增一个块
-            if (currentContext.blockManager.getCurrentBlockIndex()==currentContext.blockManager.getSize()-1){
-                // 提交命令
-                currentContext.blockManager.executeOperator(
-                    TREBlockInsert(currentContext.blockManager.getSize(), TRECoreBlock(currentContext.blockManager))
-                )
-                // 聚焦到新块
-                currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1,
-                    TREFocusEnum.STANDARD)
-                return true
-            }
-            // 若不是最后一层，则直接聚焦到下一焦点
-            currentContext.blockManager.focusBlock(
-                currentContext.blockManager.getCurrentBlockIndex()+1,
+            context.blockManager.focusBlock(
+                context.blockManager.getCurrentBlockIndex()+1,
                 TREFocusEnum.IN_TARGET_POSITION_DOWN,
-                XPositionData(block.getComposeState().getPointerAbsolutePosition().first)
+                XPositionData(block.getComposeState().getPointerAbsoluteXPosition())
             )
             return true
         }

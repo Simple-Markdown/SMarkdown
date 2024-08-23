@@ -13,12 +13,11 @@ import indi.midreamsheep.app.tre.shared.frame.manager.TREBlockManager
 abstract class TRETextBlock(context: TREEditorContext): TREBlockAbstract(context) {
     protected var left = 0f
     private val composeState = object : TREBlockComposeState{
+
         /**
          * 获取光标的绝对位置
          * */
-        override fun getPointerAbsolutePosition(): Pair<Float, Float> {
-            return Pair(left,0f)
-        }
+        override fun getPointerAbsoluteXPosition() = left
 
     }
 

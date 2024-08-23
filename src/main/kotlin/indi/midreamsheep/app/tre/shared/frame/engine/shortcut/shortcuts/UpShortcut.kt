@@ -12,7 +12,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.shortcut.TRELineShortcutHan
 class UpShortcut: TRELineShortcutHandler {
     override fun action(context: TREEditorContext) {
         val stateManager = context.blockManager
-        val xPositionData = XPositionData(stateManager.getCurrentBlock()!!.getComposeState().getPointerAbsolutePosition().first)
+        val xPositionData = XPositionData(stateManager.getCurrentBlock()!!.getComposeState().getPointerAbsoluteXPosition())
         stateManager.focusBlock(stateManager.getCurrentBlockIndex()-1, TREFocusEnum.IN_TARGET_POSITION_UP,xPositionData)
     }
 

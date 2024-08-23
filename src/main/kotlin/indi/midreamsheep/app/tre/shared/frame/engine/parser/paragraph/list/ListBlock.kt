@@ -7,10 +7,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
-import indi.midreamsheep.app.tre.shared.frame.engine.block.TREBlockComposeState
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREBlockDisplay
-import indi.midreamsheep.app.tre.shared.frame.engine.block.TREFocusEnum
-import indi.midreamsheep.app.tre.shared.frame.engine.block.XPositionData
 import indi.midreamsheep.app.tre.shared.frame.engine.block.context.TREContextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.getEditorContextComposition
 import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TREDefaultLinePreButton
@@ -18,18 +15,22 @@ import indi.midreamsheep.app.tre.shared.frame.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.ui.engine.editor.treEditorWithoutScroll
 
 class ListBlock(
-    blockManager: TREBlockManager,
-    val listType: ListType,
-    val listContext: TREEditorContext
+    blockManager: TREBlockManager
 ): TREContextBlock(blockManager.getContext()) {
 
+    lateinit var listType: ListType
+    constructor(blockManager: TREBlockManager,listType: ListType,listContext: TREEditorContext):this(blockManager){
+        this.listType = listType
+        innerContext = listContext
+    }
+    
     private val quoteBlockDisplay = object : TREBlockDisplay {
         override fun getDisplay()= Display {
             {
                 Row(Modifier.fillMaxWidth()) {
                     listType.getPrefix().getComposable().invoke()
                     Box(Modifier.weight(1f)){
-                        CompositionLocalProvider(getEditorContextComposition() provides listContext){
+                        CompositionLocalProvider(getEditorContextComposition() provides innerContext){
                             treEditorWithoutScroll()
                         }
                     }
@@ -41,46 +42,6 @@ class ListBlock(
 
     }
 
-    override fun focusInStart() {
-        listContext.blockManager.getTREBlock(0).focus(TREFocusEnum.IN_START.id)
-        setCurrentBlock(0)
-    }
-
-    override fun focusInEnd() {
-        listContext.blockManager.getTREBlock(listContext.blockManager.getSize()-1).focus(TREFocusEnum.IN_END.id)
-        setCurrentBlock(listContext.blockManager.getSize()-1)
-    }
-
-    override fun focusStandard() {
-        listContext.blockManager.getTREBlock(0).focus(TREFocusEnum.STANDARD.id)
-        setCurrentBlock(0)
-    }
-
-    override fun inTargetPositionDown(xPositionData: XPositionData) {
-        listContext.blockManager.getTREBlock(0).focus(TREFocusEnum.IN_TARGET_POSITION_UP.id,xPositionData)
-        setCurrentBlock(0)
-    }
-
-    override fun inTargetPositionUp(xPositionData: XPositionData) {
-        listContext.blockManager.getTREBlock(listContext.blockManager.getSize()-1).focus(TREFocusEnum.IN_TARGET_POSITION_DOWN.id,xPositionData)
-        setCurrentBlock(listContext.blockManager.getSize()-1)
-    }
-
-    private fun setCurrentBlock(index:Int){
-        listContext.blockManager.setCurrentBlock(listContext.blockManager.getTREBlock(index))
-    }
-
-    override fun releaseFocus() {
-        listContext.blockManager.getCurrentBlock()?.releaseFocus()
-        listContext.blockManager.setCurrentBlock(null)
-    }
-
-    /**
-     * 获取block组件状态，包含内部的矩阵信息
-     **/
-    override fun getComposeState(): TREBlockComposeState {
-        TODO("Not yet implemented")
-    }
 
     override fun getTREBlockDisplay() = quoteBlockDisplay
 

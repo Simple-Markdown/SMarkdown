@@ -36,44 +36,28 @@ class ListShortcutEvent: TREShortcutEvent {
         // 处理上键的快捷键
         if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.DirectionUp.keyCode))){
             val currentBlock = context.blockManager.getCurrentBlock()!!
-            var currentContext = context
-            while (true){
-                if (currentContext.blockManager.getCurrentBlockIndex()==0){
-                    if(currentContext.parentContext==null) return false
-                    currentContext = currentContext.parentContext!!
-                    continue
+            if (context.blockManager.getCurrentBlockIndex()==0){
+                if(context.parentContext!=null&&context.parentContext!!.treShortcutEvent.keyEvent()){
+                    return true
                 }
-                break
             }
-            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()-1,
+            context.blockManager.focusBlock(context.blockManager.getCurrentBlockIndex()-1,
                 TREFocusEnum.IN_TARGET_POSITION_UP,
-                XPositionData(currentBlock.getComposeState().getPointerAbsolutePosition().first)
+                XPositionData(currentBlock.getComposeState().getPointerAbsoluteXPosition())
             )
             return true
         }
         // 处理下键
         if (context.keyManager.match(TREShortcutKeyStrongChecker(Key.DirectionDown.keyCode))) {
             val currentBlock = context.blockManager.getCurrentBlock()!!
-            var currentContext = context
-            while (true){
-                if (currentContext.blockManager.getCurrentBlockIndex()==currentContext.blockManager.getSize()-1){
-                    if(currentContext.parentContext==null) break
-                    currentContext = currentContext.parentContext!!
-                    continue
+            if (context.blockManager.getCurrentBlockIndex()==context.blockManager.getSize()-1){
+                if(context.parentContext!=null&&context.parentContext!!.treShortcutEvent.keyEvent()){
+                    return true
                 }
-                break
             }
-            if (currentContext.blockManager.getCurrentBlockIndex()==currentContext.blockManager.getSize()-1){
-                currentContext.blockManager.executeOperator(
-                    TREBlockInsert(currentContext.blockManager.getSize(), TRECoreBlock(currentContext.blockManager))
-                )
-                currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1,
-                    TREFocusEnum.STANDARD)
-                return true
-            }
-            currentContext.blockManager.focusBlock(currentContext.blockManager.getCurrentBlockIndex()+1,
+            context.blockManager.focusBlock(context.blockManager.getCurrentBlockIndex()+1,
                 TREFocusEnum.IN_TARGET_POSITION_UP,
-                XPositionData(currentBlock.getComposeState().getPointerAbsolutePosition().first)
+                XPositionData(currentBlock.getComposeState().getPointerAbsoluteXPosition())
             )
             return true
         }
@@ -113,7 +97,7 @@ class ListShortcutEvent: TREShortcutEvent {
                     return true
                 }
                 //将当前块的内容送进上一级块中
-                val blockManager = previousBlock.listContext.blockManager
+                val blockManager = previousBlock.innerContext.blockManager
                 for (treBlock in context.blockManager.getTREBlockList()) {
                     blockManager.addBlock(blockManager.getSize(), treBlock)
                 }
