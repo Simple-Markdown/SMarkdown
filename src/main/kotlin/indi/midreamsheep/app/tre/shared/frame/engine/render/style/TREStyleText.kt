@@ -1,6 +1,7 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.render.style
 
 import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.runtime.Composable
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECorePreview
@@ -20,7 +21,9 @@ class TREStyleText(line: TRECoreBlock) {
     // 背景修饰
     val backgroundDecorations:MutableList<Display> = mutableListOf()
     // 文本预览
-    var previewDisplay: Display = TRECorePreview(line)
+    var previewDisplay: @Composable ()->Unit = {
+        TRECorePreview(line)
+    }
     // 预览时对富文本的注解处理
     val previewAnnotation:MutableMap<String,InlineTextContent> = mutableMapOf()
 
@@ -34,6 +37,4 @@ class TREStyleText(line: TRECoreBlock) {
         previewDisplay = style.previewDisplay
         previewAnnotation.putAll(style.previewAnnotation)
     }
-
-    fun isPreView() = previewDisplay !is TRECorePreview
 }

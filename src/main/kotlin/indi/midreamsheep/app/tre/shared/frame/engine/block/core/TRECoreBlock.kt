@@ -1,5 +1,6 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.block.core
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
@@ -55,15 +56,22 @@ class TRECoreBlock(
     private val treBlockDisplay = object : TREBlockDisplay {
         override fun getDisplay() = Display{
             {
-                if(render.value.styleText.styleTextTree.check(content.value.selection.start)){
-                    refresh( content.value.copy(selection = TextRange(render.value.styleText.styleTextTree.resetPosition(content.value.selection.start))))
-                }
-                if(isFocus.value){
-                    render.value.styleText.styleTextTree.reset(content.value.selection.start,content.value.selection.start,true)
-                    editorInput()
-                }else{
-                    render.value.styleText.styleTextTree.reset(content.value.selection.start,content.value.selection.start,false)
-                    preview()
+                Box(
+                    Modifier.onGloballyPositioned {
+                        xWindowStartPosition = it.localToWindow(Offset(0f, 0f)).x
+                        treBlockComposeItemData.update(it)
+                    }
+                ){
+                    if(render.value.styleText.styleTextTree.check(content.value.selection.start)){
+                        refresh( content.value.copy(selection = TextRange(render.value.styleText.styleTextTree.resetPosition(content.value.selection.start))))
+                    }
+                    if(isFocus.value){
+                        render.value.styleText.styleTextTree.reset(content.value.selection.start,content.value.selection.start,true)
+                        editorInput()
+                    }else{
+                        render.value.styleText.styleTextTree.reset(content.value.selection.start,content.value.selection.start,false)
+                        preview()
+                    }
                 }
             }
         }
@@ -109,9 +117,6 @@ class TRECoreBlock(
                         return@onPreviewKeyEvent false
                     }
                     return@onPreviewKeyEvent context.treShortcutEvent.keyEvent()
-                }
-                .onGloballyPositioned {
-                    xWindowStartPosition = it.localToWindow(Offset(0f, 0f)).x
                 },
             visualTransformation = { _ ->
                 TransformedText(
@@ -165,7 +170,7 @@ class TRECoreBlock(
         treCoreDisplayStructure(
             render.value.styleText,
         ){
-            render.value.styleText.previewDisplay.getComposable().invoke()
+            render.value.styleText.previewDisplay.invoke()
         }
     }
 

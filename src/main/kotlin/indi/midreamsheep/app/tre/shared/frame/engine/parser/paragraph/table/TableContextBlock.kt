@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
@@ -66,7 +67,7 @@ class TableContextBlock(
         override fun getDisplay() = Display {
             {
                 // 构建表格
-                Column{
+                Column(Modifier.onGloballyPositioned {  treBlockComposeItemData.update(it) }){
                     // 构建表头
                     Row {
                         for(i in 0..<rowSize){
@@ -106,11 +107,13 @@ class TableContextBlock(
         }
     }
 
-    private fun getBlockXPosition(index:Int) = innerContext.blockManager.getTREBlock(index).getComposeState().getPointerAbsoluteXPosition()
+    private fun getBlockXPosition(index:Int) = innerContext.blockManager.getTREBlock(index).getComposeState().getBlockComposeItemData().xWindowsPosition
 
     override fun inTargetPositionDown(xPositionData: XPositionData) {
-        //TODO further fix
         val blockManager = innerContext.blockManager
+        if(getBlockXPosition(0)>=xPositionData.x){
+            blockManager.focusBlock(0,TREFocusEnum.IN_TARGET_POSITION_UP,xPositionData)
+        }
         for(i in 0..<rowSize){
             if (getBlockXPosition(i)<=xPositionData.x &&(rowSize>i+1 &&getBlockXPosition(i+1)>=xPositionData.x)){
                 blockManager.focusBlock(i,TREFocusEnum.IN_TARGET_POSITION_DOWN,xPositionData)
@@ -120,8 +123,10 @@ class TableContextBlock(
     }
 
     override fun inTargetPositionUp(xPositionData: XPositionData) {
-        //TODO further fix
         val blockManager = innerContext.blockManager
+        if(getBlockXPosition(rowSize*(columnSize - 1))>=xPositionData.x){
+            blockManager.focusBlock(rowSize*(columnSize - 1),TREFocusEnum.IN_TARGET_POSITION_UP,xPositionData)
+        }
         for(i in rowSize*(columnSize - 1)..<rowSize*columnSize){
             if (getBlockXPosition(i)<=xPositionData.x &&(rowSize*columnSize>i+1 &&getBlockXPosition(i+1)>=xPositionData.x)){
                 blockManager.focusBlock(i,TREFocusEnum.IN_TARGET_POSITION_UP,xPositionData)
@@ -143,7 +148,7 @@ class TableContextBlock(
     /**
      * 获取指定块的向上的一个块下标，默认为当前块
      * */
-    public fun getUpBlock(
+    fun getUpBlock(
         index:Int = innerContext.blockManager.getCurrentBlockIndex()
     ):Int{
         if (index>rowSize-1){
@@ -155,7 +160,7 @@ class TableContextBlock(
     /**
      * 获取指定块的向下的一个块下标，默认为当前块
      * */
-    public fun getDownBlock(
+    fun getDownBlock(
         index:Int = innerContext.blockManager.getCurrentBlockIndex()
     ):Int{
         if (index<=rowSize*(columnSize-1)-1){

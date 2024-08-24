@@ -5,6 +5,7 @@ import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 abstract class TREBlockAbstract(protected var context: TREEditorContext) : TREBlock {
 
     protected val shortcutState = TREBlockShortcutState()
+    protected var treBlockComposeItemData: TREBlockComposeItemData = TREBlockComposeItemData()
 
     override fun getEditorShortcutState() = shortcutState
 
@@ -13,6 +14,7 @@ abstract class TREBlockAbstract(protected var context: TREEditorContext) : TREBl
     override fun resetEditorContext(treEditorContext: TREEditorContext) {
         context = treEditorContext
     }
+
 
     override fun focus(typeId: Long, data: TREBlockFocusData) {
         when(typeId){

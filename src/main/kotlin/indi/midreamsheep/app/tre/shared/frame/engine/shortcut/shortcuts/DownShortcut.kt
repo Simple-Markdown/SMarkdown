@@ -7,6 +7,7 @@ import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREFocusEnum
 import indi.midreamsheep.app.tre.shared.frame.engine.block.XPositionData
 import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
+import indi.midreamsheep.app.tre.shared.frame.engine.block.text.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.shortcut.TRELineShortcutHandler
 
 @EditorShortcut
@@ -33,6 +34,10 @@ class DownShortcut: TRELineShortcutHandler {
     }
 
     override fun isEnable(context: TREEditorContext): Boolean {
-        return (context.blockManager.getCurrentBlock()!!).getEditorShortcutState().isDownAvailable
+        val currentBlock = context.blockManager.getCurrentBlock()!!
+        if(currentBlock is TRETextBlock){
+            return currentBlock.getTextFieldValue().text.isNotEmpty()
+        }
+        return currentBlock.getEditorShortcutState().isDownAvailable
     }
 }

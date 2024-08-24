@@ -39,7 +39,9 @@ fun displayWindow(
         onPreviewKeyEvent = {
             val keyManager = windowContext.keyManager
             when(it.type){
-                KeyEventType.KeyDown-> keyManager.add(it.key.keyCode)
+                KeyEventType.KeyDown-> {
+                    keyManager.add(it.key.keyCode)
+                }
                 KeyEventType.KeyUp-> {
                     keyManager.remove(it.key.keyCode)
                     return@Window true

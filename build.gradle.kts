@@ -45,6 +45,7 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-core:2.22.1")
     //导入mpfilepicker
     implementation("com.darkrockstudios:mpfilepicker:3.1.0")
+    implementation("org.scilab.forge:jlatexmath:1.0.7")
 }
 
 compose.desktop {

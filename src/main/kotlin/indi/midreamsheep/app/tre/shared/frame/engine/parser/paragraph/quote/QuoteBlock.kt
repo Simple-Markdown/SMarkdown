@@ -27,7 +27,7 @@ class QuoteBlock(
     private val quoteBlockDisplay = object : TREBlockDisplay {
         override fun getDisplay()=Display {
             {
-                Row(Modifier.fillMaxWidth().background(Color(0xFF2D2D2))) {
+                Row(Modifier.fillMaxWidth().background(Color(0xFF2D2D2)).onGloballyPositioned { treBlockComposeItemData.update(it) }) {
                     var height by remember { mutableStateOf(20.dp) }
                     Box(Modifier.height(height).width(5.dp).background(Color.Green))
                     Spacer(Modifier.width(3.dp))

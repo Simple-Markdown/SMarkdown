@@ -103,6 +103,7 @@ class TableItemBlock(
                 }
                 .onGloballyPositioned {
                     xWindowStartPosition = it.localToWindow(Offset(0f, 0f)).x
+                    treBlockComposeItemData.update(it)
                 },
             visualTransformation = { _ ->
                 TransformedText(
@@ -155,6 +156,7 @@ class TableItemBlock(
                 .padding(5.dp)
                 .onGloballyPositioned {
                     xWindowStartPosition = it.localToWindow(Offset.Zero).x
+                    treBlockComposeItemData.update(it)
                 }
                 .pointerInput(Unit) {
                     detectTapGestures {

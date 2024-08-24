@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.engine.block.TREBlockDisplay
@@ -27,7 +28,7 @@ class ListBlock(
     private val quoteBlockDisplay = object : TREBlockDisplay {
         override fun getDisplay()= Display {
             {
-                Row(Modifier.fillMaxWidth()) {
+                Row(Modifier.fillMaxWidth().onGloballyPositioned { treBlockComposeItemData.update(it) }) {
                     listType.getPrefix().getComposable().invoke()
                     Box(Modifier.weight(1f)){
                         CompositionLocalProvider(getEditorContextComposition() provides innerContext){

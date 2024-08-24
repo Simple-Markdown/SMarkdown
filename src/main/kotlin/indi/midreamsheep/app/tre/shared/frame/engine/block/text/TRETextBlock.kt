@@ -19,6 +19,10 @@ abstract class TRETextBlock(context: TREEditorContext): TREBlockAbstract(context
          * */
         override fun getPointerAbsoluteXPosition() = left
 
+        /**
+         * 获取当前block顶级组件的
+         * */
+        override fun getBlockComposeItemData() = treBlockComposeItemData
     }
 
     /**

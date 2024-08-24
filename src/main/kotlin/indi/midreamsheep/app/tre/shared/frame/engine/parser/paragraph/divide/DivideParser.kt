@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
-import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
@@ -29,19 +28,17 @@ class DivideParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELine
 
         val render = TRERender(block)
         render.styleText.styleTextTree = tree
-        render.styleText.previewDisplay = Display {
-            {
-                Column(
-                    modifier = Modifier
-                        .height(20.dp)
-                        .clickable {
-                            // 获取当前点击的位置
+        render.styleText.previewDisplay = {
+            Column(
+                modifier = Modifier
+                    .height(20.dp)
+                    .clickable {
+                        // 获取当前点击的位置
 
-                        },
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Divider()
-                }
+                    },
+                verticalArrangement = Arrangement.Center
+            ) {
+                Divider()
             }
         }
         return render

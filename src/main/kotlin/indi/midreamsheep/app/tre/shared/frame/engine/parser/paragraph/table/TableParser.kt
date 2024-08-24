@@ -5,7 +5,6 @@ import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockDelete
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREBlockInsert
 import indi.midreamsheep.app.tre.model.editor.operator.core.TREOperatorGroup
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
-import indi.midreamsheep.app.tre.shared.api.display.DisplayFunction
 import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
@@ -23,9 +22,9 @@ class TableParser: TRELineStyleParser {
         // 构建builder
         val builder = TableBlockBuilder(originalData)
         val blockIndex = block.getEditorContext().blockManager.getCurrentBlockIndex()
-        render.styleText.previewDisplay = DisplayFunction {
+        render.styleText.previewDisplay = {
             TableBuilderDialog(builder.originalData.size){
-                row,column->
+                    row,column->
                 val tableBlock = builder.build(block.getEditorContext(), row, column)
                 // 对block进行替换
                 val context = block.getEditorContext()
@@ -35,8 +34,6 @@ class TableParser: TRELineStyleParser {
                         addOperator(TREBlockInsert(blockIndex,tableBlock))
                     }
                 )
-                // 获取第一个元素的焦点
-                tableBlock.focusInStart()
             }
         }
         render.styleText.styleTextTree = TRECoreContentLeaf(text)

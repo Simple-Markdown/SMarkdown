@@ -1,5 +1,7 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.block;
 
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.LayoutCoordinates
 import indi.midreamsheep.app.tre.shared.api.tre.TREObjectId
 import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 
@@ -77,7 +79,28 @@ class TREBlockShortcutState {
  * */
 interface TREBlockComposeState{
     /**
-     * 获取光标的绝对位置
+     * 获取光标的相对于窗口的绝对x位置
      * */
     fun getPointerAbsoluteXPosition():Float
+    /**
+     * 获取当前block顶级组件的
+     * */
+    fun getBlockComposeItemData(): TREBlockComposeItemData
+}
+
+// 组件状态的实体类
+class TREBlockComposeItemData{
+
+    var xWindowsPosition = 0f
+    var yWindowsPosition = 0f
+    // TODO
+
+    /**
+     * 通过LayoutCoordinates更新状态
+     * */
+    fun update(layoutCoordinates: LayoutCoordinates){
+        val localToWindow = layoutCoordinates.localToWindow(Offset.Zero)
+        xWindowsPosition = localToWindow.x
+        yWindowsPosition = localToWindow.y
+    }
 }

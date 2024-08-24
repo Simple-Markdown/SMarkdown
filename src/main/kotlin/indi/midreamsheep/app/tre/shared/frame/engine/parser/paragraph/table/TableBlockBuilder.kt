@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import indi.midreamsheep.app.tre.desktop.page.editor.TREEditorWindowObserverManager
 import indi.midreamsheep.app.tre.shared.frame.TREEditorContext
 import indi.midreamsheep.app.tre.shared.frame.manager.blockmanager.TREBlockManagerImpl
@@ -43,73 +42,71 @@ fun TableBuilderDialog(
     originalRowSizeSize:Int,
     onConfirmation: (Int,Int) -> Unit
 ) {
-    Dialog(onDismissRequest = { /*do nothing*/ }) {
-        var rowSize by remember { mutableStateOf(originalRowSizeSize) }
-        var columnSize by remember { mutableStateOf(1) }
-        Card(
+    var rowSize by remember { mutableStateOf(originalRowSizeSize) }
+    var columnSize by remember { mutableStateOf(1) }
+    Card(
+        modifier = Modifier,
+        shape = RoundedCornerShape(16.dp),
+    ) {
+        Column(
             modifier = Modifier,
-            shape = RoundedCornerShape(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            // 构建输入框
+            Text(
+                text = "please define your table data",
+                modifier = Modifier.padding(16.dp),
+            )
             Column(
                 modifier = Modifier,
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                // 构建输入框
-                Text(
-                    text = "please define your table data",
-                    modifier = Modifier.padding(16.dp),
-                )
-                Column(
-                    modifier = Modifier,
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Row(
-                        modifier = Modifier,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "row",
-                            modifier = Modifier.padding(16.dp),
-                        )
-                        BasicTextField(
-                            value = rowSize.toString(),
-                            onValueChange = {
-                                val toIntOrNull = it.toIntOrNull()
-                                if (toIntOrNull!=null){
-                                    rowSize = toIntOrNull
-                                }
-                            },
-                            modifier = Modifier.border(1.dp, Color.Blue.copy(alpha = 0.5f), RoundedCornerShape(5)).padding(5.dp)
-                        )
-                        Text(
-                            text = "column",
-                            modifier = Modifier.padding(16.dp),
-                        )
-                        BasicTextField(
-                            value = columnSize.toString(),
-                            onValueChange = {
-                                val toIntOrNull = it.toIntOrNull()
-                                if (toIntOrNull!=null){
-                                    columnSize = toIntOrNull
-                                }
-                            },
-                            modifier = Modifier.border(1.dp, Color.Blue.copy(alpha = 0.5f), RoundedCornerShape(5)).padding(5.dp)
-                        )
-                    }
-
-                }
                 Row(
-                    modifier = Modifier
+                    modifier = Modifier,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Spacer(Modifier.weight(1f))
-                    TextButton(
-                        onClick = { onConfirmation(rowSize,columnSize) },
-                        modifier = Modifier.padding(8.dp),
-                    ) {
-                        Text("Confirm")
-                    }
+                    Text(
+                        text = "row",
+                        modifier = Modifier.padding(16.dp),
+                    )
+                    BasicTextField(
+                        value = rowSize.toString(),
+                        onValueChange = {
+                            val toIntOrNull = it.toIntOrNull()
+                            if (toIntOrNull!=null){
+                                rowSize = toIntOrNull
+                            }
+                        },
+                        modifier = Modifier.border(1.dp, Color.Blue.copy(alpha = 0.5f), RoundedCornerShape(5)).padding(5.dp)
+                    )
+                    Text(
+                        text = "column",
+                        modifier = Modifier.padding(16.dp),
+                    )
+                    BasicTextField(
+                        value = columnSize.toString(),
+                        onValueChange = {
+                            val toIntOrNull = it.toIntOrNull()
+                            if (toIntOrNull!=null){
+                                columnSize = toIntOrNull
+                            }
+                        },
+                        modifier = Modifier.border(1.dp, Color.Blue.copy(alpha = 0.5f), RoundedCornerShape(5)).padding(5.dp)
+                    )
+                }
+
+            }
+            Row(
+                modifier = Modifier
+            ) {
+                Spacer(Modifier.weight(1f))
+                TextButton(
+                    onClick = { onConfirmation(rowSize,columnSize) },
+                    modifier = Modifier.padding(8.dp),
+                ) {
+                    Text("Confirm")
                 }
             }
         }

@@ -8,7 +8,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.block.XPositionData
 
 abstract class TREContextBlock(context: TREEditorContext): TREBlockAbstract(context) {
 
-    public lateinit var innerContext:TREEditorContext
+    lateinit var innerContext:TREEditorContext
 
     fun context() = getBlockManager().getContext()
 
@@ -17,6 +17,11 @@ abstract class TREContextBlock(context: TREEditorContext): TREBlockAbstract(cont
      * */
     override fun getComposeState() = object : TREBlockComposeState{
         override fun getPointerAbsoluteXPosition() = innerContext.blockManager.getCurrentBlock()!!.getComposeState().getPointerAbsoluteXPosition()
+
+        /**
+         * 获取当前block顶级组件的
+         * */
+        override fun getBlockComposeItemData() = treBlockComposeItemData
     }
 
     override fun focusInStart() {
