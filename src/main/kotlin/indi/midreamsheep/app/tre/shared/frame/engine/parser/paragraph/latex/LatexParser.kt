@@ -19,7 +19,7 @@ class LatexParser: TRELineStyleParser {
         text: String,
         block: TRECoreBlock
     ): TRERender {
-        val render = TRERender(block)
+        val render = TRERender()
         render.styleText.styleTextTree = TRECoreContentLeaf(text)
         val currentBlockIndex = block.getEditorContext().blockManager.getCurrentBlockIndex()
         render.styleText.previewDisplay = {

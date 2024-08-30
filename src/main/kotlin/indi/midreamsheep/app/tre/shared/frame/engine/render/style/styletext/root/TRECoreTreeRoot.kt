@@ -2,9 +2,9 @@ package indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.roo
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
-import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTree
+import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeAbstract
 
-open class TRECoreTreeRoot: TREStyleTextTree() {
+open class TRECoreTreeRoot: TREStyleTextTreeAbstract() {
 
     override fun generateAnnotatedString(): AnnotatedString {
         return buildAnnotatedString {

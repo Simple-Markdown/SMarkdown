@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.span.highlight
 import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParserList
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.treInlineParse
-import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
+import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTree
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root.TRECoreTreeRoot
 import indi.midreamsheep.app.tre.shared.tool.text.findAffixPoint
@@ -25,7 +25,7 @@ class HighlightParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TREI
 
     override fun generateLeaf(
         text: String
-    ): TREStyleTextTreeInter {
+    ): TREStyleTextTree {
         val root = TRECoreTreeRoot().apply {
             addChild(TRECoreContentLeaf("("))
             addChild(

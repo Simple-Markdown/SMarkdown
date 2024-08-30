@@ -1,18 +1,19 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.latex
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
@@ -30,6 +31,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.block.text.OffsetCustomData
 import indi.midreamsheep.app.tre.shared.frame.engine.block.text.TRETextBlock
 import indi.midreamsheep.app.tre.shared.tool.id.getIdFromPool
 import indi.midreamsheep.app.tre.shared.tool.text.filter
+import indi.midreamsheep.app.tre.shared.ui.compnent.simpleclick.simpleClickable
 
 class LatexBlock(
     context: TREEditorContext
@@ -37,41 +39,63 @@ class LatexBlock(
         private var isFocus = mutableStateOf(false)
         var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
         private var focusRequester: FocusRequester = FocusRequester()
-        private lateinit var textLayoutResult: TextLayoutResult
+        private var textLayoutResult: TextLayoutResult? = null
         var xWindowStartPosition = 0f
         private val treBlockDisplay = object : TREBlockDisplay {
             override fun getDisplay() = DisplayFunction{
+                var isInit by remember{ mutableStateOf(false) }
                 Column(
                     Modifier.onGloballyPositioned {
                         xWindowStartPosition = it.localToWindow(Offset(0f, 0f)).x
                         treBlockComposeItemData.update(it)
+                    }.simpleClickable {
+                        isFocus.value = true
                     }
                 ) {
                     // 输入框
-                    BasicTextField(
-                        value = content.value,
-                        onValueChange = { newValue ->
-                            //TODO 设置内容 后续应用blockManager的命令进行调用修改
-                            content.value = newValue
-                        },
-                        textStyle = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .focusRequester(focusRequester)
-                            .onPreviewKeyEvent {
-                                if (it.type != KeyEventType.KeyDown) {
-                                    return@onPreviewKeyEvent false
-                                }
-                                return@onPreviewKeyEvent context.treShortcutEvent.keyEvent()
+                    Box(
+                        modifier = Modifier.background(Color(0xfff2f3f4))
+                    ){
+                        if(isFocus.value){
+                            BasicTextField(
+                                value = content.value,
+                                onValueChange = { newValue ->
+                                    //TODO 设置内容 后续应用blockManager的命令进行调用修改
+                                    content.value = newValue
+                                },
+                                textStyle = MaterialTheme.typography.bodyLarge,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(5.dp)
+                                    .focusRequester(focusRequester)
+                                    .onPreviewKeyEvent {
+                                        if (it.type != KeyEventType.KeyDown) {
+                                            return@onPreviewKeyEvent false
+                                        }
+                                        return@onPreviewKeyEvent context.treShortcutEvent.keyEvent()
+                                    }
+                                    .onGloballyPositioned {
+                                        xWindowStartPosition = it.localToWindow(Offset(0f, 0f)).x
+                                        treBlockComposeItemData.update(it)
+                                    }
+                                    .onFocusChanged {
+                                        if (!isInit) return@onFocusChanged
+                                        if(!it.isFocused){
+                                            releaseFocus()
+                                        }
+                                    }
+                                ,
+                                onTextLayout = {
+                                    textLayoutResult = it
+                                },
+                            )
+                        }
+                        LaunchedEffect(isFocus.value){
+                            if(isFocus.value){
+                                focusRequester.requestFocus()
                             }
-                            .onGloballyPositioned {
-                                xWindowStartPosition = it.localToWindow(Offset(0f, 0f)).x
-                                treBlockComposeItemData.update(it)
-                            },
-                        onTextLayout = {
-                            textLayoutResult = it
-                        },
-                    )
+                        }
+                    }
                     // 预览框
                     Box(
                         modifier = Modifier.fillMaxWidth(),
@@ -79,20 +103,18 @@ class LatexBlock(
                         laTeXText(content)
                     }
                 }
-                LaunchedEffect(isFocus.value){
-                    if (isFocus.value){
-                        focusRequester.requestFocus()
-                    }
-                }
                 LaunchedEffect(content.value){
+                    if(textLayoutResult==null){
+                        return@LaunchedEffect
+                    }
                     //对shortcutState
                     shortcutState.isLeftAvailable = isStart()
                     shortcutState.isRightAvailable = isEnd()
-                    shortcutState.isUpAvailable = textLayoutResult.getLineForOffset(content.value.selection.start) == 0
-                    shortcutState.isDownAvailable = textLayoutResult.getLineForOffset(content.value.selection.start) == textLayoutResult.lineCount - 1
+                    shortcutState.isUpAvailable = textLayoutResult!!.getLineForOffset(content.value.selection.start) == 0
+                    shortcutState.isDownAvailable = textLayoutResult!!.getLineForOffset(content.value.selection.start) == textLayoutResult!!.lineCount - 1
                     var offset = content.value.selection.start
-                    if (offset > textLayoutResult.layoutInput.text.length) offset = textLayoutResult.layoutInput.text.length
-                    left = textLayoutResult.getCursorRect(offset).left + xWindowStartPosition
+                    if (offset > textLayoutResult!!.layoutInput.text.length) offset = textLayoutResult!!.layoutInput.text.length
+                    left = textLayoutResult!!.getCursorRect(offset).left + xWindowStartPosition
                 }
             }
         }
@@ -126,15 +148,8 @@ class LatexBlock(
 
         override fun getEditorShortcutState() = shortcutState
         override fun focusTransform(transformPosition: Int) = focus(transformPosition)
-        override fun inTargetPositionUp(xPositionData: XPositionData) = focusX(xPositionData.x,false)
-        override fun inTargetPositionDown(xPositionData: XPositionData) = focusX(xPositionData.x,true)
-        private fun focusX(x: Float, isStart: Boolean) {
-            val height = textLayoutResult.size.height
-            val offsetForPosition = textLayoutResult.getOffsetForPosition(
-                Offset(x - xWindowStartPosition, if(isStart) 0f else height.toFloat())
-            )
-            focusTransform(offsetForPosition)
-        }
+        override fun inTargetPositionUp(xPositionData: XPositionData) = focusStandard()
+        override fun inTargetPositionDown(xPositionData: XPositionData) = focusStandard()
 
         override fun focusInEnd() {
             focus(content.value.text.length)

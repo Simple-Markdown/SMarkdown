@@ -69,11 +69,11 @@ class TableContextBlock(
                 // 构建表格
                 Column(Modifier.onGloballyPositioned {  treBlockComposeItemData.update(it) }){
                     // 构建表头
-                    Row {
+                    Row (Modifier.height(IntrinsicSize.Max)){
                         for(i in 0..<rowSize){
                             Box(
-                                Modifier.background(Color.Gray.copy(alpha = 0.05f))
-                                    .border(1.dp,Color.Black)
+                                Modifier.background(Color(0xfff8f8f8))
+                                    .border(1.dp,Color(0xffdfe2e5))
                             ){
                                 (innerContext.blockManager.getTREBlock(i) as TableItemBlock)
                                     .getComposable(
@@ -90,7 +90,7 @@ class TableContextBlock(
                         Row(Modifier.height(IntrinsicSize.Max)) {
                             for(j in 0..<rowSize){
                                 Box(
-                                    Modifier.border(1.dp,Color.Black)
+                                    Modifier.border(1.dp,Color(0xffdfe2e5))
                                 ){
                                     (innerContext.blockManager.getTREBlock(i*rowSize+j) as TableItemBlock)
                                         .getComposable(

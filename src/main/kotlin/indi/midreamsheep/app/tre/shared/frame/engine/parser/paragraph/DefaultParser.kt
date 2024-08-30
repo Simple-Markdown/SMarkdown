@@ -19,7 +19,7 @@ class DefaultParser: TRELineStyleParser {
         text: String,
         block: TRECoreBlock
     ): TRERender {
-        val render = TRERender(block)
+        val render = TRERender()
         val treCoreStyleTextRoot = TRECoreTreeRoot()
         render.styleText.styleTextTree = treCoreStyleTextRoot
 

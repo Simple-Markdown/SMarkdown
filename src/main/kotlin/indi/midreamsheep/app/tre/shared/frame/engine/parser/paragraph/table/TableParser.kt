@@ -14,7 +14,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf
 @MapKey("reg:^\\|.+\\|\$")
 class TableParser: TRELineStyleParser {
     override fun buildRender(text: String, block: TRECoreBlock): TRERender {
-        val render = TRERender(block)
+        val render = TRERender()
         // 通过文本获取初始文本
         val split = text.split('|')
         // 删除多余数据

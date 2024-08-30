@@ -1,6 +1,13 @@
 package indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.latex
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.HorizontalScrollbar
+import androidx.compose.foundation.ScrollbarAdapter
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -19,22 +26,35 @@ import javax.imageio.ImageIO
 
 
 @Composable
-fun laTeXText(latex: MutableState<TextFieldValue>, modifier: Modifier = Modifier) {
-    val formula = getFormula(latex.value.text)
-    if (formula == null) {
-        Text("illegal content")
-        return
-    }
-    val createBufferedImage = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY, 20f, Color.BLACK, Color.WHITE)
-    val imageBitmap: ImageBitmap =
-        org.jetbrains.skia.Image.makeFromEncoded(convertImageToStream(createBufferedImage).toByteArray())
-            .toComposeImageBitmap()
-
-    Box{
-        androidx.compose.foundation.Image(
-            bitmap = imageBitmap,
-            contentDescription = "latex"
+fun laTeXText(latex: MutableState<TextFieldValue>) {
+    var imageBimapState by remember { mutableStateOf<ImageBitmap?>(null) }
+    val scrollState = rememberScrollState()
+    Column(Modifier.fillMaxWidth()){
+        Row(
+            Modifier.fillMaxWidth().horizontalScroll(scrollState),
+        ) {
+            Spacer(Modifier.weight(1f))
+            if (imageBimapState==null){
+                Text("loading")
+            }else{
+                androidx.compose.foundation.Image(
+                    bitmap = imageBimapState!!,
+                    contentDescription = "latex"
+                )
+            }
+            Spacer(Modifier.weight(1f))
+        }
+        HorizontalScrollbar(
+            adapter = ScrollbarAdapter(scrollState),
+            modifier = Modifier
         )
+    }
+    LaunchedEffect(latex.value){
+        val formula = getFormula(latex.value.text) ?: return@LaunchedEffect
+        val createBufferedImage = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY, 20f, Color.BLACK, Color.WHITE)
+        imageBimapState =
+            org.jetbrains.skia.Image.makeFromEncoded(convertImageToStream(createBufferedImage).toByteArray())
+                .toComposeImageBitmap()
     }
 }
 

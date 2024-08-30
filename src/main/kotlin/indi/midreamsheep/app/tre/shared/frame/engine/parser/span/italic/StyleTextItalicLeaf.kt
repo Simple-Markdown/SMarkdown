@@ -17,8 +17,8 @@ class StyleTextItalicLeaf: TRECoreTreeRoot() {
                     fontStyle = Italic
                 )
             ) {
-                for (child in getChildren()) {
-                    append(child.getAnnotatedString().value)
+                getChildrenAnnotatedStrings().forEach {
+                    append(it)
                 }
             }
         }

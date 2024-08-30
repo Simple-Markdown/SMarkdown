@@ -34,7 +34,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.block.text.OffsetCustomData
 import indi.midreamsheep.app.tre.shared.frame.engine.block.text.TRETextBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.treInlineParse
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TREOffsetMappingAdapter
-import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
+import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTree
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root.TRECoreTreeRoot
 import indi.midreamsheep.app.tre.shared.tool.id.getIdFromPool
 import indi.midreamsheep.app.tre.shared.tool.text.filter
@@ -46,7 +46,7 @@ class TableItemBlock(
 ): TRETextBlock(context) {
     private var isFocus = mutableStateOf(false)
     var content: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(initContent))
-    var treStyleTextTreeInter: MutableState<TREStyleTextTreeInter> = mutableStateOf(buildContent())
+    var treStyleTextTreeInter: MutableState<TREStyleTextTree> = mutableStateOf(buildContent())
     private var focusRequester: FocusRequester = FocusRequester()
     private lateinit var textLayoutResult: TextLayoutResult
     private var xWindowStartPosition = 0f
@@ -64,10 +64,8 @@ class TableItemBlock(
         return{
             val styleTree = treStyleTextTreeInter.value
             if(isFocus.value){
-                styleTree.reset(content.value.selection.start,content.value.selection.start,true)
                 editorInput(modifier)
             }else{
-                styleTree.reset(content.value.selection.start,content.value.selection.start,false)
                 preview(modifier)
             }
         }
@@ -107,7 +105,7 @@ class TableItemBlock(
                 },
             visualTransformation = { _ ->
                 TransformedText(
-                    text = treStyleTextTreeInter.value.getAnnotatedString().value!!,
+                    text = treStyleTextTreeInter.value.getAnnotatedString(content.value.selection.start,content.value.selection.start,true).value,
                     offsetMapping = TREOffsetMappingAdapter(treStyleTextTreeInter.value),
                 )
             },
@@ -136,9 +134,6 @@ class TableItemBlock(
         if(newValue.selection.start == content.value.selection.start&&newValue.selection.end == content.value.selection.end){
             return
         }
-        if(newValue.selection.end != content.value.selection.end){
-            treStyleTextTreeInter.value.reset(newValue.selection.start,content.value.selection.start,isFocus.value)
-        }
         content.value = newValue
         if(treStyleTextTreeInter.value.check(content.value.selection.start)){
             refresh( content.value.copy(selection = TextRange(treStyleTextTreeInter.value.resetPosition(content.value.selection.start))))
@@ -149,7 +144,7 @@ class TableItemBlock(
     fun preview(modifier: Modifier) {
         val value = treStyleTextTreeInter.value
         Text(
-            text = value.getAnnotatedString().value!!,
+            text = value.getAnnotatedString(content.value.selection.start,content.value.selection.start,true).value,
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = if (isHeader){ FontWeight.Bold }else{ FontWeight.Normal },
             modifier = modifier
@@ -188,11 +183,10 @@ class TableItemBlock(
 
     private fun buildContent(
         textFieldValue: TextFieldValue = content.value
-    ):TREStyleTextTreeInter{
+    ):TREStyleTextTree{
         val value = TRECoreTreeRoot().apply {
             addChildren(treInlineParse(textFieldValue.text).toTypedArray())
         }
-        value.reset(textFieldValue.selection.start,textFieldValue.selection.start,isFocus.value)
         return value
     }
 

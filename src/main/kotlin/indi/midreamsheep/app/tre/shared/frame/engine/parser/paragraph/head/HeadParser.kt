@@ -5,11 +5,11 @@ import indi.midreamsheep.app.tre.api.annotation.render.line.LineParserMap
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.api.display.Display
 import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
-import indi.midreamsheep.app.tre.shared.frame.manager.TREBlockManager
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELineStyleParser
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
 import indi.midreamsheep.app.tre.shared.frame.engine.render.prebutton.TRELinePreButton
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
+import indi.midreamsheep.app.tre.shared.frame.manager.TREBlockManager
 
 @LineParserMap
 @MapKey("start:#")
@@ -26,7 +26,7 @@ class HeadParser: TRELineStyleParser {
         val level = getLevel(text)
         var subSequence = text.subSequence(level, text.length)
         if (subSequence.isNotEmpty()) subSequence = subSequence.subSequence(1, subSequence.length)
-        val render = TRERender(block)
+        val render = TRERender()
         render.styleText.styleTextTree = StyleTextHeadRoot(level).apply {
             addChild(
                 StyleTextHeadPrefix(level,subSequence.isNotEmpty())

@@ -5,7 +5,7 @@ import indi.midreamsheep.app.tre.shared.frame.engine.block.core.TRECoreBlock
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.paragraph.TRELineParserManager
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.span.TREInlineParserManager
 import indi.midreamsheep.app.tre.shared.frame.engine.render.TRERender
-import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
+import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTree
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.leaf.TRECoreContentLeaf
 import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.root.TRECoreTreeRoot
 
@@ -17,7 +17,7 @@ fun treLineParse(
         val treCoreStyleTextRoot = TRECoreTreeRoot().apply {
             addChild(TRECoreContentLeaf(""))
         }
-        val render = TRERender(block)
+        val render = TRERender()
         render.styleText.styleTextTree = treCoreStyleTextRoot
         return render
     }
@@ -30,7 +30,7 @@ fun treLineParse(
 }
 
 
-fun treInlineParse(text: String): List<TREStyleTextTreeInter> {
+fun treInlineParse(text: String): List<TREStyleTextTree> {
     // 如果文本为空的话返回默认节点
     if (text.isEmpty()) return listOf(TRECoreContentLeaf(""))
     // 获取起始符解析器
@@ -40,7 +40,7 @@ fun treInlineParse(text: String): List<TREStyleTextTreeInter> {
     // 当前默认样式的文本数据
     var normalString = ""
     // 结果样式树结构
-    val resultList = mutableListOf<TREStyleTextTreeInter>()
+    val resultList = mutableListOf<TREStyleTextTree>()
 
     while(true) {
         // 如果当前的指针超过了文本长度就停止循环

@@ -35,7 +35,7 @@ class UnorderedListParser: TRELineStyleParser {
         text: String,
         block: TRECoreBlock
     ): TRERender {
-        val render = TRERender(block).apply {
+        val render = TRERender().apply {
             styleText.styleTextTree = TRECoreContentLeaf("quote init")
         }
         val context = block.getBlockManager().getContext()

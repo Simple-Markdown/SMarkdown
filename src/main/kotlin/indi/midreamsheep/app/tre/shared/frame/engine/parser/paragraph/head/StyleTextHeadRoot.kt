@@ -23,8 +23,8 @@ class StyleTextHeadRoot(
                     fontSize = (15+(6-level+1)*5).sp,
                 )
             ) {
-                for (child in getChildren()) {
-                    append(child.getAnnotatedString().value)
+                getChildrenAnnotatedStrings().forEach {
+                    append(it)
                 }
             }
         }
@@ -107,31 +107,4 @@ class StyleTextHeadPrefix(
         }
         return false
     }
-}
-
-class StyleTextCrossHeadRoot(
-    private val lastBlock: TRECoreBlock
-): TRECoreTreeRoot() {
-
-    override fun generateAnnotatedString(): AnnotatedString {
-        return buildAnnotatedString {
-            withStyle(
-                SpanStyle(
-                    color = Color.Gray
-                )
-            ){
-                getChildren().forEach {
-                    append(it.getAnnotatedString().value)
-                }
-            }
-        }
-    }
-
-    override fun insert() {
-        //TODO
-    }
-
-    override fun remove() {
-    }
-
 }

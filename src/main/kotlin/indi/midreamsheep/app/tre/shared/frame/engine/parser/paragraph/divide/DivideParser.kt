@@ -26,7 +26,7 @@ class DivideParser: indi.midreamsheep.app.tre.shared.frame.engine.parser.TRELine
         val tree = TRECoreTreeRoot()
         tree.addChild(apply)
 
-        val render = TRERender(block)
+        val render = TRERender()
         render.styleText.styleTextTree = tree
         render.styleText.previewDisplay = {
             Column(

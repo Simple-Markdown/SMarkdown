@@ -3,7 +3,7 @@ package indi.midreamsheep.app.tre.shared.frame.engine.parser.span.link
 import indi.midreamsheep.app.tre.api.annotation.render.inline.InLineParserList
 import indi.midreamsheep.app.tre.service.ioc.di.inject.mapdi.annotation.MapKey
 import indi.midreamsheep.app.tre.shared.frame.engine.parser.TREInlineStyleParser
-import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTreeInter
+import indi.midreamsheep.app.tre.shared.frame.engine.render.style.styletext.TREStyleTextTree
 
 @InLineParserList
 @MapKey("reg:(?<!!)\\[(.*?)\\]\\((.*?)\\)")
@@ -15,7 +15,7 @@ class LinkParser: TREInlineStyleParser {
 
     override fun generateLeaf(
         text: String
-    ): TREStyleTextTreeInter {
+    ): TREStyleTextTree {
         var pointer = 1
         while (pointer <= text.length - 1) {
             if (text[pointer] == ']') break

@@ -20,8 +20,8 @@ class StyleTextBoldLeaf: TRECoreTreeRoot() {
                     fontWeight = FontWeight.Bold
                 )
             ) {
-                for (child in getChildren()) {
-                    append(child.getAnnotatedString().value)
+                getChildrenAnnotatedStrings().forEach {
+                    append(it)
                 }
             }
         }
